@@ -1,0 +1,36 @@
+a.btn.add-btn{
+  color:#FFFF;
+  background-color:#0099CC ;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius:5px;
+  
+
+}
+.fm{
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+}
+Button.btn{
+  color:#FFFF;
+  background-color: #17a392;
+  border: none;
+  border-radius: 5px;
+ 
+  
+}
+Button.btn:hover{
+   background-color: #26ad9d;
+   color: #FFFF;
+}
+ 
+
+.vertical-scrollable>.row {
+  position: absolute;
+  top: 120px;
+  bottom: 100px;
+  left: 180px;
+  width: 50%;
+  overflow-y: scroll;
+}

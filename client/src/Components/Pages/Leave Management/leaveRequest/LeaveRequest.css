@@ -1,0 +1,44 @@
+
+    @media (max-width:1445px) {
+        .submitButton{
+        margin-top:3%;
+        }
+        
+    }
+@media(max-width:556px){
+    .status{
+        margin-top: 1.5rem;
+    }
+    .reason{
+        margin-top: 1.5rem;
+       
+    }
+}
+
+@media(min-width:375px){
+    .name{
+        margin-left: 18.5%;
+    }
+    .email{
+        margin-left: 19.5%;
+    }
+    .designation{
+        margin-left: 7%;
+    }
+    .department{
+        margin-left: 7%
+    }
+}
+.main-div{
+    display: flex;
+    width: 100%;
+}
+.child-div1{
+    width: 50%;
+}
+.child-div2{
+    font-weight: bold;
+}
+.child-div3{
+    width: "50%";
+}

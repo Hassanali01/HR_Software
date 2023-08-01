@@ -1,0 +1,16 @@
+.plogin{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    height: 100vh;
+    z-index: 2;
+
+}
+
+.page-header{
+    display :flex;
+    border-radius: 2%;
+    
+   
+   
+}
