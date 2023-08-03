@@ -1,0 +1,287 @@
+[
+    {
+        "Employee_ID": "E0150",
+        "Name": "Raheel Bashir",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "17:20",
+        "duration": "8 hours 22 minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0160",
+        "Name": "Abduallah",
+        "Date": "27/09/2022",
+        "in": "9:58",
+        "out": "18:20",
+        "duration": "8 hours 22 minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0040",
+        "Name": "Abdul Rauf",
+        "Date": "27/09/2022",
+        "in": "10:58",
+        "out": "19:20",
+        "duration": "8 hours 22 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0270",
+        "Name": "Fayyaz",
+        "Date": "27/09/2022",
+        "in": "NaN:NaN",
+        "out": "NaN:NaN",
+        "duration": "NaN hours NaN minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0190",
+        "Name": "Naila",
+        "Date": "27/09/2022",
+        "in": "NaN:NaN",
+        "out": "NaN:NaN",
+        "duration": "NaN hours NaN minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0080",
+        "Name": "iqra",
+        "Date": "27/09/2022",
+        "in": "13:58",
+        "out": "22:20",
+        "duration": "8 hours 22 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0060",
+        "Name": "Zunaira",
+        "Date": "27/09/2022",
+        "in": "14:58",
+        "out": "23:20",
+        "duration": "8 hours 22 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0070",
+        "Name": "Mairah",
+        "Date": "27/09/2022",
+        "in": "15:58",
+        "out": "24:20",
+        "duration": "8 hours 22 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0200",
+        "Name": "Daniyal",
+        "Date": "27/09/2022",
+        "in": "8:0",
+        "out": "18:0",
+        "duration": "10 hours 0 minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0110",
+        "Name": "Ramazan",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "19:0",
+        "duration": "10 hours 2 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0100",
+        "Name": "Danish",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "19:60",
+        "duration": "11 hours 2 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0210",
+        "Name": "Noman",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "21:0",
+        "duration": "12 hours 2 minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0230",
+        "Name": "Rehab",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "22:0",
+        "duration": "13 hours 2 minutes",
+        "department": "Design And Creativity"
+    },
+    {
+        "Employee_ID": "E0250",
+        "Name": "Muaaz",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "22:60",
+        "duration": "14 hours 2 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0220",
+        "Name": "syed Nauman",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "24:0",
+        "duration": "15 hours 2 minutes",
+        "department": "Design And Creativity"
+    },
+    {
+        "Employee_ID": "E0090",
+        "Name": "Jahanjeer",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "25:0",
+        "duration": "16 hours 2 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0180",
+        "Name": "Adil",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "25:60",
+        "duration": "17 hours 2 minutes"
+    },
+    {
+        "Employee_ID": "E0260",
+        "Name": "col Habib",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "27:0",
+        "duration": "18 hours 2 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0280",
+        "Name": "Khalid",
+        "Date": "27/09/2022",
+        "in": "8:0",
+        "out": "8:30",
+        "duration": "0 hours 30 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0130",
+        "Name": "jamshed ",
+        "Date": "27/09/2022",
+        "in": "15:0",
+        "out": "17:30",
+        "duration": "2 hours 30 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0240",
+        "Name": "Maham",
+        "Date": "27/09/2022",
+        "in": "9:13",
+        "out": "17:30",
+        "duration": "8 hours 17 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0120",
+        "Name": "iqbal",
+        "Date": "27/09/2022",
+        "in": "8:30",
+        "out": "17:20",
+        "duration": "8 hours 50 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0050",
+        "Name": "Mazhar saab",
+        "Date": "27/09/2022",
+        "in": "10:30",
+        "out": "18:0",
+        "duration": "7 hours 30 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0290",
+        "Name": "Asif",
+        "Date": "27/09/2022",
+        "in": "2:17",
+        "out": "18:0",
+        "duration": "15 hours 43 minutes"
+    },
+    {
+        "Employee_ID": "E0300",
+        "Name": "Subhan",
+        "Date": "27/09/2022",
+        "in": "9:10",
+        "out": "18:6",
+        "duration": "8 hours 56 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0310",
+        "Name": "Nabeel",
+        "Date": "27/09/2022",
+        "in": "9:0",
+        "out": "20:35",
+        "duration": "11 hours 35 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0140",
+        "Name": "Nawab Ali",
+        "Date": "27/09/2022",
+        "in": "7:35",
+        "out": "19:0",
+        "duration": "11 hours 25 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0320",
+        "Name": "haider javad",
+        "Date": "27/09/2022",
+        "in": "8:45",
+        "out": "18:0",
+        "duration": "9 hours 15 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0330",
+        "Name": "hassan ali",
+        "Date": "27/09/2022",
+        "in": "9:0",
+        "out": "17:45",
+        "duration": "8 hours 45 minutes",
+        "department": "IT"
+    },
+    {
+        "Employee_ID": "E0340",
+        "Name": "Tahir ",
+        "Date": "27/09/2022",
+        "in": "8:58",
+        "out": "17:38",
+        "duration": "8 hours 40 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0350",
+        "Name": "Mumtaz Saab",
+        "Date": "27/09/2022",
+        "in": "8:30",
+        "out": "18:0",
+        "duration": "9 hours 30 minutes",
+        "department": "null"
+    },
+    {
+        "Employee_ID": "E0360",
+        "Name": "Ahmad shabaz",
+        "Date": "27/09/2022",
+        "in": "9:18",
+        "out": "17:37",
+        "duration": "8 hours 19 minutes"
+    }
+]

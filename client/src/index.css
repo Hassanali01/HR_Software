@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,400;1,500;1,600;1,700;1,800&display=swap');
+*{
+    font-family: 'Nunito', sans-serif;
+}
+body{
+    background-color: #f7f7f7
+
+}
+Button.btn{
+    color:#FFFF;
+    /* background-color: #2BBBAD; */
+    border: none;
+    border-radius: 5px;
+    background-color: #17a392;   
+  }
+  Button.btn:hover{
+     background-color: #26ad9d;
+     color: #FFFF;
+  }
+
+  a.btn.add-btn{
+    color:#FFFF;
+    /* background-color:#0099CC ; */
+    background-color: #17a392;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius:5px;
+    
+  }
+ a.btn.add-btn:hover{
+    color:#FFFF;
+    background-color: #26ad9d;
+ }  
+
+.buttoncolor{
+    color:#FFFF;
+    background-color:#17a392 ;
+}
+.buttoncolor:hover{
+    color: #fff
+}  
+ul li{
+    color: #FFFF;
+}
+.iconColor{
+    color: #FFFF;
+}
+a{
+    color: #FFFF;
+    text-decoration: none;
+}
+p{
+    margin-bottom: 0;
+}
+h5{
+    margin-bottom: 0;
+}
+.tableCell{
+     background-color: #00B74A;
+     color:white;
+    padding: 0;
+    border-radius: 5px;
+}
+.tableCell1{
+    background-color: #F93154;
+    color:white;
+    padding: 0;
+    border-radius: 5px;
+}
+.tableCell2{
+    background-color: #FFA900;
+    color:white;
+    padding: 0;
+    border-radius: 5px;
+}
+
+td{
+    text-align: center;
+}
+.iconDashboard {
+   
+    padding: 5px;
+    border-radius: 5px;
+    align-self: flex-end;
+  }
+
+
+  .my-modal{
+  
+    /* width: 90%;    */
+    max-width: 70vw;
+    min-height: 50vw;
+   
+  }
+    
+  .formmargin{
+    margin:8px 0px 8px 0px !important
+  }
+  
+  .ReactFlagsSelect-module_label__27pw9{
+    color:black
+  }
+
+
+  
+@media only screen and (max-width:1000px) {
+   
+    .responsiveform {
+    display:flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    
+    }
+   
+    
+    
+  }
+
+  @media only screen and (max-width:1000px) {
+   
+    .responsiveimg {
+      width: 100%;
+      margin-right: 100%;
+    }
+    .reswidth{
+        width: 999px;
+    }
+   
+    
+    
+  }
+/*this breakpoint make it till the size*/
+  @media screen and (min-width: 1000px) {
+    .reswidth {
+      width:25%
+    }
+  }
+  @media screen and (max-width: 999px) {
+    .reswidth {
+      width:100%;
+      display:flex;
+      justify-content: center;
+
+    }
+  }
+
