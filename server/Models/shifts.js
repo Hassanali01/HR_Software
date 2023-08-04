@@ -3,7 +3,7 @@ const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
 
 const addShifts = new Schema({
-    
+
     shift_name:{
         type:String,
         require:true
@@ -22,7 +22,7 @@ const addShifts = new Schema({
     },
     slaps:[
         {
-        type:Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'slaps',
     }
 ]
