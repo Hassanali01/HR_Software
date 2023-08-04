@@ -35,7 +35,7 @@ const Holiday = () => {
     to: "",
   });
   const url = "/holiday/addholiday";
-  //posting calendar with holidays
+  //posting calendar with holidays 
   const fetchData = async () => {
     try {
       const res = await axios.get("/calendar");

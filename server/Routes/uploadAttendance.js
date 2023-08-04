@@ -7,6 +7,7 @@ const xlsx = require("xlsx");
 const fs = require("file-system");
 const { json } = require("body-parser");
 const Attendance = require('../Models/attendance')
+// const allEmployee = require('../Models/employees')
 // const leave = require('../Models/leaverequest')
 
 
@@ -33,11 +34,14 @@ router.get('/monthattendance/:month', async (req, res) => {
 
     try {
         // const abc = await Attendance.find({month:req.params.month}).populate("employee",{ username: 1,emp_id:1,departments:1})
+        // const abc = await allEmployee.find({company_payroll : "Sagacious Systems"})
+
+
         const abc = await Attendance.find({ month: req.params.month }).populate([
             {
                 path: 'employee',
                 model: 'Employees',
-                select: 'username emp_id',
+                select: 'username emp_id company_payroll',
                 populate: {
                     path: 'departments',
                     model: 'Departments',
@@ -45,7 +49,7 @@ router.get('/monthattendance/:month', async (req, res) => {
                 },
             },
         ])
-        res.status(200).json(abc);
+        res.status(200).json( abc );
 
         console.log(abc, "abc------------------")
     } catch (error) {

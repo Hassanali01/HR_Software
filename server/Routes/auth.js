@@ -18,6 +18,7 @@ router.post("/register", async (req, res,next) => {
     const employee = new Employees({
       //personal information
       profilepic:req.body.profilepic,
+      company_payroll:req.body.company_payroll,
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       username: req.body.username,
@@ -68,8 +69,9 @@ router.post("/register", async (req, res,next) => {
       isAdmin:req.body.isAdmin,
       emp_id: req.body.emp_id,
       supervisors: req.body.supervisors
+
     });
-    // console.log(req.body, "req body");
+    console.log(req.body.company_payroll, "req body");
     const user = await employee.save();
     // console.log(user.emp_id,"111111111111111111111")
     user && res.status(200).json(user);

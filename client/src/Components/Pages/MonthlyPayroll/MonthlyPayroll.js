@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
+import moment from "moment";
 import { useEffect } from 'react';
 import Dashboard from '../../Dashboard/Dashboard'
 import axios from "axios"
@@ -24,7 +25,7 @@ const MonthlyPayroll = () => {
 
 
   const [empLeaves, setEmpLeaves] = useState([])
-
+  const [gaztedholiday, setGaztedholiday] = useState([])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -48,20 +49,26 @@ const MonthlyPayroll = () => {
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
       attendanceTemp.map((at) => {
-        tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        //agr sari company ka payroll chahiya to if ko comment kr kr nichy wali statement ko uncommnt kr dy
+        if (at.employee.company_payroll == "Sagacious Systems") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
+        //is statement ko remove nai krna ya total employess ki payroll ko generate karta hain...
+        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
 
 
-      // console.log(attendanceTemp, "payrol.................")
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
-      // console.log("approved leave", approvedLeave)
       setEmpLeaves(approvedLeave.data.totaldays)
 
+
+      const gaztedholidays = await axios.get(`/holiday/detail`)
+      setGaztedholiday(gaztedholidays.data)
+      console.log("gaztedholiday", gaztedholidays.data)
 
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
       );
-
 
 
       // adding leaves inside the user attendance
@@ -70,20 +77,13 @@ const MonthlyPayroll = () => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key)
           appliedLeaves.forEach((al) => {
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWP"
-            // console.log("leave applied",tempUserAttendance[`${key}`].filter((te)=> te.date == al.date)[0] )
           })
-
         }
       );
 
 
       // adding Day-Of inside the user attendance
-
-
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        let allSat= daysOfMonth.filter((st)=>st.day== "Sat")
-        const lastSat = allSat[allSat.length-1]
-        console.log(lastSat)
         let dayof = daysOfMonth.filter((td) => td.day == "Sun");
         dayof.forEach((al) => {
           tempUserAttendance[key].forEach((te) => {
@@ -92,12 +92,38 @@ const MonthlyPayroll = () => {
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
             if (day == "Sunday") {
               te.status = "DO";
-            }   
+            }
           });
         });
       });
 
+      // Adding last saturday dayoff
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        let allSat = daysOfMonth.filter((st) => st.day == "Sat")
+        const lastSat = allSat[allSat.length - 1]
+        const [day, month, year] = lastSat.date.split('/');
+        const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+        const Finalsat = convertedDate.toISOString();
+        tempUserAttendance[key].forEach((te) => {
+          if (Finalsat == te.date) {
+            te.status = "DO";
+          }
+        })
+      })
 
+
+      //Adding gazted holidays in payroll
+      Object.entries(tempUserAttendance).forEach(([key, value]) =>{
+       console.log("yes",gaztedholidays.data[0].date)
+       const a=gaztedholidays.data.map((i)=>{
+        tempUserAttendance[key].forEach((te) => {
+          if (i.date == te.date) {
+            te.status = "GH";
+          }
+        })
+       })
+       
+      })
 
       setUserAttendance(tempUserAttendance)
       console.log(userAttendance, "userattendence")
