@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
+import moment from "moment";
 import { useEffect } from 'react';
 import Dashboard from '../../Dashboard/Dashboard'
 import axios from "axios"
@@ -21,6 +22,11 @@ const MonthlyPayroll = () => {
   const [date, setDate] = useState(new Date());
   const [userAttendance, setUserAttendance] = useState({})
   const [monthAttendance, setMonthAttendance] = useState([])
+
+
+  const [empLeaves, setEmpLeaves] = useState([])
+  const [gaztedholiday, setGaztedholiday] = useState([])
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,56 +44,95 @@ const MonthlyPayroll = () => {
   async function generateMonthAttendance() {
     try {
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
+      console.log(attendanceTemp, "attendenceTemp")
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
       attendanceTemp.map((at) => {
-        tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        //agr sari company ka payroll chahiya to if ko comment kr kr nichy wali statement ko uncommnt kr dy
+        if (at.employee.company_payroll == "Sagacious Systems") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
+        //is statement ko remove nai krna ya total employess ki payroll ko generate karta hain...
+        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
-      // console.log(tempUserAttendance, payrollMonth, "payrol.................")
-      const approvedLeave = axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
-        .then(response => {
-          console.log(response.data, userAttendance, "----payroll...");
-          // console.log(response.data.arr,"arr2------")
-        
-          // const modydataleave= response.data.modyfieddata.map((i)=>{
-          //   // console.log(i,"iiiiiiiiiiiiiiiiiii")
-          //   const a1=i.Totaldays
-          //   // console.log(a1,"a111111111111111111")
-          //   for(let j in a1){
-          //     // console.log(a1[j],"jjjjjjjjjjjjjjjjjjjjjjjjjjj")
-          //      for(let l in userAttendance){
-          //       // console.log(userAttendance[l],"lllll")
-          //       const b1 = userAttendance[l]
-          //       for(let m of b1){
-          //         // console.log(m.date,"mmmmm")
-          //         if(m.date==a1[j]){
-          //           console.log(m.date, "&&" , a1[j],"yes....")
-          //         }
-          //       }
-          //      }
-          //   }
-          // })
 
-        })
-        .catch(error => {
-          console.log(error, "yess ...error");
-        });
 
-      
+      const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
+      setEmpLeaves(approvedLeave.data.totaldays)
+
+
+      const gaztedholidays = await axios.get(`/holiday/detail`)
+      setGaztedholiday(gaztedholidays.data)
+      console.log("gaztedholiday", gaztedholidays.data)
+
       Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee.username == key))
+        ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
       );
+
+
+      // adding leaves inside the user attendance
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key)
+          appliedLeaves.forEach((al) => {
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWP"
+          })
+        }
+      );
+
+
+      // adding Day-Of inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        let dayof = daysOfMonth.filter((td) => td.day == "Sun");
+        dayof.forEach((al) => {
+          tempUserAttendance[key].forEach((te) => {
+            const locale = "en-US"
+            var date = new Date(te.date);
+            var day = date.toLocaleDateString(locale, { weekday: 'long' });
+            if (day == "Sunday") {
+              te.status = "DO";
+            }
+          });
+        });
+      });
+
+      // Adding last saturday dayoff
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        let allSat = daysOfMonth.filter((st) => st.day == "Sat")
+        const lastSat = allSat[allSat.length - 1]
+        const [day, month, year] = lastSat.date.split('/');
+        const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+        const Finalsat = convertedDate.toISOString();
+        tempUserAttendance[key].forEach((te) => {
+          if (Finalsat == te.date) {
+            te.status = "DO";
+          }
+        })
+      })
+
+
+      //Adding gazted holidays in payroll
+      Object.entries(tempUserAttendance).forEach(([key, value]) =>{
+       console.log("yes",gaztedholidays.data[0].date)
+       const a=gaztedholidays.data.map((i)=>{
+        tempUserAttendance[key].forEach((te) => {
+          if (i.date == te.date) {
+            te.status = "GH";
+          }
+        })
+       })
+       
+      })
+
       setUserAttendance(tempUserAttendance)
+      console.log(userAttendance, "userattendence")
+
       setUpdate(!update)
     } catch (error) {
       NotificationManager.error("Please select  the month of Payroll")
       // console.log(error)
     }
-
-
-
-
   }
 
   function printPDF() {
@@ -134,6 +179,11 @@ const MonthlyPayroll = () => {
   for (let i = 1; i <= days; i++) {
     daysOfMonth.push({ date: `${i}/${month}/${year}`, day: new Date(`${month}/${i}/${year}`).toLocaleString('en-us', { weekday: 'short' }) })
   }
+
+
+
+
+
 
   function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();

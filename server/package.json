@@ -21,6 +21,7 @@
     "express-fileupload": "^1.4.0",
     "file-system": "^2.2.2",
     "jsonwebtoken": "^8.5.1",
+    "moment-timezone": "^0.5.43",
     "mongodb": "^4.7.0",
     "mongodb-client": "^0.0.1",
     "mongoose": "^6.3.6",

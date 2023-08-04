@@ -1,5 +1,4 @@
 const userAttendance = require('../Models/userAttendance')
-// const addShifts = require('../Models/shifts')
 const allattendance = async(req,res,next) => {
     try{
          
@@ -10,18 +9,6 @@ const allattendance = async(req,res,next) => {
       next(error)
     }
 }
-
-// const addShifts = async(req,res)=>{
-//     const {shift_name,description,start_time,end_time,slaps}= req.body
-//     try{
-//         const shifts = await createShifts.create({shift_name,description,start_time,end_time,slaps})
-//         res.status(200).json(shifts)  
-
-//     }catch(error){
-//         res.status(400).json({error:error.message})
-
-//     }
-// }
 
 module.exports ={
     allattendance

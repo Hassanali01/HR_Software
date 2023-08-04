@@ -29,6 +29,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
   const [emp, setEmp] = useState({
     profilepic: values.profilepic,
     firstname: values.firstName,
+    company_payroll: values.company_payroll,
     lastname: values.lastName,
     dob: values.dob,
     cnic: values.cnic,

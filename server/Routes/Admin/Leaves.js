@@ -70,28 +70,41 @@ router.get('/approved-leaves/:month', async (req, res) => {
     console.log("approved leaves api hitttt.............")
     const Leaves = await LeaveRequest.aggregate([
       [
-        {
-          '$set': {
-            'month': [
-              {
-                '$month': '$from'
-              }, {
-                '$month': '$to'
-              }
+       {
+        '$set': {
+          'month': [
+            {
+              '$month': '$from'
+            }, {
+              '$month': '$to'
+            }
+          ]
+        }
+      }, {
+        '$match': {
+          'month': {
+            '$in': [
+              no
             ]
           }
-        }, {
-          '$match': {
-            'month': {
-              '$in': [
-                no
-              ]
-            }
-          }
         }
+      },
+      {
+        '$lookup': {
+          'from': 'employees', 
+          'localField': 'employee', 
+          'foreignField': '_id', 
+          'as': 'employee'
+        }}
       ]
     ])
-    const totaldays = Leaves.map((i) => {
+
+
+
+    const totaldays = [];
+    await Leaves.map((i) => {
+ 
+      // console.log(i.employee[0].username,"full employee")
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
           const datesArray = [];
@@ -101,23 +114,25 @@ router.get('/approved-leaves/:month', async (req, res) => {
             datesArray.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
           }
-
-          function createObject(employee, leaveType, reason, status, _id, date) {
-            return { employee, leaveType, reason, status, _id, date };
+          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username) {
+            return { employee, leaveType, reason, Leavestatus, _id, date, status,username };
           }
           function createObjectsFromDates(datesArray) {
             const objectsArray = [];
             for (let j = 0; j < datesArray.length; j++) {
-              const employee = i.employee
+              const employee = i.employee[0]
               const leaveType = i.leaveType
               const date = datesArray[j]
               const reason = i.reason
-              const status = i.status
+              const Leavestatus = i.status
               const _id = i._id
-              const newObject = createObject(employee, leaveType, reason, status, _id, date);
+              const status = "LWP"
+              const username= i.employee[0].username
+              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username);
+              totaldays.push(newObject)
               objectsArray.push(newObject);
             }
-            console.log(objectsArray,"objectarray")
+            console.log(totaldays[0].employee,"totaldays")
             return objectsArray;
           }
           const userDates = datesArray
@@ -125,20 +140,14 @@ router.get('/approved-leaves/:month', async (req, res) => {
           // console.log(dynamicObjectsArray, "all objects");
           return dynamicObjectsArray;
         }
+       
         const fromDate = i.from;
         const toDate = i.to;
         const allDates = getAllDatesBetween(fromDate, toDate);
         // console.log(allDates, "all dates...................");
-
-
-       
-
         return allDates
-        
-
       }
     })
-
     res.status(200).json({
       Leaves,
       totaldays,
@@ -173,7 +182,7 @@ router.post('/addrequest', async (req, res, next) => {
       reason: req.body.reason,
       status: req.body.status,
       employee: req.body.employee,
-      backupresourse: req.body.backupresourse,
+      backupresourse: req.body.backupresourse ,
       applicationdate: req.body.applicationdate,
       attachment: file
     })

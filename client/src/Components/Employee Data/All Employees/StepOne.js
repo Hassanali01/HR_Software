@@ -19,6 +19,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
   const [emp, setEmp] = useState({
     profilepic: "",
     firstname: "",
+    company_payroll: "",
     lastname: "",
     dob: "",
     cnic: "",
@@ -45,7 +46,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
       // validator.isEmpty(values.martialStatus) ||
       // validator.isEmpty(values.religion) ||
       // validator.isEmpty(values.profilepic)
-      validator.isEmpty(values.cnic) 
+      validator.isEmpty(values.cnic)
     ) {
       setError(true);
       console.log("setError");
@@ -105,8 +106,8 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
   </ul>
   </div> */}
       <div>
-        <Card style={{ marginTop: "8%",height:"auto" }}>
-          <Card.Body style={{height:"auto" }}>
+        <Card style={{ marginTop: "8%", height: "auto" }}>
+          <Card.Body style={{ height: "auto" }}>
             <Form onSubmit={submitFormData}>
               <h4 style={{ color: "rgb(0,105,92)" }}>Personal Information</h4>
               <hr></hr>
@@ -359,6 +360,42 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                       onChange={handleFormData("cnic")}
                     />
                   </Form.Group>
+                </Col>
+                {/* //company filled */}
+                <Col xl="6" lg="6" md="6">
+                  <Form.Label>Payroll Company</Form.Label>
+                  <Form.Control
+                      required
+                      // style={{ border: error ? "2px solid red" : "" }}
+                      name="company_payroll"
+                      // defaultValue={emp.lastname}
+                      value={values.company_payroll}
+                      type="text"
+                      placeholder="company_payroll"
+                      onChange={handleFormData("company_payroll")}
+                    />
+                  {/* <Form.Group
+                    as={Col}
+                    controlId="formGridFirstName"
+                    className="formmargin"
+                  >
+                    <PatternFormat
+                      style={{
+                        border: "0.5px solid",
+                        borderRadius: "4px",
+                        width: "100%",
+                        borderColor: "grey",
+                        paddingTop: "1%",
+                        paddingBottom: "1%",
+                      }}
+                      name="company_payroll"
+                      required
+                      allowEmptyFormatting
+                      mask="x"
+                      defaultValue={values.company_payroll}
+                      onChange={handleFormData("company_payroll")}
+                    />
+                  </Form.Group> */}
                 </Col>
               </Row>
 

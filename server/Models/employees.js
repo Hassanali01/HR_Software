@@ -6,6 +6,9 @@ const EmployeesSchema = new mongoose.Schema(
     emp_id: {
       type: String,
     },
+    company_payroll:{
+      type: String,
+    },
     firstname: {
       type: String,
       require: true,

@@ -85,7 +85,7 @@ const Table = ({ data, setTableData }) => {
             }
         },
     ]
-    const rows = data.filter((d) => d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
+    const rows = data && data.filter((d) => d.Name && d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
 
         id: row.Employee_ID,
         Name: row.Name,

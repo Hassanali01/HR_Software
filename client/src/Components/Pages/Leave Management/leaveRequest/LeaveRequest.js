@@ -33,7 +33,6 @@ const LeaveRequest = () => {
   const { user } = useContext(Context);
   const [Info, setinfo] = useState([]);
   const[backupresourse,setbackupresourse]= useState("")
-  const [leaveDuration,setLeaveDuration] = useState("")
   console.log("user from Context", user);
   const [leaves, setLeaves] = useState([]);
   const url = "/leaves";
@@ -79,8 +78,7 @@ const LeaveRequest = () => {
           empid: empinfo.emp_id,
           designation: empinfo.designation,
           leavesId:empinfo.Leaves.slice(empinfo.Leaves.length-1),
-          backupresourse: d.backupresourse,
-          leaveDuration: d.leaveDuration
+          backupresourse: d.backupresourse
         });
         console.log(InfoData,"pushing data")
       });
@@ -149,8 +147,7 @@ const LeaveRequest = () => {
     formData.append("employee", employee);
     formData.append("file", attachedFile);
     formData.append("applicationdate",applicationdate);
-    formData.append("backupresourse",backupresourse);
-    formData.append("leaveDuration",leaveDuration);
+    formData.append("backupresourse",backupresourse)
 
     try {
       console.log("formData12", formData);
@@ -406,25 +403,6 @@ const LeaveRequest = () => {
                                       </Form.Select>
                                     </Col>
                                     <Col>
-                                      <Form.Label>Leave Duration</Form.Label>
-                                      <Form.Select
-                                        // required                  
-                                        
-                                        value={leaveDuration}
-                                        onChange={(e)=>{setLeaveDuration(e.target.value)}}
-                                      > 
-                                        <option disabled  selected hidden defaultValue={""}>Please Select</option>
-                                        <option value="full time" >Full Time</option>
-                                        <option value="0.2" >0.2</option>
-                                        <option value="0.2" >0.5</option>
-                                        <option value="0.75">0.75</option>
-
-                                      
-                                      </Form.Select>
-                                    </Col>
-                                  </Row>
-                                  <Row>
-                                  <Col>
                                       <Form.Label>Application Date</Form.Label>
                                       <Form.Control
                                         type="date"
@@ -634,7 +612,6 @@ const LeaveRequest = () => {
                   <th>From</th>
                   <th>To</th>
                   <th>Reason</th>
-                  <th>Leave Duration</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -653,7 +630,6 @@ const LeaveRequest = () => {
                       <td>{new Date(d.from).toDateString()}</td>
                       <td>{new Date(d.to).toDateString()}</td>
                       <td>{d.reason}</td>
-                      <td>{d.leaveDuration}</td>
                       <td>
                         {/* <p
                           className={`${

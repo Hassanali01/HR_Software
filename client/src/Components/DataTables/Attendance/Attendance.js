@@ -80,11 +80,14 @@ const Attendance = () => {
 
   data.forEach((elem) => {
 
+
+    console.log("attendance fetched", elem)
+
     table.push({
       Employee_ID: elem[0],
       Name: elem[1],
       department: elem[2],
-      Date: elem[3].split ? elem[3] : (new Date(Math.round((elem[3] - 25569) * 86400 * 1000))).toISOString().substring(0, 10),
+      Date: elem[3] && elem[3].split ? elem[3] : (new Date(Math.round((elem[3] - 25569) * 86400 * 1000))).toISOString().substring(0, 10),
       in: elem[4],
       Out: elem[5],
       Duration: elem[6],
