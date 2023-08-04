@@ -26,6 +26,7 @@ const cycle = require('./Routes/payroll/PayCycle')
 const period = require('./Routes/payroll/PayPeriod')
 const setup = require("./Routes/payroll/setup")
 const company = require('./Routes/company')
+const shifts = require('./Routes/shifts')
 const leaveformonth = require('./Routes/employees/leaveReq')
 env.config()
 app.use(
@@ -86,6 +87,7 @@ app.use('/',cycle)
 app.use('/',period)
 app.use('/',setup)
 app.use('/',company)
+app.use('/shifts',shifts)
 app.use('/onemonthleaves', leaveformonth)
 
 
