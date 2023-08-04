@@ -41,7 +41,7 @@ router.get('/monthattendance/:month', async (req, res) => {
             {
                 path: 'employee',
                 model: 'Employees',
-                select: 'username emp_id company_payroll',
+                select: 'username emp_id company_payroll shift_id',
                 populate: {
                     path: 'departments',
                     model: 'Departments',

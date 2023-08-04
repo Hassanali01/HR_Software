@@ -26,6 +26,7 @@ const MonthlyPayroll = () => {
 
   const [empLeaves, setEmpLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
+  const [empshift, setEmpshift] = useState([])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -65,6 +66,19 @@ const MonthlyPayroll = () => {
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data)
       console.log("gaztedholiday", gaztedholidays.data)
+
+
+      //shift data fetch
+      const shift = await axios.get(`/shifts/allShifts`)
+      setEmpshift(shift.data)
+      console.log("shift", shift.data)
+
+      // const shiftslab = userAttendance.map((i) => {
+      //   const usershift = i.map((j) => {
+      //     console.log("hi...", j.employee.shift_id)
+      //   })
+      //   console.log("shiftslab", shiftslab)
+      // })
 
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
@@ -113,20 +127,20 @@ const MonthlyPayroll = () => {
 
 
       //Adding gazted holidays in payroll
-      Object.entries(tempUserAttendance).forEach(([key, value]) =>{
-       console.log("yes",gaztedholidays.data[0].date)
-       const a=gaztedholidays.data.map((i)=>{
-        tempUserAttendance[key].forEach((te) => {
-          if (i.date == te.date) {
-            te.status = "GH";
-          }
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        //  console.log("yes",gaztedholidays.data[0].date)
+        const a = gaztedholidays.data.map((i) => {
+          tempUserAttendance[key].forEach((te) => {
+            if (i.date == te.date) {
+              te.status = "GH";
+            }
+          })
         })
-       })
-       
+
       })
 
       setUserAttendance(tempUserAttendance)
-      console.log(userAttendance, "userattendence")
+      console.log("userattendence", userAttendance)
 
       setUpdate(!update)
     } catch (error) {

@@ -20,12 +20,9 @@ const addShifts = new Schema({
         require:true
 
     },
-    slaps:[
-        {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'slaps',
+    slaps:{
+        type:Array
     }
-]
 
 
 
