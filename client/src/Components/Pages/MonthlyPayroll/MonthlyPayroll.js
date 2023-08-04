@@ -73,12 +73,10 @@ const MonthlyPayroll = () => {
       setEmpshift(shift.data)
       console.log("shift", shift.data)
 
-      // const shiftslab = userAttendance.map((i) => {
-      //   const usershift = i.map((j) => {
-      //     console.log("hi...", j.employee.shift_id)
-      //   })
-      //   console.log("shiftslab", shiftslab)
-      // })
+
+
+
+
 
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
@@ -141,6 +139,79 @@ const MonthlyPayroll = () => {
 
       setUserAttendance(tempUserAttendance)
       console.log("userattendence", userAttendance)
+
+
+
+
+
+
+      for (let i in userAttendance) {
+        const a = userAttendance[i]
+
+
+
+        const singleuser = a.map((j) => {
+       const slaps= j.employee.shift_id.slaps
+       const date = j.in
+       const splitdate= date.split(":")
+       const sampleDateIn=  new Date()
+
+       sampleDateIn.setHours(splitdate[0])
+       sampleDateIn.setMinutes(splitdate[1])
+console.log('sampleDateIn',sampleDateIn)
+       slaps.forEach((s)=>{
+        const slapname = Object.keys(s)[0]
+        const splitSlap= slapname.split(":")
+        const sampleDateSlap = new Date()
+        sampleDateSlap.setHours(splitSlap[0])
+        sampleDateSlap.setMinutes(splitSlap[1])
+        console.log("sample slap date",sampleDateSlap)
+
+        if(sampleDateIn > sampleDateSlap){
+          console.log("checkin >= 9:30")
+
+          j.status= (1-s[slapname])
+       
+        }
+
+
+       })
+
+
+
+
+       console.log("splitdate",splitdate)
+       console.log("slaps",slaps)
+       console.log("date",date)
+
+
+            
+
+
+
+
+
+
+
+
+
+
+          // console.log(j.employee.shift_id)
+          // const usershift = shift.data.map((k) => {
+          //   // console.log("k",k._id)
+          //   if (k._id == j.employee.shift_id) {
+          //     if (j.in >= "09:00") {
+              
+          //     }
+          //   }
+          // })
+        })
+      }
+
+
+
+
+
 
       setUpdate(!update)
     } catch (error) {
