@@ -37,21 +37,25 @@ const leaveRequestSchema = mongoose.Schema({
         type: String
 
     },
-    leaveNature: {
-        type: String,
-        require: true
+
+    Short_leave:{
+        type:String,
+        require:true
 
     },
-    Short_leave: {
-        type: String,
-        require: false
+
+    Short_leave:{
+        type:String,
+        require:true
 
     },
+
+    
     status: {
         type: String,
-        enum: ["Approved", "Pending Approval", "Reject"],
-        default: "Pending Approval"
-
+        enum:["Approved","Pending Approval","Reject"],
+        default:"Pending Approval"
+        
     },
     supervisorApproval: {
         type: String,

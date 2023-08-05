@@ -45,7 +45,6 @@ const MonthlyPayroll = () => {
   async function generateMonthAttendance() {
     try {
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
-      console.log(attendanceTemp, "attendenceTemp")
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
@@ -66,13 +65,11 @@ const MonthlyPayroll = () => {
 
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data)
-      console.log("gaztedholiday", gaztedholidays.data)
 
 
       //shift data fetch
       const shift = await axios.get(`/shifts/allShifts`)
       setEmpshift(shift.data)
-      console.log("shift", shift.data)
 
 
 
@@ -87,7 +84,7 @@ const MonthlyPayroll = () => {
       // adding leaves inside the user attendance
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
-          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key)
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True")
           appliedLeaves.forEach((al) => {
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWP"
           })
@@ -96,7 +93,6 @@ const MonthlyPayroll = () => {
 
 
       setUserAttendance(tempUserAttendance)
-      console.log("userattendence", userAttendance)
 
       //Adding 1 in P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -118,9 +114,11 @@ console.log("yes..",approvedLeave.data.totaldays)
 
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-          console.log("before slaps 1", j.employee)
+
           if ( j.employee.shift_id) {
+
           const shift =  j.employee.shift_id 
+
           const date = j.in
 
             const shortleave= approvedLeave.data.totaldays.map((r)=>{
@@ -136,26 +134,49 @@ console.log("yes..",approvedLeave.data.totaldays)
           sampleDateIn.setMinutes(splitdate[1])
            shift.slaps.forEach((s) => {
 
-            console.log("slaps for each", s)
-
             const slapname = Object.keys(s)[0]
             const splitSlap = slapname.split(":")
             const sampleDateSlap = new Date()
             sampleDateSlap.setHours(splitSlap[0])
             sampleDateSlap.setMinutes(splitSlap[1])
-            console.log("sample slap date", sampleDateSlap)
+
             if (sampleDateIn > sampleDateSlap) {
               j.status = (1 - s[slapname])
             }
           })
-          console.log("splitdate", splitdate)
-          console.log("date", date)
+   
         
         }
 
 
         })
       }
+
+
+
+
+
+
+      // Integrating short leaves
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
+          appliedLeaves.forEach((al) => {
+
+
+            console.log("short leaves", al)
+
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP" 
+          })
+        }
+      );
+
+
+
+
+
+
+
 
       // adding Day-Of inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -269,7 +290,6 @@ console.log("yes..",approvedLeave.data.totaldays)
 
 
   useEffect(() => {
-    console.log("payroll.....useeffect");
 
 
   }, []);
@@ -346,6 +366,7 @@ console.log("yes..",approvedLeave.data.totaldays)
                   <th style={{ border: "1px solid black" }}>W.D</th>
                   <th style={{ border: "1px solid black" }}>H.W</th>
                   <th style={{ border: "1px solid black" }}>L.W.P</th>
+                  <th style={{ border: "1px solid black" }}>S.L</th>
                   <th style={{ border: "1px solid black" }}>CPL</th>
                   <th style={{ border: "1px solid black" }}>G.H</th>
                   <th style={{ border: "1px solid black" }}>D.O</th>
@@ -383,6 +404,7 @@ console.log("yes..",approvedLeave.data.totaldays)
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => {return (total + num.status)},0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) =>typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP" ).length}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'GH').length}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'DO').length}</td>
