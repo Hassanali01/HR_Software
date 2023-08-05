@@ -22,16 +22,10 @@ const addShifts = new Schema({
 
     },
     slaps:{
-<<<<<<< HEAD
-
-        type: Array
-    }
-=======
         type:Array
     }
 
 
->>>>>>> f0ec2608b500e15c9a460165bd2e8f2552b3d0cf
 
 },{timestamps:true})
 
