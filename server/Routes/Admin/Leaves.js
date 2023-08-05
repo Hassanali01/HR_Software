@@ -114,8 +114,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
             datesArray.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
           }
-          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username) {
-            return { employee, leaveType, reason, Leavestatus, _id, date, status,username };
+          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Leave_Days) {
+            return { employee, leaveType, reason, Leavestatus, _id, date, status,username,Leave_Days };
           }
           function createObjectsFromDates(datesArray) {
             const objectsArray = [];
@@ -127,8 +127,9 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const Leavestatus = i.status
               const _id = i._id
               const status = "LWP"
+              const Leave_Days = i.Leave_Days
               const username= i.employee[0].username
-              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username);
+              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Leave_Days);
               totaldays.push(newObject)
               objectsArray.push(newObject);
             }
@@ -177,6 +178,7 @@ router.post('/addrequest', async (req, res, next) => {
 
     const reqLeave = new LeaveRequest({
       leaveType: req.body.leaveType,
+      Short_leave:req.body.Short_leave,
       from: req.body.from,
       to: req.body.to,
       reason: req.body.reason,
@@ -187,7 +189,8 @@ router.post('/addrequest', async (req, res, next) => {
       fromTime:req.body.fromTime,
       toTime:req.body.toTime,
       leaveNature:req.body.leaveNature,
-      attachment: file
+      attachment: file,
+      Leave_Days: req.body.Leave_Days
     })
     console.log(reqLeave, "=====", Emp, "api hitting.............")
     const saveRequest = await reqLeave.save();

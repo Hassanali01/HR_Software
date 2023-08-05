@@ -29,27 +29,30 @@ const LeaveRequest = () => {
   const [latest, setlatest] = useState([]);
   const [diff, setdiff] = useState("0");
   const [leaveType, setLeaveType] = useState("");
-  const [applicationdate,setapplicationdate] = useState("")
+  const [applicationdate, setapplicationdate] = useState("")
   const { user } = useContext(Context);
   const [Info, setinfo] = useState([]);
-  const[backupresourse,setbackupresourse]= useState("")
-  const [leaveNature,setLeaveNature] = useState("")
+  const [backupresourse, setbackupresourse] = useState("")
+  const [leaveNature, setLeaveNature] = useState("")
   console.log("user from Context", user);
   const [leaves, setLeaves] = useState([]);
   const url = "/leaves";
   const posturl = "/leaverequest/addrequest";
   const getLeave = "leaverequest/all";
-  const [depemp,setdepemp] = useState([])
-  const [fromTime,setFromTime] = useState("")
-  const [toTime,setToTime] = useState("")
+  const [depemp, setdepemp] = useState([])
+  const [fromTime, setFromTime] = useState("")
+  const [toTime, setToTime] = useState("")
 
   const [userInfo, setUserinfo] = useState({});
   const [details, setDetails] = useState([]);
+  const [Short_leave, setShort_leave] = useState([]);
+
+
   const employee = user.id;
   // console.log(employee);
   const getEmp = `/employees/${user.id}`;
   //leave with backup resource
- 
+
   // const [status,setstatus] = useState("Pending Aproval")
   const componentRef = useRef();
   // const url2 =`/departments/${}`
@@ -67,9 +70,10 @@ const LeaveRequest = () => {
       console.log("infoooo", Info.Leaves)
 
       await empinfo.Leaves.map((d) => {
-        
+
         InfoData.push({
           from: d.from,
+          Short_leave: d.Short_leave,
           to: d.to,
           status: d.status,
           leaveType: d.leaveType,
@@ -80,10 +84,10 @@ const LeaveRequest = () => {
           applicationdate: d.applicationdate,
           empid: empinfo.emp_id,
           designation: empinfo.designation,
-          leavesId:empinfo.Leaves.slice(empinfo.Leaves.length-1),
+          leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
           backupresourse: d.backupresourse
         });
-        console.log(InfoData,"pushing data")
+        console.log(InfoData, "pushing data")
       });
       console.log("************", InfoData);
       setinfo(InfoData);
@@ -106,10 +110,10 @@ const LeaveRequest = () => {
     }
   };
   //generating report using jspdf
-    
+
   // define a generatePDF function that accepts a argument
-  console.log("dep",depurl)
-  const depurl = user.departments.map((d)=>d._id);
+  console.log("dep", depurl)
+  const depurl = user.departments.map((d) => d._id);
   const depemployees = `/departments/${depurl}`
   // console.log(depemployees,"departmental employees")
   const fetchData = async () => {
@@ -122,38 +126,39 @@ const LeaveRequest = () => {
       console.log(error);
     }
   };
-  const allemployees = async()=>{
-        try{
-             const res = await axios.get(depemployees);
-              console.log(res.data.department.employees,"recent response");
-              // const data = await res.data.department.employee
-              // data &&  setdepemp(res.data.department.employees);
-              const data = res.data.department.employees;
-              console.log("nomis data ",data);
-              setdepemp(data)
-            
-        }catch(error){
-            console.log(error)
-        }
+  const allemployees = async () => {
+    try {
+      const res = await axios.get(depemployees);
+      console.log(res.data.department.employees, "recent response");
+      // const data = await res.data.department.employee
+      // data &&  setdepemp(res.data.department.employees);
+      const data = res.data.department.employees;
+      console.log("nomis data ", data);
+      setdepemp(data)
+
+    } catch (error) {
+      console.log(error)
+    }
   }
   const addleaveRequest = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
 
-    console.log("attachedfile++++++++++++++++++++++++++++++++++++++++++++++++", attachedFile,leaveType,from,reason);
+    console.log("attachedfile++++++++++++++++++++++++++++++++++++++++++++++++", attachedFile, leaveType, from, reason);
     console.log("formData12", formData);
     formData.append("leaveType", leaveType);
     formData.append("from", from);
     formData.append("reason", reason);
     formData.append("to", to);
+    formData.append("Short_leave", Short_leave);
     formData.append("employee", employee);
     formData.append("file", attachedFile);
-    formData.append("applicationdate",applicationdate);
-    formData.append("backupresourse",backupresourse)
-    formData.append("fromTime",fromTime)
-    formData.append("toTime",toTime)
-    formData.append("leaveNature",leaveNature)
+    formData.append("applicationdate", applicationdate);
+    formData.append("backupresourse", backupresourse)
+    formData.append("fromTime", fromTime)
+    formData.append("toTime", toTime)
+    formData.append("leaveNature", leaveNature)
 
     try {
       console.log("formData12", formData);
@@ -197,8 +202,8 @@ const LeaveRequest = () => {
   //   "\nDifference: " + diffDays + " day"
   // );
 
-  
-    
+
+
   //   const backupresourses = async() =>{
   //     try{    
   // const leavesId = await Info.slice(Info.length-1,Info.length).map((d)=>d.leavesId.map((d)=>d._id))
@@ -206,8 +211,8 @@ const LeaveRequest = () => {
   //  const specleave = `leaverequest/${leavesId}`;
   // console.log("specific leave",specleave)
   //     console.log("in Try")
-    
-    
+
+
   //        const response = leavesId && await axios.get(specleave);
   //        console.log(response,"response specific")
   //        const data = response
@@ -216,18 +221,18 @@ const LeaveRequest = () => {
   //          console.log(error)
   //    }
   //  }
-  
-  
+
+
 
   useEffect(() => {
     fetchData();
     userInformation();
     allemployees();
-    
+
   }, []);
-//  console.log("after setting state",depemp);
- const array = depemp.filter((d)=>d.firstname!=="Hafiz Raheel" & d.firstname !==`${user.firstname}`);
-//  console.log("after filter method call",array)
+  //  console.log("after setting state",depemp);
+  const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
+  //  console.log("after filter method call",array)
   return (
     <>
       <div
@@ -300,7 +305,7 @@ const LeaveRequest = () => {
                                           setLeaveType(e.target.value);
                                         }}
                                       >
-         <option disabled  selected hidden defaultValue={""}>Please Select</option>
+                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {leaves.map((d) => {
                                           return (
                                             <option
@@ -311,19 +316,19 @@ const LeaveRequest = () => {
                                               {d.leaveType}
                                             </option>
                                           );
-                                        })} 
+                                        })}
                                       </Form.Select>
                                     </Col>
                                     <Col>
                                       <Form.Label>Status</Form.Label>
                                       <div className="status">
-                                      <Form.Control
-                                        type="text"
-                                        required
-                                        value={"open"}
-                                        disabled
-                                        
-                                      ></Form.Control>
+                                        <Form.Control
+                                          type="text"
+                                          required
+                                          value={"open"}
+                                          disabled
+
+                                        ></Form.Control>
                                       </div>
                                     </Col>
                                   </Row>
@@ -343,7 +348,7 @@ const LeaveRequest = () => {
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        // defaultValue={Date.now()}
+                                      // defaultValue={Date.now()}
                                       />
                                     </Col>
                                     <Col>
@@ -374,12 +379,12 @@ const LeaveRequest = () => {
                                     <Col>
                                       <Form.Label>Reason</Form.Label>
                                       <div className="reason">
-                                      <Form.Control
-                                        type="text"
-                                        onChange={(e) => {
-                                          setReason(e.target.value);
-                                        }}
-                                      />
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setReason(e.target.value);
+                                          }}
+                                        />
                                       </div>
                                     </Col>
                                   </Row>
@@ -393,17 +398,17 @@ const LeaveRequest = () => {
                                       <Form.Label>Backup Resourse</Form.Label>
                                       <Form.Select
                                         // required                   
-                                        onChange={(e)=>{setbackupresourse(e.target.value)}}
-                                      > 
-                                        <option disabled  selected hidden defaultValue={""}>Please Select</option>
+                                        onChange={(e) => { setbackupresourse(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {
-                                          array.map((d,i)=>{
-                                           
-                                           return(
-                                            <>
-                                                  
-                                                 <option key={i} value={d._id}>{d.firstname}</option>
-                                           </>)
+                                          array.map((d, i) => {
+
+                                            return (
+                                              <>
+
+                                                <option key={i} value={d._id}>{d.firstname}</option>
+                                              </>)
                                           })
                                         }
                                       </Form.Select>
@@ -420,45 +425,68 @@ const LeaveRequest = () => {
                                   </Row>
                                   <Row>
                                     <Col>
-                                    <Form.Label>Time From</Form.Label>
-                                    <Form.Control
-                                    type="time"
-                                    value={fromTime}
-                                    onChange={(e)=>{
-                                      setFromTime(e.target.value)
-                                    }}
-                                    />
+                                      <Form.Label>Time From</Form.Label>
+                                      <Form.Control
+                                        type="time"
+                                        value={fromTime}
+                                        onChange={(e) => {
+                                          setFromTime(e.target.value)
+                                        }}
+                                      />
                                     </Col>
                                     <Col>
-                                    <Form.Label>Time To</Form.Label>
-                                    <Form.Control
-                                    type="time"
-                                    value={toTime}
-                                    onChange={(e)=>{
-                                      setToTime(e.target.value)
+                                      <Form.Label>Time To</Form.Label>
+                                      <Form.Control
+                                        type="time"
+                                        value={toTime}
+                                        onChange={(e) => {
+                                          setToTime(e.target.value)
 
-                                    }}
-                                    />
+                                        }}
+                                      />
                                     </Col>
-                                    
+
                                   </Row>
                                   <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Leave Nature</Form.Label>
                                       <Form.Select
                                         // required   
-                                        value={leaveNature}                
-                                        onChange={(e)=>{setLeaveNature(e.target.value)}}
-                                      > 
-                                        <option disabled  selected hidden value="">Please Select</option>
+                                        value={leaveNature}
+                                        onChange={(e) => { setLeaveNature(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
                                         <option value="L.W.P">L.W.P</option>
                                         <option value="L.W.O.P">L.W.O.P</option>
                                         <option value="C.P.L">C.P.L</option>
                                         <option value="W.F.H">W.F.H</option>
-                                        
+
                                       </Form.Select>
                                     </Col>
-                                    
+
+
+                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
+                                      <Form.Label>Short leave</Form.Label>
+                                      <Form.Select
+                                        // required   
+                                        value={Short_leave}
+                                        onChange={(e) => { setShort_leave(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="True">True</option>
+                                        <option value="False">False</option>
+
+
+                                      </Form.Select>
+                                    </Col>
+
+
+
+
+
+
+
+
                                   </Row>
                                 </Form.Group>
 
@@ -551,7 +579,7 @@ const LeaveRequest = () => {
                                 Employee Information
 
                               </h4>
-                              
+
                             </Card.Title>
                           </Card.Header>
 
@@ -559,67 +587,67 @@ const LeaveRequest = () => {
                             <Container>
                               {/* <Row>
                                 <Col xs={"12"}> */}
-                                    {details.map((d) => {  
-                                      // console.log("details", details);
-                                      return (
-                                        <>                    
-                                          <div style={{display:'flex',width:'100%'}}>
-                                            <div style={{width:"50%"}}>
-                                              <h5 style={{ fontWeight:'bold'}}>
-                                                Employee ID 
-                                              </h5>
-                                            </div>
-                                            <div style={{width:"50%"}}>
-                                              <p>{d.empid}</p>
-                                            </div>
-                                          </div>
-                                          <div style={{display:"flex",width:"100%",marginTop:'1%'}}>
-                                            <div style={{width:'50%'}}>
-                                              <h5 style={{ fontWeight: "bold" }}>
-                                                {" "}
-                                                Name 
-                                              </h5>
-                                            </div>
-                                            <div style={{width:'50%'}}>
-                                              <p>{d.name}</p>
-                                            </div>
-                                          </div>
-                                          <div style={{display:"flex",width:"100%",marginTop:'1%'}}>
-                                            <div style={{width:'50%'}}>
-                                              <h5 style={{ fontWeight: "bold" }}>
-                                                {" "}
-                                                Email 
-                                              </h5>
-                                            </div>
-                                            <div style={{width:'50%'}}>
-                                              <p>{d.email}</p>
-                                            </div>
-                                          </div>
-                                          <div style={{display:"flex",width:"100%",marginTop:'1%'}}>
-                                            <div style={{width:'50%'}}>
-                                              <h5 style={{ fontWeight: "bold" }}>
-                                                Designation 
-                                              </h5>
-                                            </div>
-                                            <div style={{width:'50%'}}>
-                                              <p>{d.designation}</p>
-                                            </div>
-                                          </div>
-                                          <div style={{display:"flex",width:"100%",marginTop:'1%'}}>
-                                            <div style={{width:'50%'}}>
-                                              <h5 style={{ fontWeight: "bold",fontSize:'auto' }}>
-                                                Department 
-                                              </h5>
-                                            </div>
-                                            <div style={{width:'50%'}}>
-                                              <p>{d.department}</p>
-                                            </div>
-                                          </div>
-                                        </>
-                                      );
-                                    })}
-                               
-                                {/* </Col>
+                              {details.map((d) => {
+                                // console.log("details", details);
+                                return (
+                                  <>
+                                    <div style={{ display: 'flex', width: '100%' }}>
+                                      <div style={{ width: "50%" }}>
+                                        <h5 style={{ fontWeight: 'bold' }}>
+                                          Employee ID
+                                        </h5>
+                                      </div>
+                                      <div style={{ width: "50%" }}>
+                                        <p>{d.empid}</p>
+                                      </div>
+                                    </div>
+                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
+                                      <div style={{ width: '50%' }}>
+                                        <h5 style={{ fontWeight: "bold" }}>
+                                          {" "}
+                                          Name
+                                        </h5>
+                                      </div>
+                                      <div style={{ width: '50%' }}>
+                                        <p>{d.name}</p>
+                                      </div>
+                                    </div>
+                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
+                                      <div style={{ width: '50%' }}>
+                                        <h5 style={{ fontWeight: "bold" }}>
+                                          {" "}
+                                          Email
+                                        </h5>
+                                      </div>
+                                      <div style={{ width: '50%' }}>
+                                        <p>{d.email}</p>
+                                      </div>
+                                    </div>
+                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
+                                      <div style={{ width: '50%' }}>
+                                        <h5 style={{ fontWeight: "bold" }}>
+                                          Designation
+                                        </h5>
+                                      </div>
+                                      <div style={{ width: '50%' }}>
+                                        <p>{d.designation}</p>
+                                      </div>
+                                    </div>
+                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
+                                      <div style={{ width: '50%' }}>
+                                        <h5 style={{ fontWeight: "bold", fontSize: 'auto' }}>
+                                          Department
+                                        </h5>
+                                      </div>
+                                      <div style={{ width: '50%' }}>
+                                        <p>{d.department}</p>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
+
+                              {/* </Col>
                               </Row> */}
                             </Container>
                           </Card.Body>
@@ -635,51 +663,51 @@ const LeaveRequest = () => {
         <section className="py-5">
           <div className="py-4">
             {
-              Info.length >0 ? <Container>
-              <Button
-                onClick={() => {
-                  handlePrint();
-                }}
-                
-              >
-                Generate Report
-              </Button>
-              {/* <LeaveReport leave={Info}/> */}
-            </Container> :""
+              Info.length > 0 ? <Container>
+                <Button
+                  onClick={() => {
+                    handlePrint();
+                  }}
+
+                >
+                  Generate Report
+                </Button>
+                {/* <LeaveReport leave={Info}/> */}
+              </Container> : ""
             }
           </div>
           <Container>
             {
-              Info.length>0? <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Srno</th>
-                  <th>Name</th>
-                  <th>Department</th>
-                  <th>Leave Type</th>
-                  <th>From</th>
-                  <th>To</th>
-                  <th>Reason</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* {console.log("leave data final", leaveData)} */}
+              Info.length > 0 ? <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Srno</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Leave Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* {console.log("leave data final", leaveData)} */}
 
-                { 
-                  Info.slice(Info.length - 6, Info.length).map((d, i) => {
-                  // console.log("infooooooooo#$$$", Info)
-                  return (
-                    <tr>
-                      <td>{i+1}</td>
-                      <td>{d.name}</td>
-                      <td>{d.department}</td>
-                      <td>{d.leaveType}</td>
-                      <td>{new Date(d.from).toDateString()}</td>
-                      <td>{new Date(d.to).toDateString()}</td>
-                      <td>{d.reason}</td>
-                      <td>
-                        {/* <p
+                  {
+                    Info.slice(Info.length - 6, Info.length).map((d, i) => {
+                      // console.log("infooooooooo#$$$", Info)
+                      return (
+                        <tr>
+                          <td>{i + 1}</td>
+                          <td>{d.name}</td>
+                          <td>{d.department}</td>
+                          <td>{d.leaveType}</td>
+                          <td>{new Date(d.from).toDateString()}</td>
+                          <td>{new Date(d.to).toDateString()}</td>
+                          <td>{d.reason}</td>
+                          <td>
+                            {/* <p
                           className={`${
                             d.status === "Reject" ? "tableCell1" : ""
                           }  ${
@@ -688,26 +716,26 @@ const LeaveRequest = () => {
                         >
                           {d.status}
                         </p> */}
-                        <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" :d.status === "Reject" ? "badge badge-danger":""} border-0`}>{d.status}</span>
-                      </td>
-                    </tr>
-                  );
-                }) 
-                }
-              </tbody>
-            </Table> :<div><h4 className="text-center">No leaves Data available</h4></div>
+                            <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  }
+                </tbody>
+              </Table> : <div><h4 className="text-center">No leaves Data available</h4></div>
             }
           </Container>
         </section>
         <NotificationContainer />
       </div>
       {/* //style={{display:"none"}} */}
-      <div className="pb-5 mb-5"  style={{display:"none"}}>
+      <div className="pb-5 mb-5" style={{ display: "none" }}>
         <div ref={componentRef} className=" content-wrapper">
-             <Report Info={Info}/>
+          <Report Info={Info} />
         </div>
-          
-        
+
+
 
       </div>
     </>

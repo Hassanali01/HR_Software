@@ -61,6 +61,7 @@ const MonthlyPayroll = () => {
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
+      console.log("approvedLeave.data.totaldays",approvedLeave.data.totaldays)
 
 
       const gaztedholidays = await axios.get(`/holiday/detail`)
@@ -108,23 +109,27 @@ const MonthlyPayroll = () => {
 
 
 
-
+console.log("yes..",approvedLeave.data.totaldays)
       for (let i in userAttendance) {
+
+
+
+
+
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-
-
           console.log("before slaps 1", j.employee)
-
-
           if ( j.employee.shift_id) {
-
-
           const shift =  j.employee.shift_id 
-
-
-
           const date = j.in
+
+            const shortleave= approvedLeave.data.totaldays.map((r)=>{
+              console.log("r.date",r.date)
+            })
+
+
+
+
           const splitdate = date.split(":")
           const sampleDateIn = new Date()
           sampleDateIn.setHours(splitdate[0])

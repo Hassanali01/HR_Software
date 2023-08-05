@@ -1,73 +1,86 @@
-const { Binary } = require("mongodb");
+const { Binary, Double } = require("mongodb");
 const mongoose = require("mongoose");
 
 const leaveRequestSchema = mongoose.Schema({
-    leaveType:{
-        type:String,
-        required:true,
+    leaveType: {
+        type: String,
+        required: true,
         ref: 'Leaves'
     },
-    from:{
-        type:Date,
-        require:true
+    Leave_Days: {
+        type: String,
     },
-    to:{
-       type:Date,
-       require:true
+    Short_leave: {
+        type: String,
     },
-    reason:{
-        type:String,
-        default:"N/A"
+    from: {
+        type: Date,
+        require: true
     },
-    leaveDuration:{
-        type:String,
-        require:true
-   
+    to: {
+        type: Date,
+        require: true
     },
-    fromTime:{
-        type:String
+    reason: {
+        type: String,
+        default: "N/A"
     },
-    toTime:{
-        type:String
+    leaveDuration: {
+        type: String,
+        require: true
 
     },
-    leaveNature:{
-        type:String,
-        require:true
+    fromTime: {
+        type: String
+    },
+    toTime: {
+        type: String
 
     },
-    status:{
+    leaveNature: {
         type: String,
-        enum:["Approved","Pending Approval","Reject"],
-        default:"Pending Approval"
-        
+        require: true
+
     },
-    supervisorApproval:{
+    Short_leave: {
         type: String,
-        enum:["Approved","Pending Approval","Reject"],
-        default:"Pending Approval"
-        
+        require: false
+
     },
-    employee:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Employees'
+    status: {
+        type: String,
+        enum: ["Approved", "Pending Approval", "Reject"],
+        default: "Pending Approval"
+
     },
-    applicationdate:{
-          type:Date,
-          default:Date.now
+    supervisorApproval: {
+        type: String,
+        enum: ["Approved", "Pending Approval", "Reject"],
+        default: "Pending Approval"
+
     },
-    backupresourse:{
-         type:mongoose.Schema.Types.ObjectId,
-         ref:'Employees',
-         require :false
+    employee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employees'
     },
-    attachment:{
-        type:mongoose.Schema.Types.Mixed
+    applicationdate: {
+        type: Date,
+        default: Date.now
+    },
+    backupresourse: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employees',
+        require: false,
+        set: a => a === '' ? undefined : a
+
+    },
+    attachment: {
+        type: mongoose.Schema.Types.Mixed
     }
 
- 
+
 
 })
 
-const LeaveRequest = mongoose.model('LeaveRequest',leaveRequestSchema);
+const LeaveRequest = mongoose.model('LeaveRequest', leaveRequestSchema);
 module.exports = LeaveRequest
