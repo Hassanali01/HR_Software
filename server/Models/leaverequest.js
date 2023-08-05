@@ -24,6 +24,18 @@ const leaveRequestSchema = mongoose.Schema({
         require:true
    
     },
+    fromTime:{
+        type:String
+    },
+    toTime:{
+        type:String
+
+    },
+    leaveNature:{
+        type:String,
+        require:true
+
+    },
     status:{
         type: String,
         enum:["Approved","Pending Approval","Reject"],

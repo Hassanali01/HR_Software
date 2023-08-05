@@ -1,3 +1,4 @@
+const { Decimal128 } = require('mongodb')
 const mongoose = require ('mongoose')
 
 const Schema = mongoose.Schema
@@ -12,11 +13,11 @@ const addShifts = new Schema({
         type:String,
     },
     start_time:{
-        type:String,
+        type:Date,
         require:true
     },
     end_time:{
-        type:String,
+        type:Date,
         require:true
 
     },
@@ -29,4 +30,5 @@ const addShifts = new Schema({
 },{timestamps:true})
 
 module.exports = mongoose.model("addShifts",addShifts)
+
  

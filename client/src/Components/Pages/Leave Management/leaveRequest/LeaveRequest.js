@@ -33,12 +33,15 @@ const LeaveRequest = () => {
   const { user } = useContext(Context);
   const [Info, setinfo] = useState([]);
   const[backupresourse,setbackupresourse]= useState("")
+  const [leaveNature,setLeaveNature] = useState("")
   console.log("user from Context", user);
   const [leaves, setLeaves] = useState([]);
   const url = "/leaves";
   const posturl = "/leaverequest/addrequest";
   const getLeave = "leaverequest/all";
   const [depemp,setdepemp] = useState([])
+  const [fromTime,setFromTime] = useState("")
+  const [toTime,setToTime] = useState("")
 
   const [userInfo, setUserinfo] = useState({});
   const [details, setDetails] = useState([]);
@@ -148,6 +151,9 @@ const LeaveRequest = () => {
     formData.append("file", attachedFile);
     formData.append("applicationdate",applicationdate);
     formData.append("backupresourse",backupresourse)
+    formData.append("fromTime",fromTime)
+    formData.append("toTime",toTime)
+    formData.append("leaveNature",leaveNature)
 
     try {
       console.log("formData12", formData);
@@ -294,7 +300,7 @@ const LeaveRequest = () => {
                                           setLeaveType(e.target.value);
                                         }}
                                       >
-        
+         <option disabled  selected hidden defaultValue={""}>Please Select</option>
                                         {leaves.map((d) => {
                                           return (
                                             <option
@@ -411,6 +417,48 @@ const LeaveRequest = () => {
                                         }}
                                       />
                                     </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>
+                                    <Form.Label>Time From</Form.Label>
+                                    <Form.Control
+                                    type="time"
+                                    value={fromTime}
+                                    onChange={(e)=>{
+                                      setFromTime(e.target.value)
+                                    }}
+                                    />
+                                    </Col>
+                                    <Col>
+                                    <Form.Label>Time To</Form.Label>
+                                    <Form.Control
+                                    type="time"
+                                    value={toTime}
+                                    onChange={(e)=>{
+                                      setToTime(e.target.value)
+
+                                    }}
+                                    />
+                                    </Col>
+                                    
+                                  </Row>
+                                  <Row>
+                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
+                                      <Form.Label>Leave Nature</Form.Label>
+                                      <Form.Select
+                                        // required   
+                                        value={leaveNature}                
+                                        onChange={(e)=>{setLeaveNature(e.target.value)}}
+                                      > 
+                                        <option disabled  selected hidden value="">Please Select</option>
+                                        <option value="L.W.P">L.W.P</option>
+                                        <option value="L.W.O.P">L.W.O.P</option>
+                                        <option value="C.P.L">C.P.L</option>
+                                        <option value="W.F.H">W.F.H</option>
+                                        
+                                      </Form.Select>
+                                    </Col>
+                                    
                                   </Row>
                                 </Form.Group>
 

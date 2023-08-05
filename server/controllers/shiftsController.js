@@ -4,7 +4,15 @@ const Shifts = require('../Models/shifts')
 
 //for create shifts
 const addShifts = async(req,res)=>{
+
+
+    console.log("req.body", req.body)
+
     const {shift_name,description,start_time,end_time,slaps}= req.body
+
+
+
+
     try{
         const shifts = await Shifts.create({shift_name,description,start_time,end_time,slaps})
         res.status(200).json(shifts)  
