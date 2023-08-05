@@ -159,6 +159,11 @@ const EmployeesSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
+
+    shift_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "addshifts",
+    },
     jobtitle: {
       type: String,
       default: "",
