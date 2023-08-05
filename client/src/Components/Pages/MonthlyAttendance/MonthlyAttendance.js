@@ -301,7 +301,7 @@ const MonthlyAttendance = () => {
                         Attendance Month: &nbsp;
                         <input className="mr-3" value={payrollMonth} disabled="true"></input>
                         
-                        <Button className="mr-3 showAttendance" onClick={showMonthAttendance}>dance</Button>
+                        <Button className="mr-3 showAttendance" onClick={showMonthAttendance}>Fetch</Button>
                        
                       </div>
 
