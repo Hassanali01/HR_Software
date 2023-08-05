@@ -114,8 +114,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
             datesArray.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
           }
-          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username) {
-            return { employee, leaveType, reason, Leavestatus, _id, date, status,username };
+          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Short_leave) {
+            return { employee, leaveType, reason, Leavestatus, _id, date, status,username ,Short_leave};
           }
           function createObjectsFromDates(datesArray) {
             const objectsArray = [];
@@ -125,10 +125,11 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const date = datesArray[j]
               const reason = i.reason
               const Leavestatus = i.status
+              const Short_leave = i.Short_leave
               const _id = i._id
               const status = "LWP"
               const username= i.employee[0].username
-              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username);
+              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Short_leave);
               totaldays.push(newObject)
               objectsArray.push(newObject);
             }
