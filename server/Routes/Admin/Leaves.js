@@ -184,6 +184,9 @@ router.post('/addrequest', async (req, res, next) => {
       employee: req.body.employee,
       backupresourse: req.body.backupresourse ,
       applicationdate: req.body.applicationdate,
+      fromTime:req.body.fromTime,
+      toTime:req.body.toTime,
+      leaveNature:req.body.leaveNature,
       attachment: file
     })
     console.log(reqLeave, "=====", Emp, "api hitting.............")

@@ -101,7 +101,10 @@ router.post('/addrequests', async (req, res, next) => {
             status: req.body.status,
             employee: req.body.employee,
             applicationdate: req.body.applicationdate,
-            backupresourse: req.body.backupresourse
+            backupresourse: req.body.backupresourse,
+            fromTime:req.body.fromTime,
+            toTime:req.body.toTime,
+            leaveNature:req.body.leaveNature
         })
         const leaverequest = await reqLeave.save()
         leaverequest && res.status(200).json({ message: "Leave Request", leaverequest });
