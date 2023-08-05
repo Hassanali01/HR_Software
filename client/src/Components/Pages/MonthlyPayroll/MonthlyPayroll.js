@@ -94,48 +94,7 @@ const MonthlyPayroll = () => {
       );
 
 
-      // adding Day-Of inside the user attendance
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        let dayof = daysOfMonth.filter((td) => td.day == "Sun");
-        dayof.forEach((al) => {
-          tempUserAttendance[key].forEach((te) => {
-            const locale = "en-US"
-            var date = new Date(te.date);
-            var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            if (day == "Sunday") {
-              te.status = "DO";
-            }
-          });
-        });
-      });
-
-      // Adding last saturday dayoff
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        let allSat = daysOfMonth.filter((st) => st.day == "Sat")
-        const lastSat = allSat[allSat.length - 1]
-        const [day, month, year] = lastSat.date.split('/');
-        const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-        const Finalsat = convertedDate.toISOString();
-        tempUserAttendance[key].forEach((te) => {
-          if (Finalsat == te.date) {
-            te.status = "DO";
-          }
-        })
-      })
-
-
-      //Adding gazted holidays in payroll
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        //  console.log("yes",gaztedholidays.data[0].date)
-        const a = gaztedholidays.data.map((i) => {
-          tempUserAttendance[key].forEach((te) => {
-            if (i.date == te.date) {
-              te.status = "GH";
-            }
-          })
-        })
-
-      })
+    
 
       setUserAttendance(tempUserAttendance)
       console.log("userattendence", userAttendance)
@@ -147,45 +106,33 @@ const MonthlyPayroll = () => {
 
       for (let i in userAttendance) {
         const a = userAttendance[i]
-
-
-
         const singleuser = a.map((j) => {
-       const slaps= j.employee.shift_id.slaps
-       const date = j.in
-       const splitdate= date.split(":")
-       const sampleDateIn=  new Date()
+          const slaps = j.employee.shift_id.slaps
+          const date = j.in
+          const splitdate = date.split(":")
+          const sampleDateIn = new Date()
 
-       sampleDateIn.setHours(splitdate[0])
-       sampleDateIn.setMinutes(splitdate[1])
-console.log('sampleDateIn',sampleDateIn)
-       slaps.forEach((s)=>{
-        const slapname = Object.keys(s)[0]
-        const splitSlap= slapname.split(":")
-        const sampleDateSlap = new Date()
-        sampleDateSlap.setHours(splitSlap[0])
-        sampleDateSlap.setMinutes(splitSlap[1])
-        console.log("sample slap date",sampleDateSlap)
-
-        if(sampleDateIn > sampleDateSlap){
-          console.log("checkin >= 9:30")
-
-          j.status= (1-s[slapname])
-       
-        }
-
-
-       })
+          sampleDateIn.setHours(splitdate[0])
+          sampleDateIn.setMinutes(splitdate[1])
+          console.log('sampleDateIn', sampleDateIn)
+          slaps.forEach((s) => {
+            const slapname = Object.keys(s)[0]
+            const splitSlap = slapname.split(":")
+            const sampleDateSlap = new Date()
+            sampleDateSlap.setHours(splitSlap[0])
+            sampleDateSlap.setMinutes(splitSlap[1])
+            console.log("sample slap date", sampleDateSlap)
+            if (sampleDateIn > sampleDateSlap) {
+              console.log("checkin >= 9:30")
+              j.status = (1 - s[slapname])
+            }
+          })
+          console.log("splitdate", splitdate)
+          console.log("slaps", slaps)
+          console.log("date", date)
 
 
 
-
-       console.log("splitdate",splitdate)
-       console.log("slaps",slaps)
-       console.log("date",date)
-
-
-            
 
 
 
@@ -201,14 +148,55 @@ console.log('sampleDateIn',sampleDateIn)
           //   // console.log("k",k._id)
           //   if (k._id == j.employee.shift_id) {
           //     if (j.in >= "09:00") {
-              
+
           //     }
           //   }
           // })
         })
       }
 
+ // adding Day-Of inside the user attendance
+ Object.entries(tempUserAttendance).forEach(([key, value]) => {
+  let dayof = daysOfMonth.filter((td) => td.day == "Sun");
+  dayof.forEach((al) => {
+    tempUserAttendance[key].forEach((te) => {
+      const locale = "en-US"
+      var date = new Date(te.date);
+      var day = date.toLocaleDateString(locale, { weekday: 'long' });
+      if (day == "Sunday") {
+        te.status = "DO";
+      }
+    });
+  });
+});
 
+// Adding last saturday dayoff
+Object.entries(tempUserAttendance).forEach(([key, value]) => {
+  let allSat = daysOfMonth.filter((st) => st.day == "Sat")
+  const lastSat = allSat[allSat.length - 1]
+  const [day, month, year] = lastSat.date.split('/');
+  const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+  const Finalsat = convertedDate.toISOString();
+  tempUserAttendance[key].forEach((te) => {
+    if (Finalsat == te.date) {
+      te.status = "DO";
+    }
+  })
+})
+
+
+//Adding gazted holidays in payroll
+Object.entries(tempUserAttendance).forEach(([key, value]) => {
+  //  console.log("yes",gaztedholidays.data[0].date)
+  const a = gaztedholidays.data.map((i) => {
+    tempUserAttendance[key].forEach((te) => {
+      if (i.date == te.date) {
+        te.status = "GH";
+      }
+    })
+  })
+
+})
 
 
 
@@ -275,6 +263,9 @@ console.log('sampleDateIn',sampleDateIn)
   }
 
   // Attendance of month
+
+
+  
 
   useEffect(() => {
     console.log("payroll.....useeffect");
