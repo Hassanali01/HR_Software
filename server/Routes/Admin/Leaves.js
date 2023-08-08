@@ -4,16 +4,11 @@ const router = express.Router();
 const Emp = require('../../Models/Employees');
 const Employees = require("../../Models/Employees");
 const mongodb = require('mongodb')
-
-
 const mongoClient = mongodb.MongoClient
 const binary = mongodb.Binary
-
 async function insertFile(file, res) {
   mongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, async (err, client) => {
     if (err) {
-
-      console.log("error in insertFile", err)
       return err
     }
     else {
@@ -21,7 +16,6 @@ async function insertFile(file, res) {
       let collection = db.collection('files')
       try {
         const erwin = await collection.insertOne(file)
-        console.log('File Inserted', erwin)
       }
       catch (err) {
         console.log('Error while inserting:', err)
@@ -29,15 +23,12 @@ async function insertFile(file, res) {
       client.close()
       // res.redirect('/')
     }
-
   })
 }
 
 
-
 //Aproved Api leaves for payroll from Asad
 router.get('/approved-leaves/:month', async (req, res) => {
-  // console.log(req.params.month,"query data.....")
   let demo = req.params.month
   let no = 0
   if (demo == "January") {
@@ -67,7 +58,6 @@ router.get('/approved-leaves/:month', async (req, res) => {
     no = 12;
   }
   try {
-    console.log("approved leaves api hitttt.............")
     const Leaves = await LeaveRequest.aggregate([
       [
         {
@@ -101,11 +91,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
     ])
 
 
-
     const totaldays = [];
     await Leaves.map((i) => {
-
-      // console.log(i.employee[0].username,"full employee")
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
           const datesArray = [];
@@ -141,14 +128,11 @@ router.get('/approved-leaves/:month', async (req, res) => {
           }
           const userDates = datesArray
           const dynamicObjectsArray = createObjectsFromDates(datesArray);
-          // console.log(dynamicObjectsArray, "all objects");
           return dynamicObjectsArray;
         }
-
         const fromDate = i.from;
         const toDate = i.to;
         const allDates = getAllDatesBetween(fromDate, toDate);
-        // console.log(allDates, "all dates...................");
         return allDates
       }
     })

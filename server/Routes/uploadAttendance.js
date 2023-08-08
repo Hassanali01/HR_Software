@@ -11,17 +11,9 @@ const Attendance = require('../Models/attendance')
 // const leave = require('../Models/leaverequest')
 
 
-
-
-
-
-
-
-
 router.get('/alluserattendance', async (req, res) => {
     try {
         const abc = await Attendance.find().populate("employee", "username")
-
         res.status(200).json(abc);
     } catch (error) {
         console.log(error)
@@ -29,14 +21,12 @@ router.get('/alluserattendance', async (req, res) => {
     }
 })
 
-router.get('/monthattendance/:month', async (req, res) => {
-    console.log("monthattendance api hit.............")
 
+
+router.get('/monthattendance/:month', async (req, res) => {
     try {
         // const abc = await Attendance.find({month:req.params.month}).populate("employee",{ username: 1,emp_id:1,departments:1})
         // const abc = await allEmployee.find({company_payroll : "Sagacious Systems"})
-
-
         const abc = await Attendance.find({ month: req.params.month }).populate([
             {
                 path: 'employee',
@@ -52,18 +42,11 @@ router.get('/monthattendance/:month', async (req, res) => {
                     model: 'addShifts'
                     // select: 'departmentname',
                 }
-            
-            
-            ]
-                
-                ,
+                ],
             },
         ])
-        res.status(200).json( abc );
-
-        console.log(abc, "abc------------------")
+        res.status(200).json(abc);
     } catch (error) {
-        console.log(error)
         res.status(500).json(error)
     }
 })
@@ -72,79 +55,38 @@ router.get('/monthattendance/:month', async (req, res) => {
 
 
 router.get('/AttendanceForDate', async (req, res) => {
-
-    // console.log("called")
-
-    // console.log("AttendanceForDate", req.query.date)
-
     try {
         // const abc = await Attendance.find({month:req.params.month}).populate("employee",{ username: 1,emp_id:1,departments:1})
-
-
         const abc = await Attendance.find({ date: req.query.date }).populate({ path: "employee", select: ['username', 'emp_id', 'departments'], populate: { path: "departments", model: "Departments", select: ["departmentname"] } })
-
-        // console.log("abc123", abc)
-
         res.status(200).json(abc);
     } catch (error) {
-        console.log(error)
         res.status(500).json(err)
     }
 })
-
 
 
 
 router.get('/currentUserAttendance', async (req, res) => {
-
-    // console.log("called")
-
-    // console.log("AttendanceForDate", req.query.date)
-    // console.log("AttendanceForemployee", req.query.employee)
-
-
-
     try {
         // const abc = await Attendance.find({month:req.params.month}).populate("employee",{ username: 1,emp_id:1,departments:1})
-
         const abc = await Attendance.find({ date: req.query.date, employee: req.query.employee })
-
-        // console.log("abc123", abc)
-
         res.status(200).json(abc);
     }
     catch (error) {
-        console.log(error)
         res.status(500).json(err)
     }
 })
 
+
 router.post('/postimport/attendance', async (req, res) => {
-
     try {
-
-        console.log("api hitt attendence........................", req.body)
         const Data = req.body
         const attendance = await Attendance.insertMany(Data, { ordered: false });
-
-
-
-
-
-
-        
         res.status(200).json(attendance, Data, { ordered: false });
-
-
-
     } catch (err) {
-        console.log(err)
         res.status(500).json(err);
     }
-
-
 })
-
 
 router.get('/xls//attendance', async (req, res) => {
     try {
@@ -171,11 +113,10 @@ router.get('/xls//attendance', async (req, res) => {
         //Asad code
 
     } catch (error) {
-        console.log(error)
         res.send(error)
     }
-
 })
+
 
 router.delete('/attendance/all', async (req, res, next) => {
     try {
@@ -188,11 +129,8 @@ router.delete('/attendance/all', async (req, res, next) => {
 
 
 
-
 router.post('/userattendance', async (req, res, next) => {
-
     try {
-
         const userattendance = new Attendance({
             employee: req.body.employee,
             month: req.body.month,
@@ -202,42 +140,29 @@ router.post('/userattendance', async (req, res, next) => {
             out: req.body.out,
             status: req.body.status
         })
-        console.log(userattendance, "......................................................................")
         const attendance = await userattendance.save();
-        // console.log(attendance, "mydata....")
         attendance && res.status(200).json({ message: 'Successfully posted ', attendance })
     } catch (err) {
-        console.log(err)
         next(err)
     }
-
 })
 
 
 
 router.put('/updateuserattendance/:id', async (req, res, next) => {
-    // console.log("called")
-    // console.log("userattendance", req.body)
-
     try {
-
         const userattendance = await Attendance.findOneAndUpdate({ employee: req.params.id, date: req.body.date }, { $set: req.body }, { upsert: true, new: true, setDefaultsOnInsert: true });
         //   const userattendance = await userAttendance.findOneAndUpdate({'name':user.firstname,'date':req.body.date},{
         //     $set:req.body
         //   })
         //   const userattendance = await userAttendance.findAndUpdate({
         //   $set:{ out:req.body.out }
-
-        // },{new:true})
-
+        // },{new:true}
         // console.log("userattendance", userattendance)
         await userattendance && res.status(200).json({ message: 'Successfully updated ', userattendance })
     } catch (error) {
-        console.log(error)
         next(error)
     }
-
 })
-
 
 module.exports = router
