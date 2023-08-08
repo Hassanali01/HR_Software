@@ -44,12 +44,7 @@ const leaveRequestSchema = mongoose.Schema({
 
     },
 
-    Short_leave:{
-        type:String,
-        require:true
-
-    },
-
+  
     
     status: {
         type: String,
@@ -80,6 +75,9 @@ const leaveRequestSchema = mongoose.Schema({
     },
     attachment: {
         type: mongoose.Schema.Types.Mixed
+    },
+    leaveNature:{
+        type: String
     }
 
 

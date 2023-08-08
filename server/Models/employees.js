@@ -127,7 +127,7 @@ const EmployeesSchema = new mongoose.Schema(
           default: "",
         },
         joiningdate: {
-          type: String,
+          type: Date,
           default: "N/A",
         },
         resignationdate: {

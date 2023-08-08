@@ -14,11 +14,11 @@ const addShifts = new Schema({
     },
     start_time:{
         type:Date,
-        require:true
+        // require:true
     },
     end_time:{
         type:Date,
-        require:true
+        // require:true
 
     },
     slaps:{

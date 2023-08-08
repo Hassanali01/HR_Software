@@ -70,32 +70,33 @@ router.get('/approved-leaves/:month', async (req, res) => {
     console.log("approved leaves api hitttt.............")
     const Leaves = await LeaveRequest.aggregate([
       [
-       {
-        '$set': {
-          'month': [
-            {
-              '$month': '$from'
-            }, {
-              '$month': '$to'
-            }
-          ]
-        }
-      }, {
-        '$match': {
-          'month': {
-            '$in': [
-              no
+        {
+          '$set': {
+            'month': [
+              {
+                '$month': '$from'
+              }, {
+                '$month': '$to'
+              }
             ]
           }
+        }, {
+          '$match': {
+            'month': {
+              '$in': [
+                no
+              ]
+            }
+          }
+        },
+        {
+          '$lookup': {
+            'from': 'employees',
+            'localField': 'employee',
+            'foreignField': '_id',
+            'as': 'employee'
+          }
         }
-      },
-      {
-        '$lookup': {
-          'from': 'employees', 
-          'localField': 'employee', 
-          'foreignField': '_id', 
-          'as': 'employee'
-        }}
       ]
     ])
 
@@ -103,7 +104,7 @@ router.get('/approved-leaves/:month', async (req, res) => {
 
     const totaldays = [];
     await Leaves.map((i) => {
- 
+
       // console.log(i.employee[0].username,"full employee")
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
@@ -114,8 +115,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
             datesArray.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
           }
-          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Short_leave) {
-            return { employee, leaveType, reason, Leavestatus, _id, date, status,username ,Short_leave};
+          function createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave, leaveNature) {
+            return { employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave, leaveNature };
           }
           function createObjectsFromDates(datesArray) {
             const objectsArray = [];
@@ -129,12 +130,13 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const _id = i._id
               const status = "LWP"
               const Leave_Days = i.Leave_Days
-              const username= i.employee[0].username
-              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status,username,Short_leave);
+              const username = i.employee[0].username
+              const leaveNature = i.leaveNature
+              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave,leaveNature);
               totaldays.push(newObject)
               objectsArray.push(newObject);
             }
-            console.log(totaldays[0].employee,"totaldays")
+            console.log(totaldays[0].employee, "totaldays")
             return objectsArray;
           }
           const userDates = datesArray
@@ -142,7 +144,7 @@ router.get('/approved-leaves/:month', async (req, res) => {
           // console.log(dynamicObjectsArray, "all objects");
           return dynamicObjectsArray;
         }
-       
+
         const fromDate = i.from;
         const toDate = i.to;
         const allDates = getAllDatesBetween(fromDate, toDate);
@@ -179,17 +181,17 @@ router.post('/addrequest', async (req, res, next) => {
 
     const reqLeave = new LeaveRequest({
       leaveType: req.body.leaveType,
-      Short_leave:req.body.Short_leave,
+      Short_leave: req.body.Short_leave,
       from: req.body.from,
       to: req.body.to,
       reason: req.body.reason,
       status: req.body.status,
       employee: req.body.employee,
-      backupresourse: req.body.backupresourse ,
+      backupresourse: req.body.backupresourse,
       applicationdate: req.body.applicationdate,
-      fromTime:req.body.fromTime,
-      toTime:req.body.toTime,
-      leaveNature:req.body.leaveNature,
+      fromTime: req.body.fromTime,
+      toTime: req.body.toTime,
+      leaveNature: req.body.leaveNature,
       attachment: file,
       Leave_Days: req.body.Leave_Days
     })

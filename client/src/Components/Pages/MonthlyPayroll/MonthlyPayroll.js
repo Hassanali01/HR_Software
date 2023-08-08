@@ -1,7 +1,8 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
 import moment from "moment";
-import { useEffect } from 'react';
+import { Context } from '../../../Context/Context';
+import { useEffect, useContext } from 'react';
 import Dashboard from '../../Dashboard/Dashboard'
 import axios from "axios"
 import jsPDF from "jspdf";
@@ -13,9 +14,10 @@ import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import 'react-calendar/dist/Calendar.css';
-// import './MonthlyPayroll.css'
+import './MonthlyPayroll.css'
 
 const MonthlyPayroll = () => {
+  const context = useContext(Context);
   let componentRef = useRef();
   const [payrollMonth, setPayrollMonth] = useState("")
   const [monthNo, setMonthNo] = useState(0);
@@ -34,10 +36,9 @@ const MonthlyPayroll = () => {
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [update, setUpdate] = useState(false)
   function onChangeCalendar(e) {
-    // console.log("change calendar",e)
+
 
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
-    // console.log("the value of change calander", e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
   }
@@ -49,18 +50,40 @@ const MonthlyPayroll = () => {
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
       attendanceTemp.map((at) => {
-        //agr sari company ka payroll chahiya to if ko comment kr kr nichy wali statement ko uncommnt kr dy
+        //filter for  "Sagacious Systems"
         // if (at.employee.company_payroll == "Sagacious Systems") {
         //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         // }
-        //is statement ko remove nai krna ya total employess ki payroll ko generate karta hain...
-        tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+
+        // filter for  "Sagacious Marketing"
+        if (at.employee.company_payroll == "Sagacious Marketing") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
+
+        //filter for  "Jalvi Developers"
+        // if (at.employee.company_payroll == "Jalvi Developers") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
+
+        //filter for  "Sagacious (Pvt.) Ltd"
+        // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
+
+
+        //filter for  "Sagacious Construction"
+        // if (at.employee.company_payroll == "Sagacious Construction") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }        
+
+
+        //filter for all
+        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
 
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
-      console.log("approvedLeave.data.totaldays",approvedLeave.data.totaldays)
 
 
       const gaztedholidays = await axios.get(`/holiday/detail`)
@@ -84,7 +107,7 @@ const MonthlyPayroll = () => {
       // adding leaves inside the user attendance
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
-          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True")
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.P")
           appliedLeaves.forEach((al) => {
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWP"
           })
@@ -92,67 +115,54 @@ const MonthlyPayroll = () => {
       );
 
 
+
+      // adding LWOP inside the user attendance
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
+          appliedLeaves.forEach((al) => {
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
+          })
+        }
+      );
       setUserAttendance(tempUserAttendance)
 
       //Adding 1 in P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-          tempUserAttendance[key].forEach((te) => {
-            if (te.status == "P") {
-              te.status = 1;
-            }
-          })
+        tempUserAttendance[key].forEach((te) => {
+          if (te.status == "P") {
+            te.status = 1;
+          }
+        })
       })
 
 
-
-console.log("yes..",approvedLeave.data.totaldays)
+      //Adding shift slaps in payroll
       for (let i in userAttendance) {
-
-
-
-
-
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-
-          if ( j.employee.shift_id) {
-
-          const shift =  j.employee.shift_id 
-
-          const date = j.in
-
-            const shortleave= approvedLeave.data.totaldays.map((r)=>{
-              console.log("r.date",r.date)
+          if (j.employee.shift_id) {
+            const shift = j.employee.shift_id
+            const date = j.in
+            const shortleave = approvedLeave.data.totaldays.map((r) => {
             })
-
-
-
-
-          const splitdate = date.split(":")
-          const sampleDateIn = new Date()
-          sampleDateIn.setHours(splitdate[0])
-          sampleDateIn.setMinutes(splitdate[1])
-           shift.slaps.forEach((s) => {
-
-            const slapname = Object.keys(s)[0]
-            const splitSlap = slapname.split(":")
-            const sampleDateSlap = new Date()
-            sampleDateSlap.setHours(splitSlap[0])
-            sampleDateSlap.setMinutes(splitSlap[1])
-
-            if (sampleDateIn > sampleDateSlap) {
-              j.status = (1 - s[slapname])
-            }
-          })
-   
-        
-        }
-
-
+            const splitdate = date.split(":")
+            const sampleDateIn = new Date()
+            sampleDateIn.setHours(splitdate[0])
+            sampleDateIn.setMinutes(splitdate[1])
+            shift.slaps.forEach((s) => {
+              const slapname = Object.keys(s)[0]
+              const splitSlap = slapname.split(":")
+              const sampleDateSlap = new Date()
+              sampleDateSlap.setHours(splitSlap[0])
+              sampleDateSlap.setMinutes(splitSlap[1])
+              if (sampleDateIn > sampleDateSlap) {
+                j.status = (1 - s[slapname])
+              }
+            })
+          }
         })
       }
-
-
 
 
 
@@ -162,17 +172,23 @@ console.log("yes..",approvedLeave.data.totaldays)
         ([key, value]) => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
           appliedLeaves.forEach((al) => {
-
-
-            console.log("short leaves", al)
-
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP" 
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
           })
         }
       );
 
+      //Adding work for home in payroll
+      // Object.entries(tempUserAttendance).forEach(
+      //   ([key, value]) => {
+      //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
+      //     appliedLeaves.forEach((al) => {
+      //       if(al.leaveNature=="W.F.H"){
+      //         tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += "HW"
+      //       }
 
-
+      //     })
+      //   }
+      // );
 
 
 
@@ -187,7 +203,7 @@ console.log("yes..",approvedLeave.data.totaldays)
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
             if (day == "Sunday") {
-              te.status = "DO";
+              te.status = "D.O";
             }
           });
         });
@@ -202,7 +218,7 @@ console.log("yes..",approvedLeave.data.totaldays)
         const Finalsat = convertedDate.toISOString();
         tempUserAttendance[key].forEach((te) => {
           if (Finalsat == te.date) {
-            te.status = "DO";
+            te.status = "D.O";
           }
         })
       })
@@ -210,11 +226,10 @@ console.log("yes..",approvedLeave.data.totaldays)
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        //  console.log("yes",gaztedholidays.data[0].date)
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
             if (i.date == te.date) {
-              te.status = "GH";
+              te.status = "G.H";
             }
           })
         })
@@ -222,16 +237,107 @@ console.log("yes..",approvedLeave.data.totaldays)
 
 
 
+      //Employee joining date modification in payroll
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+
+
+
+        tempUserAttendance[key].forEach((te) => {
+          const dateToCompare = new Date(te.date)
+          if (dateToCompare.setDate(dateToCompare.getDate() + 1) < (new Date(value[0].employee.joiningdate))) {
+
+
+
+
+
+            te.status = "";
+          }
+        })
+      })
+
+
+      //Employees who resigned/left modification in payroll
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+
+
+        tempUserAttendance["fiza"] && tempUserAttendance["fiza"].forEach((te) => {
+
+          if (new Date(te.date) > (new Date("July 16, 2023 00:00:00"))) {
+
+
+
+
+
+            te.status = "";
+          }
+        })
+      })
+
+
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+
+
+        tempUserAttendance["moshin"] && tempUserAttendance["moshin"].forEach((te) => {
+
+          if (new Date(te.date) > (new Date("July 8, 2023 00:00:00"))) {
+
+
+
+
+
+            te.status = "";
+          }
+        })
+      })
+
+
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+
+
+        tempUserAttendance["anum"] && tempUserAttendance["anum"].forEach((te) => {
+
+          if (new Date(te.date) > (new Date("July 4, 2023 00:00:00"))) {
+
+
+
+
+
+            te.status = "";
+          }
+        })
+      })
+
+
+
+
+
+
+
+
+
 
       setUpdate(!update)
     } catch (error) {
+
+
+      console.log("error", error)
+
       NotificationManager.error("Please select  the month of Payroll")
-      // console.log(error)
     }
   }
 
   function printPDF() {
-    var printDoc = new jsPDF('p', 'mm', [1000, 1000]);
+
+
+    // var printDoc = new jsPDF('p', 'mm', [1000, 1000]);
+
+    var printDoc = new jsPDF('landscape');
+
+
     var content = document.getElementById("payrollTable");
     printDoc.autoTable({
       html: '#payrollTable',
@@ -276,7 +382,7 @@ console.log("yes..",approvedLeave.data.totaldays)
   }
 
 
-
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
 
 
@@ -290,10 +396,17 @@ console.log("yes..",approvedLeave.data.totaldays)
 
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000); // Update every 1 second
 
-
+    return () => clearInterval(intervalId); // Clean up interval on component unmount
   }, []);
 
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+  const formattedDateTime = currentDateTime.toLocaleDateString(undefined, options);
+
+  let rowNumber = 0;
   return (
     <>
       <div className="content-wrapper">
@@ -351,45 +464,58 @@ console.log("yes..",approvedLeave.data.totaldays)
               <table
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
-                  <th rowspan="2" style={{ border: "1px solid black" }}>Employee ID</th>
+                  <th rowspan="2" style={{ border: "1px solid black" }}>Sr</th>
+                  {/* <th rowspan="2" style={{ border: "1px solid black" }}>Employee ID</th> */}
                   <th rowspan="2" style={{ border: "1px solid black" }}>Name</th>
-                  <th rowspan="2" style={{ border: "1px solid black" }}>Department</th>
-                  {daysOfMonth.map((dm) => <th style={{ border: "1px solid black" }}>{dm.date.split("/")[0]}</th>)}
-                  <th style={{ border: "1px solid black", width: "20px" }}></th>
-                  <th colSpan="8" style={{ border: "1px solid black", textAlign: "center" }}>Total Pay Days</th>
-                  <th rowspan="2" style={{ border: "1px solid black" }}>Extra Days</th>
-                  <th colSpan="4" style={{ border: "1px solid black", textAlign: "center" }}>Deductions</th>
+                  <th rowspan="2" style={{ border: "1px solid black" }}>Designation</th>
+                  {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.date.split("/")[0]}</th>)}
+                  {/* <th style={{ border: "1px solid black", width: "20px" }}></th> */}
+                  <th colSpan="6" style={{ border: "1px solid black", textAlign: "center" }}>Total Pay Days</th>
+                  {/* <th rowspan="2" style={{ border: "1px solid black" }}>Extra Days</th> */}
+                  <th colSpan="3" style={{ border: "1px solid black", textAlign: "center" }}>Deductions</th>
+
+
+                  <th rowspan="2" colSpan="1" style={{ border: "1px solid black" }}>M.D</th>
+
+                  <th rowspan="2" colSpan="1" style={{ border: "1px solid black", width: "10px" }}>Net Pay Days</th>
+
                 </tr>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
-                  {daysOfMonth.map((dm) => <th style={{ border: "1px solid black" }}>{dm.day}</th>)}
-                  <td style={{ border: "1px solid black", width: "20px" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.day}</th>)}
+                  {/* <td style={{ border: "1px solid black", width: "20px" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> */}
                   <th style={{ border: "1px solid black" }}>W.D</th>
-                  <th style={{ border: "1px solid black" }}>H.W</th>
+                  {/* <th style={{ border: "1px solid black" }}>H.W</th> */}
                   <th style={{ border: "1px solid black" }}>L.W.P</th>
                   <th style={{ border: "1px solid black" }}>S.L</th>
                   <th style={{ border: "1px solid black" }}>CPL</th>
                   <th style={{ border: "1px solid black" }}>G.H</th>
                   <th style={{ border: "1px solid black" }}>D.O</th>
-                  <th style={{ border: "1px solid black" }}>Class</th>
-                  <th style={{ border: "1px solid black" }}>T.Days</th>
+                  {/* <th style={{ border: "1px solid black" }}>Class</th> */}
+                  {/* <th style={{ border: "1px solid black" }}>T.Days</th> */}
                   <th style={{ border: "1px solid black" }}>LWOP</th>
                   <th style={{ border: "1px solid black" }}>Absent</th>
                   <th style={{ border: "1px solid black" }}>Late</th>
-                  <th style={{ border: "1px solid black" }}>Total</th>
+                  {/* <th style={{ border: "1px solid black" }}>Total</th> */}
                 </tr>
                 {Object.entries(userAttendance).map(
                   ([key, value]) =>
+
+
+
                     <tr>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.emp_id}</td>
-                      <td style={{ border: "1px solid black", textAlign: "left" }}>{key}</td>
-                      <td style={{ border: "1px solid black", textAlign: "left" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.departments[0] && userAttendance[`${key}`][0].employee.departments[0].departmentname}</td>
-                      {
+
+                      <td style={{ border: "1px solid black", textAlign: "left" }}>{++rowNumber}</td>
+                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.emp_id}</td> */}
+                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].Name}</td>
+                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.designation}</td>
+                      {/* <td style={{ border: "1px solid black", textAlign: "left" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.departments[0] && userAttendance[`${key}`][0].employee.departments[0].departmentname}</td> */}
+                      {/* {
                         (userAttendance[`${key}`].length > 0) ?
                           <>
                           </>
                           :
                           <></>
-                      }
+                      } */}
                       {
 
                         daysOfMonth.map((dm) => {
@@ -400,36 +526,90 @@ console.log("yes..",approvedLeave.data.totaldays)
                         })
 
                       }
-                      <td></td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => {return (total + num.status)},0)}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) =>typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP" ).length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'GH').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'DO').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'test').length}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
+                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td> */}
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : ""}</td>
+                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'test').length}</td> */}
                       {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 'P' || tu.status == 'HW' || tu.status == 'LWP' || tu.status == 'CPL' || tu.status == 'GH' || tu.status == 'DO').length}</td>
                        */}
-                          <td style={{ border: "1px solid black" }}>{
-                          parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => {return (total + num.status)},0))+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length)+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length)+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length)+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'GH').length)+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'DO').length)+
-                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'test').length)
-}
-                          </td>
 
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'extraDay').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP' || tu.status == 'A' || tu.status == 'Late').length}</td>
+
+                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'extraDay').length}</td> */}
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length : ""}</td>
+
+                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP' || tu.status == 'A' || tu.status == 'Late').length}</td> */}
+                      <td style={{ border: "1px solid black", fontWeight: "bold" }}>{
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                      }
+                      </td>
+
+
                     </tr>)
                 }
+                <tr> <th colSpan="44" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
+
+
+
+                  {/* Sum of net pay days */}
+
+                  {
+                    Object.keys(userAttendance).reduce(function (previous, key) {
+                      return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
+                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                      )
+
+                    }, 0)
+
+
+                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </th></tr>
+                <tr> <th colSpan="40" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
+                  <h6>Verified By: ____________</h6>
+                  <h6>Approved By: ___________</h6>
+                </div>
+                  <div style={{ marginTop: "3rem" }}>
+                    <p>* It's a computer generated report and does not require any signature.</p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
+                    <h6>Printed by: {context.user.firstname}</h6>
+                    <h6>Date/Time: {formattedDateTime}</h6>
+                    <h6>Print no: _________</h6>
+                  </div>
+                </th>  </tr>
+
               </table>
+
             </div>
           </div>
         </section>
