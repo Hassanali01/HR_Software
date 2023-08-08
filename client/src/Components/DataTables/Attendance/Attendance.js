@@ -318,8 +318,15 @@ const Attendance = () => {
 
 
 
+
         i.in = formattedInTime;
         i.out = formattedOutTime;
+
+
+
+        console.log("i in iout", i.in, i.out)
+
+
 
         tempAttendance.push({
           username: empData.username,

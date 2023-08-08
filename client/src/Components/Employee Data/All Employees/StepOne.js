@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { Form, Card, Button } from "react-bootstrap";
 import {
   Modal,
@@ -14,6 +14,7 @@ import { PatternFormat } from "react-number-format";
 import pp from "./avatar.png";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
+import axios from "axios";
 // creating functional component ans getting props from app.js and destucturing them
 const StepOne = ({ nextStep, handleFormData, values }) => {
   const [emp, setEmp] = useState({
@@ -30,6 +31,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
   //creating error state for validation
   const [error, setError] = useState(false);
   const [file, setfile] = useState();
+  const [company, setCompany] = useState();
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
@@ -92,6 +94,32 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
     // avatar.src = base64;
     // textArea.innerText = base64;
   }
+
+
+
+  const getdata = async () => {
+    try {
+      const companies = await axios.get(`/allCompany`)
+      const cs = companies.data
+      setCompany(cs)
+      console.log("company", cs)
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+
+  useEffect(() => {
+    console.log("hi im useeffect...")
+
+    getdata()
+
+  }, [])
+
+
   return (
     <>
       {/* <div className="col">
@@ -365,15 +393,39 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                 <Col xl="6" lg="6" md="6">
                   <Form.Label>Payroll Company</Form.Label>
                   <Form.Control
-                      required
-                      // style={{ border: error ? "2px solid red" : "" }}
-                      name="company_payroll"
-                      // defaultValue={emp.lastname}
-                      value={values.company_payroll}
-                      type="text"
-                      placeholder="company_payroll"
-                      onChange={handleFormData("company_payroll")}
-                    />
+                    required
+                    // style={{ border: error ? "2px solid red" : "" }}
+                    name="company_payroll"
+                    // defaultValue={emp.lastname}
+                    defaultValue={values.company_payroll}
+                    type="text"
+                    placeholder="company_payroll"
+                    onChange={handleFormData("company_payroll")}
+                  />
+
+                  {/* 
+                  <Form.Select
+                    required
+                    onChange={(e) => {
+                      setCompany(e.target.value);
+                    }}
+                  >
+                    <option disabled selected hidden defaultValue={""}>Please Select</option>
+                    {company.map((d) => {
+                      return (
+                        <option
+                          key={d._id}
+                          value={d.title}
+                          name={d.title}
+                        >
+                          {d.title}
+                        </option>
+                      );
+                    })}
+                  </Form.Select> */}
+
+
+
                   {/* <Form.Group
                     as={Col}
                     controlId="formGridFirstName"

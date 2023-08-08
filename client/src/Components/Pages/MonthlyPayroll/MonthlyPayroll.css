@@ -98,7 +98,7 @@
 
 
 #payrollTable{
-    font-size: 10px;
-    -webkit-transform: rotateX(45deg);
-            transform: rotateX(45deg);
+    font-size: 14px;
+    /* -webkit-transform: rotateX(45deg); */
+            /* transform: rotateX(45deg); */
 }

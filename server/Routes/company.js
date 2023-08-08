@@ -2,18 +2,36 @@ const express = require('express')
 const router = express.Router();
 const Company = require("../Models/Company/Company")
 const createError = require('../Utils/CreateError')
+const { default: mongoose } = require('mongoose')
 
 router.post("/company",async(req,res,next)=>{
-    try{ 
-         const company = new Company({
-            title:req.body.title,
-            status:req.body.status
-         }) 
-          company && res.status(200).json({message:"Success",company})
+
+    const {title,status,NTN_number,description,address}= req.body
+
+    try{
+        const company = await Company.create({title,status,NTN_number,description,address})
+        res.status(200).json(company)  
+
     }catch(error){
-           next(error)
+        res.status(400).json({error:error.message})
+
+    }
+
+})
+
+router.get('/allCompany' , async(req,res)=>{
+    console.log("comapny api hittt")
+    try{
+        const company = await Company.find()
+        res.status(200).json(company)
+        console.log("yes")
+
+    }catch(error){
+        res.status(400).json({error:error.message})
+        console.log("no...")
     }
 })
+
 router.put('/company/:id',async(req,res,next)=>{
     try{
             const findcompany = await Company.findById(req.params.id)

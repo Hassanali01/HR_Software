@@ -62,7 +62,7 @@ const MonthlyPayroll = () => {
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
@@ -74,7 +74,13 @@ const MonthlyPayroll = () => {
         //filter for  "Sagacious Construction"
         // if (at.employee.company_payroll == "Sagacious Construction") {
         //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }        
+        // }     
+
+
+        //filter for  "Sagacious Construction Pvt. Ltd."
+        // if (at.employee.company_payroll == "Sagacious Construction Pvt. Ltd.") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }  
 
 
         //filter for all
@@ -135,13 +141,13 @@ const MonthlyPayroll = () => {
 
 
 
-      
+
       //Employees who resigned/left modification in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["Ahsan"] && tempUserAttendance["Ahsan"].forEach((te) => {
-        
-            te.status = 1;
-         
+
+          te.status = 1;
+
         })
       })
 
@@ -271,7 +277,13 @@ const MonthlyPayroll = () => {
 
 
 
-
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance["adeel"] && tempUserAttendance["adeel"].forEach((te) => {
+          if (te.status != 1) {
+            te.status = " ";
+          }
+        })
+      })
 
 
 
@@ -455,9 +467,20 @@ const MonthlyPayroll = () => {
                       } */}
                       {
                         daysOfMonth.map((dm) => {
+                          const attendanceEntry = userAttendance[`${key}`].find((tu) => parseInt(dm.date.split("/")[0]) === parseInt(tu.date.split("-")[2].split("T")[0]));
+
+                          let fontWeight = "normal";
+                          if (attendanceEntry) {
+                            if (attendanceEntry.status === "D.O" || attendanceEntry.status === "G.H") {
+                              fontWeight = "bolder";
+                            }
+                          }
+
                           return (
-                            <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => parseInt(dm.date.split("/")[0]) == parseInt(tu.date.split("-")[2].split("T")[0]))[0] && userAttendance[`${key}`].filter((tu) => parseInt(dm.date.split("/")[0]) == parseInt(tu.date.split("-")[2].split("T")[0]))[0].status}</td>
-                          )
+                            <td style={{ border: "1px solid black", fontWeight: fontWeight }}>
+                              {attendanceEntry ? attendanceEntry.status : ""}
+                            </td>
+                          );
                         })
                       }
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
@@ -503,7 +526,7 @@ const MonthlyPayroll = () => {
                     }, 0)
                   }
                 </th></tr>
-                <tr> <th colSpan="40" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
+                <tr> <th colSpan="45" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
                   <h6>Verified By: ____________</h6>
                   <h6>Approved By: ___________</h6>
                 </div>

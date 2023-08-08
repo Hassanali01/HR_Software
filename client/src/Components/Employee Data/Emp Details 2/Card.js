@@ -1013,7 +1013,7 @@ const Cards = ({ data }) => {
                   </div>
                   <div>
                     <Accordion.Body>
-                      <div style={{ marginLeft: "55.5vw", marginRight: 10 }}>
+                      <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
                         <a
                           className="btn buttoncolor  "
                           onClick={() => {
@@ -1086,7 +1086,7 @@ const Cards = ({ data }) => {
                   </div>
                   <div className="table">
                     <Accordion.Body>
-                      <div style={{ marginLeft: "57vw", marginRight: 10 }}>
+                      <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
                         <a
                           className="btn buttoncolor "
                           onClick={() => {
@@ -1407,7 +1407,7 @@ const Cards = ({ data }) => {
                 </Accordion.Header>
                 <Row>
                   <Accordion.Body>
-                    <div style={{ marginLeft: "50.5vw", marginRight: 10 }}>
+                    <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
                       <a
                         className="btn buttoncolor  "
                         onClick={() => {
