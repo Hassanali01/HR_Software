@@ -28,35 +28,26 @@ const leaveRequestSchema = mongoose.Schema({
     leaveDuration: {
         type: String,
         require: true
-
     },
     fromTime: {
         type: String
     },
     toTime: {
         type: String
-
     },
-
     Short_leave:{
         type:String,
         require:true
-
     },
-
-  
-    
     status: {
         type: String,
         enum:["Approved","Pending Approval","Reject"],
-        default:"Pending Approval"
-        
+        default:"Pending Approval" 
     },
     supervisorApproval: {
         type: String,
         enum: ["Approved", "Pending Approval", "Reject"],
         default: "Pending Approval"
-
     },
     employee: {
         type: mongoose.Schema.Types.ObjectId,
@@ -71,7 +62,6 @@ const leaveRequestSchema = mongoose.Schema({
         ref: 'Employees',
         require: false,
         set: a => a === '' ? undefined : a
-
     },
     attachment: {
         type: mongoose.Schema.Types.Mixed
@@ -79,9 +69,6 @@ const leaveRequestSchema = mongoose.Schema({
     leaveNature:{
         type: String
     }
-
-
-
 })
 
 const LeaveRequest = mongoose.model('LeaveRequest', leaveRequestSchema);

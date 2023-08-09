@@ -41,7 +41,6 @@ const AllEmployees = () => {
   const url1 = "/auth/register";
   const [dep, setDep] = useState([]);
   const [datas, setData] = useState();
-  // const [modalShow, setModalShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const Closechildmodal = () => setShowChildModel(false);
   const Closechildmodal1 = () => setShowChildModel1(false);
@@ -121,14 +120,13 @@ const AllEmployees = () => {
   const removeitem = (i) => {
     const temp = education;
     temp.splice(i, 1);
-    console.log("splice", temp);
     seteducation(temp);
     setTestUpdate(!testUpdate);
   };
   const removemployement = (i) => {
     const temp = employement;
     employement.splice(i, 1);
-    console.log("splice", temp);
+
     setemployement(temp);
     setTestUpdate(!testUpdate);
   };
@@ -142,14 +140,14 @@ const AllEmployees = () => {
       duration: empdetails.duration,
       jobdescription: empdetails.jobdescription,
     });
-    console.log("emplllllllll", empl);
+
     setemployement(empl);
     setEmp({ ...emp, employementhistory: empl });
   };
 
   let name, value;
   const handleinput = (e) => {
-    console.log(e);
+
     name = e.target.name;
     value = e.target.value;
     setEmp({ ...emp, [name]: value });
@@ -157,7 +155,6 @@ const AllEmployees = () => {
 
   const handleeducationdetails = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
 
@@ -168,10 +165,8 @@ const AllEmployees = () => {
   };
 
   //handle user input form data
-
   const handleempinput = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
 
@@ -196,11 +191,9 @@ const AllEmployees = () => {
 
   const handleempinputJoiningDate = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
 
-    console.log("change", empdetails);
 
     var a = moment(empdetails.resignationdate);
     var b = moment(e.target.value);
@@ -213,7 +206,6 @@ const AllEmployees = () => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
 
     await setempdetails({
       ...empdetails,
@@ -239,7 +231,6 @@ const AllEmployees = () => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
 
     await setempdetails({
       ...empdetails,
@@ -255,13 +246,9 @@ const AllEmployees = () => {
     setView(!view);
     setView(nextView);
     setView(!view);
-    // setlist(nextView)
-    console.log(nextView);
+
   };
-  //   const handleChange = () => {
-  //     setlist(!list)
-  //   };
-  //submitting values of user
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
@@ -273,51 +260,53 @@ const AllEmployees = () => {
       try {
         await axios.post("/upload", data);
       } catch (err) {
-        console.log(err);
+
         NotificationManager.error("Pic not Uploaded");
       }
     }
 
     try {
       const res = await axios.post(url1, emp);
-      console.log(res);
+
       res && NotificationManager.success("Sucessfully Added Employee");
-      // res && window.location.replace("/employees");
+
     } catch (error) {
-      console.log(error);
+;
       NotificationManager.error("Something went wrong ");
     }
   };
+
   //fetching employees data
   const fetchData = async () => {
     try {
       const res = await axios.get(url);
-      console.log(res.data);
       const data = res.data.employees;
       setData(data);
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("Api Error 404");
     }
   };
-  console.log('fetch user data',fetchData)
+
   //getting Employees
   const getEmp = async () => {
     try {
       const res = await axios.get(url2);
       const datas = res.data.departments;
-      console.log("departments", datas);
+
       setDep(datas);
     } catch (error) {
-      console.log(error);
+
     }
   };
-  console.log("getEmp",getEmp)
+
   useEffect(() => {
     fetchData();
     getEmp();
   }, [update]);
+
   const PF = "http://localhost:5002/images/";
+
   return (
     <>
       <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
@@ -327,14 +316,6 @@ const AllEmployees = () => {
             <div className="row align-items-center">
               <div className="col">
                 <h3 className="page-title">Employee</h3>
-
-                {/* <img
-                            className="rounded-circle"
-                            style={{ width: "130px", height: "130px"}}
-                            src={require('C:/Users/hassan.ali/Downloads/HR-SYSTEM-main/client/src/Components/Employee Data/All Employees/HurAbbas.jpg')}
-                            alt=""
-                          /> */}
-
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
@@ -352,7 +333,6 @@ const AllEmployees = () => {
                   className="btn add-btn "
                   data-bs-toggle="modal"
                   data-bs-target="#add_employee"
-                  // onClick={handleShow}
                 >
                   <i
                     className="fa fa-plus"
@@ -430,8 +410,7 @@ const AllEmployees = () => {
             show={show}
             onHide={handleClose}
             dialogClassName="my-modal"
-            // className='lg-4 md-8'
-            // className="md-4"
+
             style={{ alignSelf: "center" }}
           >
             <Modal.Header closeButton>

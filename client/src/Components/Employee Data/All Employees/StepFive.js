@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { Form, Card, Button } from "react-bootstrap";
 import validator from "validator";
 import {
   Modal,
@@ -10,8 +9,8 @@ import {
   FormGroup,
   Button,
 } from "react-bootstrap";
-// import validator from "validator";
 import Card from "react-bootstrap/Card";
+
 // creating functional component ans getting props from app.js and destucturing them
 const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
   const [emp, setEmp] = useState({
@@ -40,7 +39,6 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
     joiningdate: "",
     educationdetails: "",
     employementhistory: "",
-
     currentSalary: "",
     employementstatus: "",
     //bank information
@@ -56,18 +54,13 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
 
   //creating error state for validation
   const [error, setError] = useState(false);
-
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
 
     // checking if value of first name and last name is empty show error else take to next step
     if (
-      validator.isEmpty(values.bankname) 
-      // validator.isEmpty(values.accounttitle) ||
-      // validator.isEmpty(values.accountno) ||
-      // validator.isEmpty(values.iban) ||
-      // validator.isEmpty(values.branchcode)
+      validator.isEmpty(values.bankname)
     ) {
       setError(true);
     } else {
@@ -94,11 +87,8 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                     required
                     name="bankname"
                     placeholder="bank name.."
-                    // defaultValue={emp.bankname}
                     defaultValue={values.bankname}
-                    // onChange={handleinput}
                     onChange={handleFormData("bankname")}
-                    //   disabled={disableFields}
                   >
                     <option>Please Select</option>
                     <option>MCB Limited</option>
@@ -115,28 +105,6 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                   </Form.Select>
                 </Form.Group>
               </Col>
-              {/* <Col>
-                <Form.Group
-                  as={Col}
-                  controlId="formGridLastName"
-                  className="formmargin"
-                >
-                  <Form.Label>Account Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    required
-                    name="accounttitle"
-                    placeholder="account title.."
-                    // defaultValue={emp.accounttitle}
-                    defaultValue={values.accounttitle}
-                    // value={props.value27}
-                    // onChange={handleinput}
-                    onChange={handleFormData("accounttitile")}
-                    // onChange={props.onChange}
-                    //   disabled={disableFields}
-                  />
-                </Form.Group>
-              </Col> */}
               <Col>
                 <Form.Group
                   as={Col}
@@ -146,20 +114,14 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Account Title</Form.Label>
                   <Form.Control
                     type="text"
-                    // required
                     name="accounttitle"
                     placeholder="account title.."
-                    // defaultValue={emp.accountno}
                     defaultValue={values.accounttitle}
-                    // value={props.value28}
-                    // onChange={handleinput}
                     onChange={handleFormData("accounttitle")}
-                    // onChange={props.onChange}
-                    //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
-              
+
               <Col>
                 <Form.Group
                   as={Col}
@@ -169,16 +131,10 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Account No</Form.Label>
                   <Form.Control
                     type="text"
-                    // required
                     name="accountno"
                     placeholder="account no.."
-                    // defaultValue={emp.accountno}
                     defaultValue={values.accountno}
-                    // value={props.value28}
-                    // onChange={handleinput}
                     onChange={handleFormData("accountno")}
-                    // onChange={props.onChange}
-                    //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -194,16 +150,10 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label> IBAN</Form.Label>
                   <Form.Control
                     type="text"
-                    // required
                     name="IBAN"
                     placeholder="iban.."
-                    // defaultValue={emp.IBAN}
                     defaultValue={values.iban}
-                    // value={props.value29}
-                    // onChange={handleinput}
                     onChange={handleFormData("iban")}
-                    // onChange={props.onChange}
-                    //  disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -217,16 +167,10 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Branch code</Form.Label>
                   <Form.Control
                     type="text"
-                    // required
                     name="branchcode"
                     placeholder="branch code.."
-                    // defaultValue={emp.branchcode}
                     defaultValue={values.branchcode}
-                    // value={props.value30}
-                    // onChange={handleinput}
                     onChange={handleFormData("branchcode")}
-                    // onChange={props.onChange}
-                    //  disabled={disableFields}
                   />
                 </Form.Group>
               </Col>

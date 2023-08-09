@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 
 const earningcodeSchema  = mongoose.Schema({
-    
     code:{
         type:String,
         required:true,
@@ -16,7 +15,6 @@ const earningcodeSchema  = mongoose.Schema({
          type:String,
          default:""
     } 
- 
 })
 
 const ErCodes = mongoose.model('EarningCodes',earningcodeSchema)

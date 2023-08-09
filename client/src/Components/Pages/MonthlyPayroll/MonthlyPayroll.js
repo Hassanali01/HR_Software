@@ -24,7 +24,7 @@ const MonthlyPayroll = () => {
   const [date, setDate] = useState(new Date());
   const [userAttendance, setUserAttendance] = useState({})
   const [monthAttendance, setMonthAttendance] = useState([])
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const [empLeaves, setEmpLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
@@ -133,16 +133,12 @@ const MonthlyPayroll = () => {
         })
       })
 
-
       //Employees who resigned/left modification in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["Ahsan"] && tempUserAttendance["Ahsan"].forEach((te) => {
           te.status = 1;
         })
       })
-
-
-
 
       //Adding shift slaps in payroll
       for (let i in userAttendance) {
@@ -171,7 +167,6 @@ const MonthlyPayroll = () => {
         })
       }
 
-
       // Integrating short leaves
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
@@ -182,8 +177,6 @@ const MonthlyPayroll = () => {
         }
       );
 
-
-
       // adding Day-Of inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         let dayof = daysOfMonth.filter((td) => td.day == "Sun");
@@ -192,19 +185,14 @@ const MonthlyPayroll = () => {
             const locale = "en-US"
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
-
-
-            if (key != 'saqib'){
-
-
-            if (day == "Sunday") {
-              te.status = "D.O";
+            if (key != 'saqib') {
+              if (day == "Sunday") {
+                te.status = "D.O";
+              }
             }
-          }
           });
         });
       });
-
 
       // Adding last saturday dayoff
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -213,43 +201,27 @@ const MonthlyPayroll = () => {
         const [day, month, year] = lastSat.date.split('/');
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
-
-        if (key != 'saqib'){
-
-
-        tempUserAttendance[key].forEach((te) => {
-          if (Finalsat == te.date) {
-            te.status = "D.O";
-          }
-        })
-      }
+        if (key != 'saqib') {
+          tempUserAttendance[key].forEach((te) => {
+            if (Finalsat == te.date) {
+              te.status = "D.O";
+            }
+          })
+        }
       })
-
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
-          if (key != 'saqib'){
-
-          tempUserAttendance[key].forEach((te) => {
-            if (i.date == te.date) {
-              te.status = "G.H";
-            }
-          })
-
-        }
+          if (key != 'saqib') {
+            tempUserAttendance[key].forEach((te) => {
+              if (i.date == te.date) {
+                te.status = "G.H";
+              }
+            })
+          }
         })
       })
-
-
-      
-
-
-
-
-
-
-
 
 
       //Employee joining date modification in payroll
@@ -262,7 +234,6 @@ const MonthlyPayroll = () => {
         })
       })
 
-
       //Employees who resigned/left modification in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["fiza"] && tempUserAttendance["fiza"].forEach((te) => {
@@ -271,7 +242,6 @@ const MonthlyPayroll = () => {
           }
         })
       })
-
 
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["moshin"] && tempUserAttendance["moshin"].forEach((te) => {
@@ -289,9 +259,6 @@ const MonthlyPayroll = () => {
         })
       })
 
-
-
-
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["adeel"] && tempUserAttendance["adeel"].forEach((te) => {
           if (te.status != 1) {
@@ -299,14 +266,6 @@ const MonthlyPayroll = () => {
           }
         })
       })
-
-
-
-
-
-
-
-
       setUpdate(!update)
     } catch (error) {
       setLoading(false);
@@ -314,44 +273,16 @@ const MonthlyPayroll = () => {
     }
   }
 
-
   function printPDF() {
-    // var printDoc = new jsPDF('p', 'mm', [1000, 1000]);
     var printDoc = new jsPDF('landscape');
     var content = document.getElementById("payrollTable");
     printDoc.autoTable({
       html: '#payrollTable',
-      // startY: 70,  
-      // theme: 'grid',  
-      // columnStyles: {  
-      //     0: {  
-      //         cellWidth: 180,  
-      //     },  
-      //     1: {  
-      //         cellWidth: 180,  
-      //     },  
-      //     2: {  
-      //         cellWidth: 180,  
-      //     }  
-      // },  
-      // styles: {  
-      //     minCellHeight: 40  
-      // }  
     })
     printDoc.save();
-
-    // printDoc.html(content,
-    // {
-    //   callback: function(doc) {
-    //     console.log("in callback");
-    //     doc.save();
-    //   }
-    // });
   }
-
   // printDoc.autoPrint();
   // printDoc.output("dataurlnewwindow"); // this opens a new popup,  after this the PDF opens the print window view but there are browser inconsistencies with how this is handled
-
 
   var splitDate = currentCalendar.split("/");
   var month = splitDate[0];
@@ -361,29 +292,23 @@ const MonthlyPayroll = () => {
   for (let i = 1; i <= days; i++) {
     daysOfMonth.push({ date: `${i}/${month}/${year}`, day: new Date(`${month}/${i}/${year}`).toLocaleString('en-us', { weekday: 'short' }) })
   }
-
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-
-
   function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
   }
-
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000); // Update every 1 second
-
     return () => clearInterval(intervalId); // Clean up interval on component unmount
   }, []);
 
-
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
   const formattedDateTime = currentDateTime.toLocaleDateString(undefined, options);
-
   let rowNumber = 0;
+
+
   return (
     <>
       <div className="content-wrapper">
@@ -425,16 +350,12 @@ const MonthlyPayroll = () => {
             </Modal>
             <Button className="mr-3" onClick={generateMonthAttendance}>Generate Payroll</Button>
             {loading ? <LoadingSpinner /> : ''}
-            {/* <button onClick={printPDF}>Print Payroll</button> */}
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}
               content={() => componentRef}
-            // pageStyle='@page { size: A4 landscape; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact; padding: 40px !important; } }'
             />
             {/* component to be printed */}
-            {/* <ComponentToPrint ref={(el) => (componentRef = el)} /> */}
             <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }}>
-              {/* <style type="text/css" media="print">{"@page {size: landscape;}"}</style> */}
               <table
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
@@ -443,7 +364,6 @@ const MonthlyPayroll = () => {
                   <th rowspan="2" style={{ border: "1px solid black" }}>Name</th>
                   <th rowspan="2" style={{ border: "1px solid black" }}>Designation</th>
                   {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.date.split("/")[0]}</th>)}
-                  {/* <th style={{ border: "1px solid black", width: "20px" }}></th> */}
                   <th colSpan="6" style={{ border: "1px solid black", textAlign: "center" }}>Total Pay Days</th>
                   {/* <th rowspan="2" style={{ border: "1px solid black" }}>Extra Days</th> */}
                   <th colSpan="3" style={{ border: "1px solid black", textAlign: "center" }}>Deductions</th>
@@ -452,7 +372,6 @@ const MonthlyPayroll = () => {
                 </tr>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
                   {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.day}</th>)}
-                  {/* <td style={{ border: "1px solid black", width: "20px" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> */}
                   <th style={{ border: "1px solid black" }}>W.D</th>
                   {/* <th style={{ border: "1px solid black" }}>H.W</th> */}
                   <th style={{ border: "1px solid black" }}>L.W.P</th>
@@ -485,7 +404,6 @@ const MonthlyPayroll = () => {
                       {
                         daysOfMonth.map((dm) => {
                           const attendanceEntry = userAttendance[`${key}`].find((tu) => parseInt(dm.date.split("/")[0]) === parseInt(tu.date.split("-")[2].split("T")[0]));
-
                           let fontWeight = "normal";
                           if (attendanceEntry) {
                             if (attendanceEntry.status === "D.O" || attendanceEntry.status === "G.H") {
@@ -500,7 +418,7 @@ const MonthlyPayroll = () => {
                           );
                         })
                       }
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 ).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0) }</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td> */}
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
@@ -538,7 +456,7 @@ const MonthlyPayroll = () => {
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)) 
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
                       )
                     }, 0)
                   }
@@ -547,7 +465,6 @@ const MonthlyPayroll = () => {
                   <h6>Verified By: ____________</h6>
                   <h6>Approved By: ___________</h6>
                 </div>
-           
                   <div style={{ marginTop: "3rem" }}>
                     <p>* It's a computer generated report and does not require any signature.</p>
                   </div>

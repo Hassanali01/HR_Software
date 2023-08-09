@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { Form, Card, Button } from "react-bootstrap";
 import validator from "validator";
 import axios from "axios";
 import {
@@ -11,8 +10,9 @@ import {
   FormGroup,
   Button,
 } from "react-bootstrap";
-// import validator from "validator";
+
 import Card from "react-bootstrap/Card";
+
 // creating functional component ans getting props from app.js and destucturing them
 const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   //creating error state for validation
@@ -23,7 +23,7 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   const url = "/employees";
   let name, value;
   const handleinput = (e) => {
-    console.log(e);
+
     name = e.target.name;
     value = e.target.value;
     setEmp({ ...emp, [name]: value });
@@ -74,16 +74,12 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
-    console.log(values.username, values.password, values.emp_id, values.departments,values.supervisors)
+    console.log(values.username, values.password, values.emp_id, values.departments, values.supervisors)
     // checking if value of first name and last name is empty show error else take to next step
     if (
       validator.isEmpty(values.username) ||
       validator.isEmpty(values.password) ||
-      // validator.isEmpty(values.joiningdate) ||
-      // validator.isEmpty(values.salary) ||
-      // validator.isEmpty(values.designation) ||
       validator.isEmpty(values.emp_id) ||
-      // validator.isEmpty(values.employementstatus) ||
       validator.isEmpty(values.departments)
     ) {
       setError(true);
@@ -92,26 +88,21 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
       nextStep();
     }
   };
-  // console.log("values", values);
-  // asad departments start
+
 
   useEffect(() => {
 
     axios.get(url2).then(resp => {
       setDep(resp.data)
-      // console.log(dep.departments, "departments hitttttt")
-      // console.log(resp.data);
 
     }, [1, 1]);
     const fetchData = async () => {
       try {
         const res = await axios.get(url);
-        console.log(res.data, "111111111111111111");
         const data = res.data.employees;
         setEmpl(data);
       } catch (error) {
-        console.log(error);
-        console.log("Api Error 404");
+
       }
     };
     fetchData()
@@ -123,7 +114,6 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
           <Form onSubmit={submitFormData}>
             <h3 style={{ color: "rgb(0,105,92)" }}>Employement Details </h3>
             <hr></hr>
-
             <Row>
               <Col>
                 <Form.Group
@@ -137,13 +127,8 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                     required
                     name="username"
                     placeholder="username"
-                    // defaultValue={emp.username}
                     defaultValue={values.username}
                     onChange={handleFormData("username")}
-                  // value={props.value21}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -159,13 +144,8 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                     required
                     name="password"
                     placeholder="password"
-                    // defaultValue={emp.password}
                     defaultValue={values.password}
                     onChange={handleFormData("password")}
-                  // value={props.value22}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -182,13 +162,9 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                     required
                     name="emp_id"
                     placeholder="Employee ID"
-                    // defaultValue={emp.password}
+
                     defaultValue={values.emp_id}
                     onChange={handleFormData("emp_id")}
-                  // value={props.value22}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -201,16 +177,10 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Joining Date</Form.Label>
                   <Form.Control
                     type="date"
-                    // required
                     name="joiningdate"
                     placeholder="joining date"
-                    // defaultValue={emp.joiningdate}
                     defaultValue={values.joiningdate}
                     onChange={handleFormData("joiningdate")}
-                  // value={props.value19}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -225,16 +195,10 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Salary</Form.Label>
                   <Form.Control
                     type="Number"
-                    // required
                     name="currentSalary"
                     placeholder="salary"
-                    // defaultValue={emp.currentSalary}
                     defaultValue={values.salary}
                     onChange={handleFormData("salary")}
-                  // value={props.value23}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -247,16 +211,10 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                   <Form.Label>Designation</Form.Label>
                   <Form.Control
                     type="text"
-                    // required
                     name="designation"
                     placeholder="designation.."
-                    // defaultValue={emp.terminationreason}
                     defaultValue={values.designation}
                     onChange={handleFormData("designation")}
-                  // value={props.value20}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   />
                 </Form.Group>
               </Col>
@@ -268,15 +226,9 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                 >
                   <Form.Label>Payment Mode</Form.Label>
                   <Form.Select
-                    // required
                     name="paymentmode"
-                    // defaultValue={emp.paymentmode}
                     defaultValue={values.paymentmode}
                     onChange={handleFormData("paymentmode")}
-                  // value={props.value25}
-                  //   onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   >
                     <option value="" selected hidden disabled>
                       Please Select
@@ -289,9 +241,6 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
               </Col>
             </Row>
             <Row>
-
-
-
 
               <Col lg={4}>
                 <Form.Group
@@ -321,8 +270,6 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
               </Col>
 
 
-
-
               <Col xl="4">
                 <Form.Group
                   as={Col}
@@ -331,13 +278,9 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                 >
                   <Form.Label>Employement Status</Form.Label>
                   <Form.Select
-                    //   onChange={handleinput}
-                    // onChange={props.onChange}
                     name="employementstatus"
-                    // defaultValue={emp.employementstatus}
                     defaultValue={values.employementstatus}
                     onChange={handleFormData("employementstatus")}
-                  // value={props.value41}
                   >
                     <option defaultValue={""} disbaled selected hidden>
                       Select Please
@@ -359,13 +302,9 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                 >
                   <Form.Label>Supervisors</Form.Label>
                   <Form.Select
-                    //   onChange={handleinput}
-                    // onChange={props.onChange}
                     name="supervisors"
-                    // defaultValue={emp.employementstatus}
                     defaultValue={values.supervisors}
                     onChange={handleFormData("supervisors")}
-                  // value={props.value41}
                   >
                     <option defaultValue={""} disbaled selected hidden>
                       Select Please
@@ -384,7 +323,6 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                 </Form.Group>
               </Col>
             </Row>
-
 
             <div style={{ display: "flex" }}>
               <Button variant="primary" onClick={prevStep}>

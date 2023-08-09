@@ -4,7 +4,6 @@ import "./table.css"
 import { Link } from 'react-router-dom';
 import ReactToPrint from "react-to-print";
 import { useRef } from 'react'
-// import logo from './../logo3.jpg';
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable';
 import TextField from '@mui/material/TextField';
@@ -14,28 +13,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-
 const Table = ({ data, setTableData }) => {
 
-    // data = []
-
-    // setTableData(data)
-
-
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     const [Employee_ID, setEmployee_ID] = useState("");
     const [Name, setName] = useState("");
     const [In, setIn] = useState("");
     const [Out, setOut] = useState("");
     const [Department, setDepartment] = useState("")
-
-
-
-
     const [tableSearch, setTableSearch] = useState("");
 
     const columns = [
@@ -44,7 +31,6 @@ const Table = ({ data, setTableData }) => {
         { field: "Department", headerName: "Department", width: 200 },
         {
             field: "In", headerName: "In", width: 100, renderCell: (params) => {
-                console.log("params", params.value.split(".")[0])
                 return (<>
                     <div style={{ color: params.value > 9.15 ? "red" : "green" }}>
                         {params.value.split(".")[0] != "NaN" ?
@@ -73,8 +59,6 @@ const Table = ({ data, setTableData }) => {
                     setEmployee_ID(params.value.Employee_ID)
                     setName(params.value.Name)
                     setDepartment(params.value.Department)
-                    console.log(params.value.Department, "******************")
-                    console.log("req.params.value", params.value.in)
                     setIn(params.value.in)
                     setOut(params.value.out)
                     setTableData(data)
@@ -95,18 +79,11 @@ const Table = ({ data, setTableData }) => {
         Out: row.out,
         Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
         Action: row
-
-
     }))
-    console.log("data for table", data)
-
-
 
 
     return (
         <div>
-
-
 
             <Modal style={{ marginTop: "30vh" }} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -116,8 +93,6 @@ const Table = ({ data, setTableData }) => {
                     <div>
                         Employee Id:
                         <input style={{ marginLeft: "3%", marginTop: '2%' }} value={Employee_ID} onChange={(e) => {
-
-
                             setEmployee_ID(e.target.value)
 
                         }}></input> </div>
@@ -126,7 +101,6 @@ const Table = ({ data, setTableData }) => {
                     In:
                     <input style={{ marginLeft: "18.5%", marginTop: '2%' }} type="time" value={In} onChange={(e) => { setIn(e.target.value) }}></input><br />
                     Out:
-
 
                     <input style={{ marginLeft: "15.5%", marginTop: '2%' }} type="time" value={Out} onChange={(e) => { setOut(e.target.value) }}></input>
 
@@ -148,23 +122,10 @@ const Table = ({ data, setTableData }) => {
                 </Modal.Footer>
             </Modal>
 
-
-            {/* 
-            <div className='userList' style={{ margin: "50px", marginBottom: "80px", width: "95%", height: "800px" }} ref={(el) => (componentRef = el)}>
-
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-
-                />
-
-            </div> */}
-
             <div className="d-flex justify-content-center"  >
 
                 <div >
                     <div className="d-flex justify-content-between">
-                        {/* <img src={logo} alt="Sagacious" width={170} height={100} /> */}
                         <div>
                             <div style={{ fontSize: "26px", paddingTop: "10px" }}> <span style={{ fontSize: "20px" }}>{data[0] && data[0].Date}</span></div>
                             <div className="d-flex justify-content-center">
@@ -174,10 +135,8 @@ const Table = ({ data, setTableData }) => {
                         <div style={{ width: 170 }}></div>
                     </div>
 
-
                     Search Employee: <input style={{ width: "50vw" }} value={tableSearch} onChange={(e) => { setTableSearch(e.target.value) }}></input>
                     <br />                    <br />
-
                     <DataGrid
                         style={{ height: "55vh", width: "75vw" }}
                         rows={rows}
@@ -187,8 +146,6 @@ const Table = ({ data, setTableData }) => {
                         experimentalFeatures={{ newEditingApi: true }}
 
                     />
-
-
                 </div>
 
             </div>

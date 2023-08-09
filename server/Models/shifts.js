@@ -14,19 +14,13 @@ const addShifts = new Schema({
     },
     start_time:{
         type:Date,
-        // require:true
     },
     end_time:{
         type:Date,
-        // require:true
-
     },
     slaps:{
         type:Array
     }
-
-
-
 },{timestamps:true})
 
 module.exports = mongoose.model("addShifts",addShifts)

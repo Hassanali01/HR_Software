@@ -31,17 +31,14 @@ export class EcxelImport extends Component {
 
   render() {
 
-
     return (
       <div className="excel-import-container" >
-        <div className="file-upload" style={{backgroundColor:"white"}}>
+        <div className="file-upload" style={{ backgroundColor: "white" }}>
           <label>Upload Excel File</label>
           <input type="file" onChange={this.uploadFile} />
-          <button style={{width:"200px"}}>Upload daily attendance</button>
+          <button style={{ width: "200px" }}>Upload daily attendance</button>
         </div>
-
       </div>
-
     )
   }
 }

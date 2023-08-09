@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
-// import "datatables.net-dt/js/dataTables.dataTables"
-// import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'
-import {data1} from './LeavesData'
+import { data1 } from './LeavesData'
 
 export default class Table extends Component {
     render() {
-  
-        // $(document).ready(function () {
-        //     $('#table_id').DataTable();
-        // });
- 
 
         return (
             <div>
@@ -31,58 +24,59 @@ export default class Table extends Component {
                             </div>
                         </div>{/* /.container-fluid */}
                     </section>
+
                     {/* Main content */}
                     <section className="content">
                         <div className="container-fluid">
-                              <div className='row'>
-                                  <div className='col-3'>
-                                     <div className='card'>
-                                         <div className='card-body'>
-                                             <h5 className='text-center'>Present employe</h5>
-                                             <h5 className='text-center'>12/18</h5>
-                                         </div>
+                            <div className='row'>
+                                <div className='col-3'>
+                                    <div className='card'>
+                                        <div className='card-body'>
+                                            <h5 className='text-center'>Present employe</h5>
+                                            <h5 className='text-center'>12/18</h5>
+                                        </div>
 
-                                     </div>
-                                     
-                                  </div>
-                                  <div className='col-3'>
-                                     <div className='card'>
-                                         <div className='card-body'>
-                                             <h5 className='text-center'>Planned Leaves</h5>
-                                             <h5 className='text-center'>8 <span className='font-weight-thick small'>Today</span></h5>
-                                         </div>
+                                    </div>
 
-                                     </div>
-                                     
-                                  </div>
-                                  <div className='col-3'>
-                                     <div className='card'>
-                                         <div className='card-body'>
-                                             <h5 className='text-center'>Unplanned Leaves</h5>
-                                              <h5 className='text-center'>0 <span className='font-weight-thick small'>Today</span></h5>
-                                         </div>
+                                </div>
+                                <div className='col-3'>
+                                    <div className='card'>
+                                        <div className='card-body'>
+                                            <h5 className='text-center'>Planned Leaves</h5>
+                                            <h5 className='text-center'>8 <span className='font-weight-thick small'>Today</span></h5>
+                                        </div>
 
-                                     </div>
-                                     
-                                  </div>
-                                  <div className='col-3'>
-                                     <div className='card'>
-                                         <div className='card-body'>
-                                             <h5 className='text-center '  >Pending Requests</h5>
-                                             <h5 className='text-center'>2</h5>
+                                    </div>
 
-                                         </div>
+                                </div>
+                                <div className='col-3'>
+                                    <div className='card'>
+                                        <div className='card-body'>
+                                            <h5 className='text-center'>Unplanned Leaves</h5>
+                                            <h5 className='text-center'>0 <span className='font-weight-thick small'>Today</span></h5>
+                                        </div>
 
-                                     </div>
-                                     
-                                  </div>
+                                    </div>
 
-                              </div>
+                                </div>
+                                <div className='col-3'>
+                                    <div className='card'>
+                                        <div className='card-body'>
+                                            <h5 className='text-center '  >Pending Requests</h5>
+                                            <h5 className='text-center'>2</h5>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                             <div className="row">
                                 <div className="col-12">
-                                    
+
                                     <div className="card">
-                                        <div className="card-header  " style={{backgroundColor:"#ff9b44"}}>
+                                        <div className="card-header  " style={{ backgroundColor: "#ff9b44" }}>
                                             <h3 className="card-title" style={{ color: "white" }}>Employees Attendance</h3>
                                         </div>
                                         {/* /.card-header */}
@@ -105,14 +99,14 @@ export default class Table extends Component {
                                                             data1.map((n) => {
                                                                 return (<>
                                                                     <tr key={n.id}>
-                                                                        <td><div style={{display:"flex",alignItems:"center",}}><img src={n.image} style={{borderRadius:"50%", width:"40px"}}/><span><p className='font-weight-bold ml-2'>{n.name}</p></span></div></td>
+                                                                        <td><div style={{ display: "flex", alignItems: "center", }}><img src={n.image} style={{ borderRadius: "50%", width: "40px" }} /><span><p className='font-weight-bold ml-2'>{n.name}</p></span></div></td>
                                                                         <td>{n.leaveType}</td>
                                                                         <td>{n.from}</td>
                                                                         <td>{n.to}</td>
                                                                         <td>{n.noofdays}</td>
                                                                         <td>{n.reason}</td>
                                                                         <td>{n.status ? <i class="fa-solid fa-check" style={{ color: "greenYellow" }}></i> : <i class="fa-solid fa-xmark" style={{ color: "orangered" }}></i>}</td>
-                                                                        
+
                                                                     </tr>
                                                                 </>)
                                                             })

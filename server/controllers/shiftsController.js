@@ -3,74 +3,56 @@ const Shifts = require('../Models/shifts')
 
 
 //for create shifts
-const addShifts = async(req,res)=>{
-
-
-    console.log("req.body", req.body)
-
-    const {shift_name,description,start_time,end_time,slaps}= req.body
-
-
-
-
-    try{
-        const shifts = await Shifts.create({shift_name,description,start_time,end_time,slaps})
-        res.status(200).json(shifts)  
-
-    }catch(error){
-        res.status(400).json({error:error.message})
-
+const addShifts = async (req, res) => {
+    const { shift_name, description, start_time, end_time, slaps } = req.body
+    try {
+        const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slaps })
+        res.status(200).json(shifts)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
     }
 }
-
 
 // for get all shifts
-const allShifts = async(req,res)=>{
+const allShifts = async (req, res) => {
     console.log("shift api hittt")
-    try{
-        const shifts = await Shifts.find().sort({createdAt:-1})
+    try {
+        const shifts = await Shifts.find().sort({ createdAt: -1 })
         res.status(200).json(shifts)
 
-    }catch(error){
-        res.status(400).json({error:error.message})
-
+    } catch (error) {
+        res.status(400).json({ error: error.message })
     }
 }
-
 
 //for get specific shifts
-const getSpecificShift =  async(req,res)=>{
-    const {id} = req.params
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).json({error:"No record found"})
+const getSpecificShift = async (req, res) => {
+    const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "No record found" })
     }
-    try{
-        const shifts = await Shifts.findById({_id:id})
-        res.status(200).json(shifts) 
-
-    }catch(error){
-        res.status(400).json({error:error.message})
-
+    try {
+        const shifts = await Shifts.findById({ _id: id })
+        res.status(200).json(shifts)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
     }
-
 }
+
 
 //for delete shifts
-const deleteShifts = async(req,res)=>{
-    const {id} = req.params
-    if (!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).json({error:"No record found"})
+const deleteShifts = async (req, res) => {
+    const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "No record found" })
     }
-    try{
-        const shifts = await Shifts.findByIdAndDelete({_id:id})
+    try {
+        const shifts = await Shifts.findByIdAndDelete({ _id: id })
         res.status(200).json(shifts)
-
-    }catch(error){
-        res.status(400).json({error:error.message})
-
+    } catch (error) {
+        res.status(400).json({ error: error.message })
     }
 }
 
 
-
-module.exports = {addShifts,getSpecificShift,allShifts,deleteShifts}
+module.exports = { addShifts, getSpecificShift, allShifts, deleteShifts }

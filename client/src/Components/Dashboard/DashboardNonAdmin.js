@@ -16,7 +16,6 @@ import { useContext } from "react";
 import { Context } from "../../Context/Context";
 const DashboardNonAdmin = () => {
     const { user } = useContext(Context);
-
     const [depCount, setDepCount] = useState()
     const [depEmp, setDepEmp] = useState()
     const [leavCount, setleavCount] = useState()
@@ -29,10 +28,7 @@ const DashboardNonAdmin = () => {
         try {
             const res = await axios.get(getEmp);
             const empinfo = res.data;
-            console.log("info", empinfo)
             const InfoData = [];
-            console.log("infoooo", Info.Leaves)
-
             await empinfo.Leaves.map((d) => {
                 InfoData.push({
                     from: d.from,
@@ -41,13 +37,12 @@ const DashboardNonAdmin = () => {
                     leaveType: d.leaveType,
                     name: empinfo.firstname,
                     _id: empinfo.emp_id,
-                    department: empinfo.departments.map((d)=>d.departmentname),
+                    department: empinfo.departments.map((d) => d.departmentname),
                     reason: d.reason,
                 });
             });
-            console.log("************", InfoData)
+
             setinfo(InfoData)
-            console.log("Info", Info);
             const departments = []
             await empinfo.departments.map((d) => {
                 departments.push({
@@ -56,38 +51,28 @@ const DashboardNonAdmin = () => {
                     email: empinfo.email,
                     empid: empinfo.emp_id,
                     designation: empinfo.designation
-
                 });
             })
-            console.log("departments", departments)
             setDetails(departments)
-
         } catch (error) {
             console.log(error)
         }
-
     }
-
 
 
     useEffect(() => {
         userInformation();
-
     }, []);
-
-
 
 
     const counted = async () => {
         try {
             const department = await axios.get("/departments")
             const saveresult = department.data.counted;
-            console.log(saveresult);
             setDepCount(saveresult)
             try {
                 const employees = await axios.get('/employees')
                 const emp = employees.data.counted;
-                console.log(emp)
                 setDepEmp(emp)
             } catch (error) {
                 console.log(error)
@@ -95,7 +80,6 @@ const DashboardNonAdmin = () => {
             try {
                 const leaves = await axios.get('leaverequest/all')
                 const leav = leaves.data.counted;
-                console.log(leav)
                 setleavCount(leav)
             } catch (error) {
                 console.log(error)
@@ -104,11 +88,11 @@ const DashboardNonAdmin = () => {
             console.log(error)
         }
     }
+
     useEffect(() => {
         counted()
     }, [])
- 
-   
+
     return (
         <div>
             <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
@@ -390,7 +374,6 @@ const DashboardNonAdmin = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {console.log("leave data final", leaveData)} */}
 
                                 {Info.map((d) => {
                                     return (
@@ -401,7 +384,7 @@ const DashboardNonAdmin = () => {
                                             <td>{d.leaveType}</td>
                                             <td>{new Date(d.from).toDateString()}</td>
                                             <td>{new Date(d.to).toDateString()}</td>
-                                            <td>{d.reason ? d.reason :"N/A"}</td>
+                                            <td>{d.reason ? d.reason : "N/A"}</td>
                                             <td><p className={`${d.status === 'Reject' ? "tableCell1" : ""}  ${d.status === 'Pending Aproval' ? "tableCell2" : ""}  ${d.status === 'Aproved' ? "tableCell " : ""}`} >{d.status}</p></td>
                                         </tr>
                                     );

@@ -246,6 +246,5 @@ const EmployeesSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-// EmployeesSchema.plugin(AutoIncrement, {inc_field: 'emp_id'});
 const Employees = mongoose.model("Employees", EmployeesSchema);
 module.exports = Employees;

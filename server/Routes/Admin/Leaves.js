@@ -21,7 +21,7 @@ async function insertFile(file, res) {
         console.log('Error while inserting:', err)
       }
       client.close()
-      // res.redirect('/')
+
     }
   })
 }
@@ -90,7 +90,6 @@ router.get('/approved-leaves/:month', async (req, res) => {
       ]
     ])
 
-
     const totaldays = [];
     await Leaves.map((i) => {
       if (i.status == "Approved") {
@@ -119,11 +118,10 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const Leave_Days = i.Leave_Days
               const username = i.employee[0].username
               const leaveNature = i.leaveNature
-              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave,leaveNature);
+              const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave, leaveNature);
               totaldays.push(newObject)
               objectsArray.push(newObject);
             }
-            console.log(totaldays[0].employee, "totaldays")
             return objectsArray;
           }
           const userDates = datesArray
@@ -141,28 +139,19 @@ router.get('/approved-leaves/:month', async (req, res) => {
       totaldays,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 
 
-
 //Adding a Calendar
 router.post('/addrequest', async (req, res, next) => {
-
-
-  console.log("reqq", req.body)
   try {
     let file = {}
     if (req.files) {
       file = { name: req.files.file.name, file: binary(req.files.file.data) }
     }
-    // let file = { name: req.files.file.name, file: binary(req.files.file.data) }
-    // await insertFile(file, res)
-
-
     const reqLeave = new LeaveRequest({
       leaveType: req.body.leaveType,
       Short_leave: req.body.Short_leave,
@@ -179,7 +168,6 @@ router.post('/addrequest', async (req, res, next) => {
       attachment: file,
       Leave_Days: req.body.Leave_Days
     })
-    console.log(reqLeave, "=====", Emp, "api hitting.............")
     const saveRequest = await reqLeave.save();
     saveRequest && res.status(200).json({ message: "Leave Request", saveRequest })
     try {
@@ -193,18 +181,14 @@ router.post('/addrequest', async (req, res, next) => {
     } catch (error) {
       next(error)
     }
-
-
   } catch (error) {
-    console.log(error)
     next(error)
   }
-
 })
 
 
-// all leaves request 
 
+// all leaves request 
 router.get('/allForHR', async (req, res, next) => {
   try {
     const allRequest = await LeaveRequest.find().populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }, { path: 'Leaves' }] });
@@ -212,59 +196,52 @@ router.get('/allForHR', async (req, res, next) => {
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
     next(error);
-    console.log(error)
   }
 })
+
 
 
 
 router.get('/all/:id', async (req, res, next) => {
   try {
-
     const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
     let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
-
-    // console.log("subordinateEmployees",subordinateEmployeesIDs)
     const allRequest = await LeaveRequest.find({ employee: subordinateEmployeesIDs }).populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
     const counted = await LeaveRequest.count();
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
     next(error);
-    console.log(error)
   }
 })
 
-//only employee can see their leave request
 
+
+//only employee can see their leave request
 router.get('/:id', async (req, res, next) => {
   try {
-
     const response = await LeaveRequest.findById(req.params.id).populate({ path: 'employee backupresourse', populate: [{ path: 'departments', select: ['departmentname'] }, { path: 'Leaves' }] });
     const emp = await Emp.findById(response.employee._id).populate('departments', 'departmentname')
     const dep = emp.department
     response && res.status(200).json({ message: "Success", response, dep })
-
   } catch (error) {
     next(error)
-    console.log(error)
   }
 })
 
+
 //update status of leaves
 router.put('/:id', async (req, res, next) => {
-
   try {
     const findLeave = await LeaveRequest.findById(req.params.id)
-    // console.log("leaveRequest",findLeave)
     const updateStatus = await LeaveRequest.findByIdAndUpdate(req.params.id, {
       $set: { status: req.body.status, supervisorApproval: req.body.supervisorApproval },
-
     }, { new: true })
     updateStatus && res.status(200).json({ message: "Updated leave", updateStatus })
   } catch (error) {
     next(error)
-    console.log(error)
   }
 })
+
+
 
 module.exports = router;

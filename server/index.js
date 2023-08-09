@@ -56,8 +56,6 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 //xlxs
 //Routes 
 
-// app.use(express.bodyParser({limit: '50mb'}));
-// app.use(bodyparser.urlencoded({extended:true}));
 
 app.use(bodyparser.urlencoded({limit: '50mb', extended: true}));
 
@@ -77,7 +75,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
 //Routes
-// app.use(require("./Routes/holiday"));
 app.use('/employees',UsersRoute);
 app.use("/calendar",CalendarRoute);
 app.use("/holiday",holidayRoute);

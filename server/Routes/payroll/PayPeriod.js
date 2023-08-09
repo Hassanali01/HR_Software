@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const {createError} = require('../../Utils/CreateError')
 const Period = require('../../Models/payroll/payperiod')
-router.post('/payperiod',async(req,res,next)=>{
 
+
+router.post('/payperiod',async(req,res,next)=>{
     try{
           const payperiod = new Period({
             paycycle:req.body.paycycle,
@@ -18,6 +19,8 @@ router.post('/payperiod',async(req,res,next)=>{
     }
 })
 
+
+
 router.get('/payperiod',async(req,res,next)=>{
     try{
           const payperiod = await Period.find().populate('paycycle');
@@ -26,6 +29,9 @@ router.get('/payperiod',async(req,res,next)=>{
         next(error)
     }
 })
+
+
+
 router.get('/payperiod/:id',async(req,res,next)=>{
     try{
           const payperiod = await Period.findById(req.params.id);
@@ -34,5 +40,6 @@ router.get('/payperiod/:id',async(req,res,next)=>{
         next(error)
     }
 })
+
 
 module.exports=router

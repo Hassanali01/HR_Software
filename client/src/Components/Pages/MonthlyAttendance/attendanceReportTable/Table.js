@@ -37,7 +37,7 @@ const Table = ({ data, setTableData }) => {
     const [Name, setName] = useState("");
     const [In, setIn] = useState("");
     const [Out, setOut] = useState("");
-
+    const [Date, setDate] = useState("");
     const [idOfEmployee, setIdOfEmployee] = useState("");
 
 
@@ -53,15 +53,8 @@ const Table = ({ data, setTableData }) => {
 
     const updateAttendance = async () => {
         try {
-
-
-            const updateUser = await axios.put(`/updateuserattendance/${idOfEmployee}`, { in: In, out: Out, date: "2022-09-27T00:00:00.000+00:00" });
-
-
-
-
-
-            console.log("savedata", updateUser)
+            const updateUser = await axios.put(`/updateuserattendance/${idOfEmployee}`, { in: In, out: Out, date: Date });
+            console.log("savedata", updateUser,Date)
             NotificationManager.success("successfully posted");
         } catch (error) {
             console.log("eror", error);
@@ -72,20 +65,16 @@ const Table = ({ data, setTableData }) => {
     const columns = [
 
         // { field: "id", headerName: "", width: 0 },
-
         { field: "Empid", headerName: "Employee_ID", width: 150 },
-
         { field: "Name", headerName: "Name", width: 300 },
         { field: "Department", headerName: "Department", width: 200 },
-
         { field: "Date", headerName: "Date", width: 100 },
         {
             field: "In", headerName: "In", width: 100, renderCell: (params) => {
                 // const isLate = (params.value.split(":")[0]*1)+ (params.value.split(":")[1]*0.01)
-
                 console.log("params", params.value.split(".")[0])
                 return (<>
-                    <div style={{ color: params.value > 9.15 ? "red" : "green" }}>
+                    <div style={{ color: params.value > 9.30 ? "red" : "green" }}>
                         {params.value.split(".")[0] != "NaN" ?
 
                             `${params.value.toString().split(".")[0]}`
@@ -116,6 +105,7 @@ const Table = ({ data, setTableData }) => {
                     console.log("req.params.value", params.value.in)
                     setIn(params.value.in)
                     setOut(params.value.out)
+                    setDate(params.value.date)
                     setIdOfEmployee(params.value.employee._id)
                     setTableData(data)
                     handleShow()
@@ -128,21 +118,18 @@ const Table = ({ data, setTableData }) => {
 
 
     ]
-
+    console.log("data", data)
     const rows = data.filter((d) => d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
 
         id: row._id,
-
         Empid: row.Employee_ID,
         Name: row.Name,
-        Date: row.Date,
+        Date: row.date,
         Department: row.department,
         In: row.in,//((row.in.split(":")[0] * 1) + (row.in.split(":")[1] * 0.01)).toFixed(2),
         Out: row.out,
         Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
         Action: row
-
-
     }))
 
 
@@ -155,34 +142,50 @@ const Table = ({ data, setTableData }) => {
 
             <Modal style={{ marginTop: "30vh" }} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{color:'rgb(0,105,92)'}}>Attendance Details</Modal.Title>
+                    <Modal.Title style={{ color: 'rgb(0,105,92)' }}>Attendance Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div style={{display:"flex"}}>
+                    <div style={{ display: "flex" }}>
                         <h5>Employee Id:</h5>
-                        <div style={{marginLeft:"12%"}}>
-                        <input value={Employee_ID} onChange={(e) => {
-
-
-                            setEmployee_ID(e.target.value)
-
-                        }}></input></div> </div>
-                      <div style={{display:"flex"}}>
-                    <h5 style={{marginTop:"2%"}}>Name:</h5>
-                    <div style={{marginLeft:"24.5%",marginTop:"2%"}}>
-                    <input value={Name} onChange={(e) => { setName(e.target.value) }}></input></div><br />
+                        <div style={{ marginLeft: "12%" }}>
+                            <input value={Employee_ID} onChange={(e) => {
+                                setEmployee_ID(e.target.value)
+                            }}>
+                            </input>
+                        </div>
                     </div>
-                    <div style={{display:"flex"}}>
-                    <h5 style={{marginTop:"2%"}}>In:</h5>
-                    <div style={{marginLeft:"32.5%",marginTop:"2%"}}>
-                    <input type="time" value={In} onChange={(e) => { setIn(e.target.value) }}></input></div><br />
+                    <div style={{ display: "flex" }}>
+                        <h5 style={{ marginTop: "2%" }}>Name:</h5>
+                        <div style={{ marginLeft: "24.5%", marginTop: "2%" }}>
+                            <input value={Name} onChange={(e) => { setName(e.target.value) }}>
+                            </input>
+                        </div>
+                        <br />
                     </div>
-                    <div style={{display:"flex"}}>
-                    <h5 style={{marginTop:"2%"}}>Out:</h5>
-                    <div style={{marginLeft:"29%",marginTop:"2%"}}>
+                    <div style={{ display: "flex" }}>
+                        <h5 style={{ marginTop: "2%" }}>In:</h5>
+                        <div style={{ marginLeft: "32.5%", marginTop: "2%" }}>
+                            <input type="time" value={In} onChange={(e) => { setIn(e.target.value) }}>
+                            </input>
+                        </div>
+                        <br />
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <h5 style={{ marginTop: "2%" }}>Out:</h5>
+                        <div style={{ marginLeft: "29%", marginTop: "2%" }}>
+                            <input type="time" value={Out} onChange={(e) => { setOut(e.target.value) }}>
 
+                            </input>
+                        </div>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <h5 style={{ marginTop: "2%" }}>Date:</h5>
+                        <div style={{ marginLeft: "29%", marginTop: "2%" }}>
 
-                    <input type="time" value={Out} onChange={(e) => { setOut(e.target.value) }}></input></div>
+                            <input type="text" value={Date} onChange={(e) => { setDate(e.target.value) }}>
+                                {console.log("mydate",Date)}
+                            </input>
+                        </div>
                     </div>
 
                 </Modal.Body>
@@ -195,7 +198,7 @@ const Table = ({ data, setTableData }) => {
                         data.filter((d) => d.Employee_ID == Employee_ID)[0].Name = Name
                         data.filter((d) => d.Employee_ID == Employee_ID)[0].in = In
                         data.filter((d) => d.Employee_ID == Employee_ID)[0].out = Out
-
+                        data.filter((d) => d.Employee_ID == Employee_ID)[0].date = Date
 
                         updateAttendance()
 
@@ -237,9 +240,9 @@ const Table = ({ data, setTableData }) => {
 
 
                     Search Employee: <input style={{ width: "50vw" }} value={tableSearch} onChange={(e) => { setTableSearch(e.target.value) }}></input>
-                    <br />           
-                    
-                             <br />
+                    <br />
+
+                    <br />
 
                     <DataGrid
                         style={{ height: "55vh", width: "75vw" }}

@@ -9,13 +9,10 @@ const educationSchema = new mongooes.Schema({
       required:true
     },
     from:{
-        // type:Date.now(),
-        type:Date,
-        // required:true                  
+        type:Date,        
     },
     to:{
         type:Date,
-        // required:true
     },
     status:{
         type:String,
@@ -25,7 +22,6 @@ const educationSchema = new mongooes.Schema({
          type: mongooes.Schema.Types.ObjectId, 
          ref: 'Employee'
     },
-    
 })
 const Education = mongooes.model("Education",educationSchema)
 module.exports= Education;
