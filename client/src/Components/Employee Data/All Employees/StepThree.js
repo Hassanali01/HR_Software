@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { Form, Card, Button } from "react-bootstrap";
 import validator from "validator";
 import {
   Modal,
@@ -10,9 +9,9 @@ import {
   FormGroup,
   Button,
 } from "react-bootstrap";
-// import validator from "validator";
 import Card from "react-bootstrap/Card";
 import ReactFlags from "react-flags-select";
+
 // creating functional component ans getting props from app.js and destucturing them
 const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
   //creating error state for validation
@@ -26,24 +25,18 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
     temporaryaddress: "",
     province: "",
     city: "",
-
     //bank information
-
     country: "",
     //degree info
   });
+
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
 
     // checking if value of first name and last name is empty show error else take to next step
     if (
-      validator.isEmpty(values.temporaryaddress) 
-      // validator.isEmpty(values.permanentaddress) ||
-      // validator.isEmpty(values.city) ||
-      // validator.isEmpty(values.province) ||
-      // validator.isEmpty(values.postalcode) ||
-      // validator.isEmpty(values.country)
+      validator.isEmpty(values.temporaryaddress)
     ) {
       setError(true);
     } else {
@@ -51,7 +44,7 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
     }
   };
 
-  console.log("values", values);
+
   return (
     <>
       <Card style={{ marginTop: "8%" }}>
@@ -71,12 +64,8 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                   required
                   name="temporaryaddress"
                   placeholder="complete address"
-                  // defaultValue={emp.temporaryaddress}
+
                   defaultValue={values.temporaryaddress}
-                  // value={props.value12}
-                  // onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   onChange={handleFormData("temporaryaddress")}
                 />
               </Form.Group>
@@ -91,15 +80,10 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                 <Form.Label>Permanent Address</Form.Label>
                 <Form.Control
                   type="text"
-                  // required
+
                   name="permanentaddress"
                   placeholder="complete address"
-                  // defaultValue={emp.permanentaddress}
                   defaultValue={values.permanentaddress}
-                  // value={props.value13}
-                  // onChange={handleinput}
-                  // onChange={props.onChange}
-                  //   disabled={disableFields}
                   onChange={handleFormData("permanentaddress")}
                 />
               </Form.Group>
@@ -115,13 +99,9 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                     className="formmargin"
                   >
                     <Form.Select
-                      // required
-                      // onChange={handleinput}
-                      // onChange={props.onChange}
+
                       name="city"
-                      // defaultValue={emp.city}
                       defaultValue={values.city}
-                      // value={props.value14}
                       onChange={handleFormData("city")}
                     >
                       <option value="" selected hidden disabled>
@@ -143,15 +123,10 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                     className="formmargin"
                   >
                     <Form.Select
-                      // required
+
                       name="province"
                       placeholder="province"
-                      // defaultValue={emp.province}
-                      // value={props.value15}
                       defaultValue={values.province}
-                      // onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("province")}
                     >
                       <option value="" selected hidden disabled>
@@ -173,15 +148,9 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                     className="formmargin"
                   >
                     <Form.Select
-                      // required
                       name="country"
                       placeholder="country"
-                      // defaultValue={emp.province}
-                      // value={props.value15}
                       defaultValue={values.country}
-                      // onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("country")}
                     >
                       <option value="" selected hidden disabled>
@@ -189,17 +158,6 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                       </option>
                       <option>Pakistan</option>
                     </Form.Select>
-                    {/* <ReactFlags
-                      countries={["PK"]}
-                      selected={selected}
-                      defaultValue={values.country}
-                      onSelect={(code) => {
-                        setSelected(code);
-                        code === "PK" && setcountry("Pakistan");
-                        setEmp({ ...emp, country: "Pakistan" });
-                        handleFormData("country")
-                      }}
-                    /> */}
                   </Form.Group>
                 </Col>
               </Row>
@@ -213,15 +171,9 @@ const StepThree = ({ nextStep, handleFormData, prevStep, values }) => {
                     <Form.Label>Postal Code</Form.Label>
                     <Form.Control
                       type="text"
-                      // required
                       name="postalCode"
                       placeholder="postal code"
-                      // defaultValue={emp.postalCode}
                       defaultValue={values.postalcode}
-                      // value={props.value16}
-                      // onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("postalcode")}
                     />
                   </Form.Group>

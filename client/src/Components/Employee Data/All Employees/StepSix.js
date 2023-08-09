@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { Form, Card, Button } from "react-bootstrap";
 import validator from "validator";
 import {
   Modal,
@@ -15,17 +14,15 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
-// import validator from "validator";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
-// import { NotificationContainer, NotificationManager } from 'react-notifications';
 const moment = require("moment");
+
 // creating functional component ans getting props from app.js and destucturing them
 const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
-  console.log("valuess", values);
   const [employement, setemployement] = useState([]);
-  // const [education,setEducation] = useState([])
+
   const [emp, setEmp] = useState({
     profilepic: values.profilepic,
     firstname: values.firstName,
@@ -63,14 +60,13 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     IBAN: values.iban,
     branchcode: values.branchcode,
     country: values.country,
-    emp_id:values.emp_id,
+    emp_id: values.emp_id,
     //degree info
     supervisors: values.supervisors
   });
 
   //creating error state for validation
   const url1 = "/auth/register";
-  console.log("url", url1);
   const [error, setError] = useState(false);
   const [file, setfile] = useState();
 
@@ -94,13 +90,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     departments: ""
   });
 
-  // const [edudetails,setEdudetails] = useState({
-  //   institude:"",
-  //   degree:"",
-  //   start:"",
-  //   end:"",
-  //   status:""
-  // })
 
   const addhistory = async () => {
     var empl = employement;
@@ -112,32 +101,15 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
       duration: empdetails.duration,
       jobdescription: empdetails.jobdescription,
     });
-    console.log("emplllllllll", empl);
     setemployement(empl);
     setEmp({ ...emp, employementhistory: empl && empl });
   };
 
-  // const addEducation =async()=>{
-  //   var edu =eduaction;
-  //   edu.push({
-  //     institude:edudetails.institude,
-  //     degree: edudetails.degree,
-  //     start:edudetails.start,
-  //     end:edudetails.end,
-  //     status:edudetails.status
-  //   })
-  //   setEdudetails(edu);
-  //   setEmp({...emp,educationdetails:edu && edu})
-
-  // }
-  console.log(employement && emp.employementhistory, "history");
   const handleempinputJoiningDate = async (e) => {
     let name, value;
 
     name = e.target.name;
     value = e.target.value;
-
-    console.log("change", empdetails);
 
     var a = moment(empdetails.resignationdate);
     var b = moment(e.target.value);
@@ -150,7 +122,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
+
 
     await setempdetails({
       ...empdetails,
@@ -176,7 +148,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
 
     await setempdetails({
       ...empdetails,
@@ -191,7 +162,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     name = e.target.name;
     value = e.target.value;
 
-    // console.log("change", empdetails);
 
     var a = moment(details.start);
     var b = moment(e.target.value);
@@ -204,7 +174,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
 
     await setdetails({
       ...details,
@@ -230,7 +199,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
 
     await setdetails({
       ...details,
@@ -240,80 +208,58 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("hanlde");
 
-    // e.preventDefault();
     if (file) {
       const data = new FormData();
       const filename = Date.now() + file.name;
       data.append("name", filename);
       data.append("file", file);
       emp.profilepic = filename;
-      // NotificationManager.success("sucessfully submitted")
+
       try {
-        console.log(data,"my data 11111111111111")
         await axios.post("/upload", data);
-        // NotificationManager.success("sucessfully submitted")
+
       } catch (err) {
-        console.log(err);
+
         NotificationManager.error("Pic not Uploaded");
       }
-    
+
     }
 
     try {
-      console.log(emp,"my data")
+
       const res = await axios.post(url1, emp);
-      console.log(res);
 
       res && NotificationManager.success("Sucessfully Added Employee");
-      // res && window.location.replace("/employees");
+
     } catch (error) {
-      console.log(error,"what is error");
+
       NotificationManager.error("Something went wrong ");
     }
     seteducation("")
     setemployement("")
-    // console.log("onsubmit",handleSubmit)
+
   };
 
-  //    const handleinput = (e) => {
-  //         console.log(e);
-  //         name = e.target.name;
-  //         value = e.target.value;
-  //         setEmp({ ...emp, [name]: value });
-  //       };
+
 
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
 
-    // checking if value of first name and last name is empty show error else take to next step
-    // if (
-    //   validator.isEmpty(values.company) ||
-    //   validator.isEmpty(values.position) ||
-    //   validator.isEmpty(values.joiningdate) ||
-    //   validator.isEmpty(values.resignationdate) ||
-    //   validator.isEmpty(values.jobdescription)
-    // ) {
-    //   setError(true);
-    //   console.log("setError1");
-    // } else {
-    //   nextStep();
-    //   console.log("nextstep1");
-    // }
+
   };
   const removeitem = (i) => {
     const temp = education;
     temp.splice(i, 1);
-    console.log("splice", temp);
+
     seteducation(temp);
     setTestUpdate(!testUpdate);
   };
   const removemployement = (i) => {
     const temp = employement;
     employement.splice(i, 1);
-    console.log("splice", temp);
+
     setemployement(temp);
     setTestUpdate(!testUpdate);
   };
@@ -357,12 +303,11 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
       start: details.start,
       end: details.end,
       status: details.status,
-    
+
     });
     seteducation(temp);
     setEmp({ ...emp, educationdetails: temp && temp });
   };
-  console.log("addeducation", addeducation);
 
   return (
     <>
@@ -381,7 +326,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                 <div className="d-flex justify-content-end">
                   <Button
                     className="btn ml-2"
-                    // onClick={()=>{props.onClick}}
+
                     onClick={() => {
                       setShowChildModel(true);
                     }}
@@ -428,12 +373,12 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           </>
                         );
                       })}
-                    {/* {props.employement} */}
+
                   </tbody>
                 </Table>
               </Row>
             </Row>
-            {/* </div> */}
+
             <Modal
               aria-labelledby="contained-modal-title-vcenter"
               centered
@@ -461,7 +406,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           border: "1px solid black",
                         }}
                       >
-                        
+
                       </hr>
                     </div>
 
@@ -477,12 +422,10 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           required
                           name="company"
                           placeholder="company name.."
-                          // defaultValue={empdetails.company}
+
                           defaultValue={values.company}
                           onChange={handleempinput}
-                          // onChange={handleempinput}
-                          // onChange={handleempinput}
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -498,11 +441,10 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           required
                           name="position"
                           placeholder="position.."
-                          // defaultValue={empdetails.position}
+
                           defaultValue={values.position}
                           onChange={handleempinput}
-                          // onChange={handleempinput}
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -522,11 +464,11 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           name="joiningdate"
                           placeholder="joining date"
                           defaultValue={values.joiningdate}
-                          // defaultValue={empdetails.joiningdate}
+
                           onChange={async (e) =>
                             await handleempinputJoiningDate(e)
                           }
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -543,11 +485,11 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           name="resignationdate"
                           placeholder="resignation date"
                           defaultValue={values.resignationdate}
-                          // defaultValue={empdetails.resignationdate}
+
                           onChange={async (e) =>
                             await handleempinputResignationDate(e)
                           }
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -566,11 +508,10 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                         required
                         name="jobdescription"
                         placeholder="Tell us about your job role & experience in previous company "
-                        // defaultValue={empdetails.jobdescription}
+
                         defaultValue={values.jobdescription}
                         onChange={handleempinput}
-                        //   onChange={handleempinput}
-                        // disabled={disableFields}
+
                       />
                     </FormGroup>
                   </Row>
@@ -591,20 +532,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
             </Modal>
 
             <div style={{ display: "flex" }}>
-              {/* <Button variant="primary" onClick={prevStep}>
-                Previous 
-              </Button>
 
-              <Button
-                variant="primary"
-                type="submit"
-                style={{ marginLeft: "2%" }}
-                // onClick={handleSubmit}
-                onClick={handleSubmit}
-                
-              >
-                Submit
-              </Button> */}
             </div>
 
             <Row>
@@ -616,7 +544,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                 <div className="d-flex justify-content-end">
                   <Button
                     className="btn ml-2"
-                    // onClick={()=>{props.onClick}}
+
                     onClick={() => {
                       setShowChildModel1(true);
                     }}
@@ -626,52 +554,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                 </div>
               </div>
 
-              {/* <Row className="my-3">
-                <Table striped bordered hover className="ml-4">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th style={{ textAlign: "center" }}>Institude</th>
-                      <th style={{ textAlign: "center" }}>Degree</th>
-                      <th style={{ textAlign: "center" }}>Start Date</th>
-                      <th style={{ textAlign: "center" }}>End Date</th>
-                      <th style={{ textAlign: "center" }}>Status</th>
-                      <th style={{ textAlign: "center" }}>Remove</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {education &&
-                      education.map((d, i) => {
-                        {
-                          console.log("d", d);
-                        }
-                        return (
-                          <>
-                            <tr key={i}>
-                              <th>{i + 1}</th>
-                              <td>{d.institute}</td>
-                              <td>{d.degreetitle}</td>
-                              <td>{d.start}</td>
-                              <td>{d.end}</td>
-                              <td>{d.status}</td>
-                              <td>
-                                <i
-                                  class="fa fa-trash-can"
-                                  aria-hidden="true"
-                                  style={{ color: "red" }}
-                                  onClick={() => removeitem(i)}
-                                ></i>
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
-                    {/* {props.employement} */}
-                  {/* </tbody> */}
-                {/* </Table> */}
-              {/* </Row>  */}
-
-              {/* Asad Work........................... */}
               <Row className="my-3">
                 <Table striped bordered hover className="ml-4">
                   <thead>
@@ -689,7 +571,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                     {education &&
                       education.map((d, i) => {
                         {
-                          console.log("d", d);
+
                         }
                         return (
                           <>
@@ -712,13 +594,13 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           </>
                         );
                       })}
-                    {/* {props.employement} */}
+
                   </tbody>
                 </Table>
               </Row>
-               {/* Asad work................................... */}
+
             </Row>
-            {/* </div> */}
+
             <Modal
               aria-labelledby="contained-modal-title-vcenter"
               centered
@@ -760,12 +642,10 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           required
                           name="institute"
                           placeholder="institude"
-                          // defaultValue={empdetails.company}
+
                           defaultValue={values.institute}
                           onChange={handleeducationdetails}
-                          // onChange={handleempinput}
-                          // onChange={handleempinput}
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -781,11 +661,9 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           required
                           name="degreetitle"
                           placeholder="degree.."
-                          // defaultValue={empdetails.position}
+
                           defaultValue={values.degreetitle}
                           onChange={handleeducationdetails}
-                          // onChange={handleempinput}
-                          // disabled={disableFields}
                         />
                       </Form.Group>
                     </Col>
@@ -805,9 +683,9 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           name="start"
                           placeholder="Start date"
                           defaultValue={values.start}
-                          // defaultValue={empdetails.joiningdate}
+
                           onChange={async (e) => await handleInputStartDate(e)}
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -824,9 +702,9 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                           name="end"
                           placeholder="End date"
                           defaultValue={values.end}
-                          // defaultValue={empdetails.resignationdate}
+
                           onChange={async (e) => await handleInputEndDate(e)}
-                          // disabled={disableFields}
+
                         />
                       </Form.Group>
                     </Col>
@@ -845,11 +723,9 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                         required
                         name="status"
                         placeholder="Tell us about your education status"
-                        // defaultValue={empdetails.jobdescription}
+
                         defaultValue={values.status}
                         onChange={handleeducationdetails}
-                        //   onChange={handleempinput}
-                        // disabled={disableFields}
                       />
                     </FormGroup>
                   </Row>
@@ -878,7 +754,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                 variant="primary"
                 type="submit"
                 style={{ marginLeft: "2%" }}
-                // onClick={handleSubmit}
                 onClick={handleSubmit}
               >
                 Submit

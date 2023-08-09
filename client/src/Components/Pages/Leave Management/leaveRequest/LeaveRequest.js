@@ -34,7 +34,7 @@ const LeaveRequest = () => {
   const [Info, setinfo] = useState([]);
   const [backupresourse, setbackupresourse] = useState("")
   const [leaveNature, setLeaveNature] = useState("")
-  console.log("user from Context", user);
+
   const [leaves, setLeaves] = useState([]);
   const url = "/leaves";
   const posturl = "/leaverequest/addrequest";
@@ -49,14 +49,12 @@ const LeaveRequest = () => {
 
 
   const employee = user.id;
-  // console.log(employee);
+
   const getEmp = `/employees/${user.id}`;
   //leave with backup resource
 
-  // const [status,setstatus] = useState("Pending Aproval")
   const componentRef = useRef();
-  // const url2 =`/departments/${}`
-  // console.log(url2)
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -65,9 +63,8 @@ const LeaveRequest = () => {
       const res = await axios.get(getEmp);
       const empinfo = res.data;
 
-      console.log("info", empinfo);
       const InfoData = [];
-      console.log("infoooo", Info.Leaves)
+
 
       await empinfo.Leaves.map((d) => {
 
@@ -87,12 +84,11 @@ const LeaveRequest = () => {
           leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
           backupresourse: d.backupresourse
         });
-        console.log(InfoData, "pushing data")
+
       });
-      console.log("************", InfoData);
+  
       setinfo(InfoData);
-      console.log("Info", Info);
-      console.log("latest", latest);
+
       const departments = [];
       await empinfo.departments.map((d) => {
         departments.push({
@@ -103,7 +99,7 @@ const LeaveRequest = () => {
           designation: empinfo.designation,
         });
       });
-      console.log("departments", departments);
+
       setDetails(departments);
     } catch (error) {
       console.log(error);
@@ -112,15 +108,14 @@ const LeaveRequest = () => {
   //generating report using jspdf
 
   // define a generatePDF function that accepts a argument
-  console.log("dep", depurl)
+
   const depurl = user.departments.map((d) => d._id);
   const depemployees = `/departments/${depurl}`
-  // console.log(depemployees,"departmental employees")
   const fetchData = async () => {
     try {
       const res = await axios.get(url);
       const dd = res.data.getLeave;
-      console.log("data", dd);
+
       setLeaves(dd);
     } catch (error) {
       console.log(error);
@@ -129,11 +124,8 @@ const LeaveRequest = () => {
   const allemployees = async () => {
     try {
       const res = await axios.get(depemployees);
-      console.log(res.data.department.employees, "recent response");
-      // const data = await res.data.department.employee
-      // data &&  setdepemp(res.data.department.employees);
       const data = res.data.department.employees;
-      console.log("nomis data ", data);
+
       setdepemp(data)
 
     } catch (error) {
@@ -145,8 +137,6 @@ const LeaveRequest = () => {
 
     const formData = new FormData();
 
-    console.log("attachedfile++++++++++++++++++++++++++++++++++++++++++++++++", attachedFile, leaveType, from, reason);
-    console.log("formData12", formData);
     formData.append("leaveType", leaveType);
     formData.append("from", from);
     formData.append("reason", reason);
@@ -161,8 +151,6 @@ const LeaveRequest = () => {
     formData.append("leaveNature", leaveNature)
 
     try {
-      console.log("formData12", formData);
-
       const addreq = await axios({
         method: "post",
         url: `${posturl}`,
@@ -170,10 +158,8 @@ const LeaveRequest = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("post data", addreq);
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
-      console.log("erorr==================123", error);
       NotificationManager.error("Failed to Add");
     }
   };
@@ -195,32 +181,6 @@ const LeaveRequest = () => {
   var diffDays = Math.round(
     Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
   );
-  // console.log(
-  //   firstDate,
-  //   "to",
-  //   secondDate,
-  //   "\nDifference: " + diffDays + " day"
-  // );
-
-
-
-  //   const backupresourses = async() =>{
-  //     try{    
-  // const leavesId = await Info.slice(Info.length-1,Info.length).map((d)=>d.leavesId.map((d)=>d._id))
-  // console.log("leavesFilter",leavesId);
-  //  const specleave = `leaverequest/${leavesId}`;
-  // console.log("specific leave",specleave)
-  //     console.log("in Try")
-
-
-  //        const response = leavesId && await axios.get(specleave);
-  //        console.log(response,"response specific")
-  //        const data = response
-  //        console.log("specific leaves data",data)
-  //    }catch(error){
-  //          console.log(error)
-  //    }
-  //  }
 
 
 
@@ -230,9 +190,8 @@ const LeaveRequest = () => {
     allemployees();
 
   }, []);
-  //  console.log("after setting state",depemp);
+
   const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
-  //  console.log("after filter method call",array)
   return (
     <>
       <div
@@ -277,19 +236,6 @@ const LeaveRequest = () => {
                       <Col xs="7">
                         <Card>
                           <Card.Body>
-                            {/* <Card.Text>
-                              <div>
-                                <h5
-                                  style={{
-                                    fontWeight: "600",
-                                    textAlign: "center",
-                                    padding:'5px 0px'
-                                  }}
-                                >
-                                  Leave Form
-                                </h5>
-                              </div>
-                            </Card.Text> */}
                             <Container>
                               <Form onSubmit={addleaveRequest}>
                                 <Form.Group
@@ -344,11 +290,9 @@ const LeaveRequest = () => {
                                       <Form.Control
                                         type="date"
                                         required
-                                        // min={disableDate()}
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                      // defaultValue={Date.now()}
                                       />
                                     </Col>
                                     <Col>
@@ -397,13 +341,12 @@ const LeaveRequest = () => {
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Backup Resourse</Form.Label>
                                       <Form.Select
-                                        // required                   
+                                    
                                         onChange={(e) => { setbackupresourse(e.target.value) }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {
                                           array.map((d, i) => {
-
                                             return (
                                               <>
 
@@ -450,8 +393,7 @@ const LeaveRequest = () => {
                                   <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Leave Nature</Form.Label>
-                                      <Form.Select
-                                        // required   
+                                      <Form.Select  
                                         value={leaveNature}
                                         onChange={(e) => { setLeaveNature(e.target.value) }}
                                       >
@@ -468,7 +410,6 @@ const LeaveRequest = () => {
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Short leave</Form.Label>
                                       <Form.Select
-                                        // required   
                                         value={Short_leave}
                                         onChange={(e) => { setShort_leave(e.target.value) }}
                                       >
@@ -476,16 +417,8 @@ const LeaveRequest = () => {
                                         <option value="True">True</option>
                                         <option value="False">False</option>
 
-
                                       </Form.Select>
                                     </Col>
-
-
-
-
-
-
-
 
                                   </Row>
                                 </Form.Group>
@@ -499,14 +432,10 @@ const LeaveRequest = () => {
                                         id="files"
                                         name="files"
                                         onChange={(f) => {
-                                          console.log(
-                                            "fileess",
-                                            f.target.value
-                                          );
+                                          
                                           var ext = f.target.value.match(
                                             /\.([^\.]+)$/
                                           )[1];
-                                          console.log("extension", ext);
                                           switch (ext) {
                                             case "jpeg":
                                             case "jpg":
@@ -585,10 +514,7 @@ const LeaveRequest = () => {
 
                           <Card.Body>
                             <Container>
-                              {/* <Row>
-                                <Col xs={"12"}> */}
                               {details.map((d) => {
-                                // console.log("details", details);
                                 return (
                                   <>
                                     <div style={{ display: 'flex', width: '100%' }}>
@@ -646,9 +572,6 @@ const LeaveRequest = () => {
                                   </>
                                 );
                               })}
-
-                              {/* </Col>
-                              </Row> */}
                             </Container>
                           </Card.Body>
                         </Card>
@@ -672,7 +595,6 @@ const LeaveRequest = () => {
                 >
                   Generate Report
                 </Button>
-                {/* <LeaveReport leave={Info}/> */}
               </Container> : ""
             }
           </div>
@@ -692,11 +614,9 @@ const LeaveRequest = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {console.log("leave data final", leaveData)} */}
 
                   {
                     Info.slice(Info.length - 6, Info.length).map((d, i) => {
-                      // console.log("infooooooooo#$$$", Info)
                       return (
                         <tr>
                           <td>{i + 1}</td>
@@ -707,15 +627,6 @@ const LeaveRequest = () => {
                           <td>{new Date(d.to).toDateString()}</td>
                           <td>{d.reason}</td>
                           <td>
-                            {/* <p
-                          className={`${
-                            d.status === "Reject" ? "tableCell1" : ""
-                          }  ${
-                            d.status === "Pending Approval" ? "tableCell2" : ""
-                          }  ${d.status === "Approved" ? "tableCell " : ""}`}
-                        >
-                          {d.status}
-                        </p> */}
                             <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
                           </td>
                         </tr>
@@ -729,14 +640,10 @@ const LeaveRequest = () => {
         </section>
         <NotificationContainer />
       </div>
-      {/* //style={{display:"none"}} */}
       <div className="pb-5 mb-5" style={{ display: "none" }}>
         <div ref={componentRef} className=" content-wrapper">
           <Report Info={Info} />
         </div>
-
-
-
       </div>
     </>
   );

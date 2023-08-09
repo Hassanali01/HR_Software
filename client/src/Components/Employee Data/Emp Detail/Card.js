@@ -14,7 +14,6 @@ import {
 const Cards = ({ data }) => {
   const [update, setUpdate] = useState(true);
   const navigate = useNavigate();
-  console.log("propsdata", data);
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
@@ -23,7 +22,7 @@ const Cards = ({ data }) => {
   const [supervisors, setsupervisors] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const PP = "http://localhost:5002/images/";
-  console.log("supervisors", supervisor);
+
   const [emp, setEmp] = useState({
     profilepic: "",
     firstname: data.firstname,
@@ -87,14 +86,12 @@ const Cards = ({ data }) => {
   const handleinput = (e) => {
     let name, value;
 
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setEmp({ ...emp, [name]: value });
   };
 
   const handleCloseModal = () => setShow(false);
-
   const handleShow = () => {
     setShow(true);
   };
@@ -110,9 +107,8 @@ const Cards = ({ data }) => {
     //handle user input form data
   };
 
-  console.log(handleupdateform);
+
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     const url = `${data._id}`;
 
     try {
@@ -142,7 +138,7 @@ const Cards = ({ data }) => {
           salary: emp.salary,
         })
         .then((user) => {
-          console.log("updateUser", user.data.updateData);
+
           data.firstname = user.data.updateData.firstname;
           data.lastname = user.data.updateData.lastname;
           data.email = user.data.updateData.email;
@@ -160,20 +156,13 @@ const Cards = ({ data }) => {
 
       handleCloseModal();
 
-      // console.log({data})
-
-      // const updateUser = await axios.put(url, handleupdateform);
-      // NotificationManager.success("Successfully Updated");
-      // handleCloseModal();
-      // console.log("fistname",firstname)
-      // // setUpdate(!update)
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("Failed to update");
     }
   };
   const departmentemployees = async () => {
-    // setsupervisors(data.departments)
+
     try {
       const getdep = await axios
         .get("employeesofdepartments", {
@@ -182,7 +171,7 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
-          console.log("then data", setsupervisor(d.data.employees));
+
         });
     } catch (error) {
       console.log(error);
@@ -213,7 +202,7 @@ const Cards = ({ data }) => {
               handleSubmit();
               setDisableFields(true);
             }}
-            // style={{opacity:"60%"}}
+
           >
             Save
           </a>
@@ -423,7 +412,7 @@ const Cards = ({ data }) => {
                 }}
               ></hr>
             </div>
-            {console.log("beforre error", emp)}
+
 
             <ul style={{ marginLeft: "35px" }}>
               {emp.supervisors &&
@@ -440,7 +429,6 @@ const Cards = ({ data }) => {
                     (f) => f._id == e.target.value
                   )[0];
                   const empSupervisors = emp.supervisors.push(newSupervisor);
-                  console.log("new", emp.supervisors);
 
                   setEmp({ ...emp, supervisors: emp.supervisors });
                 }}

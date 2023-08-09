@@ -8,7 +8,6 @@ const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   isFetching: false,
   error: false,
-  // myID: false,
 };
 
 export const Context = createContext(INITIAL_STATE);
@@ -18,8 +17,6 @@ export const ContextProvider = ({ children }) => {
 
    useEffect(()=>{
       localStorage.setItem("user",JSON.stringify(state.user))
-        // const  myID = state.user.id 
-      // console.log(myID,"asad=======")
    },[state.user])
 
    

@@ -27,6 +27,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
     martialStatus: "",
     religion: "",
   });
+
   //creating error state for validation
   const [error, setError] = useState(false);
   const [file, setfile] = useState();
@@ -34,26 +35,19 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
     e.preventDefault();
-    console.log("function caling..........")
 
     // checking if value of first name and last name is empty show error else take to step 2
-    console.log("value", values);
     if (
       validator.isEmpty(values.firstName) ||
       validator.isEmpty(values.lastName) ||
       validator.isEmpty(values.gender) ||
-
-      // validator.isEmpty(values.dob) ||
-      // validator.isEmpty(values.martialStatus) ||
-      // validator.isEmpty(values.religion) ||
-      // validator.isEmpty(values.profilepic)
       validator.isEmpty(values.cnic)
     ) {
       setError(true);
-      console.log("setError");
+
     } else {
       nextStep();
-      console.log("nextstep");
+
     }
   };
   const url2 = "/departments";
@@ -87,11 +81,8 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
 
     handleFormData("profilepic")(object);
     console.log("base64", base64);
-    // document.getElementById("avatar").src = `${base64}`;
 
     return base64;
-    // avatar.src = base64;
-    // textArea.innerText = base64;
   }
 
 
@@ -101,7 +92,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
       const companies = await axios.get(`/allCompany`)
       const cs = companies.data
       setCompany(cs)
-      console.log("company", cs)
     }
     catch (error) {
       console.log(error);
@@ -112,8 +102,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
 
 
   useEffect(() => {
-    console.log("hi im useeffect...")
-
     getdata()
 
   }, [])
@@ -121,17 +109,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
 
   return (
     <>
-      {/* <div className="col">
-    <h3 className="page-title">Add Employees</h3>
-  <ul className="breadcrumb" style={{ backgroundColor: "#f7f7f7" }}>
-     <li className="breadcrumb-item">
-       <Link to="/" style={{ color: "#1f1f1f" }}>
-         Dashboard
-       </Link>
-     </li>
-     <li className="breadcrumb-item active">Add Employee</li>
-  </ul>
-  </div> */}
       <div>
         <Card style={{ marginTop: "8%", height: "auto" }}>
           <Card.Body style={{ height: "auto" }}>
@@ -146,8 +123,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                       <Form.Label htmlFor="uploadpic">
                         {file ? (
                           <>
-                            {/* {console.log("picinsrc",URL.createObjectURL(file))} */}
-
                             <img
                               className="rounded-circle"
                               style={{ width: "130px", height: "130px" }}
@@ -168,7 +143,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                       <Form.Control
                         type="file"
                         name="file"
-                        // value={emp.profilepic}
                         defaultValue={values.profilepic}
                         style={{ display: "none" }}
                         id="uploadpic"
@@ -176,7 +150,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                           await uploadImage(e);
                         }}
                       />
-                      {console.log("profilepiccc", setfile)}
                       <div className="w-100 text-center">
                         <label>Upload Picture</label>
                       </div>
@@ -195,10 +168,8 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                       required
-                      // style={{ border: error ? "2px solid red" : "" }}
                       name="firstName"
                       defaultValue={values.firstName}
-                      // defaultValue={emp.firstname}
                       type="text"
                       placeholder="First Name"
                       onChange={handleFormData("firstName")}
@@ -214,9 +185,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                       required
-                      // style={{ border: error ? "2px solid red" : "" }}
                       name="lastName"
-                      // defaultValue={emp.lastname}
                       defaultValue={values.lastName}
                       type="text"
                       placeholder="Last Name"
@@ -237,10 +206,6 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                       required
                       name="gender"
                       defaultValue={values.gender}
-                      // defaultValue={emp.gender}
-                      // value={props.value2}
-                      //   onChange={handleinput}
-                      // onChange={props.onChange}
                       onChange={handleFormData("gender")}
                     >
                       <option value="" selected hidden disabled>
@@ -261,15 +226,9 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                   >
                     <Form.Label>Religion</Form.Label>
                     <Form.Select
-                      // required
                       name="religion"
                       placeholder="Religion"
-                      // defaultValue={emp.religion}
                       defaultValue={values.religion}
-                      // value={props.value6}
-                      //   onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("religion")}
                     >
                       <option value="" selected hidden disabled>
@@ -299,26 +258,12 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                     s
                   >
                     <Form.Label>D-0-B</Form.Label>
-                    {/* <DatePicker
-                          
-                            required
-                            selected={emp.dob}
-                            onChange={(date)=>{setEmp({...emp,dob:moment(date).format('dd/mm/yyyy')})}}
-                            // dateFormat='d MMMM, yyyy'
-                            dateFormat='dd/mm/yyyy'
-                            dropDownMode="select"
-                          /> */}
                     <Form.Control
                       type="date"
-                      // required
+  
                       placeholder="dd/mm/yyyy"
                       name="dob"
-                      // defaultValue={emp.dob}
-                      // value={props.value4}
                       defaultValue={values.dob}
-                      //   onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("dob")}
                     />
                   </Form.Group>
@@ -332,15 +277,9 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                   >
                     <Form.Label>Martial Status</Form.Label>
                     <Form.Select
-                      // required
                       name="martialStatus"
                       placeholder="martial status.."
-                      // defaultValue={emp.martialStatus}
                       defaultValue={values.martialStatus}
-                      // value={props.value5}
-                      //   onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("martialStatus")}
                     >
                       <option value="" selected hidden disabled>
@@ -370,32 +309,22 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                         borderColor: "grey",
                         paddingTop: "1%",
                         paddingBottom: "1%",
-                      }} // type="number"
+                      }} 
                       name="cnic"
                       required
-                      // value={""}
                       format="#####-#######-#"
-                      // placeholder="xxxxx-xxxxxxx-x"
                       allowEmptyFormatting
                       mask="x"
-                      // defaultValue={emp.cnic}
                       defaultValue={values.cnic}
-                      // value={props.value3}
-                      //   onChange={handleinput}
-                      // onChange={props.onChange}
-                      //   disabled={disableFields}
                       onChange={handleFormData("cnic")}
                     />
                   </Form.Group>
                 </Col>
-                {/* //company filled */}
                 <Col xl="6" lg="6" md="6">
                   <Form.Label>Payroll Company</Form.Label>
                   <Form.Control
                     required
-                    // style={{ border: error ? "2px solid red" : "" }}
                     name="company_payroll"
-                    // defaultValue={emp.lastname}
                     defaultValue={values.company_payroll}
                     type="text"
                     placeholder="company_payroll"

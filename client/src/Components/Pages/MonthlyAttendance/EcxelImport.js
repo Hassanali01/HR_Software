@@ -7,11 +7,9 @@ export class EcxelImport extends Component {
     rows: []
   };
   uploadFile = event => {
-    console.log("hello world")
     let fileObj = event.target.files[0];
     ExcelRenderer(fileObj, (err, resp) => {
       if (err) {
-        console.log(err);
       } else {
         const { cols, rows } = resp;
         this.setState(

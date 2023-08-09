@@ -25,7 +25,6 @@ import Accordion from "react-bootstrap/Accordion";
 const Cards = ({ data }) => {
   const [update, setUpdate] = useState(true);
   const navigate = useNavigate();
-  console.log("propsdata", data);
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
@@ -35,7 +34,7 @@ const Cards = ({ data }) => {
   const [disableFields, setDisableFields] = useState(true);
   const [editEdu, setEditEdu] = useState(true);
   const PP = "http://locallhost:5001/images/";
-  console.log("supervisors", supervisor);
+
 
   //modals states for education and employement history
   const Closechildmodal = () => setShowChildModel(false);
@@ -43,7 +42,6 @@ const Cards = ({ data }) => {
   const [childModel, setShowChildModel] = useState(false);
   const [childModel1, setShowChildModel1] = useState(false);
   const [testUpdate, setTestUpdate] = useState(false);
-
   const [leaves, setLeaves] = useState(false)
 
   const [emp, setEmp] = useState({
@@ -128,7 +126,6 @@ const Cards = ({ data }) => {
 
   const handleinput = (e) => {
     let name, value;
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setEmp({ ...emp, [name]: value });
@@ -158,22 +155,22 @@ const Cards = ({ data }) => {
   // Asad Api data
   const [leavesData, setLeavesData] = useState([]);
   useEffect(() => {
-    let localstoragevalue=JSON.parse(localStorage.getItem("user"));
-    for(let i in localstoragevalue){
-      if(i=="id"){
-        let userid= localstoragevalue[i]
+    let localstoragevalue = JSON.parse(localStorage.getItem("user"));
+    for (let i in localstoragevalue) {
+      if (i == "id") {
+        let userid = localstoragevalue[i]
       }
-      console.log(localstoragevalue[i],"yes")
+
     }
-    console.log(localstoragevalue,"yes")
-    // {JSON.parse(localStorage.getItem("timesheet_user437")).details.username}
+
+
     getLeavesrequests();
 
   }, []);
   const { user } = useContext(Context);
   const getUrl = "/leaverequest/all/";
   const getLeavesrequests = async () => {
-    console.log("user", user);
+
     var getLeaves = [];
     {
       if (user.isAdmin) {
@@ -184,7 +181,7 @@ const Cards = ({ data }) => {
     }
     const data = getLeaves.data;
     setLeavesData(data.allRequest);
-    console.log("Leaves Requests", data.allRequest);
+
   };
   const newArray = [];
   leavesData.map((d) => {
@@ -194,7 +191,6 @@ const Cards = ({ data }) => {
     var diffDays = Math.round(
       Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
     );
-    console.log("new leaves data-------------------", leavesData);
 
     newArray.push({
       id: d._id,
@@ -209,22 +205,21 @@ const Cards = ({ data }) => {
       totaldays: diffDays,
       status: d.status,
       designation: d.employee && d.employee.designation,
-      supervisorApproval:  d.employee && d.supervisorApproval,
+      supervisorApproval: d.employee && d.supervisorApproval,
       attachment: d.attachment,
       applicationdate: d.applicationdate,
-      leaves:  d.employee && d.employee.Leaves.map((d) => d),
+      leaves: d.employee && d.employee.Leaves.map((d) => d),
     });
   });
-  console.log(newArray.id, "user_id")
+
   // asad Api code
 
-  console.log(handleupdateform, "view user data");
-  console.log(handleupdateform.userId, "user id--------")
+
   var demo = handleupdateform.userId
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+
     const url = `${data._id}`;
-    console.log(url, "++++++++++++++++++++++++++++++")
+
     try {
       const updateUser = await axios
         .put(url, {
@@ -266,7 +261,7 @@ const Cards = ({ data }) => {
           leaves: data.leaves
         })
         .then((user) => {
-          console.log("updateUser", user.data.updateData);
+
           data.firstname = user.data.updateData.firstname;
           data.lastname = user.data.updateData.lastname;
           data.dob = user.data.updateData.dob;
@@ -292,20 +287,14 @@ const Cards = ({ data }) => {
 
       handleCloseModal();
 
-      // console.log({data})
 
-      // const updateUser = await axios.put(url, handleupdateform);
-      // NotificationManager.success("Successfully Updated");
-      // handleCloseModal();
-      // console.log("fistname",firstname)
-      // // setUpdate(!update)
     } catch (error) {
-      console.log("error2", error);
+
       NotificationManager.error("Failed to update");
     }
   };
   const departmentemployees = async () => {
-    // setsupervisors(data.departments)
+
     try {
       const getdep = await axios
         .get("employeesofdepartments", {
@@ -314,7 +303,7 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
-          console.log("then data", setsupervisor(d.data.employees));
+
         });
     } catch (error) {
       console.log(error);
@@ -324,14 +313,7 @@ const Cards = ({ data }) => {
     departmentemployees();
   }, [data]);
 
-  // const [value, setValue] = useState('')
-  // const options = useMemo(() => countryList().getData(), [])
 
-  // const changeHandler = value => {
-  //   setValue(value)
-  // }
-
-  //educational details handler
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
   const [empdetails, setempdetails] = useState({
@@ -352,14 +334,14 @@ const Cards = ({ data }) => {
   const removeitem = (i) => {
     const temp = education;
     temp.splice(i, 1);
-    console.log("splice", temp);
+
     seteducation(temp);
     setTestUpdate(!testUpdate);
   };
   const removemployement = (i) => {
     const temp = employement;
     employement.splice(i, 1);
-    console.log("splice", temp);
+
     setemployement(temp);
     setTestUpdate(!testUpdate);
   };
@@ -373,7 +355,7 @@ const Cards = ({ data }) => {
       duration: empdetails.duration,
       jobdescription: empdetails.jobdescription,
     });
-    console.log("emplllllllll", empl);
+
     setemployement(empl);
     setEmp({ ...emp, employementhistory: empl });
   };
@@ -418,7 +400,7 @@ const Cards = ({ data }) => {
     name = e.target.name;
     value = e.target.value;
 
-    console.log("change", empdetails);
+
 
     var a = moment(empdetails.resignationdate);
     var b = moment(e.target.value);
@@ -431,7 +413,7 @@ const Cards = ({ data }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
+
 
     await setempdetails({
       ...empdetails,
@@ -457,7 +439,7 @@ const Cards = ({ data }) => {
 
     var days = a.diff(b, "days");
 
-    console.log(years + " years " + months + " months " + days + " days");
+
 
     await setempdetails({
       ...empdetails,
@@ -492,7 +474,7 @@ const Cards = ({ data }) => {
               addhistory();
               Closechildmodal();
             }}
-          // style={{opacity:"60%"}}
+
           >
             Save
           </Button>
@@ -507,35 +489,18 @@ const Cards = ({ data }) => {
             <Container fluid>
               <Accordion.Item eventKey="0">
                 <Row>
-                  {/* <div className="py-3"> */}
                   <Accordion.Header style={{ color: "grey" }}>
                     <h5 style={{ color: "rgb(0,105,92)" }}>
                       Employee Information
                     </h5>
-                    {/* <hr
-                style={{
-                  fontWeight: "bold",
-                  borderWidth: "2px",
-                  border: "1px solid black",
-                }}
-              ></hr> */}
-                    <hr />
-                    {/* </div> */}
+
                   </Accordion.Header>
-                  {/* <h4>Employee Information</h4> */}
-                  {/* <hr
-                style={{
-                  fontWeight: "bold",
-                  borderWidth: "2px",
-                  border: "1px solid black",
-                }}
-              ></hr>
-            </div> */}
+
                   <Accordion.Body>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <Col sm={4}>
                         <div className="d-flex justify-content-center">
-                          {console.log("profilepiiii", emp.profilepic)}
+
                           {emp.profilepic ? (
                             <img
                               src={emp.profilepic}
@@ -643,7 +608,6 @@ const Cards = ({ data }) => {
                               controlId="formGridLastName"
                               className="formmargin"
                             >
-                              {console.log("dob", emp.dob)}
                               <Form.Label>D-0-B</Form.Label>
 
                               <Form.Control
@@ -718,39 +682,20 @@ const Cards = ({ data }) => {
                         </Row>
                       </Col>
 
-                      {/* <Col sm={4}>
-              <div className="d-flex justify-content-center">
-                {data.profilepic ? (
-                  <img
-                    src={PP + data.profilepic}
-                    alt="Admin"
-                    className="rounded-circle"
-                    width={150}
-                  />
-                ) : (
-                  <img
-                    src={pp}
-                    alt="Admin"
-                    className="rounded-circle"
-                    width={150}
-                  />
-                )}
-              </div>
-            </Col> */}
+
                     </div>
                   </Accordion.Body>
                 </Row>
               </Accordion.Item>
               <Accordion.Item eventKey="1" style={{ marginTop: "2%" }}>
                 <Row>
-                  {/* <div className="py-3"> */}
-                  {/* <h4>Contact Details</h4> */}
+
                   <Accordion.Header>
                     <h5 style={{ color: "rgb(0,105,92)" }}>Contact Details</h5>
                     <hr />
                   </Accordion.Header>
 
-                  {/* </div> */}
+
                   <Accordion.Body eventKey="1">
                     <h5>Primary Details</h5>
                     <div style={{ display: "flex" }}>
@@ -773,11 +718,7 @@ const Cards = ({ data }) => {
                         </Form.Group>
                       </Col>
                       <Col>
-                        {/* <Form.Group
-                as={Col}
-                controlId="formGridLastName"
-                className="formmargin"
-              > */}
+
                         <Form.Label
                           as={Col}
                           controlId="formGridLastName"
@@ -807,7 +748,7 @@ const Cards = ({ data }) => {
                             onChange={handleinput}
                             disabled={disableFields}
                           />
-                          {/* </Form.Group> */}
+
                         </InputGroup>
                       </Col>
                     </div>
@@ -832,11 +773,7 @@ const Cards = ({ data }) => {
                         </Form.Group>
                       </Col>
                       <Col>
-                        {/* <Form.Group
-                as={Col}
-                controlId="formGridLastName"
-                className="formmargin"
-              > */}
+
                         <Form.Label
                           as={Col}
                           controlId="formGridLastName"
@@ -867,21 +804,21 @@ const Cards = ({ data }) => {
                             disabled={disableFields}
                           />
                         </InputGroup>
-                        {/* </Form.Group> */}
+
                       </Col>
                     </div>
                   </Accordion.Body>
                 </Row>
               </Accordion.Item>
-              {/* <Row> */}
+
               <Accordion.Item eventKey="2" style={{ marginTop: "2%" }}>
                 <div>
-                  {/* <h4>Address & Region</h4> */}
+
                   <Accordion.Header>
                     <h5 style={{ color: "rgb(0,105,92)" }}>Address & Region</h5>
                     <hr />
                   </Accordion.Header>
-                  {/* <hr/> */}
+
                 </div>
                 <Accordion.Body>
                   <Row>
@@ -1003,7 +940,7 @@ const Cards = ({ data }) => {
               <Accordion.Item eventKey="3" style={{ marginTop: "2%" }}>
                 <Row>
                   <div>
-                    {/* <h4>Education Information</h4> */}
+
                     <Accordion.Header>
                       <h5 style={{ color: "rgb(0,105,92)" }}>
                         Education Information
@@ -1041,7 +978,7 @@ const Cards = ({ data }) => {
                               </tr>
                             </thead>
                             <tbody>
-                              {console.log("educationdetails", education)}
+
                               {education &&
                                 education.map((d, i) => {
                                   return (
@@ -1076,7 +1013,7 @@ const Cards = ({ data }) => {
               <Accordion.Item eventKey="4" style={{ marginTop: "2%" }}>
                 <Row>
                   <div>
-                    {/* <h4>Previous Employment</h4>  */}
+
                     <Accordion.Header>
                       <h5 style={{ color: "rgb(0,105,92)" }}>
                         Previous Employment
@@ -1128,10 +1065,7 @@ const Cards = ({ data }) => {
                                         </td>
                                         <td>{d.duration}</td>
                                         <td>
-                                          {console.log(
-                                            "resignation date",
-                                            d.resignationdate
-                                          )}
+
                                           <i
                                             class="fa fa-trash-can"
                                             aria-hidden="true"
@@ -1155,9 +1089,9 @@ const Cards = ({ data }) => {
 
               <Accordion.Item eventKey="5" style={{ marginTop: "2%" }}>
                 <Row>
-                  {/* <Accordion.Body> */}
+
                   <div>
-                    {/* <h4>Employement Details</h4> */}
+
                     <Accordion.Header>
                       <h5 style={{ color: "rgb(0,105,92)" }}>
                         isAdmintails{" "}
@@ -1225,7 +1159,6 @@ const Cards = ({ data }) => {
                         </Col>
                       </Row>
                     </div>
-                    {/* </Row> */}
 
                     <Row>
                       <Col lg={4} xl={4}>
@@ -1276,8 +1209,7 @@ const Cards = ({ data }) => {
               </Accordion.Item>
 
               <Accordion.Item eventKey="6" style={{ marginTop: "2%" }}>
-                {/* <Accordion.Body> */}
-                {/* <h4>Employement Details</h4> */}
+
                 <Accordion.Header>
                   <h5 style={{ color: "rgb(0,105,92)" }}>Bank Details </h5>{" "}
                   <hr />
@@ -1340,7 +1272,7 @@ const Cards = ({ data }) => {
                         controlId="formGridLastName"
                         className="formmargin"
                       >
-                        {console.log("accountno", emp.accountno)}
+
                         <Form.Label>Account No</Form.Label>
                         <Form.Control
                           type="text"
@@ -1411,7 +1343,7 @@ const Cards = ({ data }) => {
                       <a
                         className="btn buttoncolor  "
                         onClick={() => {
-                          console.log("hiiiii")
+
                         }}
                       >
                         Edit
@@ -1433,8 +1365,7 @@ const Cards = ({ data }) => {
                           </thead>
 
                           {leavesData.map((n) => {
-                            // console.log(leavesData, ".........................", handleupdateform.userId)
-                            // console.log(n.employee._id, "full user+++++++++++++++++++++")
+
                             if (n.employee && n.employee._id == demo) {
                               return (<>
                                 <tr key={n.id}>
@@ -1447,7 +1378,7 @@ const Cards = ({ data }) => {
                                   <td>{n.status ? <i class="fa-solid fa-check" style={{ color: "greenYellow" }}></i> : <i class="fa-solid fa-xmark" style={{ color: "orangered" }}></i>}</td>
                                 </tr>
                               </>)
-                            }                                     
+                            }
                           })
                           }
                         </Table>
@@ -1459,12 +1390,6 @@ const Cards = ({ data }) => {
               {/* asad data end */}
 
 
-
-
-
-              {/* <div className="my-3 d-flex justify-content-center">
-                <Button>Add Employee</Button>
-              </div> */}
             </Container>
             <NotificationContainer />
           </div>
@@ -1490,16 +1415,7 @@ const Cards = ({ data }) => {
         <Modal.Body>
           <Container fluid>
             <Row className="mb-3">
-              {/* <div className="py-3">
-                    <h4>Education Information</h4>
-                    <hr
-                      style={{
-                        fontWeight: "bold",
-                        borderWidth: "2px",
-                        border: "1px solid black",
-                      }}
-                    ></hr>
-                  </div> */}
+
 
               <Col>
                 <Form.Group
@@ -1515,7 +1431,7 @@ const Cards = ({ data }) => {
                     placeholder="institution.."
                     value={details.institute}
                     onChange={handleeducationdetails}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1533,7 +1449,7 @@ const Cards = ({ data }) => {
                     placeholder="degree.."
                     value={details.degreetitle}
                     onChange={handleeducationdetails}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1552,7 +1468,7 @@ const Cards = ({ data }) => {
                     name="start"
                     value={details.start}
                     onChange={handleeducationdetails}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1569,7 +1485,7 @@ const Cards = ({ data }) => {
                     name="end"
                     value={details.end}
                     onChange={handleeducationdetails}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1586,7 +1502,7 @@ const Cards = ({ data }) => {
                     placeholder="status"
                     value={details.status}
                     onChange={handleeducationdetails}
-                  //   disabled={disableFields}
+
                   >
                     <option value="" selected hidden disabled>
                       Please Select
@@ -1649,8 +1565,7 @@ const Cards = ({ data }) => {
                     placeholder="company name.."
                     value={empdetails.company}
                     onChange={handleempinput}
-                  //   onChange={handleinput}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1668,7 +1583,7 @@ const Cards = ({ data }) => {
                     placeholder="position.."
                     value={empdetails.position}
                     onChange={handleempinput}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1688,7 +1603,7 @@ const Cards = ({ data }) => {
                     placeholder="joining date"
                     value={empdetails.joiningdate}
                     onChange={async (e) => await handleempinputJoiningDate(e)}
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1708,7 +1623,7 @@ const Cards = ({ data }) => {
                     onChange={async (e) =>
                       await handleempinputResignationDate(e)
                     }
-                  //   disabled={disableFields}
+
                   />
                 </Form.Group>
               </Col>
@@ -1729,7 +1644,7 @@ const Cards = ({ data }) => {
                   placeholder="Tell us about your job role & experience in previous company "
                   value={empdetails.jobdescription}
                   onChange={handleempinput}
-                //   disabled={disableFields}
+
                 />
               </Form.Group>
             </Row>

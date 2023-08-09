@@ -17,9 +17,9 @@ const EmpDetails = () => {
   useEffect(() => {
     const fetchEmp = async () => {
       const res = await axios.get("/employees/" + path);
-      console.log(res);
+
       setEmp(res.data);
-      console.log(res.data,"********************************************")
+
     };
     fetchEmp();
   }, [path]);

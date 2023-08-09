@@ -139,7 +139,6 @@ const Report = ({Info}) => {
                         <td className="text-left py-2 px-2">{d.name}</td>
                         <td className="text-left py-2 px-2">{d.leaveType}</td>
                         <td className="text-left py-2 px-2">{new Date(d.from).toDateString()}</td>
-                        {/* for getting date we can also use{new Date(post.createdAt).toDateString()} */}
                         <td className="text-left">{new Date(d.to).toDateString()}</td>
                         <td className="text-left"><span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" :d.status === "Reject" ? "badge badge-danger":""} border-0`}>{d.status}</span></td>
                       </tr>
@@ -169,7 +168,6 @@ const Report = ({Info}) => {
                         <td className="text-left py-2 px-2">{d.name}</td>
                         <td className="text-left py-2 px-2">{d.leaveType}</td>
                         <td className="text-left py-2 px-2">{new Date(d.from).toDateString()}</td>
-                        {/* for getting date we can a px-2lso use{new Date(post.createdAt).toDateString()} */}
                         <td className="text-left py-2 px-2">{new Date(d.to).toDateString()}</td>
                         <td className="text-left py-2 px-2"><span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" :d.status === "Reject" ? "badge badge-danger":""} border-0`}>{d.status}</span></td>
                       </tr>

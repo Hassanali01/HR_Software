@@ -13,10 +13,10 @@ const HolidaysDetails = () => {
     try {
       const response = await axios.get(url);
       const data = response.data;
-      console.log(data);
+
       setholiday(data);
     } catch (error) {
-      console.log(error);
+
     }
   };
   useEffect(() => {
@@ -47,7 +47,7 @@ const HolidaysDetails = () => {
                       : "-"}
                   </td>
                   <td>{d.title}</td>
-                  {/* for getting date we can also use{new Date(post.createdAt).toDateString()} */}
+
                   <td>
                     <Moment format="DD/M/YYYY">{d.holidaydate}</Moment>
                   </td>

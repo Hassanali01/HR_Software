@@ -1,6 +1,5 @@
 
 import React, { useEffect } from 'react';
-// import '../../dist/css/adminlte.min.css'
 import logo from '../../Assets/img/AdminLTELogo.png'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -8,22 +7,11 @@ import { Context } from "./../../Context/Context";
 import { useContext } from "react";
 const Sidebar = () => {
   const context = useContext(Context);
-
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
 
 
   useEffect(() => {
-    // let localstoragevalue=JSON.parse(localStorage.getItem("user"));
-    // for(let i in localstoragevalue){
-    //   if(i=="id"){
-    //     var userid= localstoragevalue[i]
-    //   }
-    // }
-    // console.log(context.myID,"asad")
-    // let userid = JSON.parse(localStorage.getItem("user")).id
-    // console.log(userid, "yes---")
-    // {JSON.parse(localStorage.getItem("timesheet_user437")).details.username}
 
   }, []);
   return (
@@ -94,7 +82,6 @@ const Sidebar = () => {
                       Departments
                     </p>
                   </Link>
-
                 </li>
               }
               <li className="nav-item">
@@ -105,9 +92,7 @@ const Sidebar = () => {
                     Leave Types
                   </p>
                 </Link>
-
               </li>
-
 
 
               <li className='nav-item' onClick={() => { settoggle(!toggleLeaves) }}>
@@ -125,11 +110,9 @@ const Sidebar = () => {
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
                         <p className='iconColor'>Manage Leaves </p>
                       </Link>
-
                     </>
                   }
                 </a>
-
               </li>
 
 
@@ -218,61 +201,34 @@ const Sidebar = () => {
                     </>
                   }
                 </a>
-
               </li>
-
 
               <li className="nav-item">
                 <Link to="/monthlypayroll" className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
-
                   <p className='iconColor'>
                     Monthly Payroll
                   </p>
                 </Link>
-
               </li>
               <li className="nav-item">
                 <Link to="/payrollsetup" className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
-
                   <p className='iconColor'>
                     PayRoll Setup
                   </p>
                 </Link>
-
               </li>
               <li className="nav-item">
-
-
                 <Link
                   to={`/employees/${context.myID}`}
-                  //  to={`/employees/${JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id}`}
                   className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
-
                   <p className='iconColor'>
                     Profile
                   </p>
                 </Link>
-
               </li>
-
-
-
-              {/* <li className="nav-item">
-                <Link to="/monthlyattendance" className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
-
-                  <p className='iconColor'>
-                    Monthly Attendance
-                  </p>
-                </Link>
-
-              </li> */}
-
-
-
 
             </ul>
           </nav>

@@ -11,13 +11,13 @@ import "./card.css";
 const EmpDetails = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-  console.log(path);
+
   const [emp, setEmp] = useState({});
 
   useEffect(() => {
     const fetchEmp = async () => {
       const res = await axios.get("/employees/" + path);
-      console.log(res);
+ ;
       setEmp(res.data);
     };
     fetchEmp();

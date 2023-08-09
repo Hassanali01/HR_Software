@@ -42,7 +42,7 @@ const Holiday = () => {
       const data = res.data.calendar;
       setcalendar(data);
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("error");
     }
   };
@@ -87,11 +87,11 @@ const Holiday = () => {
       saveHoliday && handleClose();
       NotificationManager.success("Successfully Created");
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("Something went wrong");
     }
 
-    console.log("update", setupdate(!update));
+
   };
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const Holiday = () => {
   }, [update]);
   const handleInput = (e) => {
     e.preventDefault();
-    console.log(e);
+
     setStoreId(e.target.value);
   };
 
@@ -218,7 +218,7 @@ const Holiday = () => {
                   }}
                 />
               </Form.Group>
-              {/* {validation.title && <p style={{color:"Red",fontSize:"13px"}}>{validation.title}</p>} */}
+    
               <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
                 <Form.Label>From</Form.Label>
                 <Form.Control

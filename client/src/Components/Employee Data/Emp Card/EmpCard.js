@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 const EmpCard = ({ data, setUpdate }) => {
   const navigate = useNavigate();
-  console.log("data", data);
+
 
   //userStates
   const [firstname, setfirstname] = useState(data.firstname);
@@ -44,17 +44,14 @@ const EmpCard = ({ data, setUpdate }) => {
   const handledelete = async () => {
     try {
       const deleteUser = await axios.delete(`/employees/${data._id}`);
-      console.log("deleted user", deleteUser);
       NotificationManager.success("sucessfully deleted");
-      // setUpdate(true)
+
     } catch (error) {
-      console.log(error);
+
     }
   };
 
-  //  useEffect(()=>{
 
-  //  },[update])
 
   const handleupdateform = {
     userId: data._id,
@@ -64,13 +61,13 @@ const EmpCard = ({ data, setUpdate }) => {
     designation,
     //handle user input form data
   };
-  console.log(handleupdateform);
+
   const handleSubmit = async (e) => {
     e.preventDefault(e);
     const url = `employees/${data._id}`;
     try {
       const updateUser = await axios.put(url, handleupdateform);
-      console.log("updatedUser", updateUser);
+
       if (updateUser) {
         return (
           (data.firstname = firstname),
@@ -82,7 +79,7 @@ const EmpCard = ({ data, setUpdate }) => {
       NotificationManager.success("Successfully Updated");
       handleCloseModal();
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("Failed to update");
     }
   };
@@ -114,7 +111,6 @@ const EmpCard = ({ data, setUpdate }) => {
   };
 
   return (
-    // {PP+d.profile.pic}{
 
     <>
       <Card>
@@ -152,9 +148,7 @@ const EmpCard = ({ data, setUpdate }) => {
             Delete
           </MenuItem>
         </Menu>
-        {/* <MoreVertIcon style={{ marginLeft: "auto", marginTop: "5px" }} /> */}
         <div style={cardImg}>
-          {/* //         {/* PP+d.profilepic */}
           {data.profilepic ? (
             <Card.Img
               variant="top"
@@ -168,11 +162,11 @@ const EmpCard = ({ data, setUpdate }) => {
 
         <Card.Body>
           <div style={cardDetail}>
-            {/* {data.firstname} */}
+
             <div>
               <h4>{data.firstname}</h4>
             </div>
-            {/* {d.designation} */}
+
             <div className="small text-muted">{data.designation}</div>
             <div>
               <Link to={`/employees/${data._id}`}>
@@ -264,9 +258,6 @@ const EmpCard = ({ data, setUpdate }) => {
               </Form.Group>
             </Row>
 
-            {/* <Form.Group className="mb-3" id="formGridCheckbox">
-                        <Form.Check type="checkbox" label="Check me out" />
-                    </Form.Group> */}
 
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button type="submit" className="btn">

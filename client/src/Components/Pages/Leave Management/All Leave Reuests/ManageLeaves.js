@@ -35,7 +35,7 @@ const ManageLeaves = () => {
   });
 
   const [handlemodal, sethandlemodal] = useState(false);
-  console.log("handle modal ", handlemodal);
+
   function getMimetype(extension) {
     var mimetype;
 
@@ -245,26 +245,13 @@ const ManageLeaves = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
-    console.log("handleshow", id);
-
-    // var reader = new FileReader();
-    // reader.onload = function (e) {
-    //   var contents = e.target.result;
-    //   displayContents(contents, id.row.attachment);
-    // };
-    // let blob = new Blob(id.row.attachment, { type: 'text/html' });
-
-    // const fileReaded = reader.readAsBinaryString(blob);
-
-    // console.log("fileReaded", fileReaded)
-
     setmodaldata(id.row);
 
     setstatus(id.row.status);
     setShow(true);
     setSupervisorApproval(id.row.supervisorApproval);
   };
-  console.log("modalDATA", modaldata);
+
   const [leavesData, setLeavesData] = useState([]);
   const [status, setstatus] = useState();
   const [supervisorApproval, setSupervisorApproval] = useState();
@@ -274,7 +261,6 @@ const ManageLeaves = () => {
 
   const getUrl = "/leaverequest/all/";
   const getLeavesrequests = async () => {
-    console.log("user", user);
     var getLeaves = [];
     {
       if (!user.isAdmin) {
@@ -285,12 +271,12 @@ const ManageLeaves = () => {
     }
     const data = getLeaves.data;
     setLeavesData(data.allRequest);
-    console.log("Leaves Requests", data.allRequest);
+
   };
   //data for report generate;
   const employee = user.id;
   const getEmp = `/employees/${user.id}`;
-   
+
   const newArray = [];
   leavesData.map((d) => {
     var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -299,7 +285,7 @@ const ManageLeaves = () => {
     var diffDays = Math.round(
       Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
     );
-    console.log("new leaves data", leavesData);
+
     newArray.push({
       id: d._id,
       Emp_id: d.employee && d.employee.emp_id,
@@ -318,8 +304,7 @@ const ManageLeaves = () => {
       leaves: d.employee && d.employee.Leaves.map((d) => d),
     });
   });
- 
-  // const depemp = `/departments/${}`
+
 
   const updateUserStatus = async (e) => {
     e.preventDefault();
@@ -340,32 +325,22 @@ const ManageLeaves = () => {
     }
     setUpdate(!update);
   };
-  console.log("newArray", newArray);
+
   useEffect(() => {
     getLeavesrequests();
   }, [update]);
 
-  //  const handleUpdate = async() =>{
-  //   try{
-  //        const res = await axios.put('/leaverequest/:id',{
-  //         status:req.body.status
-  //        })
-
-  //   }catch(error){
-
-  //   }
-  //  }
 
   const rows = newArray;
 
   const columns = [
-    // { field: "Emp_id", headerName: "Employee ID", width: 150 },
+
     { field: "leavetype", headerName: "Leave-type", width: 150 },
     { field: "employeename", headerName: "Employee Name", width: 150 },
     { field: "department", headerName: "Department", width: 150 },
     { field: "from", headerName: "from", width: 150 },
     { field: "to", headerName: "to", width: 150 },
-    // { field: "reason", headerName: "reason", width: 150 },
+
     {
       field: "supervisorApproval",
       headerName: "Supervisor Approval",
@@ -378,7 +353,6 @@ const ManageLeaves = () => {
       headerName: "Action",
       width: 80,
       renderCell: (id) => {
-        console.log("id", id);
         return (
           <div>
             <BorderColorIcon
@@ -396,12 +370,12 @@ const ManageLeaves = () => {
       headerName: "Print",
       width: 80,
       renderCell: (id) => {
-        console.log("id", id);
+
         return (
           <div>
             <PrintIcon
               onClick={async () => {
-               const setdata = await  setmodaldata(id.row);
+                const setdata = await setmodaldata(id.row);
                 handlePrint();
               }}
             />
@@ -543,10 +517,7 @@ const ManageLeaves = () => {
           </Row>
           <Row>
             <Form>
-              {console.log(
-                "modaldata",
-                modaldata.attachment && modaldata.attachment.file
-              )}
+
               <Form.Label>Attachment</Form.Label>
               <Row>
                 <Col sm={9}>
@@ -657,7 +628,7 @@ const ManageLeaves = () => {
       </Modal>
       <div style={{ display: "none" }}>
         <div ref={componentRef} className=" content-wrapper">
-          { <LeaveApplication modaldata={modaldata} />}
+          {<LeaveApplication modaldata={modaldata} />}
         </div>
       </div>
     </div>

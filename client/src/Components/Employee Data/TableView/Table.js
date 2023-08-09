@@ -14,7 +14,7 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 const moment = require("moment");
 const Table = ({ data }) => {
-  console.log("table props data", data);
+
   const [show, setshow] = useState(false);
   const [showmodal, setShowmodal] = useState(false);
   const handleClosemoal = () => setshow(false);
@@ -45,7 +45,7 @@ const Table = ({ data }) => {
     "December",
   ];
   const dates = monthNames[date.getMonth()];
-  console.log("current month is", dates);
+
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ const Table = ({ data }) => {
       });
       postdata && NotificationManager.success("Attendance added successfully");
     } catch (error) {
-      console.log(error);
+      ;
       NotificationManager.error("Failed to add ");
     }
   };
@@ -77,7 +77,7 @@ const Table = ({ data }) => {
   const PP = "http://localhost:5002/images/";
   const handleShowmodal = async (params) => {
     setmodaldata(params.row.identity);
-    console.log("attendanceattendance", new Date().toISOString().split("T")[0]);
+
     const dateAttendance = await axios.get(`/currentUserAttendance`, {
       params: {
         date: new Date(new Date().toISOString().split("T")[0]),
@@ -101,13 +101,11 @@ const Table = ({ data }) => {
         return (
           <>
             <div className="userListUser">
-              {/* {params}  */}
-              {/* {params.row.RenderCell && <img src={PP + params.row.}/>} */}
-              {console.log("src",params)}
+
               {params.row.profilepic ? (
 
                 <img src={params.row.profilepic} className="userListImg" />
-                
+
               ) : (
                 <img src={avatar} className="userListImg" />
               )}
@@ -145,7 +143,7 @@ const Table = ({ data }) => {
       headerName: "Manual Attendance",
       width: 200,
       renderCell: (params) => {
-        // console.log("params",params)
+
         return (
           <>
             <div>
@@ -227,7 +225,6 @@ const Table = ({ data }) => {
                   </button>
                 )}
 
-                {/* new Date(setout(e)).toTimeString() */}
               </div>
               <div>
                 <Button className=" rounded " type="submit">

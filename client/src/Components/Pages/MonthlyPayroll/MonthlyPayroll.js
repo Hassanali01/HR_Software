@@ -281,8 +281,6 @@ const MonthlyPayroll = () => {
     })
     printDoc.save();
   }
-  // printDoc.autoPrint();
-  // printDoc.output("dataurlnewwindow"); // this opens a new popup,  after this the PDF opens the print window view but there are browser inconsistencies with how this is handled
 
   var splitDate = currentCalendar.split("/");
   var month = splitDate[0];
@@ -360,12 +358,10 @@ const MonthlyPayroll = () => {
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
                   <th rowspan="2" style={{ border: "1px solid black" }}>Sr</th>
-                  {/* <th rowspan="2" style={{ border: "1px solid black" }}>Employee ID</th> */}
                   <th rowspan="2" style={{ border: "1px solid black" }}>Name</th>
                   <th rowspan="2" style={{ border: "1px solid black" }}>Designation</th>
                   {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.date.split("/")[0]}</th>)}
                   <th colSpan="6" style={{ border: "1px solid black", textAlign: "center" }}>Total Pay Days</th>
-                  {/* <th rowspan="2" style={{ border: "1px solid black" }}>Extra Days</th> */}
                   <th colSpan="3" style={{ border: "1px solid black", textAlign: "center" }}>Deductions</th>
                   <th rowspan="2" colSpan="1" style={{ border: "1px solid black" }}>M.D</th>
                   <th rowspan="2" colSpan="1" style={{ border: "1px solid black", width: "10px" }}>Net Pay Days</th>
@@ -373,34 +369,22 @@ const MonthlyPayroll = () => {
                 <tr style={{ backgroundColor: "#89CFF0" }}>
                   {daysOfMonth.map((dm) => <th style={{ border: "1px solid black", textAlign: "center" }}>{dm.day}</th>)}
                   <th style={{ border: "1px solid black" }}>W.D</th>
-                  {/* <th style={{ border: "1px solid black" }}>H.W</th> */}
                   <th style={{ border: "1px solid black" }}>L.W.P</th>
                   <th style={{ border: "1px solid black" }}>S.L</th>
                   <th style={{ border: "1px solid black" }}>CPL</th>
                   <th style={{ border: "1px solid black" }}>G.H</th>
                   <th style={{ border: "1px solid black" }}>D.O</th>
-                  {/* <th style={{ border: "1px solid black" }}>Class</th> */}
-                  {/* <th style={{ border: "1px solid black" }}>T.Days</th> */}
                   <th style={{ border: "1px solid black" }}>LWOP</th>
                   <th style={{ border: "1px solid black" }}>Absent</th>
                   <th style={{ border: "1px solid black" }}>Late</th>
-                  {/* <th style={{ border: "1px solid black" }}>Total</th> */}
+  
                 </tr>
                 {Object.entries(userAttendance).map(
                   ([key, value]) =>
                     <tr>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{++rowNumber}</td>
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.emp_id}</td> */}
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].Name}</td>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.designation}</td>
-                      {/* <td style={{ border: "1px solid black", textAlign: "left" }}>{userAttendance[`${key}`][0] && userAttendance[`${key}`][0].employee.departments[0] && userAttendance[`${key}`][0].employee.departments[0].departmentname}</td> */}
-                      {/* {
-                        (userAttendance[`${key}`].length > 0) ?
-                          <>
-                          </>
-                          :
-                          <></>
-                      } */}
                       {
                         daysOfMonth.map((dm) => {
                           const attendanceEntry = userAttendance[`${key}`].find((tu) => parseInt(dm.date.split("/")[0]) === parseInt(tu.date.split("-")[2].split("T")[0]));
@@ -419,21 +403,15 @@ const MonthlyPayroll = () => {
                         })
                       }
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td> */}
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : ""}</td>
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'test').length}</td> */}
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 'P' || tu.status == 'HW' || tu.status == 'LWP' || tu.status == 'CPL' || tu.status == 'GH' || tu.status == 'DO').length}</td>
-                       */}
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'extraDay').length}</td> */}
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length : ""}</td>
-                      {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP' || tu.status == 'A' || tu.status == 'Late').length}</td> */}
                       <td style={{ border: "1px solid black", fontWeight: "bold" }}>{
                         parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +

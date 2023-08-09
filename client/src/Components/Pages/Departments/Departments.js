@@ -43,10 +43,9 @@ const Departments = () => {
     try {
       const dep = await axios.get(url1);
       const res = dep.data;
-      console.log("departments", res);
+
       setData(res.departments);
       
-      // console.log(res.departments[8].description,"my description======================================")
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +55,7 @@ const Departments = () => {
     setView(!view);
     setView(nextView);
     setView(!view);
-    // setlist(nextView)
+
     console.log(nextView);
   };
 
@@ -67,11 +66,10 @@ const Departments = () => {
         departmentname: departmentname,
         description: description,
       });
-      console.log("dep", departmentname);
       save && NotificationManager.success("Successfully Added");
       window.location.replace("/departments");
     } catch (error) {
-      console.log(error);
+
       NotificationManager.error("Failed to add department");
     }
   };
@@ -151,30 +149,6 @@ const Departments = () => {
           </div>
         </section>
 
-        {/* <div
-          className="mb-3"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginRight: "70px",
-          }}
-        >
-          <div>
-            <ToggleButtonGroup
-              orientation="horizontal"
-              value={view}
-              exclusive
-              onChange={handleChange}
-            >
-              <ToggleButton value="module" aria-label="module" selected={!view}>
-                <ViewModuleIcon />
-              </ToggleButton>
-              <ToggleButton value="list" aria-label="list" selected={view}>
-                <ViewListIcon />
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-        </div> */}
         <section className="content">
           <div className="container">
             <div className="card">
@@ -209,7 +183,7 @@ const Departments = () => {
                                     </Card.Title>
                                     <Card.Body>
                                       <Card.Text>{value}...</Card.Text>
-                                      {/* <div className='d-flex justify-content-center align-items-center'><p className="px-2 text-center buttoncolor rounded" style={{ width: '70%' }}>Add Employee</p></div> */}
+                                    
                                     </Card.Body>
                                   </Card>
                                 </Col>

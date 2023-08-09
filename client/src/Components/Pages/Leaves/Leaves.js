@@ -26,10 +26,9 @@ const Leaves = () => {
     try {
       const res = await axios.get(url);
       const dd = res.data.getLeave;
-      console.log("data", dd);
       setLeaves(dd);
     } catch (error) {
-      console.log(error);
+
     }
   };
   useEffect(() => {
@@ -37,19 +36,18 @@ const Leaves = () => {
   }, []);
 
   const postData = async (e) => {
-    console.log("function hittt",url2, " " , leaveType, " " , description)
     e.preventDefault();
     try {
       const save = await axios.post(url2, {
         leaveType: leaveType,
         description: description,
       });
-      console.log("data",save)  
+ 
       NotificationManager.success("Successfully Added");
       window.location.replace("/leaves");
     } catch (error) {
       NotificationManager.error("Failed to add leave Type");
-      console.log(error,"error from client......." );
+
     }
   };
 
