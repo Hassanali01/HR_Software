@@ -15,7 +15,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
-
+import LoadingSpinner from './LoadingSpinner';
 const MonthlyPayroll = () => {
   const context = useContext(Context);
   let componentRef = useRef();
@@ -24,7 +24,7 @@ const MonthlyPayroll = () => {
   const [date, setDate] = useState(new Date());
   const [userAttendance, setUserAttendance] = useState({})
   const [monthAttendance, setMonthAttendance] = useState([])
-
+  const [loading, setLoading] = useState(false); 
 
   const [empLeaves, setEmpLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
@@ -45,20 +45,22 @@ const MonthlyPayroll = () => {
 
   async function generateMonthAttendance() {
     try {
+      setLoading(true);
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
+      setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
       attendanceTemp.map((at) => {
         //filter for  "Sagacious Systems"
-        if (at.employee.company_payroll == "Sagacious Systems") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
-
-        // filter for  "Sagacious Marketing"
-        // if (at.employee.company_payroll == "Sagacious Marketing") {
+        // if (at.employee.company_payroll == "Sagacious Systems") {
         //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         // }
+
+        // filter for  "Sagacious Marketing"
+        if (at.employee.company_payroll == "Sagacious Marketing") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
@@ -87,24 +89,19 @@ const MonthlyPayroll = () => {
         // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
 
-
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
-
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data)
-
 
       //shift data fetch
       const shift = await axios.get(`/shifts/allShifts`)
       setEmpshift(shift.data)
 
-
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
       );
-
 
       // adding leaves inside the user attendance
       Object.entries(tempUserAttendance).forEach(
@@ -115,7 +112,6 @@ const MonthlyPayroll = () => {
           })
         }
       );
-
 
       // adding LWOP inside the user attendance
       Object.entries(tempUserAttendance).forEach(
@@ -128,7 +124,6 @@ const MonthlyPayroll = () => {
       );
       setUserAttendance(tempUserAttendance)
 
-
       //Adding 1 in P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
@@ -139,15 +134,10 @@ const MonthlyPayroll = () => {
       })
 
 
-
-
-
       //Employees who resigned/left modification in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance["Ahsan"] && tempUserAttendance["Ahsan"].forEach((te) => {
-
           te.status = 1;
-
         })
       })
 
@@ -202,9 +192,15 @@ const MonthlyPayroll = () => {
             const locale = "en-US"
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
+
+
+            if (key != 'saqib'){
+
+
             if (day == "Sunday") {
               te.status = "D.O";
             }
+          }
           });
         });
       });
@@ -217,24 +213,43 @@ const MonthlyPayroll = () => {
         const [day, month, year] = lastSat.date.split('/');
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
+
+        if (key != 'saqib'){
+
+
         tempUserAttendance[key].forEach((te) => {
           if (Finalsat == te.date) {
             te.status = "D.O";
           }
         })
+      }
       })
 
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
+          if (key != 'saqib'){
+
           tempUserAttendance[key].forEach((te) => {
             if (i.date == te.date) {
               te.status = "G.H";
             }
           })
+
+        }
         })
       })
+
+
+      
+
+
+
+
+
+
+
 
 
       //Employee joining date modification in payroll
@@ -294,6 +309,7 @@ const MonthlyPayroll = () => {
 
       setUpdate(!update)
     } catch (error) {
+      setLoading(false);
       NotificationManager.error("Please select  the month of Payroll")
     }
   }
@@ -408,6 +424,7 @@ const MonthlyPayroll = () => {
               </div>
             </Modal>
             <Button className="mr-3" onClick={generateMonthAttendance}>Generate Payroll</Button>
+            {loading ? <LoadingSpinner /> : ''}
             {/* <button onClick={printPDF}>Print Payroll</button> */}
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}
@@ -483,7 +500,7 @@ const MonthlyPayroll = () => {
                           );
                         })
                       }
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 ).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0) }</td>
                       {/* <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length}</td> */}
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
@@ -521,7 +538,7 @@ const MonthlyPayroll = () => {
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
                         parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)) 
                       )
                     }, 0)
                   }
@@ -530,6 +547,7 @@ const MonthlyPayroll = () => {
                   <h6>Verified By: ____________</h6>
                   <h6>Approved By: ___________</h6>
                 </div>
+           
                   <div style={{ marginTop: "3rem" }}>
                     <p>* It's a computer generated report and does not require any signature.</p>
                   </div>

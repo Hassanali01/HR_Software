@@ -4,7 +4,7 @@ const EmployeesSchema = new mongoose.Schema(
   {
     //personal info //
     emp_id: {
-      type: String,
+      type: Number,
     },
     company_payroll:{
       type: String,
