@@ -7,17 +7,20 @@ import moment from "moment";
 import { Button } from "react-bootstrap";
 
 const HolidaysDetails = () => {
+
+
+
+  let srno=1
   const url = "/holiday/detail";
 
   const [holiday, setholiday] = useState([]);
+
   const fetchData = async () => {
     try {
       const response = await axios.get(url);
-      const data = response.data;
-console.log("data", response.data)
+      const data = response.data.dates;
       setholiday(data);
     } catch (error) {
-
     }
   };
   useEffect(() => {
@@ -37,11 +40,12 @@ console.log("data", response.data)
           </tr>
         </thead>
         <tbody>
-          {holiday.map((d, currElem) => {
+          {holiday && holiday.map((d, currElem) => {
+
             return (
               <>
                 <tr key={currElem}>
-                  <td>{d.srno}</td>
+                  <td>{srno++}</td>
                   <td>
                     {d.calendarname
                       ? d.calendarname
@@ -50,8 +54,7 @@ console.log("data", response.data)
                   <td>{d.title}</td>
 
                   <td>
-                    {moment(d.date).utc().format('YYYY-MM-DD')}
-                    {/* <Moment format="DD/M/YYYY">{d.holidaydate}</Moment> */}
+                    {d.current}
                   </td>
                   <td>
                     {d.status ? (

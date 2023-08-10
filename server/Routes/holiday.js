@@ -3,6 +3,7 @@ const router = express.Router();
 const Holiday = require('../Models/holidays')
 const Calendar = require("../Models/Calendar")
 const moment = require('moment-timezone');
+const moment1 = require('moment');
 
 
 router.get('/', async (req, res, next) => {
@@ -21,8 +22,8 @@ router.post('/addholiday', async (req, res, next) => {
   try {
     const holiday = new Holiday({
       title: req.body.title,
-      from:req.body.from,
-      to:req.body.to,
+      from: req.body.from,
+      to: req.body.to,
       type: req.body.type,
       // calendarId: req.body.calendarId
     })
@@ -41,11 +42,29 @@ router.post('/addholiday', async (req, res, next) => {
 
 //getting holiday with associated calendar
 router.get("/detail", async (req, res) => {
-  console.log("Api is hitinggg")
   try {
     const detail = await Holiday.find({})
-    res.status(200).json(detail);
-    console.log(detail)
+    const dates = [];
+    await detail.map((i) => {
+      const start = moment1(i.from, 'YYYY-MM-DD');
+      const end = moment1(i.to, 'YYYY-MM-DD');
+      const title = i.title
+      const id = i._id
+      const current = moment1(start);
+      function createObject(current, id, title) {
+        return { current, id, title };
+      }
+
+      while (current <= end) {
+        const newObject = createObject(current.format('YYYY-MM-DD'), id, title);
+        dates.push(newObject);
+        current.add(1, 'days');
+      }
+    })
+    res.status(200).json({
+      dates
+    }
+    );
   } catch (error) {
     res.status(500).json(error);
   }

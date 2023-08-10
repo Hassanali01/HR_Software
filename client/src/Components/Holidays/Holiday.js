@@ -130,7 +130,7 @@ const Holiday = () => {
                   >
                     <i className="fa fa-plus" onClick={handleShow}>
                       {" "}
-                      Add Holidays
+                      Add Holiday
                     </i>
                   </a>
                 </div>
