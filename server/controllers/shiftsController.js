@@ -15,7 +15,6 @@ const addShifts = async (req, res) => {
 
 // for get all shifts
 const allShifts = async (req, res) => {
-    console.log("shift api hittt")
     try {
         const shifts = await Shifts.find().sort({ createdAt: -1 })
         res.status(200).json(shifts)

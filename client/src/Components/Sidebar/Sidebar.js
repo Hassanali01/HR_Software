@@ -84,6 +84,17 @@ const Sidebar = () => {
                   </Link>
                 </li>
               }
+                       {context.user.isAdmin &&
+                <li className="nav-item">
+                  <Link to="/companies" className="nav-link">
+                    <i className="nav-icon fa-solid fa-user iconColor"></i>
+
+                    <p className='iconColor'>
+                    Companies
+                    </p>
+                  </Link>
+                </li>
+              }
               <li className="nav-item">
                 <Link to="/leaves" className="nav-link">
                   <i className="nav-icon fa-solid fa-user iconColor"></i>

@@ -27,6 +27,7 @@ import MonthlyPayroll from "./Components/Pages/MonthlyPayroll/MonthlyPayroll";
 import MonthlyAttendance from "./Components/Pages/MonthlyAttendance/MonthlyAttendance";
 import SetupPayroll from "./Components/PayRoll/Setup Payroll/SetupPayroll.js";
 import EmployeeData from "./Components/Employee Data/All Employees/EmployeeData";
+import Companies from "./Components/Pages/Companies/Companies";
 
 function App() {
   const context = useContext(Context);
@@ -54,6 +55,8 @@ function App() {
               <Route path="/datamanagement" element={<DataManagement />} />
               <Route path ='/leaves' element={<Leaves/>}/>
               <Route path='/departments' element={<Departments/>}/>
+              <Route path='/companies' element={<Companies/>}/>
+
               <Route path="/leaverequest" element={<LeaveRequest/>}/>
               <Route path="/manageleaves" element={<ManageLeaves/>}></Route>
               <Route path="/monthlypayroll" element={<MonthlyPayroll/>}></Route>

@@ -27,7 +27,6 @@ const Calendar = () => {
     //handle input
     let name, value;
     const handleInput = (e) => {
-
         name = e.target.name;
         value = e.target.value
         setCalendar({ ...Calendar, [name]: value })

@@ -92,10 +92,8 @@ const MonthlyPayroll = () => {
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
-
       const gaztedholidays = await axios.get(`/holiday/detail`)
-      setGaztedholiday(gaztedholidays.data.dates)
-    
+      setGaztedholiday(gaztedholidays.data)
 
       //shift data fetch
       const shift = await axios.get(`/shifts/allShifts`)
@@ -214,11 +212,11 @@ const MonthlyPayroll = () => {
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        const a = gaztedholidays.data.dates.map((i) => {
+
+        const a = gaztedholidays.data.map((i) => {
           if (key != 'saqib') {
             tempUserAttendance[key].forEach((te) => {
-              const gdate = new Date(i.current).toISOString()
-              if (gdate == te.date) {
+              if (i.date == te.date) {
                 te.status = "G.H";
               }
             })
@@ -272,6 +270,8 @@ const MonthlyPayroll = () => {
       setUpdate(!update)
     } catch (error) {
       setLoading(false);
+
+      console.log("error in payroll", error)
       NotificationManager.error("Please select  the month of Payroll")
     }
   }
