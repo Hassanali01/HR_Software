@@ -233,11 +233,6 @@ const Holiday = () => {
                   }}
                 />
               </Form.Group>
-              {validation.type && (
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {validation.type}
-                </p>
-              )}
 
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Button type="submit" className="btn mt-4">
