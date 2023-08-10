@@ -93,7 +93,7 @@ const MonthlyPayroll = () => {
       setEmpLeaves(approvedLeave.data.totaldays)
 
       const gaztedholidays = await axios.get(`/holiday/detail`)
-      setGaztedholiday(gaztedholidays.data)
+      setGaztedholiday(gaztedholidays.data.dates)
 
       //shift data fetch
       const shift = await axios.get(`/shifts/allShifts`)
@@ -213,7 +213,7 @@ const MonthlyPayroll = () => {
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
 
-        const a = gaztedholidays.data.map((i) => {
+        const a = gaztedholiday.map((i) => {
           if (key != 'saqib') {
             tempUserAttendance[key].forEach((te) => {
               if (i.date == te.date) {
