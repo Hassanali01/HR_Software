@@ -350,7 +350,7 @@ const MonthlyPayroll = () => {
               </div>
             </Modal>
             <Button className="mr-3" onClick={generateMonthAttendance}>Generate Payroll</Button>
-         
+
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}
               content={() => componentRef}
@@ -381,10 +381,10 @@ const MonthlyPayroll = () => {
                   <th style={{ border: "1px solid black" }}>LWOP</th>
                   <th style={{ border: "1px solid black" }}>Absent</th>
                   <th style={{ border: "1px solid black" }}>Late</th>
-  
+
                 </tr>
 
-                {loading ? <div style={{display:"flex", marginLeft:"40vw", marginTop:"10px"}}><LoadingSpinner /> </div>: ''}
+                {loading ? <div style={{ display: "flex", marginLeft: "40vw", marginTop: "10px" }}><LoadingSpinner /> </div> : ''}
 
                 {Object.entries(userAttendance).map(
                   ([key, value]) =>

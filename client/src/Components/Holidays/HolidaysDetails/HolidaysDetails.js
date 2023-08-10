@@ -19,10 +19,24 @@ const HolidaysDetails = () => {
     try {
       const response = await axios.get(url);
       const data = response.data.detail;
+      console.log(response.data.detail,"----------")
       setholiday(data);
+      console.log(data)
     } catch (error) {
     }
   };
+
+  const holidaydelete = async (id) => {
+    console.log("onlcik.....")
+    try {
+      const del = await axios.delete(`/holiday/${id}`)
+      console.log("del", del)
+    }
+    catch {
+      console.log("error")
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -44,7 +58,7 @@ const HolidaysDetails = () => {
 
             return (
               <>
-                <tr key={currElem}>
+                <tr key={d._id}>
                   <td>{srno++}</td>
                   <td>
                     {d.title}
@@ -54,7 +68,7 @@ const HolidaysDetails = () => {
                     {moment(d.to).utc().format('YYYY-MM-DD')}
                   </td>
                   <td>
-                    <Button style={{ backgroundColor: "red" }}>Delete</Button>
+                    <Button onClick={() => holidaydelete(d._id)} style={{ backgroundColor: "red" }}>Delete</Button>
                   </td>
                 </tr>
               </>
