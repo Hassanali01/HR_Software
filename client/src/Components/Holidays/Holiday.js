@@ -130,7 +130,7 @@ const Holiday = () => {
                   >
                     <i className="fa fa-plus" onClick={handleShow}>
                       {" "}
-                      Add Holidays
+                      Add Holiday
                     </i>
                   </a>
                 </div>
@@ -180,32 +180,6 @@ const Holiday = () => {
         <Modal.Body>
           <Form type="submit" onSubmit={handlePost}>
             <Form.Group>
-              <Form.Label>
-                <span>Select Your Calendar</span>
-              </Form.Label>
-
-              <Form.Select onChange={handleInput}>
-                <option value={""} selected disabled hidden>
-                  Calendar
-                </option>
-
-                {calendar.map((opt) => {
-                  return (
-                    <option
-                      key={opt._id}
-                      value={opt._id}
-                      name={opt.calendarname}
-                    >
-                      {opt.calendarname}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-              {validation.calendarId && (
-                <p style={{ color: "Red", fontSize: "13px" }}>
-                  {validation.calendarId}
-                </p>
-              )}
               <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
                 <Form.Label>Holiday Name </Form.Label>
 
@@ -218,7 +192,7 @@ const Holiday = () => {
                   }}
                 />
               </Form.Group>
-    
+
               <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
                 <Form.Label>From</Form.Label>
                 <Form.Control

@@ -3,20 +3,24 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import Moment from "react-moment";
+import moment from "moment";
 import { Button } from "react-bootstrap";
 
 const HolidaysDetails = () => {
+
+
+
+  let srno = 1
   const url = "/holiday/detail";
 
   const [holiday, setholiday] = useState([]);
+
   const fetchData = async () => {
     try {
       const response = await axios.get(url);
-      const data = response.data;
-
+      const data = response.data.detail;
       setholiday(data);
     } catch (error) {
-
     }
   };
   useEffect(() => {
@@ -29,36 +33,28 @@ const HolidaysDetails = () => {
         <thead>
           <tr>
             <th>Sr #</th>
-            <th>Calendar Name</th>
             <th>Holiday Name</th>
-            <th>Holiday Date</th>
+            <th>From</th>
+            <th>to</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {holiday.map((d, currElem) => {
+          {holiday && holiday.map((d, currElem) => {
+
             return (
               <>
                 <tr key={currElem}>
-                  <td>{d.srno}</td>
+                  <td>{srno++}</td>
                   <td>
-                    {d.calendarId.calendarname
-                      ? d.calendarId.calendarname
-                      : "-"}
+                    {d.title}
                   </td>
-                  <td>{d.title}</td>
-
+                  <td>{moment(d.from).utc().format('YYYY-MM-DD')}</td>
                   <td>
-                    <Moment format="DD/M/YYYY">{d.holidaydate}</Moment>
+                    {moment(d.to).utc().format('YYYY-MM-DD')}
                   </td>
                   <td>
-                    {d.status ? (
-                      <Button style={{ backgroundColor: "green" }}>
-                        Active
-                      </Button>
-                    ) : (
-                      <Button style={{ backgroundColor: "red" }}>Expire</Button>
-                    )}
+                    <Button style={{ backgroundColor: "red" }}>Delete</Button>
                   </td>
                 </tr>
               </>
