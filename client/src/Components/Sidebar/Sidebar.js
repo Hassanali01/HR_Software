@@ -142,7 +142,7 @@ const Sidebar = () => {
                   </Link>
                 
               </li> */}
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link to="/holidays" className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
                  
@@ -151,7 +151,7 @@ const Sidebar = () => {
                     </p>
                   </Link>
                 
-              </li> */}
+              </li>
               <li className="nav-item">
                 <Link to="/attendance" className="nav-link">
                   <i className="nav-icon fas fa-tachometer-alt iconColor" ></i>

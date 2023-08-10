@@ -21,9 +21,10 @@ router.post('/addholiday', async (req, res, next) => {
   try {
     const holiday = new Holiday({
       title: req.body.title,
-      date: utcDate,
+      from:req.body.from,
+      to:req.body.to,
       type: req.body.type,
-      calendarId: req.body.calendarId
+      // calendarId: req.body.calendarId
     })
     const save = await holiday.save();
     const calendarHolidays = await Calendar.findByIdAndUpdate(req.body.calendarId, {
@@ -40,9 +41,11 @@ router.post('/addholiday', async (req, res, next) => {
 
 //getting holiday with associated calendar
 router.get("/detail", async (req, res) => {
+  console.log("Api is hitinggg")
   try {
-    const detail = await Holiday.find({}).populate("calendarId").exec();
+    const detail = await Holiday.find({})
     res.status(200).json(detail);
+    console.log(detail)
   } catch (error) {
     res.status(500).json(error);
   }

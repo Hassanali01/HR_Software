@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import Moment from "react-moment";
+import moment from "moment";
 import { Button } from "react-bootstrap";
 
 const HolidaysDetails = () => {
@@ -13,7 +14,7 @@ const HolidaysDetails = () => {
     try {
       const response = await axios.get(url);
       const data = response.data;
-
+console.log("data", response.data)
       setholiday(data);
     } catch (error) {
 
@@ -42,14 +43,15 @@ const HolidaysDetails = () => {
                 <tr key={currElem}>
                   <td>{d.srno}</td>
                   <td>
-                    {d.calendarId.calendarname
-                      ? d.calendarId.calendarname
+                    {d.calendarname
+                      ? d.calendarname
                       : "-"}
                   </td>
                   <td>{d.title}</td>
 
                   <td>
-                    <Moment format="DD/M/YYYY">{d.holidaydate}</Moment>
+                    {moment(d.date).utc().format('YYYY-MM-DD')}
+                    {/* <Moment format="DD/M/YYYY">{d.holidaydate}</Moment> */}
                   </td>
                   <td>
                     {d.status ? (

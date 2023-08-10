@@ -53,14 +53,14 @@ const MonthlyPayroll = () => {
       const tempUserAttendance = userAttendance;
       attendanceTemp.map((at) => {
         //filter for  "Sagacious Systems"
-        // if (at.employee.company_payroll == "Sagacious Systems") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
-
-        // filter for  "Sagacious Marketing"
-        if (at.employee.company_payroll == "Sagacious Marketing") {
+        if (at.employee.company_payroll == "Sagacious Systems") {
           tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         }
+
+        // filter for  "Sagacious Marketing"
+        // if (at.employee.company_payroll == "Sagacious Marketing") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
