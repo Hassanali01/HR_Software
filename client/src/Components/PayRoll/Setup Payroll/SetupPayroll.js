@@ -73,7 +73,7 @@ const Setup = () => {
                         className="fa fa-plus"
                         style={{ fontSize: "14px", marginRight: "2px" }}
                       ></i>
-                      PayRoll Setup
+                      Payroll Setup
                     </a>
                   </div>
                 </div>

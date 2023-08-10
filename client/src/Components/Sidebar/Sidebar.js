@@ -215,7 +215,7 @@ const Sidebar = () => {
                 <Link to="/payrollsetup" className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
                   <p className='iconColor'>
-                    PayRoll Setup
+                  Payroll Setup
                   </p>
                 </Link>
               </li>
