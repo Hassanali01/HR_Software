@@ -4,7 +4,7 @@ const Holiday = require('../Models/holidays')
 const Calendar = require("../Models/Calendar")
 const moment = require('moment-timezone');
 const moment1 = require('moment');
-
+const mongoose = require('mongoose');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -62,7 +62,8 @@ router.get("/detail", async (req, res) => {
       }
     })
     res.status(200).json({
-      dates
+      dates,
+      detail
     }
     );
   } catch (error) {
@@ -71,6 +72,22 @@ router.get("/detail", async (req, res) => {
 })
 
 
+
+// DELETE a leave entry by ID
+router.delete('/:id', async (req, res, next) => {
+  console.log("api is hit", req.params._id)
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    // Proceed with findByIdAndDelete
+  } else {
+    res.status(400).json({ message: 'Invalid ID' });
+  }
+  try {
+    const deletee = await Holiday.findByIdAndDelete(req.params.id)
+    deletee && res.status(200).json({ messgae: "Deleted", deletee })
+  } catch (error) {
+    next(error)
+  }
+})
 
 
 module.exports = router;

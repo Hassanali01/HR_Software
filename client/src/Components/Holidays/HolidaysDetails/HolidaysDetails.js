@@ -10,7 +10,7 @@ const HolidaysDetails = () => {
 
 
 
-  let srno=1
+  let srno = 1
   const url = "/holiday/detail";
 
   const [holiday, setholiday] = useState([]);
@@ -18,7 +18,7 @@ const HolidaysDetails = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(url);
-      const data = response.data.dates;
+      const data = response.data.detail;
       setholiday(data);
     } catch (error) {
     }
@@ -33,9 +33,9 @@ const HolidaysDetails = () => {
         <thead>
           <tr>
             <th>Sr #</th>
-            <th>Calendar Name</th>
             <th>Holiday Name</th>
-            <th>Holiday Date</th>
+            <th>From</th>
+            <th>to</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -47,23 +47,14 @@ const HolidaysDetails = () => {
                 <tr key={currElem}>
                   <td>{srno++}</td>
                   <td>
-                    {d.calendarname
-                      ? d.calendarname
-                      : "-"}
+                    {d.title}
                   </td>
-                  <td>{d.title}</td>
-
+                  <td>{moment(d.from).utc().format('YYYY-MM-DD')}</td>
                   <td>
-                    {d.current}
+                    {moment(d.to).utc().format('YYYY-MM-DD')}
                   </td>
                   <td>
-                    {d.status ? (
-                      <Button style={{ backgroundColor: "green" }}>
-                        Active
-                      </Button>
-                    ) : (
-                      <Button style={{ backgroundColor: "red" }}>Expire</Button>
-                    )}
+                    <Button style={{ backgroundColor: "red" }}>Delete</Button>
                   </td>
                 </tr>
               </>

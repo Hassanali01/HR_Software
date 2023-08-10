@@ -120,13 +120,9 @@ const Sidebar = () => {
               {/* <a  className="nav-link"> */}
               {/* <Link to={"attendance"} style={{textDecoration:"none"}} className="nav-link">
                 <i className="nav-icon fa-solid fa-user iconColor"></i>
-                  
-                
                   <p className='iconColor'>
                      Projects
                   </p>
-                 
-                   
                   </Link> */}
               {/* </a> */}
 
