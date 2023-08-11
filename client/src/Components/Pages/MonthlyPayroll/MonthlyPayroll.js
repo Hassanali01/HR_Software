@@ -16,6 +16,9 @@ import { Button } from 'react-bootstrap';
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
 import LoadingSpinner from './LoadingSpinner';
+
+
+
 const MonthlyPayroll = () => {
   const context = useContext(Context);
   let componentRef = useRef();
@@ -47,20 +50,22 @@ const MonthlyPayroll = () => {
     try {
       setLoading(true);
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
+      console.log("attendace",attendanceTemp.length)
       setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
+      console.log("attendanceTemp", attendanceTemp)
       attendanceTemp.map((at) => {
         //filter for  "Sagacious Systems"
-        // if (at.employee.company_payroll == "Sagacious Systems") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
-
-        // filter for  "Sagacious Marketing"
-        if (at.employee.company_payroll == "Sagacious Marketing") {
+        if (at.employee.company_payroll == "Sagacious Systems") {
           tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         }
+
+        // filter for  "Sagacious Marketing"
+        // if (at.employee.company_payroll == "Sagacious Marketing") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
@@ -212,11 +217,10 @@ const MonthlyPayroll = () => {
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-
-        const a = gaztedholiday.map((i) => {
+        const a = gaztedholidays.data.dates.map((i) => {
           if (key != 'saqib') {
             tempUserAttendance[key].forEach((te) => {
-              if (i.date == te.date) {
+              if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
                 te.status = "G.H";
               }
             })
@@ -234,6 +238,8 @@ const MonthlyPayroll = () => {
           }
         })
       })
+
+
 
       //Employees who resigned/left modification in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -270,8 +276,6 @@ const MonthlyPayroll = () => {
       setUpdate(!update)
     } catch (error) {
       setLoading(false);
-
-      console.log("error in payroll", error)
       NotificationManager.error("Please select  the month of Payroll")
     }
   }

@@ -79,6 +79,7 @@ const Cards = ({ data }) => {
     IBAN: data.IBAN,
     branchcode: data.branchcode,
     country: data.country,
+    date_of_resignation: data.date_of_resignation,
   });
 
   useEffect(() => {
@@ -117,7 +118,8 @@ const Cards = ({ data }) => {
       IBAN: data.IBAN,
       branchcode: data.branchcode,
       country: data.country,
-      leaves: data.leaves
+      leaves: data.leaves,
+      date_of_resignation: data.date_of_resignation,
     });
     setemployement(data.employementhistory);
     seteducation(data.educationdetails);
@@ -258,7 +260,8 @@ const Cards = ({ data }) => {
           IBAN: emp.IBAN,
           branchcode: emp.branchcode,
           country: emp.country,
-          leaves: data.leaves
+          leaves: data.leaves,
+          date_of_resignation: emp.date_of_resignation,
         })
         .then((user) => {
 
@@ -281,10 +284,10 @@ const Cards = ({ data }) => {
           data.bankname = user.data.updateData.bankname;
           data.bankbranchno = user.data.updateData.bankbranchno;
           data.country = user.data.updateData.country;
+          data.date_of_resignation = user.data.updateData.date_of_resignation
         });
-
+     
       updateUser && NotificationManager.success("Successfully Updated");
-
       handleCloseModal();
 
 
@@ -306,7 +309,6 @@ const Cards = ({ data }) => {
 
         });
     } catch (error) {
-      console.log(error);
     }
   };
   useEffect(() => {
@@ -677,6 +679,25 @@ const Cards = ({ data }) => {
                                 <option>Zoroastrianism</option>
                                 <option>Druze</option>
                               </Form.Select>
+                            </Form.Group>
+                          </Col>
+
+                          {/* //DAte of resignation */}
+                          <Col sm={4}>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGridLastName"
+                              className="formmargin"
+                            >
+                              <Form.Label>Date of Resignation</Form.Label>
+                              <Form.Control
+                                type="date"
+                                name="date_of_resignation"   
+                                value={emp.date_of_resignation && emp.date_of_resignation.split("T")[0]}               
+                                disabled={disableFields}
+                                onChange={handleinput}
+
+                              />
                             </Form.Group>
                           </Col>
                         </Row>

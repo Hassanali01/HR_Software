@@ -68,10 +68,12 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-
+ 
 ///updating Employee DATA
 router.put("/:id", async (req, res, next) => {
+  console.log("update API in hit")
   const { departments, supervisors, ...reqBody } = req.body;
+  console.log(req.body)
   try {
     const updateData = await Employees.findByIdAndUpdate(
       req.params.id,
@@ -82,6 +84,7 @@ router.put("/:id", async (req, res, next) => {
       },
       { new: true, useFindAndModify: false }
     ).populate('supervisors');
+    console.log(updateData)
     updateData && res.status(200).json({ message: "updated", updateData });
   } catch (error) {
     next(error)

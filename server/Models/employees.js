@@ -6,7 +6,7 @@ const EmployeesSchema = new mongoose.Schema(
     emp_id: {
       type: Number,
     },
-    company_payroll:{
+    company_payroll: {
       type: String,
     },
     firstname: {
@@ -180,6 +180,9 @@ const EmployeesSchema = new mongoose.Schema(
     joiningdate: {
       type: String,
       default: Date.now,
+    },
+    date_of_resignation: {
+      type: Date,
     },
     employementstatus: {
       type: String,

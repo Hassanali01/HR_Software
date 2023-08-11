@@ -77,7 +77,7 @@ router.get("/detail", async (req, res) => {
 
 // DELETE a leave entry by ID
 router.delete('/:id', async (req, res, next) => {
-  console.log("api is hit", req.params._id)
+
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
     // Proceed with findByIdAndDelete
   } else {

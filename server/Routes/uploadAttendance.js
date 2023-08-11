@@ -21,12 +21,13 @@ router.get('/alluserattendance', async (req, res) => {
 
 
 router.get('/monthattendance/:month', async (req, res) => {
+
     try {
         const abc = await Attendance.find({ month: req.params.month }).populate([
             {
                 path: 'employee',
                 model: 'Employees',
-                select: 'username emp_id company_payroll shift_id joiningdate designation',
+                select: 'username emp_id company_payroll shift_id joiningdate designation date_of_resignation',
                 populate: [{
                     path: 'departments',
                     model: 'Departments',
@@ -39,6 +40,7 @@ router.get('/monthattendance/:month', async (req, res) => {
                 ],
             },
         ])
+
         res.status(200).json(abc);
     } catch (error) {
         res.status(500).json(error)
