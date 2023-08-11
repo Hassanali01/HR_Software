@@ -6,27 +6,19 @@ import { Link } from 'react-router-dom';
 
 const Table = ({ data }) => {
 
-
-    console.log("dataaaaaaaaaaa",data)
-
-
     const columns = [
 
-        { field: "Department", headerName: "Department", width: 210 },
-
+        { field: "Company", headerName: "Company", width: 210 },
         { field: "NoOfEmployees", headerName: "No of Employees", width: 200 },
         { field: "description", headerName: "Description", width: 210 },
-
 
     ]
 
     const rows = data.map((row) => ({
 
         id: row._id,
-
-        Department: row.departmentname,
+        Company: row.title,
         description: row.description,
-
         NoOfEmployees: row.employees.length
 
     }))

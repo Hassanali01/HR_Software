@@ -34,17 +34,22 @@ const Companies = () => {
 
 
 
-  const url = "/companies/company";
+  const url = "/allCompany";
   const url1 = "/companies";
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
 
   const companies = async () => {
     try {
-      const companies = await axios.get(url1);
+      const companies = await axios.get(url);
+
+
+      console.log("companies", companies)
+
+
       const res = companies.data;
 
-      setData(res.departments);
+      setData(res);
       
     } catch (error) {
       console.log(error);
@@ -62,7 +67,7 @@ const Companies = () => {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const save = await axios.post(url, {
+      const save = await axios.post('/company', {
         title: companyName,
         description: description,
       });
@@ -179,10 +184,10 @@ const Companies = () => {
                                 <Col xs="12" xl="3" lg="4" md="6" sm="6">
                                   <Card>
                                     <Card.Title className="id">
-                                    {d.companyName}
+                                    {d.title}
                                     </Card.Title>
                                     <Card.Body>
-                                      <Card.Text>{value}...</Card.Text>
+                                      <Card.Text>{value}</Card.Text>
                                     
                                     </Card.Body>
                                   </Card>
