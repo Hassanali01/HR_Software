@@ -53,7 +53,9 @@ const Sidebar = () => {
                with font-awesome or any other icon font library --> */}
               <li className="nav-item">
                 <Link to="/dashboard" className="nav-link">
-                  <i className="nav-icon fas fa-tachometer-alt iconColor" ></i>
+                  {/* <i className="nav-icon fas fa-tachometer-alt iconColor" ></i> */}
+                  <i className="nav-icon fa-sharp fa-solid fa-network-wired iconColor"></i>
+
                   <p className='iconColor'>
                     Dashboard
                   </p>
@@ -63,8 +65,7 @@ const Sidebar = () => {
 
                 <li className="nav-item">
                   <Link to="/employees" className="nav-link">
-                    <i className="nav-icon fa-solid fa-user iconColor"></i>
-
+                    <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
                     <p className='iconColor'>
                       Employees
                     </p>
@@ -76,8 +77,7 @@ const Sidebar = () => {
               {context.user.isAdmin &&
                 <li className="nav-item">
                   <Link to="/departments" className="nav-link">
-                    <i className="nav-icon fa-solid fa-user iconColor"></i>
-
+                    <i className="nav-icon fa-solid fa-puzzle-piece iconColor"></i>
                     <p className='iconColor'>
                       Departments
                     </p>
@@ -87,8 +87,7 @@ const Sidebar = () => {
                        {context.user.isAdmin &&
                 <li className="nav-item">
                   <Link to="/companies" className="nav-link">
-                    <i className="nav-icon fa-solid fa-user iconColor"></i>
-
+                    <i className="nav-icon fa-solid fa-building iconColor"></i>
                     <p className='iconColor'>
                     Companies
                     </p>
@@ -97,7 +96,7 @@ const Sidebar = () => {
               }
               <li className="nav-item">
                 <Link to="/leaves" className="nav-link">
-                  <i className="nav-icon fa-solid fa-user iconColor"></i>
+                  <i className="nav-icon fa-solid fa-user-slash iconColor"></i>
 
                   <p className='iconColor'>
                     Leave Types
@@ -108,7 +107,7 @@ const Sidebar = () => {
 
               <li className='nav-item' onClick={() => { settoggle(!toggleLeaves) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
-                  <i className='nav-icon fa-solid fa-user iconColor'></i>
+                  <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                   <p className='iconColor'>Leave Management</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
                   {
@@ -151,8 +150,7 @@ const Sidebar = () => {
               </li> */}
               <li className="nav-item">
                 <Link to="/holidays" className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
-                 
+                  <i className="nav-icon fa-solid fa-calendar-days iconColor"></i>
                     <p className='iconColor'>
                       Holidays
                     </p>
@@ -183,7 +181,7 @@ const Sidebar = () => {
               <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <div className='d-flex'>
-                    <i className='nav-icon fa-solid fa-user iconColor my-3' ></i> &nbsp;
+                  <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
 
                     <p className='iconColor'> Attendance Management</p>
                     <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
@@ -212,7 +210,7 @@ const Sidebar = () => {
 
               <li className="nav-item">
                 <Link to="/monthlypayroll" className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
+                  <i className="nav-icon fa-solid fa-hand-holding-dollar iconColor"></i>
                   <p className='iconColor'>
                     Monthly Payroll
                   </p>
@@ -220,7 +218,7 @@ const Sidebar = () => {
               </li>
               <li className="nav-item">
                 <Link to="/payrollsetup" className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
+                  <i className="nav-icon fa-solid fa-file-invoice-dollar iconColor"></i>
                   <p className='iconColor'>
                   Payroll Setup
                   </p>
@@ -236,7 +234,17 @@ const Sidebar = () => {
                   </p>
                 </Link>
               </li>
-
+              {/* add shift for employee */}
+              <li className="nav-item">
+                <Link
+                  to={`/shifts`}
+                  className="nav-link">
+                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
+                  <p className='iconColor'>
+                    Job Shifts
+                  </p>
+                </Link>
+              </li>
             </ul>
           </nav>
           {/* <!-- /.sidebar-menu --> */}

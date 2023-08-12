@@ -13,6 +13,7 @@ import {
 } from "react-notifications";
 import { useNavigate } from "react-router-dom";
 import Calendar from 'react-calendar';
+import DatePicker from 'react-datepicker';
 
 
 
@@ -31,15 +32,19 @@ const Holiday = () => {
   const [to, setto] = useState("");
   const [error, setError] = useState(false);
   const [update, setupdate] = useState(true);
-  // const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
-  // const [holidayMonth, setHolidayMonth] = useState("")
-  // const [date, setDate] = useState(new Date());
-  // const [show1, setShow1] = useState(false);
-  // const handleClose1 = () => setShow1(false);
-  // const handleShow1 = () => setShow1(true);
+
+  const [savedate, setSavedate] = useState();
 
 
-
+  const ChangeYear = (e) => {
+    const dateStr = e;
+    const dateObject = new Date(dateStr);
+    const year = dateObject.getFullYear();
+    console.log(year)
+    setSavedate(year)
+  }
+  // (date) => {
+  //   setSavedate(date.getFullYear())}
 
 
   const [validation, setvalidate] = useState({
@@ -52,12 +57,7 @@ const Holiday = () => {
   const url = "/holiday/addholiday";
 
 
-  // function onChangeCalendar(e) {
-  //   setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
-  //   setHolidayMonth(e.toLocaleString('en-US', { _DecadeView: "long" }))
-  //   handleClose()
-  //   console.log("calenderyear",holidayMonth)
-  // }
+
   //posting calendar with holidays 
   const fetchData = async () => {
     try {
@@ -164,31 +164,17 @@ const Holiday = () => {
               </div>
               <div className="card-body">
                 <div className="table-responsive" style={{ height: "500px" }}>
-                  <div className="col-auto float-start ms-auto">
-                    <input className="date-own" type="text" />
-                    
-                    {/* <a
-                      className="btn add-btn "
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_calendar"
-                      onClick={handleShow1}
-                    >
-                      <i className="fa fa-plus" >
-                        {" "}
-                        Select Year
-                      </i>
-                    </a> */}
-                  </div>
-                  {/* <Modal show={show1} onHide={handleClose1}>
-                    <div className='d-flex justify-content-center'>
-                      <Calendar
-                        onChange={onChangeCalendar}
-                        value={date}
-                        maxDetail='year'
-                      />
-                    </div>
-                  </Modal> */}
 
+                  <DatePicker
+                    id="DatePicker"
+                    type="string"
+                    className="text-primary text-center"
+                    onChange={ChangeYear}
+                    showYearPicker
+                    dateFormat="yyyy"
+                    yearItemNumber={10}
+                    value={savedate}
+                  />
                   <HolidaysDetails />
                 </div>
               </div>

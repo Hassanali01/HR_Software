@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path")
 // const url = "mongodb://localhost:27017/TestHR"
 const url = "mongodb://127.0.0.1:27017/AttendanceDevelopment2"
-//env
+// const url = "mongodb://127.0.0.1:27017/Attendance"
 
 
 
