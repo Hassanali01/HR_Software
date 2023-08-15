@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import Moment from "react-moment";
 import moment from "moment";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { NotificationManager } from 'react-notifications'
 import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
@@ -16,26 +16,27 @@ import DatePicker from 'react-datepicker';
 const HolidaysDetails = () => {
   let srno = 1
   const url = "/holiday/detail";
-  const [savedate, setSavedate] = useState();
+  const [savedate, setSavedate] = useState(new Date());
   const [holiday, setholiday] = useState([]);
-const [holidayyear, setHolidayyear] = useState([]);
+  const [holidayyear, setHolidayyear] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(url);
-      const data = response.data.detail;
-      setholiday(data);
-      // console.log(holiday)
-
-    } catch (error) {
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(url);
+  //     const data = response.data.detail;
+  //     setholiday(data);
+  //     // console.log(holiday)
+  //   } catch (error) {
+  //   }
+  // };
 
 
   const ChangeYear = (e) => {
     const dateStr = e;
-    const year = new Date(dateStr).getFullYear();;
-    setSavedate(year)
+    const year = new Date(dateStr).getFullYear();
+    setSavedate(dateStr)
+
+
   }
 
 
@@ -44,21 +45,38 @@ const [holidayyear, setHolidayyear] = useState([]);
     try {
       const del = await axios.delete(`/holiday/${id}`)
       NotificationManager.success("Successfully Deleted")
-
     }
     catch {
     }
   }
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`holiday/${savedate}`);
+     
+      setholiday(response.data);
+
+    } catch (error) {
+      console.error('Axios error:', error);
+    }
+
+  };
+
+
   useEffect(() => {
+
     fetchData();
-  },);
+
+  }, [savedate]);
+
 
   return (
     <>
+      <Form.Label>Select Year : </Form.Label>
       <DatePicker
         id="DatePicker"
         type="string"
+        selected={savedate}
         className="text-primary text-center"
         onChange={ChangeYear}
         showYearPicker
@@ -77,27 +95,29 @@ const [holidayyear, setHolidayyear] = useState([]);
           </tr>
         </thead>
         <tbody>
-        
-          {holiday && holiday.map((d, currElem) => {
 
-            return (
-              <>
-                <tr key={d._id}>
-                  <td>{srno++}</td>
-                  <td>
-                    {d.title}
-                  </td>
-                  <td>{moment(d.from).utc().format('YYYY-MM-DD')}</td>
-                  <td>
-                    {moment(d.to).utc().format('YYYY-MM-DD')}
-                  </td>
-                  <td>
-                    <Button onClick={() => holidaydelete(d._id)} style={{ backgroundColor: "red" }}>Delete</Button>
-                  </td>
-                </tr>
-              </>
-            );
-          })}
+          {holiday.length !== 0 ? 
+            (holiday && holiday.map((d, currElem) => {
+
+              return (
+                <>
+                  <tr key={d._id}>
+                    <td>{srno++}</td>
+                    <td>
+                      {d.title}
+                    </td>
+                    <td>{moment(d.from).utc().format('YYYY-MM-DD')}</td>
+                    <td>
+                      {moment(d.to).utc().format('YYYY-MM-DD')}
+                    </td>
+                    <td>
+                      <Button onClick={() => holidaydelete(d._id)} style={{ backgroundColor: "red" }}>Delete</Button>
+                    </td>
+                  </tr>
+                </>
+              );
+            })) : (<p>Not data for this Year...</p>)
+          }
         </tbody>
       </Table>
     </>

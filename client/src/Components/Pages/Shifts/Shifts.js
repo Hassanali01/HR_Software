@@ -77,7 +77,7 @@ function Shifts() {
 
     useEffect(() => {
         Shifts()
-    }, []);
+    }, );
 
 
     return (

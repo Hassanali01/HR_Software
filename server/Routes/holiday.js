@@ -92,6 +92,29 @@ router.delete('/:id', async (req, res, next) => {
 
 
 
+// find a leave entry by year
+router.get('/:date', async (req, res, next) => {
+
+  const searchDate = new Date(req.params.date).getFullYear();
+  const targetYear = parseInt(searchDate);
+  const startOfYear = new Date(targetYear, 0, 1);
+  const endOfYear = new Date(targetYear, 11, 31, 23, 59, 59);
+
+  try {
+    const holidays = await Holiday.find({
+      from: { $gte: startOfYear, $lte: endOfYear },
+    });
+
+    if (holidays.length === 0) {
+      res.status(404).json({ message: 'No holidays found for the specified year' });
+    } else {
+      res.json(holidays);
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 
 
