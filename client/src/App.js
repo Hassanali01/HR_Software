@@ -25,7 +25,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import DashboardNonAdmin from "./Components/Dashboard/DashboardNonAdmin";
 import MonthlyPayroll from "./Components/Pages/MonthlyPayroll/MonthlyPayroll";
 import MonthlyAttendance from "./Components/Pages/MonthlyAttendance/MonthlyAttendance";
-import SetupPayroll from "./Components/PayRoll/Setup Payroll/SetupPayroll.js";
+import SetupPayroll from "./Components/Payroll/SetupPages/payrollSetupPage";
 import EmployeeData from "./Components/Employee Data/All Employees/EmployeeData";
 import Companies from "./Components/Pages/Companies/Companies";
 import Shifts from "./Components/Pages/Shifts/Shifts";
