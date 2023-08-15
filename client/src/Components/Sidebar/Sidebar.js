@@ -77,7 +77,8 @@ const Sidebar = () => {
               {context.user.isAdmin &&
                 <li className="nav-item">
                   <Link to="/departments" className="nav-link">
-                    <i className="nav-icon fa-solid fa-puzzle-piece iconColor"></i>
+                    <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
+                    
                     <p className='iconColor'>
                       Departments
                     </p>
@@ -96,7 +97,7 @@ const Sidebar = () => {
               }
               <li className="nav-item">
                 <Link to="/leaves" className="nav-link">
-                  <i className="nav-icon fa-solid fa-user-slash iconColor"></i>
+                  <i className="nav-icon fa-solid fa-user-xmark iconColor"></i>
 
                   <p className='iconColor'>
                     Leave Types
