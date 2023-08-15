@@ -12,8 +12,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { useNavigate } from "react-router-dom";
-import Calendar from 'react-calendar';
-import DatePicker from 'react-datepicker';
+
 
 
 
@@ -33,16 +32,7 @@ const Holiday = () => {
   const [error, setError] = useState(false);
   const [update, setupdate] = useState(true);
 
-  const [savedate, setSavedate] = useState();
-
-
-  const ChangeYear = (e) => {
-    const dateStr = e;
-    const dateObject = new Date(dateStr);
-    const year = dateObject.getFullYear();
-    console.log(year)
-    setSavedate(year)
-  }
+ 
   // (date) => {
   //   setSavedate(date.getFullYear())}
 
@@ -165,16 +155,7 @@ const Holiday = () => {
               <div className="card-body">
                 <div className="table-responsive" style={{ height: "500px" }}>
 
-                  <DatePicker
-                    id="DatePicker"
-                    type="string"
-                    className="text-primary text-center"
-                    onChange={ChangeYear}
-                    showYearPicker
-                    dateFormat="yyyy"
-                    yearItemNumber={10}
-                    value={savedate}
-                  />
+                  
                   <HolidaysDetails />
                 </div>
               </div>

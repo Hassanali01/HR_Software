@@ -41,7 +41,6 @@ router.post('/addholiday', async (req, res, next) => {
 
 
 
-
 //getting holiday with associated calendar
 router.get("/detail", async (req, res) => {
   try {
@@ -90,6 +89,10 @@ router.delete('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+
+
+
 
 
 module.exports = router;
