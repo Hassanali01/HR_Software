@@ -50,7 +50,6 @@ const MonthlyPayroll = () => {
     try {
       setLoading(true);
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
-      console.log("attendace",attendanceTemp.length)
       setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
@@ -58,9 +57,9 @@ const MonthlyPayroll = () => {
       console.log("attendanceTemp", attendanceTemp)
       attendanceTemp.map((at) => {
         //filter for  "Sagacious Systems"
-        if (at.employee.company_payroll == "Sagacious Systems") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious Systems") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         // filter for  "Sagacious Marketing"
         // if (at.employee.company_payroll == "Sagacious Marketing") {
@@ -68,9 +67,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Jalvi Developers"
-        // if (at.employee.company_payroll == "Jalvi Developers") {
-        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Jalvi Developers") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         //filter for  "Sagacious (Pvt.) Ltd"
         // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
@@ -96,7 +95,7 @@ const MonthlyPayroll = () => {
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
-
+      console.log("approved leaves",approvedLeave)
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data.dates)
 
