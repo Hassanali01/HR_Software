@@ -24,7 +24,7 @@ import Table from "./Table";
 function Shifts() {
     const [getdata, setData] = useState([]);
     const [show, setShow] = useState(false);
-    const [view, setView] = useState(false);
+    const [view, setView] = useState('module');
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -75,7 +75,7 @@ function Shifts() {
 
     useEffect(() => {
         Shifts()
-    },[] );
+    }, []);
 
 
     return (
@@ -134,11 +134,11 @@ function Shifts() {
                                                 onChange={handleChange}
                                             >
                                                 <ToggleButton value="module" aria-label="module" selected={!view}>
-                                                    <ViewModuleIcon />
-                                                </ToggleButton>
-                                                
-                                                <ToggleButton value="list" aria-label="list" selected={view}>
                                                     <ViewListIcon />
+                                                </ToggleButton>
+
+                                                <ToggleButton value="list" aria-label="list" selected={view}>
+                                                    <ViewModuleIcon />
                                                 </ToggleButton>
                                             </ToggleButtonGroup>
                                         </div>
