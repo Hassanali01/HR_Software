@@ -31,7 +31,9 @@ const Cards = ({ data }) => {
   const [designation, setdesignation] = useState(data.designation);
   const [supervisor, setsupervisor] = useState([]);
   const [supervisors, setsupervisors] = useState([]);
+  const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
+  const [shift, setShift] = useState([]);
   const [editEdu, setEditEdu] = useState(true);
   const PP = "http://locallhost:5001/images/";
 
@@ -80,6 +82,7 @@ const Cards = ({ data }) => {
     branchcode: data.branchcode,
     country: data.country,
     date_of_resignation: data.date_of_resignation,
+    work_shift : data.work_shift
   });
 
   useEffect(() => {
@@ -120,6 +123,7 @@ const Cards = ({ data }) => {
       country: data.country,
       leaves: data.leaves,
       date_of_resignation: data.date_of_resignation,
+      work_shift: data.work_shift
     });
     setemployement(data.employementhistory);
     seteducation(data.educationdetails);
@@ -147,7 +151,7 @@ const Cards = ({ data }) => {
     email,
     designation,
     supervisors,
-
+    work_shift
     //handle user input form data
   };
 
@@ -156,7 +160,16 @@ const Cards = ({ data }) => {
 
   // Asad Api data
   const [leavesData, setLeavesData] = useState([]);
+  const url3 = "/shifts/allShifts"
   useEffect(() => {
+
+    axios.get(url3).then(resp => {
+      setShift(resp.data)
+    }, [1, 1]);
+
+
+
+
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
     for (let i in localstoragevalue) {
       if (i == "id") {
@@ -211,6 +224,7 @@ const Cards = ({ data }) => {
       attachment: d.attachment,
       applicationdate: d.applicationdate,
       leaves: d.employee && d.employee.Leaves.map((d) => d),
+      work_shift: d.employee && d.employee.work_shift
     });
   });
 
@@ -262,6 +276,7 @@ const Cards = ({ data }) => {
           country: emp.country,
           leaves: data.leaves,
           date_of_resignation: emp.date_of_resignation,
+          work_shift: emp.work_shift
         })
         .then((user) => {
 
@@ -286,7 +301,7 @@ const Cards = ({ data }) => {
           data.country = user.data.updateData.country;
           data.date_of_resignation = user.data.updateData.date_of_resignation
         });
-     
+
       updateUser && NotificationManager.success("Successfully Updated");
       handleCloseModal();
 
@@ -692,12 +707,41 @@ const Cards = ({ data }) => {
                               <Form.Label>Date of Resignation</Form.Label>
                               <Form.Control
                                 type="date"
-                                name="date_of_resignation"   
-                                value={emp.date_of_resignation && emp.date_of_resignation.split("T")[0]}               
+                                name="date_of_resignation"
+                                value={emp.date_of_resignation && emp.date_of_resignation.split("T")[0]}
                                 disabled={disableFields}
                                 onChange={handleinput}
 
                               />
+                            </Form.Group>
+                          </Col>
+
+                          <Col lg={4}>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGriddepartments"
+                              className="formmargin"
+                            >
+                              <Form.Label>Work Shift</Form.Label>
+                              <Form.Select name="work_shift"
+                                Value={emp.work_shift}
+                                onChange={handleinput}
+                                disabled={disableFields}
+                                >
+                                <option disabled selected defaultValue={""}>
+                                  Select Work Shift..
+                                </option>
+                                {shift && shift.map((d, i) => {
+
+                                  return (
+                                    <>
+                                      <option key={d._id} value={d._id}>
+                                        {d.shift_name}
+                                      </option>
+                                    </>
+                                  );
+                                })}
+                              </Form.Select>
                             </Form.Group>
                           </Col>
                         </Row>

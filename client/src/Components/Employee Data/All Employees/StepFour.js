@@ -54,6 +54,8 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
     city: "",
     postalCode: "",
     departments: "",
+    
+    work_shift: "",
     designation: "",
     joiningdate: "",
     educationdetails: "",
@@ -72,7 +74,6 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
     //degree info
     // department: ""
     supervisors: "",
-    work_shift: ""
   });
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
