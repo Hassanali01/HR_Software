@@ -89,7 +89,7 @@ const MonthlyPayroll = () => {
 
         //filter for  "Jalvi Developers"
         if (at.employee.company_payroll == "Jalvi Developers") {
-        tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         }
 
         //filter for  "Sagacious (Pvt.) Ltd"
@@ -116,7 +116,7 @@ const MonthlyPayroll = () => {
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
-      console.log("approved leaves",approvedLeave)
+      console.log("approved leaves", approvedLeave)
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data.dates)
 
@@ -148,7 +148,7 @@ const MonthlyPayroll = () => {
         }
       );
 
-      
+
       //Adding 1 in P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
@@ -158,7 +158,7 @@ const MonthlyPayroll = () => {
         })
       })
 
- 
+
 
       //Adding shift slaps in payroll
       for (let i in userAttendance) {
@@ -205,9 +205,9 @@ const MonthlyPayroll = () => {
             const locale = "en-US"
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
-              if (day == "Sunday") {
-                te.status = "D.O";
-              }            
+            if (day == "Sunday") {
+              te.status = "D.O";
+            }
           });
         });
       });
@@ -219,21 +219,21 @@ const MonthlyPayroll = () => {
         const [day, month, year] = lastSat.date.split('/');
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
-          tempUserAttendance[key].forEach((te) => {
-            if (Finalsat == te.date) {
-              te.status = "D.O";
-            }
-          })
+        tempUserAttendance[key].forEach((te) => {
+          if (Finalsat == te.date) {
+            te.status = "D.O";
+          }
+        })
       })
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.dates.map((i) => {
-            tempUserAttendance[key].forEach((te) => {
-              if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-                te.status = "G.H";
-              }
-            })
+          tempUserAttendance[key].forEach((te) => {
+            if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
+              te.status = "G.H";
+            }
+          })
         })
       })
 
@@ -328,9 +328,9 @@ const MonthlyPayroll = () => {
                 />
               </div>
             </Modal>
-            <Button className="mr-3" onClick={async ()=>{
+            <Button className="mr-3" onClick={async () => {
               await generateMonthAttendance()
-              
+
 
 
 
@@ -340,68 +340,68 @@ const MonthlyPayroll = () => {
               // Applying the payroll formula for net pay days
 
 
-      Object.entries(userAttendance).forEach(
-
-        
-        ([key, value]) => {
-
-          console.log("the value", value[0].employee.payroll_setup[0].formula)
-
-          const addField = () => {
-            setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }])
-          }
-
-          addField()
-
-          const formulasByRefs =  [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }].reduce((out, field) => {
-            if (field.referenceName) {
-              out[field.referenceName] = field.formula
-            }
-            return out
-          }, {})
-
-          const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
-
-          const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-
-          const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0 , 0 , userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0 )
-
-          console.log("items", items)
-
-          const extendedItems =
-          items.map((item) => {
-            const extendedItem = {}
-            Object.entries(item).forEach(([key, value]) => {
-              extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
-            })      
-            extendedTokensOrdered.forEach((entry) => {
-              extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
-            })
-            return extendedItem
-          })
-
-          console.log("extended items", extendedItems)
-
-       
-
-          usersPayrollCalculations[`${key}`] = {netpaydays: extendedItems[0].netpaydays}
+              Object.entries(userAttendance).forEach(
 
 
-          console.log(usersPayrollCalculations)
+                ([key, value]) => {
+
+                  console.log("the value", value[0].employee.payroll_setup[0].formula)
+
+                  const addField = () => {
+                    setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }])
+                  }
+
+                  addField()
+
+                  const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }].reduce((out, field) => {
+                    if (field.referenceName) {
+                      out[field.referenceName] = field.formula
+                    }
+                    return out
+                  }, {})
+
+                  const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
+
+                  const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+
+                  const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
+
+                  console.log("items", items)
+
+                  const extendedItems =
+                    items.map((item) => {
+                      const extendedItem = {}
+                      Object.entries(item).forEach(([key, value]) => {
+                        extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                      })
+                      extendedTokensOrdered.forEach((entry) => {
+                        extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                      })
+                      return extendedItem
+                    })
+
+                  console.log("extended items", extendedItems)
 
 
 
-        }
-      );
+                  usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
 
 
+                  console.log(usersPayrollCalculations)
+
+
+
+                }
+              );
 
 
 
 
-   
 
-              }}>Generate Payroll</Button>
+
+
+
+            }}>Generate Payroll</Button>
 
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}

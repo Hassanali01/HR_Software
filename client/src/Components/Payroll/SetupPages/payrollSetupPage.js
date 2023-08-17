@@ -9,7 +9,7 @@ import App from "./FormulaInput/FormulaEditor";
 const Setup = () => {
 
 
-  const [payrollSetups, setPayrollSetups] = useState([{ title: "Payroll #1", formula: "" }])
+  const [payrollSetups, setPayrollSetups] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -21,6 +21,14 @@ const Setup = () => {
 
 
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const res = await axios.get('payrollsetup/')
+        setPayrollSetups(res.data)
+    }
+    fetchData()
+}, [])
 
 
 
@@ -98,7 +106,6 @@ const Setup = () => {
                         <Modal.Title>Modal heading</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        {console.log("setup title", setupTitle)}
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App></Modal.Body>
                       <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>

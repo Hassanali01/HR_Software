@@ -34,7 +34,7 @@ router.get('/monthattendance/:month', async (req, res) => {
                     select: 'departmentname',
                 },
                 {
-                    path: 'shift_id',
+                    path: 'work_shift',
                     model: 'addShifts'
                 },
                 {     
@@ -48,6 +48,9 @@ router.get('/monthattendance/:month', async (req, res) => {
 
         res.status(200).json(abc);
     } catch (error) {
+
+        console.log("error", error)
+
         res.status(500).json(error)
     }
 })

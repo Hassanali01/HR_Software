@@ -68,14 +68,13 @@ export function App({setSetupTitle, setSetupFormula} ) {
         <div className="fm-block__content">
 
 
-             <label>Payroll setup title:</label>
+             <label>Payroll setup title: &nbsp;</label>
              <input
                       
                       type="text"
                       // className="fm-input"
                       onChange={event => {setSetupTitle( event.target.value )
 
-                        console.log("value wqe", event.target.value)
                       
                                               
                       }}
@@ -87,7 +86,7 @@ export function App({setSetupTitle, setSetupFormula} ) {
             <thead>
               <tr>
                 <th className="fm-table__col fm-table__col--header" style={{ width: '25%' }}>
-                  referenceName
+                  item
                 </th>
                 <th className="fm-table__col fm-table__col--header">
                   formula
@@ -104,11 +103,15 @@ export function App({setSetupTitle, setSetupFormula} ) {
                       value={field.referenceName}
                       type="text"
                       // className="fm-input"
-                      onChange={event => setField({ ...field, referenceName: event.target.value })}
+                      // onChange={event => setField({ ...field, referenceName: event.target.value })}
                     />
                   </td>
-                  <td className="fm-table__col fm-table__col--input">
+                  <td 
+                  className="fm-table__col fm-table__col--input"
+                  style={{height:"50px"}}
+                  >
                     <FormulaInput
+
                       modelValue={field.formula}
                       tokens={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].tokens}
                       validationErrors={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].validationErrors}
@@ -123,70 +126,23 @@ export function App({setSetupTitle, setSetupFormula} ) {
                       }
                     />
                   </td>
-                  <td className="fm-table__col">
+                  {/* <td className="fm-table__col">
                     <button className="fm-btn" onClick={event => setFields(fields.filter(f => f.id !== field.id))}>
                       &times;
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="fm-block__actions">
+        {/* <div className="fm-block__actions">
           <button className="fm-btn" onClick={event => addField()}>
             Add Formula
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="fm-block">
-        <div className="fm-block__title">
-          Items Table
-        </div>
-        <div className="fm-block__content">
-          <table className="fm-table">
-            <thead>
-              <tr>
-                {columns.map(column => (
-                  <th
-                    key={column.key}
-                    className="fm-table__col fm-table__col--header"
-                  >
-                    {column.title}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <>
-                {console.log("extendedItems", extendedItems)}
-              </>
-
-
-              {extendedItems.map(item => (
-                <tr key={item.id}>
-                  {columns.map(column => (
-                    <td
-                      key={column.key}
-                      className={`fm-table__col fm-table__col--${column.key}`}
-                    >
-                      {extendedTokensByRefs[column.key] && extendedTokensByRefs[column.key].validationErrors.length ? (
-                        <span className="fm-validation">
-                          INVALID
-                        </span>
-                      ) : (
-                        <span>
-                          {item[column.key] || ''}
-                        </span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+ 
     </div>
   )
 }

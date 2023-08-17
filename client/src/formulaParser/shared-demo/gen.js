@@ -34,9 +34,9 @@ function generateItems(wd, cpl, gh, dayoff) {
 exports.generateItems = generateItems;
 function generateFormulaFields() {
     return [
-        // { id: crypto.randomUUID(), referenceName: 'rate', formula: '{budget} + 50' },
+        { id: crypto.randomUUID(), referenceName: 'net pay days', formula: '' },
 
-    // { id: crypto.randomUUID(), referenceName: 'rate', formula: '50' },
+    // { id: crypto.randomUUID(), referenceName: '', formula: '' },
     // { id: crypto.randomUUID(), referenceName: 'tax', formula: '21' },
     // { id: crypto.randomUUID(), referenceName: 'timeHours', formula: 'floor({loggedTime} / 3600)' },        
     // { id: crypto.randomUUID(), referenceName: 'spent', formula: 'round(({rate} * {timeHours}) * (100 + {tax}) / 100, 2, 1)' },
