@@ -9,13 +9,13 @@ const Table = ({ data }) => {
 
 
   console.log("dataaaaaaaaaaa", data)
- 
+
 
   const columns = [
-    { field: "shift_name", headerName: "shift_name", width: 210 },
-    { field: "description", headerName: "description", width: 200 },
-    { field: "start_time", headerName: "start_time", width: 210 },
-    { field: "end_time", headerName: "end_time", width: 210 },
+    { field: "shift_name", headerName: "Shift Name", width: 210 },
+    { field: "description", headerName: "Description", width: 200 },
+    { field: "start_time", headerName: "Start Time", width: 210 },
+    { field: "end_time", headerName: "End Time", width: 210 },
     {
       field: "action",
       headerName: "Action",
@@ -27,7 +27,7 @@ const Table = ({ data }) => {
             axios.delete(`shifts/${id}`)
               .then(response => {
                 console.log("Data deleted successfully!");
-                // You might want to refresh the data in your table after deletion
+              
               })
               .catch(error => {
                 console.error("Error deleting data:", error);
@@ -44,10 +44,10 @@ const Table = ({ data }) => {
       headerName: "Detail",
       width: 210,
       renderCell: (params) => (
-    
-          <Link to="/addslabs"  state={{id: params.row.id}} style={{ backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }} >
-            Detail
-          </Link>
+
+        <Link to="/addslabs" state={{ id: params.row.id }} style={{ backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }} >
+          Detail
+        </Link>
       ),
     },
   ]
