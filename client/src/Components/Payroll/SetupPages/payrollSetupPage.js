@@ -90,7 +90,7 @@ const Setup = () => {
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Formula</h6></div>
-                                    <div><p>{ps.formula}</p></div>
+                                    <div><p>{ps.npd_formula}</p></div>
                                   </div>
                                 </Col>
                               </Row>
@@ -113,7 +113,7 @@ const Setup = () => {
                         </Button>
                         <Button variant="primary" onClick={async () => {
 
-                          const saveHoliday = await axios.post("payrollsetup", { title: setupTitle, formula: setupFormula });
+                          const saveHoliday = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula });
 
 
                           handleClose()

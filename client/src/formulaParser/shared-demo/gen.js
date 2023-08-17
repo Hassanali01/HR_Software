@@ -34,7 +34,7 @@ function generateItems(wd, cpl, gh, dayoff) {
 exports.generateItems = generateItems;
 function generateFormulaFields() {
     return [
-        { id: crypto.randomUUID(), referenceName: 'net pay days', formula: '' },
+        { id: crypto.randomUUID(), referenceName: 'net pay days', npd_formula: '' },
 
     // { id: crypto.randomUUID(), referenceName: '', formula: '' },
     // { id: crypto.randomUUID(), referenceName: 'tax', formula: '21' },

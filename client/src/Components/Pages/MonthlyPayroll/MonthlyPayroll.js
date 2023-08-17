@@ -340,22 +340,24 @@ const MonthlyPayroll = () => {
               // Applying the payroll formula for net pay days
 
 
+              try{
+
               Object.entries(userAttendance).forEach(
 
 
                 ([key, value]) => {
 
-                  console.log("the value", value[0].employee.payroll_setup[0].formula)
+                  console.log("the value", value[0].employee.payroll_setup[0].npd_formula)
 
                   const addField = () => {
-                    setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }])
+                    setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }])
                   }
 
                   addField()
 
-                  const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }].reduce((out, field) => {
+                  const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }].reduce((out, field) => {
                     if (field.referenceName) {
-                      out[field.referenceName] = field.formula
+                      out[field.referenceName] = field.npd_formula
                     }
                     return out
                   }, {})
@@ -395,7 +397,7 @@ const MonthlyPayroll = () => {
               );
 
 
-
+              }catch(error){console.log("error in payroll", error)}
 
 
 
