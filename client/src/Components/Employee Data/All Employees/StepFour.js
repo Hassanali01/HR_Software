@@ -19,8 +19,10 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   const [error, setError] = useState(false);
   const [dep, setDep] = useState([]);
   const [empl, setEmpl] = useState([])
+  const [shift ,setShift] = useState([])
   const url2 = "/departments";
   const url = "/employees";
+  const url3 = "/shifts/allShifts"
   let name, value;
   const handleinput = (e) => {
 
@@ -69,7 +71,8 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
     country: "",
     //degree info
     // department: ""
-    supervisors: ""
+    supervisors: "",
+    work_shift: ""
   });
   // after form submit validating the form data using validator
   const submitFormData = (e) => {
@@ -94,8 +97,14 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
 
     axios.get(url2).then(resp => {
       setDep(resp.data)
-
     }, [1, 1]);
+
+    axios.get(url3).then(resp => {
+      setShift(resp.data)
+    }, [1, 1]);
+
+
+
     const fetchData = async () => {
       try {
         const res = await axios.get(url);
@@ -315,6 +324,35 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                         <>
                           <option key={d._id} value={d._id}>
                             {d.firstname}
+                          </option>
+                        </>
+                      );
+                    })}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col lg={4}>
+                <Form.Group
+                  as={Col}
+                  controlId="formGriddepartments"
+                  className="formmargin"
+                >
+                  <Form.Label>Work Shift</Form.Label>
+                  <Form.Select name="work_shift"
+                    defaultValue={values.work_shift}
+                    onChange={handleFormData("work_shift")}>
+                    <option disabled selected defaultValue={""}>
+                      Select Work Shift..
+                    </option>
+                    {shift && shift.map((d, i) => {
+
+                      return (
+                        <>
+                          <option key={d._id} value={d._id}>
+                            {d.shift_name}
                           </option>
                         </>
                       );

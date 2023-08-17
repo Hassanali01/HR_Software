@@ -68,9 +68,7 @@ function Shifts() {
             });
             console.log(shiftname, description, fromTime, endTime)
             save && NotificationManager.success("Successfully Added");
-            window.location.replace("/shifts");
         } catch (error) {
-
             NotificationManager.error("Failed to add department");
         }
     };

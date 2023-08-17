@@ -7,8 +7,6 @@ import CardContent from '@mui/material/CardContent';
 import {
     Modal,
     Form,
-    Row,
-    Col,
     Card,
 } from "react-bootstrap";
 import {
@@ -30,7 +28,7 @@ function AddSlaps() {
     const location = useLocation();
     const id = location.state.id
     React.useEffect((i) => {
-        console.log("yes use effect ", location)
+
     }, [])
 
 
@@ -39,7 +37,7 @@ function AddSlaps() {
         setView(nextView);
         setView(!view);
 
-        console.log(nextView);
+
     };
     const url = `/shifts/${id}`;
     const postData = async (e) => {
@@ -55,9 +53,9 @@ function AddSlaps() {
                     }
                 ]
             });
-            console.log("save", save)
+
             save && NotificationManager.success("Successfully Added");
-            window.location.replace("/addslabs");
+
         } catch (error) {
 
             NotificationManager.error("Failed to add Slap");
@@ -67,10 +65,10 @@ function AddSlaps() {
         try {
             const response = await axios.get(`/shifts/${id}`);
 
-            console.log("res", response.data)
 
             setShift(response.data)
-            setSlap(response.data.slaps)
+
+            setSlap(response.data.slaps);
 
         } catch (error) {
             setShift([]);
@@ -143,7 +141,6 @@ function AddSlaps() {
                                     Shift Slaps
                                 </h2>
                             </div>
-
                             <div
                                 style={{ float: "right" }}
                                 onClick={handleShow}
@@ -161,18 +158,16 @@ function AddSlaps() {
                                     </i>
                                     Add Slap
                                 </a>
-
                             </div>
-                            <Table className="striped bordered hover">
+                            <Table className="striped bordered hover" >
                                 <thead>
-                                    <tr>
+                                    <tr >
                                         <th colspan="2">1st Slap</th>
                                         <th colspan="2">2nd Slap</th>
                                         <th colspan="2">3rd Slap  </th>
                                         <th colspan="2">4th Slap </th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     <tr>
                                         <th> Late</th>
@@ -185,15 +180,17 @@ function AddSlaps() {
                                         <th> Deduction</th>
                                     </tr>
                                     <tr>
-                                        
-
+                                        {shift.slaps && shift.slaps.map((i) => {
+                                            return (<>
+                                                <td>{i.laterthen}</td>
+                                                <td>{i.deduction}</td>
+                                            </>)
+                                        })}
                                     </tr>
                                 </tbody>
                             </Table>
                         </CardContent>
-
                     </Card>
-
                 </Container>
 
 
@@ -201,6 +198,7 @@ function AddSlaps() {
 
 
             </div >
+            <NotificationContainer />
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Slap</Modal.Title>

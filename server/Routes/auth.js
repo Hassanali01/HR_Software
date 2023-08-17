@@ -53,6 +53,7 @@ router.post("/register", async (req, res, next) => {
       terminationdate: req.body.terminationdate,
       terminationreason: req.body.terminationreason,
       employeementstatus: req.body.employeementstatus,
+      work_shift: req.body.work_shift,
       //bank information
       bankname: req.body.bankname,
       paymentmode: req.body.paymentmode,
