@@ -116,7 +116,7 @@ const MonthlyPayroll = () => {
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
-
+      console.log("approved leaves",approvedLeave)
       const gaztedholidays = await axios.get(`/holiday/detail`)
       setGaztedholiday(gaztedholidays.data.dates)
 

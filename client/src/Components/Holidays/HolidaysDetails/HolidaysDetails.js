@@ -53,10 +53,13 @@ const HolidaysDetails = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`holiday/${savedate}`);
-     
-      setholiday(response.data);
+
+      console.log("res", response.data)
+
+      setholiday(response.data)
 
     } catch (error) {
+      setholiday([]);
       console.error('Axios error:', error);
     }
 
@@ -95,8 +98,7 @@ const HolidaysDetails = () => {
           </tr>
         </thead>
         <tbody>
-
-          {holiday.length !== 0 ? 
+          {holiday.length > 0 ?
             (holiday && holiday.map((d, currElem) => {
 
               return (
@@ -116,7 +118,15 @@ const HolidaysDetails = () => {
                   </tr>
                 </>
               );
-            })) : (<p>Not data for this Year...</p>)
+            })) : (
+              <tr>
+                <td colSpan={5}>
+                <p  style={{ textAlign: "center", fontSize: "22px" , fontWeight: "900" }}>No data for this Year...</p>
+                </td>
+              </tr>
+             
+
+            )
           }
         </tbody>
       </Table>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Context } from "./../../Context/Context";
 import { useContext } from "react";
+import "../Sidebar/Sidebar2.css"
 const Sidebar = () => {
   const context = useContext(Context);
   const [toggleLeaves, settoggle] = useState(false)

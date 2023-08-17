@@ -1,14 +1,15 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import "./table.css"
-import {  Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { colors } from '@mui/material';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 const Table = ({ data }) => {
 
 
   console.log("dataaaaaaaaaaa", data)
-
+ 
 
   const columns = [
     { field: "shift_name", headerName: "shift_name", width: 210 },
@@ -20,7 +21,7 @@ const Table = ({ data }) => {
       headerName: "Action",
       width: 210,
       renderCell: (params) => (
-        <Button 
+        <Button
           onClick={() => {
             const id = params.row.id;
             axios.delete(`shifts/${id}`)
@@ -43,16 +44,14 @@ const Table = ({ data }) => {
       headerName: "Detail",
       width: 210,
       renderCell: (params) => (
-        <Button
-          onClick={() => {
-            console.log("Button clicked for row with ID:", params.row.id);
-          }}
-        >
-          Detail
-        </Button>
+    
+          <Link to="/addslabs"  state={{id: params.row.id}} style={{ backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }} >
+            Detail
+          </Link>
       ),
     },
   ]
+
   const rows = data.map((row) => ({
     id: row._id,
     shift_name: row.shift_name,

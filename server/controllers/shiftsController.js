@@ -56,8 +56,28 @@ const deleteShifts = async (req, res) => {
 }
 
 
+// Update employee shift by ID
+const updateShift = async (req, res) => {
+    console.log("api hit update slap",req.body)
+    const { laterthen, deduction } = req.body;
+    try {
+        const updatedItem = await Shifts.findByIdAndUpdate(
+            req.params.id,
+            { $push: { slaps: { laterthen: req.body.slaps[0].laterthen, deduction : req.body.slaps[1].deduction,} } },
+            { new: true })
+  
+      
+            console.log(updatedItem)
+      return res.status(200).json({ message: ' shift updated successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'An error occurred while updating the  shift' });
+    }
+  };
 
 
 
 
-module.exports = { addShifts, getSpecificShift, allShifts, deleteShifts }
+
+
+module.exports = { addShifts, getSpecificShift, allShifts, deleteShifts, updateShift }

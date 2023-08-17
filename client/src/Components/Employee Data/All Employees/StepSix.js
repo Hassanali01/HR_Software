@@ -62,7 +62,8 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     country: values.country,
     emp_id: values.emp_id,
     //degree info
-    supervisors: values.supervisors
+    supervisors: values.supervisors,
+    work_shift: values.work_shift
   });
 
   //creating error state for validation
@@ -87,7 +88,8 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     resignationdate: "",
     duration: "",
     jobdescription: "",
-    departments: ""
+    departments: "",
+    work_shift: "",
   });
 
 
@@ -100,6 +102,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
       resignationdate: empdetails.resignationdate,
       duration: empdetails.duration,
       jobdescription: empdetails.jobdescription,
+      work_shift: empdetails.work_shift
     });
     setemployement(empl);
     setEmp({ ...emp, employementhistory: empl && empl });

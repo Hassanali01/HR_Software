@@ -89,8 +89,6 @@ router.get('/approved-leaves/:month', async (req, res) => {
         }
       ]
     ])
-
-
     const totaldays = [];
   await Leaves.map((i) => {
 
@@ -141,11 +139,10 @@ router.get('/approved-leaves/:month', async (req, res) => {
         return allDates
       }
     })
-
-
-   res.status(200).json({
-      Leaves:Leaves,
-      totaldays:totaldays,
+    console.log(totaldays,"leaves")
+    res.status(200).json({
+      Leaves,
+      totaldays,
     });
   } catch (error) {
 

@@ -160,7 +160,7 @@ const EmployeesSchema = new mongoose.Schema(
       ref: "Company",
     },
 
-    shift_id: {
+    work_shift: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "addshifts",
     },
