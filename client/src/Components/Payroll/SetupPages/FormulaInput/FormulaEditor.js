@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 
 import { useState, useMemo } from 'react'
 import { evaluateTokenNodes, getExtendedTokens } from '../../../../formulaParser/shared/src'
@@ -8,7 +8,10 @@ import { FormulaInput } from './FormulaInput'
 import '../../../../formulaParser/shared-demo/global.css'
 
 
-export function App() {
+export function App({setSetupTitle, setSetupFormula} ) {
+
+
+
   const [fields, setFields] = useState(generateFormulaFields())
 
   const setField = (field) => {
@@ -36,13 +39,12 @@ export function App() {
   const extendedTokensOrdered = useMemo(() => Object.values(extendedTokens).sort((a, b) => a.order - b.order), [extendedTokens])
 
   const columns = useMemo(() => [
-    ...supportedColumns, 
+    ...supportedColumns,
     ...fields.map(field => ({ key: field.referenceName, title: field.referenceName, type: 'formula' }))
   ], [fields])
 
   const [items] = useState(generateItems())
 
-  {console.log("items", items)}
 
   const extendedItems = useMemo(() => items.map((item) => {
     const extendedItem = {}
@@ -50,20 +52,37 @@ export function App() {
       extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
     })
     extendedTokensOrdered.forEach((entry) => {
-      extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString()) 
+      extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
     })
     return extendedItem
   }), [items, extendedTokensOrdered])
 
 
-  
+
 
   return (
     <div className="fm-container">
-    
+
       <div className="fm-block">
-       
+
         <div className="fm-block__content">
+
+
+             <label>Payroll setup title:</label>
+             <input
+                      
+                      type="text"
+                      // className="fm-input"
+                      onChange={event => {setSetupTitle( event.target.value )
+
+                        console.log("value wqe", event.target.value)
+                      
+                                              
+                      }}
+
+                      
+                    />
+
           <table className="fm-table">
             <thead>
               <tr>
@@ -75,12 +94,13 @@ export function App() {
                 </th>
                 <th className="fm-table__col fm-table__col--header" style={{ width: '50px' }} />
               </tr>
+
             </thead>
             <tbody>
               {fields.map((field) => (
                 <tr key={field.id}>
                   <td className="fm-table__col fm-table__col--input">
-                    <input 
+                    <input
                       value={field.referenceName}
                       type="text"
                       // className="fm-input"
@@ -88,11 +108,19 @@ export function App() {
                     />
                   </td>
                   <td className="fm-table__col fm-table__col--input">
-                    <FormulaInput 
+                    <FormulaInput
                       modelValue={field.formula}
                       tokens={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].tokens}
                       validationErrors={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].validationErrors}
-                      onChange={(formula) => setField({ ...field, formula })}
+                      onChange={(formula) =>
+                        
+{
+                        setSetupFormula(formula)
+
+                        setField({ ...field, formula })
+                      
+}                     
+                      }
                     />
                   </td>
                   <td className="fm-table__col">
@@ -121,18 +149,18 @@ export function App() {
               <tr>
                 {columns.map(column => (
                   <th
-                    key={ column.key }
+                    key={column.key}
                     className="fm-table__col fm-table__col--header"
                   >
-                    { column.title }
+                    {column.title}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-<>
-            {console.log("extendedItems", extendedItems)}
-            </>
+              <>
+                {console.log("extendedItems", extendedItems)}
+              </>
 
 
               {extendedItems.map(item => (

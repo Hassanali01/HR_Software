@@ -1,66 +1,86 @@
 import React, { useRef } from 'react'
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import moment from "moment";
 import { Context } from '../../../Context/Context';
 import { useEffect, useContext } from 'react';
-import Dashboard from '../../Dashboard/Dashboard'
 import axios from "axios"
 import jsPDF from "jspdf";
-import autoTable from 'jspdf-autotable';
 import ReactToPrint from "react-to-print";
 import Calendar from 'react-calendar';
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
+import LoadingSpinner from './LoadingSpinner';
+import { generateItems, generateFormulaFields, supportedColumns, supportedRefs, FormulaField } from './../../../formulaParser/shared-demo/gen'
+import { evaluateTokenNodes, getExtendedTokens } from './../../../formulaParser/shared/src'
+
+
+
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
-import LoadingSpinner from './LoadingSpinner';
 
 
 
 const MonthlyPayroll = () => {
+
   const context = useContext(Context);
+
   let componentRef = useRef();
+
   const [payrollMonth, setPayrollMonth] = useState("")
-  const [monthNo, setMonthNo] = useState(0);
   const [date, setDate] = useState(new Date());
   const [userAttendance, setUserAttendance] = useState({})
-  const [monthAttendance, setMonthAttendance] = useState([])
-  const [loading, setLoading] = useState(false);
 
+  const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
+
+  const [loading, setLoading] = useState(false);
   const [empLeaves, setEmpLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
   const [empshift, setEmpshift] = useState([])
-
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [update, setUpdate] = useState(false)
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  const [fields, setFields] = useState(generateFormulaFields())
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  // For fetching current time to display on report
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000); // Update every 1 second
+    return () => clearInterval(intervalId); // Clean up interval on component unmount
+  }, []);
+
+
   function onChangeCalendar(e) {
-
-
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
   }
 
+
   async function generateMonthAttendance() {
     try {
       setLoading(true);
       const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
-      console.log("attendace",attendanceTemp.length)
       setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
-      console.log("attendanceTemp", attendanceTemp)
+
       attendanceTemp.map((at) => {
+
         //filter for  "Sagacious Systems"
-        if (at.employee.company_payroll == "Sagacious Systems") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious Systems") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         // filter for  "Sagacious Marketing"
         // if (at.employee.company_payroll == "Sagacious Marketing") {
@@ -68,9 +88,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Jalvi Developers"
-        // if (at.employee.company_payroll == "Jalvi Developers") {
-        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Jalvi Developers") {
+        tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         //filter for  "Sagacious (Pvt.) Ltd"
         // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
@@ -108,7 +128,7 @@ const MonthlyPayroll = () => {
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
       );
 
-      // adding leaves inside the user attendance
+      // adding LWP inside the user attendance
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.P")
@@ -127,8 +147,8 @@ const MonthlyPayroll = () => {
           })
         }
       );
-      setUserAttendance(tempUserAttendance)
 
+      
       //Adding 1 in P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
@@ -138,12 +158,7 @@ const MonthlyPayroll = () => {
         })
       })
 
-      //Employees who resigned/left modification in payroll
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance["Ahsan"] && tempUserAttendance["Ahsan"].forEach((te) => {
-          te.status = 1;
-        })
-      })
+ 
 
       //Adding shift slaps in payroll
       for (let i in userAttendance) {
@@ -190,11 +205,9 @@ const MonthlyPayroll = () => {
             const locale = "en-US"
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            if (key != 'saqib') {
               if (day == "Sunday") {
                 te.status = "D.O";
-              }
-            }
+              }            
           });
         });
       });
@@ -206,25 +219,21 @@ const MonthlyPayroll = () => {
         const [day, month, year] = lastSat.date.split('/');
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
-        if (key != 'saqib') {
           tempUserAttendance[key].forEach((te) => {
             if (Finalsat == te.date) {
               te.status = "D.O";
             }
           })
-        }
       })
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.dates.map((i) => {
-          if (key != 'saqib') {
             tempUserAttendance[key].forEach((te) => {
               if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
                 te.status = "G.H";
               }
             })
-          }
         })
       })
 
@@ -250,44 +259,18 @@ const MonthlyPayroll = () => {
         })
       })
 
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance["moshin"] && tempUserAttendance["moshin"].forEach((te) => {
-          if (new Date(te.date) > (new Date("July 8, 2023 00:00:00"))) {
-            te.status = "";
-          }
-        })
-      })
+      setUserAttendance(tempUserAttendance)
 
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance["anum"] && tempUserAttendance["anum"].forEach((te) => {
-          if (new Date(te.date) > (new Date("July 4, 2023 00:00:00"))) {
-            te.status = "";
-          }
-        })
-      })
-
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance["adeel"] && tempUserAttendance["adeel"].forEach((te) => {
-          if (te.status != 1) {
-            te.status = " ";
-          }
-        })
-      })
       setUpdate(!update)
     } catch (error) {
+
+      console.log("error in generating payroll", error)
       setLoading(false);
       NotificationManager.error("Please select  the month of Payroll")
+
     }
   }
 
-  function printPDF() {
-    var printDoc = new jsPDF('landscape');
-    var content = document.getElementById("payrollTable");
-    printDoc.autoTable({
-      html: '#payrollTable',
-    })
-    printDoc.save();
-  }
 
   var splitDate = currentCalendar.split("/");
   var month = splitDate[0];
@@ -297,17 +280,9 @@ const MonthlyPayroll = () => {
   for (let i = 1; i <= days; i++) {
     daysOfMonth.push({ date: `${i}/${month}/${year}`, day: new Date(`${month}/${i}/${year}`).toLocaleString('en-us', { weekday: 'short' }) })
   }
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
   }
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000); // Update every 1 second
-    return () => clearInterval(intervalId); // Clean up interval on component unmount
-  }, []);
 
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
   const formattedDateTime = currentDateTime.toLocaleDateString(undefined, options);
@@ -353,7 +328,80 @@ const MonthlyPayroll = () => {
                 />
               </div>
             </Modal>
-            <Button className="mr-3" onClick={generateMonthAttendance}>Generate Payroll</Button>
+            <Button className="mr-3" onClick={async ()=>{
+              await generateMonthAttendance()
+              
+
+
+
+              console.log("user attendance", userAttendance)
+
+
+              // Applying the payroll formula for net pay days
+
+
+      Object.entries(userAttendance).forEach(
+
+        
+        ([key, value]) => {
+
+          console.log("the value", value[0].employee.payroll_setup[0].formula)
+
+          const addField = () => {
+            setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }])
+          }
+
+          addField()
+
+          const formulasByRefs =  [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', formula: value[0].employee.payroll_setup[0].formula }].reduce((out, field) => {
+            if (field.referenceName) {
+              out[field.referenceName] = field.formula
+            }
+            return out
+          }, {})
+
+          const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
+
+          const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+
+          const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0 , 0 , userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0 )
+
+          console.log("items", items)
+
+          const extendedItems =
+          items.map((item) => {
+            const extendedItem = {}
+            Object.entries(item).forEach(([key, value]) => {
+              extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+            })      
+            extendedTokensOrdered.forEach((entry) => {
+              extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+            })
+            return extendedItem
+          })
+
+          console.log("extended items", extendedItems)
+
+       
+
+          usersPayrollCalculations[`${key}`] = {netpaydays: extendedItems[0].netpaydays}
+
+
+          console.log(usersPayrollCalculations)
+
+
+
+        }
+      );
+
+
+
+
+
+
+   
+
+              }}>Generate Payroll</Button>
 
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}
@@ -435,34 +483,38 @@ const MonthlyPayroll = () => {
                       </td>
                     </tr>)
                 }
-                <tr> <th colSpan="44" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
-                  {/* Sum of net pay days */}
-                  {
-                    Object.keys(userAttendance).reduce(function (previous, key) {
-                      return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
-                      )
-                    }, 0)
-                  }
-                </th></tr>
-                <tr> <th colSpan="45" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
-                  <h6>Verified By: ____________</h6>
-                  <h6>Approved By: ___________</h6>
-                </div>
-                  <div style={{ marginTop: "3rem" }}>
-                    <p>* It's a computer generated report and does not require any signature.</p>
+                <tr>
+                  <th colSpan="44" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
+                    {/* Sum of net pay days */}
+                    {
+                      Object.keys(userAttendance).reduce(function (previous, key) {
+                        return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
+                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
+                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
+                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
+                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
+                          parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
+                          parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                        )
+                      }, 0)
+                    }
+                  </th>
+                </tr>
+                <tr>
+                  <th colSpan="45" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
+                    <h6>Verified By: ____________</h6>
+                    <h6>Approved By: ___________</h6>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
-                    <h6>Printed by: {context.user.firstname}</h6>
-                    <h6>Date/Time: {formattedDateTime}</h6>
-                    <h6>Print no: _________</h6>
-                  </div>
-                </th>  </tr>
+                    <div style={{ marginTop: "3rem" }}>
+                      <p>* It's a computer generated report and does not require any signature.</p>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
+                      <h6>Printed by: {context.user.firstname}</h6>
+                      <h6>Date/Time: {formattedDateTime}</h6>
+                      <h6>Print no: _________</h6>
+                    </div>
+                  </th>
+                </tr>
               </table>
             </div>
           </div>

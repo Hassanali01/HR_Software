@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 
 import { useState, useMemo, useRef, useLayoutEffect } from 'react'
 
@@ -36,7 +36,7 @@ export function FormulaInput(props) {
 
   useLayoutEffect(() => {
     updateHeight(textareaRef.current)
-  }, [modelValue])  
+  }, [modelValue])
 
   useLayoutEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
@@ -64,9 +64,10 @@ export function FormulaInput(props) {
           rows={1}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          onChange={event => { 
+          onChange={event => {
             console.log("formula parser", event.target.value)
-            onChange(event.target.value)}}
+            onChange(event.target.value)
+          }}
         />
         <div className="fm-colored-input__highlight">
           {highlight && highlight.map((highlightEntry, highlightEntryIndex) => (
@@ -80,7 +81,7 @@ export function FormulaInput(props) {
         </div>
       </div>
       <div className="fm-colored-input__validation">
-        {validationErrors && validationErrors.map(error => error.errorType).join(', ') }
+        {validationErrors && validationErrors.map(error => error.errorType).join(', ')}
       </div>
     </div>
   )

@@ -246,6 +246,10 @@ const EmployeesSchema = new mongoose.Schema(
       ref: "Employees",
       unique: true,
     },
+    payroll_setup: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "payroll-setup",
+    },
   },
   { timestamps: true }
 );

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import App from "./FormulaInput/App";
+import App from "./FormulaInput/FormulaEditor";
 const Setup = () => {
 
 
@@ -15,6 +15,15 @@ const Setup = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [setupTitle, setSetupTitle] = useState("");
+  const [setupFormula, setSetupFormula] = useState("");
+
+
+
+
+
+
 
   return (
     <div>
@@ -59,14 +68,10 @@ const Setup = () => {
                 <div className="table-responsive">
                   <div style={{ height: "min-content", width: "100%" }}>
                     <Container >
-
                       {payrollSetups.map((ps) =>
-
                         <Card>
                           <Row className="px-3">
                             <Col xxl='3' xl='3' md='3' lg='3' sm='3'>
-
-
                               <Row>
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
@@ -81,10 +86,7 @@ const Setup = () => {
                                   </div>
                                 </Col>
                               </Row>
-
                             </Col>
-
-
                           </Row>
                         </Card>
                       )
@@ -95,12 +97,20 @@ const Setup = () => {
                       <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
                       </Modal.Header>
-                      <Modal.Body> <App></App></Modal.Body>
+                      <Modal.Body>
+                        {console.log("setup title", setupTitle)}
+                        <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App></Modal.Body>
                       <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                           Close
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary" onClick={async () => {
+
+                          const saveHoliday = await axios.post("payrollsetup", { title: setupTitle, formula: setupFormula });
+
+
+                          handleClose()
+                        }}>
                           Save Changes
                         </Button>
                       </Modal.Footer>

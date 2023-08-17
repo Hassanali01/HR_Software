@@ -1,15 +1,15 @@
 const mongoose = require("mongoose")
 
 const setupSchema  = mongoose.Schema({
-   payrollname:{
+   title:{
      type:String,
      required:true
    }, 
-   paycycle:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'PayCycle'  
+   npd_formula:{
+      type:String,
+      required:true  
    },
 })
 
-const Setup = mongoose.model('Setup',setupSchema)
+const Setup = mongoose.model('payroll-setup',setupSchema)
 module.exports = Setup;

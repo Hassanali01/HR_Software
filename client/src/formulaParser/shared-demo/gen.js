@@ -1,25 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateFormulaFields = exports.generateItems = exports.supportedColumns = exports.supportedRefs = void 0;
-exports.supportedRefs = ['id', 'title', 'estimation', 'budget'
+exports.supportedRefs = ['wd', 'cpl', 'gh', 'dayoff'
     // , 'loggedTime'
 ];
 exports.supportedColumns = [
-    { key: 'title', title: 'Item Title', type: 'default' },
-    { key: 'estimation', title: 'Estimation (hours)', type: 'default' },
-    { key: 'budget', title: 'Budget ($)', type: 'default' },
-    // { key: 'loggedTime', title: 'Time (seconds)', type: 'default' }
+    { key: 'wd', title: 'W.D', type: 'default' },
+    { key: 'cpl', title: 'C.P.L', type: 'default' },
+    { key: 'gh', title: 'G.H', type: 'default' },
+    { key: 'dayoff', title: 'D.O', type: 'default' }
 ];
-function generateItems(n) {
-    if (n === void 0) { n = 1; }
+function generateItems(wd, cpl, gh, dayoff) {
+    // if (n === void 0) { n = 1; }
     var out = [];
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < 1; i++) {
         out.push({
             id: crypto.randomUUID(),
             title: "Item #".concat(i + 1),
-            estimation: Math.floor(Math.random() * 10) + 1,
-            budget: (Math.floor(Math.random() * 10) + 1) * 100,
+            // estimation: Math.floor(Math.random() * 10) + 1,
+            // budget: (Math.floor(Math.random() * 10) + 1) * 100,
             // loggedTime: Math.floor(Math.random() * 20000)
+
+            
+      wd:wd,
+      cpl:cpl,
+      gh:gh,
+      dayoff:dayoff,
+
         });
     }
     return out;
@@ -27,6 +34,8 @@ function generateItems(n) {
 exports.generateItems = generateItems;
 function generateFormulaFields() {
     return [
+        // { id: crypto.randomUUID(), referenceName: 'rate', formula: '{budget} + 50' },
+
     // { id: crypto.randomUUID(), referenceName: 'rate', formula: '50' },
     // { id: crypto.randomUUID(), referenceName: 'tax', formula: '21' },
     // { id: crypto.randomUUID(), referenceName: 'timeHours', formula: 'floor({loggedTime} / 3600)' },        

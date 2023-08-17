@@ -90,8 +90,13 @@ router.get('/approved-leaves/:month', async (req, res) => {
       ]
     ])
 
+
     const totaldays = [];
-    await Leaves.map((i) => {
+  await Leaves.map((i) => {
+
+
+    console.log("leaves map", i)
+
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
           const datesArray = [];
@@ -116,7 +121,9 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const _id = i._id
               const status = "LWP"
               const Leave_Days = i.Leave_Days
-              const username = i.employee[0].username
+
+
+              const username = i.employee[0] && i.employee[0].username
               const leaveNature = i.leaveNature
               const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave, leaveNature);
               totaldays.push(newObject)
@@ -134,12 +141,17 @@ router.get('/approved-leaves/:month', async (req, res) => {
         return allDates
       }
     })
-    res.status(200).json({
-      Leaves,
-      totaldays,
+
+
+   res.status(200).json({
+      Leaves:Leaves,
+      totaldays:totaldays,
     });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+
+    console.log("error", error)
+
+    res.json({ error: error });
   }
 });
 
