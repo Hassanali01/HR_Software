@@ -241,7 +241,7 @@ const Sidebar = () => {
                 <Link
                   to={`/shifts`}
                   className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
+                  <i className="nav-icon fa-solid fa-business-time iconColor"></i>
                   <p className='iconColor'>
                     Job Shifts
                   </p>

@@ -29,7 +29,7 @@ import SetupPayroll from "./Components/Payroll/SetupPages/payrollSetupPage";
 import EmployeeData from "./Components/Employee Data/All Employees/EmployeeData";
 import Companies from "./Components/Pages/Companies/Companies";
 import Shifts from "./Components/Pages/Shifts/Shifts";
-import AddSlaps from "./Components/Pages/Shifts/AddSlaps";
+import AddSlabs from "./Components/Pages/Shifts/AddSlabs";
 
 function App() {
   const context = useContext(Context);
@@ -66,7 +66,7 @@ function App() {
               <Route path="/payrollsetup" element={<SetupPayroll />}></Route>
               <Route path="/employeeData" element={<EmployeeData />}></Route>
               <Route path='/shifts' element={<Shifts />} />
-              <Route path="/addslabs" element={<AddSlaps />}></Route>
+              <Route path="/addslabs" element={<AddSlabs />}></Route>
 
             </Routes>
 
