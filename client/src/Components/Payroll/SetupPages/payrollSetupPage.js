@@ -79,15 +79,15 @@ const Setup = () => {
                       {payrollSetups.map((ps) =>
                         <Card>
                           <Row className="px-3">
-                            <Col xxl='3' xl='3' md='3' lg='3' sm='3'>
+                            <Col xxl='12' xl='12' md='12' lg='12' sm='12'>
                               <Row>
-                                <Col xl='6' lg='6' md='6'>
+                                <Col xl='3' lg='3' md='3'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Title</h6></div>
                                     <div><p>{ps.title}</p></div>
                                   </div>
                                 </Col>
-                                <Col xl='6' lg='6' md='6'>
+                                <Col xl='9' lg='9' md='9'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Formula</h6></div>
                                     <div><p>{ps.formula}</p></div>
