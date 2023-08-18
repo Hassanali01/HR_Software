@@ -14,21 +14,20 @@ import {
     NotificationManager,
 } from "react-notifications";
 
-function AddSlaps() {
 
+function AddSlabs() {
     const [shift, setShift] = useState([])
     const [show, setShow] = useState(false);
     const [view, setView] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [slaptime, setSlaptime] = useState("");
-    const [slapdeduction, setSlapdeduction] = useState("");
-    const [slap, setSlap] = useState([])
-
+    const [slabstime, setSlabstime] = useState("");
+    const [slabsdeduction, setSlabsdeduction] = useState("");
+    const [slabs, setSlabs] = useState([])
     const location = useLocation();
     const id = location.state.id
-    React.useEffect((i) => {
 
+    React.useEffect((i) => {
     }, [])
 
 
@@ -36,45 +35,37 @@ function AddSlaps() {
         setView(!view);
         setView(nextView);
         setView(!view);
-
-
     };
+    let count = 1
     const url = `/shifts/${id}`;
     const postData = async (e) => {
         e.preventDefault();
         try {
             const save = await axios.put(url, {
-                slaps: [
+                slabs: [
                     {
-                        laterthen: slaptime
+                        laterthen: slabstime
                     },
                     {
-                        deduction: slapdeduction
+                        deduction: slabsdeduction
                     }
                 ]
             });
-
             save && NotificationManager.success("Successfully Added");
-
         } catch (error) {
-
-            NotificationManager.error("Failed to add Slap");
+            NotificationManager.error("Failed to add Slabs");
         }
     };
+
     const fetchData = async () => {
         try {
             const response = await axios.get(`/shifts/${id}`);
-
-
             setShift(response.data)
-
-            setSlap(response.data.slaps);
-
+            setSlabs(response.data.slabs);
         } catch (error) {
             setShift([]);
             console.error('Axios error:', error);
         }
-
     };
     useEffect(() => {
         fetchData();
@@ -88,7 +79,7 @@ function AddSlaps() {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col">
-                                <h3 className="page-title">Add Slaps</h3>
+                                <h3 className="page-title">Add Slabs</h3>
                                 <ul
                                     className="breadcrumb"
                                     style={{ backgroundColor: "#f7f7f7" }}
@@ -102,7 +93,7 @@ function AddSlaps() {
                                         <Link to="/shifts" style={{ color: "#1f1f1f" }}>Job Shifts </Link>
                                     </li >
                                     <li className="breadcrumb-item">
-                                        <Link to="/addslabs" style={{ color: "#1f1f1f" }}>Add Slaps </Link>
+                                        <Link to="/addslabs" style={{ color: "#1f1f1f" }}>Add Slabs </Link>
                                     </li>
                                 </ul>
 
@@ -111,10 +102,11 @@ function AddSlaps() {
                     </div>
                 </section>
                 <Container>
+
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <h2>Overview</h2>
-                            <Table>
+                            <Table className="striped bordered hover" >
                                 <thead>
                                     <tr>
                                         <th>Shift Name</th>
@@ -134,11 +126,12 @@ function AddSlaps() {
                             </Table>
                         </CardContent>
                     </Card>
+
                     <Card>
                         <CardContent>
                             <div style={{ widows: "50%", float: "left" }}>
                                 <h2>
-                                    Shift Slaps
+                                    Shift Slabs
                                 </h2>
                             </div>
                             <div
@@ -156,70 +149,58 @@ function AddSlaps() {
                                     >
                                         {" "}
                                     </i>
-                                    Add Slap
+                                    Add Slab
                                 </a>
                             </div>
                             <Table className="striped bordered hover" >
-                                <thead>
-                                    <tr >
-                                        <th colspan="2">1st Slap</th>
-                                        <th colspan="2">2nd Slap</th>
-                                        <th colspan="2">3rd Slap  </th>
-                                        <th colspan="2">4th Slap </th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
-                                        <th> Late</th>
-                                        <th> Deduction</th>
-                                        <th> Late</th>
-                                        <th> Deduction</th>
-                                        <th> Late</th>
-                                        <th> Deduction</th>
-                                        <th> Late</th>
+                                        <th>Sr #</th>
+                                        <th> Later than</th>
                                         <th> Deduction</th>
                                     </tr>
-                                    <tr>
-                                        {shift.slaps && shift.slaps.map((i) => {
-                                            return (<>
-                                                <td>{i.laterthen}</td>
+                                    {shift.slabs && shift.slabs.map((i) => {
+                                        return (<>
+
+                                            <tr>
+                                                <td>{count++}</td>
+                                                <td>{i.later_than}</td>
                                                 <td>{i.deduction}</td>
-                                            </>)
-                                        })}
-                                    </tr>
+                                            </tr>
+
+                                        </>)
+                                    })}
+
                                 </tbody>
                             </Table>
                         </CardContent>
                     </Card>
                 </Container>
-
-
-
-
-
             </div >
+
             <NotificationContainer />
+
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Slap</Modal.Title>
+                    <Modal.Title>Add Slab</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={postData}>
-                        <Form.Label>Slap Time</Form.Label>
+                        <Form.Label>Slab Time</Form.Label>
                         <Form.Control
                             type="time"
                             required
                             onChange={(e) => {
-                                setSlaptime(e.target.value);
+                                setSlabstime(e.target.value);
                             }}
                         ></Form.Control>
                         <br />
-                        <Form.Label>Slap Deduction</Form.Label>
+                        <Form.Label>Slab Deduction</Form.Label>
                         <Form.Select
                             type="text"
                             required
                             onChange={(e) => {
-                                setSlapdeduction(e.target.value);
+                                setSlabsdeduction(e.target.value);
                             }}
                         >
                             <option disabled selected hidden value="">Please Select</option>
@@ -238,4 +219,4 @@ function AddSlaps() {
     )
 }
 
-export default AddSlaps
+export default AddSlabs

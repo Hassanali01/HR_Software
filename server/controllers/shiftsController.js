@@ -5,9 +5,9 @@ const Shifts = require('../Models/shifts')
 //for create shifts
 const addShifts = async (req, res) => {
     console.log("Api hit for shift")
-    const { shift_name, description, start_time, end_time, slaps } = req.body
+    const { shift_name, description, start_time, end_time, slabs } = req.body
     try {
-        const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slaps })
+        const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slabs })
         console.log(shifts)
         res.status(200).json(shifts)
     } catch (error) {
@@ -58,12 +58,11 @@ const deleteShifts = async (req, res) => {
 
 // Update employee shift by ID
 const updateShift = async (req, res) => {
-    console.log("api hit update slap",req.body)
-    const { laterthen, deduction } = req.body;
+    const { later_than, deduction } = req.body;
     try {
         const updatedItem = await Shifts.findByIdAndUpdate(
             req.params.id,
-            { $push: { slaps: { laterthen: req.body.slaps[0].laterthen, deduction : req.body.slaps[1].deduction,} } },
+            { $push: { slabs: { later_than: req.body.slabs[0].later_than, deduction : req.body.slabs[1].deduction,} } },
             { new: true })
   
       

@@ -5,12 +5,11 @@ import { Button } from "react-bootstrap";
 import { colors } from '@mui/material';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+
+
 const Table = ({ data }) => {
 
-
   console.log("dataaaaaaaaaaa", data)
-
-
   const columns = [
     { field: "shift_name", headerName: "Shift Name", width: 210 },
     { field: "description", headerName: "Description", width: 200 },
@@ -52,28 +51,22 @@ const Table = ({ data }) => {
     },
   ]
 
+
   const rows = data.map((row) => ({
     id: row._id,
     shift_name: row.shift_name,
     description: row.description,
     start_time: row.start_time,
     end_time: row.end_time
-    // Department: row.departmentname,
-    // description: row.description,
-    // NoOfEmployees: row.employees.length
-
   }))
 
   return (
     <>
-
       <div className='userList' style={{ width: "100%", height: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-
         />
-
       </div>
     </>
   )

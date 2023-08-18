@@ -116,13 +116,17 @@ const MonthlyPayroll = () => {
 
       const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
-      console.log("approved leaves", approvedLeave)
-      const gaztedholidays = await axios.get(`/holiday/detail`)
-      setGaztedholiday(gaztedholidays.data.dates)
+
+
+      const gaztedholidays = await axios.get(`/holiday/holidaypayroll`)
+      // console.log("gazhokidays",gazholidays)
+      setGaztedholiday(gaztedholidays.data)
+      // console.log("holidays",gaztedholidays.data)
 
       //shift data fetch
-      const shift = await axios.get(`/shifts/allShifts`)
-      setEmpshift(shift.data)
+      let shift = await axios.get(`/shifts/allShifts`)
+      shift = shift.data
+      setEmpshift(shift)
 
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => tempUserAttendance[`${key}`] = tempUserAttendance[`${key}`].concat(attendanceTemp.filter((at) => at.employee && at.employee.username == key))
@@ -159,29 +163,45 @@ const MonthlyPayroll = () => {
       })
 
 
+      console.log("shift slabs", shift)
 
-      //Adding shift slaps in payroll
+
+      //Adding shift slabs in payroll
+
       for (let i in userAttendance) {
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-          if (j.employee.shift_id) {
-            const shift = j.employee.shift_id
+          console.log("currentShift", j)
+
+          if (j.employee.work_shift) {
+
+
+            const currentShift = j.employee.work_shift
+
+
+
             const date = j.in
-            const shortleave = approvedLeave.data.totaldays.map((r) => {
-            })
+       
             const splitdate = date.split(":")
             const sampleDateIn = new Date()
             sampleDateIn.setHours(splitdate[0])
             sampleDateIn.setMinutes(splitdate[1])
-            shift.slaps.forEach((s) => {
-              const slapname = Object.keys(s)[0]
-              const splitSlap = slapname.split(":")
-              const sampleDateSlap = new Date()
-              sampleDateSlap.setHours(splitSlap[0])
-              sampleDateSlap.setMinutes(splitSlap[1])
-              if (sampleDateIn > sampleDateSlap) {
-                j.status = (1 - s[slapname])
+            currentShift.slabs.forEach((s) => {
+              const slabsname = s.later_than
+              const splitSlabs = slabsname.split(":")
+              const sampleDateSlabs = new Date()
+              sampleDateSlabs.setHours(splitSlabs[0])
+              sampleDateSlabs.setMinutes(splitSlabs[1])
+
+              console.log("sample date slab", sampleDateSlabs)
+
+              if (sampleDateIn > sampleDateSlabs) {
+                j.status = (1 - s.deduction)
               }
+
+
+              console.log("j status", j.status)
+
             })
           }
         })
@@ -190,6 +210,7 @@ const MonthlyPayroll = () => {
       // Integrating short leaves
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
+          console.log("approved", approvedLeave.data.totaldays)
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
           appliedLeaves.forEach((al) => {
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
@@ -214,6 +235,7 @@ const MonthlyPayroll = () => {
 
       // Adding last saturday dayoff
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        console.log("daysof", daysOfMonth)
         let allSat = daysOfMonth.filter((st) => st.day == "Sat")
         const lastSat = allSat[allSat.length - 1]
         const [day, month, year] = lastSat.date.split('/');
@@ -226,9 +248,12 @@ const MonthlyPayroll = () => {
         })
       })
 
+      console.log(gaztedholidays,"ADDED")
+
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        const a = gaztedholidays.data.dates.map((i) => {
+        const a = gaztedholidays.data.map((i) => {
+          console.log(i,"gh add")
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
               te.status = "G.H";
@@ -264,8 +289,8 @@ const MonthlyPayroll = () => {
       setUpdate(!update)
     } catch (error) {
 
-      console.log("error in generating payroll", error)
       setLoading(false);
+      console.log("error in payroll" , error)
       NotificationManager.error("Please select  the month of Payroll")
 
     }
@@ -334,70 +359,69 @@ const MonthlyPayroll = () => {
 
 
 
-              console.log("user attendance", userAttendance)
 
 
               // Applying the payroll formula for net pay days
 
 
-              try{
+              try {
 
-              Object.entries(userAttendance).forEach(
+                Object.entries(userAttendance).forEach(
 
 
-                ([key, value]) => {
+                  ([key, value]) => {
 
-                  console.log("the value", value[0].employee.payroll_setup[0].npd_formula)
+                    // console.log("the value", value[0].employee.payroll_setup[0].npd_formula)
 
-                  const addField = () => {
-                    setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }])
-                  }
-
-                  addField()
-
-                  const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }].reduce((out, field) => {
-                    if (field.referenceName) {
-                      out[field.referenceName] = field.npd_formula
+                    const addField = () => {
+                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }])
                     }
-                    return out
-                  }, {})
 
-                  const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
+                    addField()
 
-                  const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }].reduce((out, field) => {
+                      if (field.referenceName) {
+                        out[field.referenceName] = field.npd_formula
+                      }
+                      return out
+                    }, {})
 
-                  const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
+                    const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
 
-                  console.log("items", items)
+                    const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
 
-                  const extendedItems =
-                    items.map((item) => {
-                      const extendedItem = {}
-                      Object.entries(item).forEach(([key, value]) => {
-                        extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                    const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
+
+
+
+                    const extendedItems =
+                      items.map((item) => {
+                        const extendedItem = {}
+                        Object.entries(item).forEach(([key, value]) => {
+                          extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                        })
+                        extendedTokensOrdered.forEach((entry) => {
+                          extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                        })
+                        return extendedItem
                       })
-                      extendedTokensOrdered.forEach((entry) => {
-                        extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
-                      })
-                      return extendedItem
-                    })
-
-                  console.log("extended items", extendedItems)
 
 
 
-                  usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
 
 
-                  console.log(usersPayrollCalculations)
+                    usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+
+
+                    // console.log(usersPayrollCalculations)
 
 
 
-                }
-              );
+                  }
+                );
 
 
-              }catch(error){console.log("error in payroll", error)}
+              } catch (error) { console.log("error in payroll", error) }
 
 
 

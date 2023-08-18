@@ -63,7 +63,6 @@ router.get("/detail", async (req, res) => {
       }
     })
     res.status(200).json({
-      dates,
       detail
     }
     );
@@ -72,7 +71,33 @@ router.get("/detail", async (req, res) => {
   }
 })
 
+// getting holidays for payroll
+router.get("/holidaypayroll", async (req, res) => {
+  try {
+    const detail = await Holiday.find({})
+    const dates = [];
+    await detail.map((i) => {
+      const start = moment1(i.from, 'YYYY-MM-DD');
+      const end = moment1(i.to, 'YYYY-MM-DD');
+      const title = i.title
+      const id = i._id
+      const current = moment1(start);
+      function createObject(current, id, title) {
+        return { current, id, title };
+      }
 
+      while (current <= end) {
+        const newObject = createObject(current.format('YYYY-MM-DD'), id, title);
+        dates.push(newObject);
+        current.add(1, 'days');
+      }
+    })
+
+    res.status(200).json(dates);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
 
 // DELETE a leave entry by ID
 router.delete('/:id', async (req, res, next) => {

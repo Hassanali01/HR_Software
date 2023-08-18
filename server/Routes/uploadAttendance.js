@@ -35,8 +35,7 @@ router.get('/monthattendance/:month', async (req, res) => {
                 },
                 {
                     path: 'work_shift',
-                    model: 'addShifts'
-                },
+                    model: 'addShifts'                },
                 {     
                 path: 'payroll_setup',
                 model: 'payroll-setup',

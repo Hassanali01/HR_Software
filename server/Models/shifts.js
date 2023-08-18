@@ -18,7 +18,7 @@ const addShifts = new Schema({
     end_time:{
         type:String,
     },
-    slaps:{
+    slabs:{
         type:Array
     }
 },{timestamps:true})
