@@ -120,27 +120,27 @@ const EmployeesSchema = new mongoose.Schema(
       {
         company: {
           type: String,
-          default: "N/A",
+          // default: "N/A",
         },
         position: {
           type: String,
-          default: "",
+          // default: "",
         },
         joiningdate: {
           type: Date,
-          default: "N/A",
+          // default: "N/A",
         },
         resignationdate: {
           type: Date,
-          default: "",
+          // default: "",
         },
         duration: {
           type: String,
-          default: "",
+          // default: "",
         },
         jobdescription: {
           type: String,
-          default: "N/A",
+          // default: "N/A",
         },
       },
     ],

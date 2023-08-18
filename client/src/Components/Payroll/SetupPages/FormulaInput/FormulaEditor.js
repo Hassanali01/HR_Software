@@ -19,12 +19,12 @@ export function App({setSetupTitle, setSetupFormula} ) {
   }
 
   const addField = () => {
-    setFields([...fields, { id: crypto.randomUUID(), referenceName: '', formula: '' }])
+    setFields([...fields, { id: crypto.randomUUID(), referenceName: '', npd_formula: '' }])
   }
 
   const formulasByRefs = useMemo(() => fields.reduce((out, field) => {
     if (field.referenceName) {
-      out[field.referenceName] = field.formula
+      out[field.referenceName] = field.npd_formula
     }
     return out
   }, {}), [fields])
@@ -112,15 +112,18 @@ export function App({setSetupTitle, setSetupFormula} ) {
                   >
                     <FormulaInput
 
-                      modelValue={field.formula}
+                      modelValue={field.npd_formula}
                       tokens={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].tokens}
                       validationErrors={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].validationErrors}
                       onChange={(formula) =>
                         
 {
+
+  console.log("formula", formula)
+
                         setSetupFormula(formula)
 
-                        setField({ ...field, formula })
+                        setField({ ...field, npd_formula:formula })
                       
 }                     
                       }

@@ -300,6 +300,7 @@ const Cards = ({ data }) => {
           data.bankbranchno = user.data.updateData.bankbranchno;
           data.country = user.data.updateData.country;
           data.date_of_resignation = user.data.updateData.date_of_resignation
+          data.work_shift = user.data.updateData.work_shift
         });
 
       updateUser && NotificationManager.success("Successfully Updated");

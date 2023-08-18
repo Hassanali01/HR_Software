@@ -136,6 +136,7 @@ const Cards = ({ data }) => {
           gender: emp.gender,
           jobtitle: emp.jobtitle,
           salary: emp.salary,
+          work_shift: emp.work_shift
         })
         .then((user) => {
 
@@ -150,8 +151,9 @@ const Cards = ({ data }) => {
           data.bankname = user.data.updateData.bankname;
           data.bankbranchno = user.data.updateData.bankbranchno;
           data.dob = user.data.updateData.dob;
+          data.work_shift = user.data.work_shift
         });
-
+      console.log("update user", updateUser)
       updateUser && NotificationManager.success("Successfully Updated");
 
       handleCloseModal();

@@ -113,7 +113,7 @@ const Setup = () => {
                         </Button>
                         <Button variant="primary" onClick={async () => {
 
-                          const saveHoliday = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula });
+                          const savesetup = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula });
 
 
                           handleClose()
