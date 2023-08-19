@@ -78,9 +78,9 @@ const MonthlyPayroll = () => {
       attendanceTemp.map((at) => {
 
         //filter for  "Sagacious Systems"
-        // if (at.employee.company_payroll == "Sagacious Systems") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Sagacious Systems") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         // filter for  "Sagacious Marketing"
         // if (at.employee.company_payroll == "Sagacious Marketing") {
@@ -88,9 +88,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Jalvi Developers"
-        if (at.employee.company_payroll == "Jalvi Developers") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Jalvi Developers") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
         // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
@@ -119,9 +119,7 @@ const MonthlyPayroll = () => {
 
 
       const gaztedholidays = await axios.get(`/holiday/holidaypayroll`)
-      // console.log("gazhokidays",gazholidays)
       setGaztedholiday(gaztedholidays.data)
-      // console.log("holidays",gaztedholidays.data)
 
       //shift data fetch
       let shift = await axios.get(`/shifts/allShifts`)
@@ -163,7 +161,6 @@ const MonthlyPayroll = () => {
       })
 
 
-      console.log("shift slabs", shift)
 
 
       //Adding shift slabs in payroll
@@ -171,7 +168,6 @@ const MonthlyPayroll = () => {
       for (let i in userAttendance) {
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-          console.log("currentShift", j)
 
           if (j.employee.work_shift) {
 
@@ -193,14 +189,12 @@ const MonthlyPayroll = () => {
               sampleDateSlabs.setHours(splitSlabs[0])
               sampleDateSlabs.setMinutes(splitSlabs[1])
 
-              console.log("sample date slab", sampleDateSlabs)
 
               if (sampleDateIn > sampleDateSlabs) {
                 j.status = (1 - s.deduction)
               }
 
 
-              console.log("j status", j.status)
 
             })
           }
@@ -210,7 +204,6 @@ const MonthlyPayroll = () => {
       // Integrating short leaves
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
-          console.log("approved", approvedLeave.data.totaldays)
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
           appliedLeaves.forEach((al) => {
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
@@ -235,7 +228,6 @@ const MonthlyPayroll = () => {
 
       // Adding last saturday dayoff
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        console.log("daysof", daysOfMonth)
         let allSat = daysOfMonth.filter((st) => st.day == "Sat")
         const lastSat = allSat[allSat.length - 1]
         const [day, month, year] = lastSat.date.split('/');
@@ -248,12 +240,10 @@ const MonthlyPayroll = () => {
         })
       })
 
-      console.log(gaztedholidays,"ADDED")
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
-          console.log(i,"gh add")
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
               te.status = "G.H";
@@ -275,14 +265,24 @@ const MonthlyPayroll = () => {
 
 
 
-      //Employees who resigned/left modification in payroll
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance["fiza"] && tempUserAttendance["fiza"].forEach((te) => {
-          if (new Date(te.date) > (new Date("July 16, 2023 00:00:00"))) {
-            te.status = "";
-          }
+        //Employee resigned date modification in payroll
+        Object.entries(tempUserAttendance).forEach(([key, value]) => {
+          tempUserAttendance[key].forEach((te) => {
+            const dateToCompare = new Date(te.date)
+            if (dateToCompare.setDate(dateToCompare.getDate() + 1) > (new Date(value[0].employee.date_of_resignation))) {
+              te.status = "";
+            }
+          })
         })
-      })
+
+      //Employees who resigned/left modification in payroll
+      // Object.entries(tempUserAttendance).forEach(([key, value]) => {
+      //   tempUserAttendance["fiza"] && tempUserAttendance["fiza"].forEach((te) => {
+      //     if (new Date(te.date) > (new Date("July 16, 2023 00:00:00"))) {
+      //       te.status = "";
+      //     }
+      //   })
+      // })
 
       setUserAttendance(tempUserAttendance)
 
@@ -371,15 +371,18 @@ const MonthlyPayroll = () => {
 
                   ([key, value]) => {
 
-                    // console.log("the value", value[0].employee.payroll_setup[0].npd_formula)
+
+
+                    console.log("npd formula",value[0].employee.payroll_setup )
+
 
                     const addField = () => {
-                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }])
+                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }])
                     }
 
                     addField()
 
-                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup[0].npd_formula }].reduce((out, field) => {
+                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
                       if (field.referenceName) {
                         out[field.referenceName] = field.npd_formula
                       }
@@ -390,7 +393,7 @@ const MonthlyPayroll = () => {
 
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
 
-                    const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
+                    const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : 0,userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
 
 
 
@@ -413,7 +416,7 @@ const MonthlyPayroll = () => {
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
 
 
-                    // console.log(usersPayrollCalculations)
+                    console.log("usersPayrollCalculations",usersPayrollCalculations)
 
 
 

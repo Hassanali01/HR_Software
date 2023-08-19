@@ -75,8 +75,9 @@ const HolidaysDetails = () => {
 
   return (
     <>
-      <Form.Label>Select Year : </Form.Label>
+      <Form.Label  style={{ cursor: 'pointer' }}>Select Year : </Form.Label>
       <DatePicker
+       style={{ cursor: 'pointer' }}
         id="DatePicker"
         type="string"
         selected={savedate}

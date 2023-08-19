@@ -247,7 +247,7 @@ const EmployeesSchema = new mongoose.Schema(
       unique: true,
     },
     payroll_setup: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: mongoose.Schema.Types.ObjectId,
       ref: "payroll-setup",
     },
   },

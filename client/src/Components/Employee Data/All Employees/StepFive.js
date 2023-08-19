@@ -39,6 +39,7 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
     joiningdate: "",
     educationdetails: "",
     employementhistory: "",
+    payroll_setup : "",
     currentSalary: "",
     employementstatus: "",
     //bank information
