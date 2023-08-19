@@ -2,50 +2,50 @@ import React from "react";
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import pp from "../All Employees/avatar.png";
-
-
-
-
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { Row, Col, Modal, Form, Button, InputGroup } from "react-bootstrap";
-import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import "./card.css";
 import Table from "react-bootstrap/Table";
-
-import ReactFlags from "react-flags-select";
-import CountryDropdown from "country-dropdown-with-flags-for-react";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import Accordion from "react-bootstrap/Accordion";
+const moment = require("moment");
+
 const Cards = ({ data }) => {
-  const [update, setUpdate] = useState(true);
   const navigate = useNavigate();
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
   const [designation, setdesignation] = useState(data.designation);
-  const [supervisor, setsupervisor] = useState([]);
   const [supervisors, setsupervisors] = useState([]);
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const [shift, setShift] = useState([]);
   const [payrollsetup, setPayrollsetup] = useState([])
-  const [editEdu, setEditEdu] = useState(true);
-  const PP = "http://locallhost:5001/images/";
-
-
-  //modals states for education and employement history
   const Closechildmodal = () => setShowChildModel(false);
   const Closechildmodal1 = () => setShowChildModel1(false);
+  const handleCloseModal = () => setShow(false);
   const [childModel, setShowChildModel] = useState(false);
   const [childModel1, setShowChildModel1] = useState(false);
   const [testUpdate, setTestUpdate] = useState(false);
   const [leaves, setLeaves] = useState(false)
+  const [leavesData, setLeavesData] = useState([]);
+  const { user } = useContext(Context);
+  const [show, setShow] = useState(false);
+  const [education, seteducation] = useState([]);
+  const [employement, setemployement] = useState([]);
+  
+
+
+  const myshift = emp.work_shift
+  const url3 = "/shifts/allShifts"
+  const payrollSittingUrl = "/payrollsetup/";
+  const getUrl = "/leaverequest/all/";
 
   const [emp, setEmp] = useState({
     profilepic: data.profilepic,
@@ -84,8 +84,9 @@ const Cards = ({ data }) => {
     branchcode: data.branchcode,
     country: data.country,
     date_of_resignation: data.date_of_resignation,
-    work_shift : data.work_shift
+    work_shift: data.work_shift
   });
+
 
   useEffect(() => {
     setEmp({
@@ -133,39 +134,6 @@ const Cards = ({ data }) => {
     setLeaves(data.leaves)
   }, [data]);
 
-  const handleinput = (e) => {
-    let name, value;
-    name = e.target.name;
-    value = e.target.value;
-    setEmp({ ...emp, [name]: value });
-  };
-
-  const handleCloseModal = () => setShow(false);
-
-  const handleShow = () => {
-    setShow(true);
-  };
-
-  const [show, setShow] = useState(false);
-  const handleupdateform = {
-    userId: data._id,
-    firstname,
-    lastname,
-    email,
-    designation,
-    supervisors,
-    work_shift,
-    // payroll_setup,
-    //handle user input form data
-  };
-
-
-
-
-  // Asad Api data
-  const [leavesData, setLeavesData] = useState([]);
-  const url3 = "/shifts/allShifts"
-  const payrollSittingUrl= "/payrollsetup/";
   useEffect(() => {
 
     axios.get(url3).then(resp => {
@@ -176,23 +144,44 @@ const Cards = ({ data }) => {
       setPayrollsetup(resp.data)
     }, [1, 1]);
 
-
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
     for (let i in localstoragevalue) {
       if (i == "id") {
         let userid = localstoragevalue[i]
       }
-
     }
-
-
     getLeavesrequests();
-
   }, []);
-  const { user } = useContext(Context);
-  const getUrl = "/leaverequest/all/";
-  const getLeavesrequests = async () => {
 
+
+
+
+  const handleinput = (e) => {
+    let name, value;
+    name = e.target.name;
+    value = e.target.value;
+    setEmp({ ...emp, [name]: value });
+  };
+
+
+
+  const handleShow = () => {
+    setShow(true);
+  };
+
+  const handleupdateform = {
+    userId: data._id,
+    firstname,
+    lastname,
+    email,
+    designation,
+    supervisors,
+    work_shift,
+  };
+
+
+
+  const getLeavesrequests = async () => {
     var getLeaves = [];
     {
       if (user.isAdmin) {
@@ -203,7 +192,6 @@ const Cards = ({ data }) => {
     }
     const data = getLeaves.data;
     setLeavesData(data.allRequest);
-
   };
   const newArray = [];
   leavesData.map((d) => {
@@ -236,14 +224,11 @@ const Cards = ({ data }) => {
     });
   });
 
-  // asad Api code
 
 
   var demo = handleupdateform.userId
   const handleSubmit = async (e) => {
-
     const url = `${data._id}`;
-
     try {
       const updateUser = await axios
         .put(url, {
@@ -316,14 +301,13 @@ const Cards = ({ data }) => {
       updateUser && NotificationManager.success("Successfully Updated");
       handleCloseModal();
 
-
     } catch (error) {
-
       NotificationManager.error("Failed to update");
     }
   };
-  const departmentemployees = async () => {
 
+
+  const departmentemployees = async () => {
     try {
       const getdep = await axios
         .get("employeesofdepartments", {
@@ -332,18 +316,18 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
-
         });
     } catch (error) {
     }
   };
+
+
   useEffect(() => {
     departmentemployees();
   }, [data]);
 
 
-  const [education, seteducation] = useState([]);
-  const [employement, setemployement] = useState([]);
+
   const [empdetails, setempdetails] = useState({
     company: "",
     position: "",
@@ -362,17 +346,19 @@ const Cards = ({ data }) => {
   const removeitem = (i) => {
     const temp = education;
     temp.splice(i, 1);
-
     seteducation(temp);
     setTestUpdate(!testUpdate);
   };
+
+
   const removemployement = (i) => {
     const temp = employement;
     employement.splice(i, 1);
-
     setemployement(temp);
     setTestUpdate(!testUpdate);
   };
+
+
   const addhistory = () => {
     var empl = employement;
     empl.push({
@@ -389,26 +375,25 @@ const Cards = ({ data }) => {
   };
   const handleeducationdetails = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
-
     await setdetails({
       ...details,
       [name]: value,
     });
   };
+
   const handleempinput = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
-
     await setempdetails({
       ...empdetails,
       [name]: value,
     });
   };
+
+
   const addeducation = () => {
     var temp = education;
     temp.push({
@@ -422,27 +407,18 @@ const Cards = ({ data }) => {
     setEmp({ ...emp, educationdetails: education });
   };
 
+
   const handleempinputJoiningDate = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
-
-
-
     var a = moment(empdetails.resignationdate);
     var b = moment(e.target.value);
-
     var years = a.diff(b, "year");
     b.add(years, "years");
-
     var months = a.diff(b, "months");
     b.add(months, "months");
-
     var days = a.diff(b, "days");
-
-
-
     await setempdetails({
       ...empdetails,
       [name]: e.target.value,
@@ -450,25 +426,18 @@ const Cards = ({ data }) => {
     });
   };
 
+
   const handleempinputResignationDate = async (e) => {
     let name, value;
-
     name = e.target.name;
     value = e.target.value;
-
     var a = moment(e.target.value);
     var b = moment(empdetails.joiningdate);
-
     var years = a.diff(b, "year");
     b.add(years, "years");
-
     var months = a.diff(b, "months");
     b.add(months, "months");
-
     var days = a.diff(b, "days");
-
-
-
     await setempdetails({
       ...empdetails,
       [name]: e.target.value,
@@ -476,9 +445,7 @@ const Cards = ({ data }) => {
     });
   };
   //history and educational details end
-  const moment = require("moment");
-
-
+  
 
 
 
@@ -502,7 +469,6 @@ const Cards = ({ data }) => {
               addhistory();
               Closechildmodal();
             }}
-
           >
             Save
           </Button>
@@ -521,14 +487,12 @@ const Cards = ({ data }) => {
                     <h5 style={{ color: "rgb(0,105,92)" }}>
                       Employee Information
                     </h5>
-
                   </Accordion.Header>
 
                   <Accordion.Body>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <Col sm={4}>
                         <div className="d-flex justify-content-center">
-
                           {emp.profilepic ? (
                             <img
                               src={emp.profilepic}
@@ -623,7 +587,6 @@ const Cards = ({ data }) => {
                                 type="text"
                                 required
                                 name="cnic"
-                                placeholder="national id no.."
                                 value={emp.cnic}
                                 onChange={handleinput}
                                 disabled={disableFields}
@@ -637,7 +600,6 @@ const Cards = ({ data }) => {
                               className="formmargin"
                             >
                               <Form.Label>D-0-B</Form.Label>
-
                               <Form.Control
                                 type="date"
                                 name="dob"
@@ -722,7 +684,6 @@ const Cards = ({ data }) => {
                                 value={emp.date_of_resignation && emp.date_of_resignation.split("T")[0]}
                                 disabled={disableFields}
                                 onChange={handleinput}
-
                               />
                             </Form.Group>
                           </Col>
@@ -735,12 +696,12 @@ const Cards = ({ data }) => {
                             >
                               <Form.Label>Work Shift</Form.Label>
                               <Form.Select name="work_shift"
-                                Value={emp.work_shift}
+                                defaultValueValue={myshift && myshift.shift_name}
                                 onChange={handleinput}
                                 disabled={disableFields}
-                                >
+                              >
                                 <option disabled selected value={""}>
-                                  Select Work Shift..
+                                  {myshift && myshift.shift_name}
                                 </option>
                                 {shift && shift.map((d, i) => {
 
@@ -764,12 +725,12 @@ const Cards = ({ data }) => {
                             >
                               <Form.Label>Payroll Setup</Form.Label>
                               <Form.Select name="payroll_setup"
-                                Value={emp.payroll_setup}
+                                Value={emp.payroll_setup && emp.payroll_setup.title}
                                 onChange={handleinput}
                                 disabled={disableFields}
-                                >
+                              >
                                 <option disabled selected defaultValue={""}>
-                                  Select Payroll setup..
+                                  {emp.payroll_setup && emp.payroll_setup.title}
                                 </option>
                                 {payrollsetup && payrollsetup.map((d, i) => {
 
@@ -787,7 +748,6 @@ const Cards = ({ data }) => {
                         </Row>
                       </Col>
 
-
                     </div>
                   </Accordion.Body>
                 </Row>
@@ -799,7 +759,6 @@ const Cards = ({ data }) => {
                     <h5 style={{ color: "rgb(0,105,92)" }}>Contact Details</h5>
                     <hr />
                   </Accordion.Header>
-
 
                   <Accordion.Body eventKey="1">
                     <h5>Primary Details</h5>
@@ -822,8 +781,8 @@ const Cards = ({ data }) => {
                           />
                         </Form.Group>
                       </Col>
-                      <Col>
 
+                      <Col>
                         <Form.Label
                           as={Col}
                           controlId="formGridLastName"
@@ -853,7 +812,6 @@ const Cards = ({ data }) => {
                             onChange={handleinput}
                             disabled={disableFields}
                           />
-
                         </InputGroup>
                       </Col>
                     </div>

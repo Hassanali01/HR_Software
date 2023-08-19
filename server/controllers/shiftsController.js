@@ -4,11 +4,9 @@ const Shifts = require('../Models/shifts')
 
 //for create shifts
 const addShifts = async (req, res) => {
-    console.log("Api hit for shift")
     const { shift_name, description, start_time, end_time, slabs } = req.body
     try {
         const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slabs })
-        console.log(shifts)
         res.status(200).json(shifts)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -28,6 +26,8 @@ const allShifts = async (req, res) => {
 
 //for get specific shifts
 const getSpecificShift = async (req, res) => {
+
+
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ error: "No record found" })
@@ -35,6 +35,7 @@ const getSpecificShift = async (req, res) => {
     try {
         const shifts = await Shifts.findById({ _id: id })
         res.status(200).json(shifts)
+      
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
@@ -66,7 +67,6 @@ const updateShift = async (req, res) => {
             { new: true })
   
       
-            console.log(updatedItem)
       return res.status(200).json({ message: ' shift updated successfully' });
     } catch (error) {
       console.error(error);

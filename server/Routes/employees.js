@@ -58,11 +58,27 @@ router.delete("/:id", async (req, res, next) => {
 //for getting specific employee
 router.get("/:id", async (req, res, next) => {
   try {
-    const employee = await Employees.findById(req.params.id).populate('departments Leaves supervisors', "departmentname");
+    const employee = await Employees.findById(req.params.id).populate([
+      {
+        path: 'departments Leaves supervisors', 
+        select: "departmentname",   
+      },
+      {
+        path: 'work_shift',
+        model: 'addShifts' ,
+        select: 'shift_name'
+      },
+      {
+        path: 'payroll_setup',
+        model: 'payroll-setup' ,
+        select: 'title'
+      }
+    ]);
     await employee.populate('Leaves')
     await employee.populate('supervisors')
     const { password, ...others } = employee._doc;
     res.status(200).json(others);
+    console.log(others,"other")
   } catch (error) {
     next(error)
   }
