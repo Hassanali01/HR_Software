@@ -275,14 +275,6 @@ const MonthlyPayroll = () => {
           })
         })
 
-      //Employees who resigned/left modification in payroll
-      // Object.entries(tempUserAttendance).forEach(([key, value]) => {
-      //   tempUserAttendance["fiza"] && tempUserAttendance["fiza"].forEach((te) => {
-      //     if (new Date(te.date) > (new Date("July 16, 2023 00:00:00"))) {
-      //       te.status = "";
-      //     }
-      //   })
-      // })
 
       setUserAttendance(tempUserAttendance)
 

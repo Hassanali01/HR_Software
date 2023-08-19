@@ -84,7 +84,7 @@ const Cards = ({ data }) => {
     branchcode: data.branchcode,
     country: data.country,
     date_of_resignation: data.date_of_resignation,
-    work_shift : data.work_shift
+    work_shift: data.work_shift
   });
 
   useEffect(() => {
@@ -133,6 +133,10 @@ const Cards = ({ data }) => {
     setLeaves(data.leaves)
   }, [data]);
 
+
+
+
+
   const handleinput = (e) => {
     let name, value;
     name = e.target.name;
@@ -164,8 +168,15 @@ const Cards = ({ data }) => {
 
   // Asad Api data
   const [leavesData, setLeavesData] = useState([]);
-  const url3 = "/shifts/allShifts"
-  const payrollSittingUrl= "/payrollsetup/";
+  const myshift = emp.work_shift
+
+  console.log("mydata", emp.payroll_setup && emp.payroll_setup.title);
+ 
+
+    const url3 = "/shifts/allShifts"
+  const payrollSittingUrl = "/payrollsetup/";
+
+
   useEffect(() => {
 
     axios.get(url3).then(resp => {
@@ -177,16 +188,19 @@ const Cards = ({ data }) => {
     }, [1, 1]);
 
 
+
+
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
     for (let i in localstoragevalue) {
       if (i == "id") {
         let userid = localstoragevalue[i]
       }
-
     }
 
 
     getLeavesrequests();
+
+
 
   }, []);
   const { user } = useContext(Context);
@@ -322,8 +336,11 @@ const Cards = ({ data }) => {
       NotificationManager.error("Failed to update");
     }
   };
-  const departmentemployees = async () => {
 
+
+
+
+  const departmentemployees = async () => {
     try {
       const getdep = await axios
         .get("employeesofdepartments", {
@@ -332,13 +349,19 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
-
         });
     } catch (error) {
     }
   };
+
+
+
   useEffect(() => {
     departmentemployees();
+
+
+
+
   }, [data]);
 
 
@@ -623,7 +646,6 @@ const Cards = ({ data }) => {
                                 type="text"
                                 required
                                 name="cnic"
-                                placeholder="national id no.."
                                 value={emp.cnic}
                                 onChange={handleinput}
                                 disabled={disableFields}
@@ -735,12 +757,12 @@ const Cards = ({ data }) => {
                             >
                               <Form.Label>Work Shift</Form.Label>
                               <Form.Select name="work_shift"
-                                Value={emp.work_shift}
+                                defaultValueValue={myshift && myshift.shift_name}
                                 onChange={handleinput}
                                 disabled={disableFields}
-                                >
+                              >
                                 <option disabled selected value={""}>
-                                  Select Work Shift..
+                                {myshift && myshift.shift_name}
                                 </option>
                                 {shift && shift.map((d, i) => {
 
@@ -764,12 +786,12 @@ const Cards = ({ data }) => {
                             >
                               <Form.Label>Payroll Setup</Form.Label>
                               <Form.Select name="payroll_setup"
-                                Value={emp.payroll_setup}
+                                Value={emp.payroll_setup && emp.payroll_setup.title}
                                 onChange={handleinput}
                                 disabled={disableFields}
-                                >
+                              >
                                 <option disabled selected defaultValue={""}>
-                                  Select Payroll setup..
+                                {emp.payroll_setup && emp.payroll_setup.title}
                                 </option>
                                 {payrollsetup && payrollsetup.map((d, i) => {
 
