@@ -6,13 +6,17 @@ exports.supportedRefs = ['wd', 'cpl', 'gh', 'dayoff'
 ];
 exports.supportedColumns = [
     { key: 'wd', title: 'W.D', type: 'default' },
+    { key: 'dayoff', title: 'D.O', type: 'default' },
+    { key: 'gh', title: 'G.H', type: 'default' },
+
+
     { key: 'cpl', title: 'C.P.L', type: 'default' },
     { key: 'lwp', title: 'L.W.P', type: 'default' },
+    { key: 'sl', title: 'S.L', type: 'default' },
 
-    { key: 'gh', title: 'G.H', type: 'default' },
-    { key: 'dayoff', title: 'D.O', type: 'default' }
+
 ];
-function generateItems(wd, cpl, gh, lwp, dayoff) {
+function generateItems(wd,dayoff,gh, cpl,  lwp ,sl) {
     // if (n === void 0) { n = 1; }
     var out = [];
     for (var i = 0; i < 1; i++) {
@@ -25,10 +29,11 @@ function generateItems(wd, cpl, gh, lwp, dayoff) {
 
             
       wd:wd,
-      cpl:cpl,
-      gh:gh,
-      lwp: lwp,
       dayoff:dayoff,
+      gh:gh,
+      cpl:cpl,
+      lwp: lwp,
+      sl:sl
 
         });
     }

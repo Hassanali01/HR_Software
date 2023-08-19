@@ -177,7 +177,7 @@ const MonthlyPayroll = () => {
 
 
             const date = j.in
-       
+
             const splitdate = date.split(":")
             const sampleDateIn = new Date()
             sampleDateIn.setHours(splitdate[0])
@@ -265,15 +265,15 @@ const MonthlyPayroll = () => {
 
 
 
-        //Employee resigned date modification in payroll
-        Object.entries(tempUserAttendance).forEach(([key, value]) => {
-          tempUserAttendance[key].forEach((te) => {
-            const dateToCompare = new Date(te.date)
-            if (dateToCompare.setDate(dateToCompare.getDate() + 1) > (new Date(value[0].employee.date_of_resignation))) {
-              te.status = "";
-            }
-          })
+      //Employee resigned date modification in payroll
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const dateToCompare = new Date(te.date)
+          if (dateToCompare.setDate(dateToCompare.getDate() + 1) > (new Date(value[0].employee.date_of_resignation))) {
+            te.status = "";
+          }
         })
+      })
 
       //Employees who resigned/left modification in payroll
       // Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -290,7 +290,7 @@ const MonthlyPayroll = () => {
     } catch (error) {
 
       setLoading(false);
-      console.log("error in payroll" , error)
+      console.log("error in payroll", error)
       NotificationManager.error("Please select  the month of Payroll")
 
     }
@@ -373,7 +373,7 @@ const MonthlyPayroll = () => {
 
 
 
-                    console.log("npd formula",value[0].employee.payroll_setup )
+                    console.log("npd formula", value[0].employee.payroll_setup)
 
 
                     const addField = () => {
@@ -393,7 +393,18 @@ const MonthlyPayroll = () => {
 
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
 
-                    const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : 0,userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
+                    const items = generateItems(
+                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
+
+                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
+
+                    0,
+                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
+                    parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+
+                    
+                    )
 
 
 
@@ -416,7 +427,7 @@ const MonthlyPayroll = () => {
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
 
 
-                    console.log("usersPayrollCalculations",usersPayrollCalculations)
+                    console.log("usersPayrollCalculations", usersPayrollCalculations)
 
 
 
@@ -501,14 +512,16 @@ const MonthlyPayroll = () => {
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length : ""}</td>
                       <td style={{ border: "1px solid black", fontWeight: "bold" }}>{
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
-                        parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
-                      }
+                        // parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
+                        // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
+                        // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length) +
+                        // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length) +
+                        // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
+                        // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
+                        // parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                     
+                        usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays
+                     }
                       </td>
                     </tr>)
                 }
