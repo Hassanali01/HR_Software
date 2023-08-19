@@ -1,10 +1,9 @@
 import React, { useRef } from 'react'
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import moment from "moment";
 import { Context } from '../../../Context/Context';
 import { useEffect, useContext } from 'react';
 import axios from "axios"
-import jsPDF from "jspdf";
 import ReactToPrint from "react-to-print";
 import Calendar from 'react-calendar';
 import { NotificationContainer, NotificationManager } from 'react-notifications'
@@ -14,26 +13,17 @@ import { Button } from 'react-bootstrap';
 import LoadingSpinner from './LoadingSpinner';
 import { generateItems, generateFormulaFields, supportedColumns, supportedRefs, FormulaField } from './../../../formulaParser/shared-demo/gen'
 import { evaluateTokenNodes, getExtendedTokens } from './../../../formulaParser/shared/src'
-
-
-
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
 
 
-
 const MonthlyPayroll = () => {
-
   const context = useContext(Context);
-
   let componentRef = useRef();
-
   const [payrollMonth, setPayrollMonth] = useState("")
   const [date, setDate] = useState(new Date());
   const [userAttendance, setUserAttendance] = useState({})
-
   const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
-
   const [loading, setLoading] = useState(false);
   const [empLeaves, setEmpLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
@@ -41,9 +31,7 @@ const MonthlyPayroll = () => {
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [update, setUpdate] = useState(false)
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-
   const [fields, setFields] = useState(generateFormulaFields())
-
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -74,7 +62,6 @@ const MonthlyPayroll = () => {
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
-
       attendanceTemp.map((at) => {
 
         //filter for  "Sagacious Systems"
@@ -301,6 +288,7 @@ const MonthlyPayroll = () => {
     return new Date(year, month, 0).getDate();
   }
 
+
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
   const formattedDateTime = currentDateTime.toLocaleDateString(undefined, options);
   let rowNumber = 0;
@@ -348,32 +336,17 @@ const MonthlyPayroll = () => {
             <Button className="mr-3" onClick={async () => {
               await generateMonthAttendance()
 
-
-
-
-
-
               // Applying the payroll formula for net pay days
-
-
               try {
-
                 Object.entries(userAttendance).forEach(
-
-
                   ([key, value]) => {
 
-
-
                     console.log("npd formula",value[0].employee.payroll_setup )
-
 
                     const addField = () => {
                       setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }])
                     }
-
                     addField()
-
                     const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
                       if (field.referenceName) {
                         out[field.referenceName] = field.npd_formula
@@ -382,13 +355,9 @@ const MonthlyPayroll = () => {
                     }, {})
 
                     const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
-
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-
                     const items = generateItems(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0), 0, 0, userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : 0,userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length > 0 ? userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : 0)
-
-
-
+                    
                     const extendedItems =
                       items.map((item) => {
                         const extendedItem = {}
@@ -401,28 +370,13 @@ const MonthlyPayroll = () => {
                         return extendedItem
                       })
 
-
-
-
-
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
-
-
                     console.log("usersPayrollCalculations",usersPayrollCalculations)
-
-
-
                   }
                 );
-
-
               } catch (error) { console.log("error in payroll", error) }
-
-
-
-
-
             }}>Generate Payroll</Button>
+
 
             <ReactToPrint
               trigger={() => <Button>Print Payroll</Button>}
@@ -430,7 +384,6 @@ const MonthlyPayroll = () => {
             />
             {/* component to be printed */}
             <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }}>
-
               <table
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
@@ -454,9 +407,7 @@ const MonthlyPayroll = () => {
                   <th style={{ border: "1px solid black" }}>LWOP</th>
                   <th style={{ border: "1px solid black" }}>Absent</th>
                   <th style={{ border: "1px solid black" }}>Late</th>
-
                 </tr>
-
                 {loading ? <div style={{ display: "flex", marginLeft: "40vw", marginTop: "10px" }}><LoadingSpinner /> </div> : ''}
 
                 {Object.entries(userAttendance).map(
@@ -474,7 +425,6 @@ const MonthlyPayroll = () => {
                               fontWeight = "bolder";
                             }
                           }
-
                           return (
                             <td style={{ border: "1px solid black", fontWeight: fontWeight }}>
                               {attendanceEntry ? attendanceEntry.status : ""}
@@ -482,6 +432,7 @@ const MonthlyPayroll = () => {
                           );
                         })
                       }
+                      
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>

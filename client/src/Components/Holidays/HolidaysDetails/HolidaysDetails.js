@@ -2,13 +2,10 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import Moment from "react-moment";
 import moment from "moment";
 import { Button, Form } from "react-bootstrap";
 import { NotificationManager } from 'react-notifications'
-import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
-
 
 
 
@@ -18,28 +15,11 @@ const HolidaysDetails = () => {
   const url = "/holiday/detail";
   const [savedate, setSavedate] = useState(new Date());
   const [holiday, setholiday] = useState([]);
-  const [holidayyear, setHolidayyear] = useState([]);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(url);
-  //     const data = response.data.detail;
-  //     setholiday(data);
-  //     // console.log(holiday)
-  //   } catch (error) {
-  //   }
-  // };
-
-
   const ChangeYear = (e) => {
     const dateStr = e;
     const year = new Date(dateStr).getFullYear();
     setSavedate(dateStr)
-
-
   }
-
-
 
   const holidaydelete = async (id) => {
     try {
@@ -50,26 +30,21 @@ const HolidaysDetails = () => {
     }
   }
 
+
   const fetchData = async () => {
     try {
       const response = await axios.get(`holiday/${savedate}`);
-
-      console.log("res", response.data)
-
       setholiday(response.data)
-
     } catch (error) {
       setholiday([]);
       console.error('Axios error:', error);
     }
-
   };
 
 
+
   useEffect(() => {
-
     fetchData();
-
   }, [savedate]);
 
 
@@ -124,9 +99,7 @@ const HolidaysDetails = () => {
                 <td colSpan={5}>
                 <p  style={{ textAlign: "center", fontSize: "22px" , fontWeight: "900" }}>No data for this Year...</p>
                 </td>
-              </tr>
-             
-
+              </tr>   
             )
           }
         </tbody>
