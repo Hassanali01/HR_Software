@@ -19,10 +19,12 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   const [error, setError] = useState(false);
   const [dep, setDep] = useState([]);
   const [empl, setEmpl] = useState([])
-  const [shift ,setShift] = useState([])
+  const [shift, setShift] = useState([])
+  const [payrollsetup, setPayrollsetup] = useState([])
   const url2 = "/departments";
   const url = "/employees";
   const url3 = "/shifts/allShifts"
+  const payrollSittingUrl= "/payrollsetup/";
   let name, value;
   const handleinput = (e) => {
 
@@ -54,7 +56,7 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
     city: "",
     postalCode: "",
     departments: "",
-    
+    payroll_setup: "",
     work_shift: "",
     designation: "",
     joiningdate: "",
@@ -104,6 +106,9 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
       setShift(resp.data)
     }, [1, 1]);
 
+    axios.get(payrollSittingUrl).then(resp => {
+      setPayrollsetup(resp.data)
+    }, [1, 1]);
 
 
     const fetchData = async () => {
@@ -354,6 +359,33 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
                         <>
                           <option key={d._id} value={d._id}>
                             {d.shift_name}
+                          </option>
+                        </>
+                      );
+                    })}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+
+              <Col lg={4}>
+                <Form.Group
+                  as={Col}
+                  controlId="formGriddepartments"
+                  className="formmargin"
+                >
+                  <Form.Label>Payroll Setup</Form.Label>
+                  <Form.Select name="payroll_setup"
+                    defaultValue={values.payroll_setup}
+                    onChange={handleFormData("payroll_setup")}>
+                    <option disabled selected defaultValue={""}>
+                      Select Payroll Setup..
+                    </option>
+                    {payrollsetup && payrollsetup.map((d, i) => {
+
+                      return (
+                        <>
+                          <option key={d._id} value={d._id}>
+                            {d.title}
                           </option>
                         </>
                       );

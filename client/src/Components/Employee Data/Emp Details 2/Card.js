@@ -34,6 +34,7 @@ const Cards = ({ data }) => {
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const [shift, setShift] = useState([]);
+  const [payrollsetup, setPayrollsetup] = useState([])
   const [editEdu, setEditEdu] = useState(true);
   const PP = "http://locallhost:5001/images/";
 
@@ -73,6 +74,7 @@ const Cards = ({ data }) => {
     employementhistory: data.employementhistory,
     currentSalary: data.currentSalary,
     employementstatus: data.employeementstatus,
+    payroll_setup: data.payroll_setup,
     //bank information
     bankname: data.bankname,
     paymentmode: data.paymentmode,
@@ -113,6 +115,7 @@ const Cards = ({ data }) => {
       employementhistory: data.employementhistory,
       currentSalary: data.currentSalary,
       employementstatus: data.employeementstatus,
+      payroll_setup: data.payroll_setup,
       //bank information
       bankname: data.bankname,
       paymentmode: data.paymentmode,
@@ -151,7 +154,8 @@ const Cards = ({ data }) => {
     email,
     designation,
     supervisors,
-    work_shift
+    work_shift,
+    // payroll_setup,
     //handle user input form data
   };
 
@@ -161,13 +165,16 @@ const Cards = ({ data }) => {
   // Asad Api data
   const [leavesData, setLeavesData] = useState([]);
   const url3 = "/shifts/allShifts"
+  const payrollSittingUrl= "/payrollsetup/";
   useEffect(() => {
 
     axios.get(url3).then(resp => {
       setShift(resp.data)
     }, [1, 1]);
 
-
+    axios.get(payrollSittingUrl).then(resp => {
+      setPayrollsetup(resp.data)
+    }, [1, 1]);
 
 
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
@@ -224,7 +231,8 @@ const Cards = ({ data }) => {
       attachment: d.attachment,
       applicationdate: d.applicationdate,
       leaves: d.employee && d.employee.Leaves.map((d) => d),
-      work_shift: d.employee && d.employee.work_shift
+      work_shift: d.employee && d.employee.work_shift,
+      payroll_setup: d.employee && d.employee.payroll_setup,
     });
   });
 
@@ -276,7 +284,8 @@ const Cards = ({ data }) => {
           country: emp.country,
           leaves: data.leaves,
           date_of_resignation: emp.date_of_resignation,
-          work_shift: emp.work_shift
+          work_shift: emp.work_shift,
+          payroll_setup: emp.payroll_setup
         })
         .then((user) => {
 
@@ -301,6 +310,7 @@ const Cards = ({ data }) => {
           data.country = user.data.updateData.country;
           data.date_of_resignation = user.data.updateData.date_of_resignation
           data.work_shift = user.data.updateData.work_shift
+          data.payroll_setup = user.data.updateData.payroll_setup
         });
 
       updateUser && NotificationManager.success("Successfully Updated");
@@ -729,7 +739,7 @@ const Cards = ({ data }) => {
                                 onChange={handleinput}
                                 disabled={disableFields}
                                 >
-                                <option disabled selected defaultValue={""}>
+                                <option disabled selected value={""}>
                                   Select Work Shift..
                                 </option>
                                 {shift && shift.map((d, i) => {
@@ -738,6 +748,35 @@ const Cards = ({ data }) => {
                                     <>
                                       <option key={d._id} value={d._id}>
                                         {d.shift_name}
+                                      </option>
+                                    </>
+                                  );
+                                })}
+                              </Form.Select>
+                            </Form.Group>
+                          </Col>
+
+                          <Col lg={4}>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGriddepartments"
+                              className="formmargin"
+                            >
+                              <Form.Label>Payroll Setup</Form.Label>
+                              <Form.Select name="payroll_setup"
+                                Value={emp.payroll_setup}
+                                onChange={handleinput}
+                                disabled={disableFields}
+                                >
+                                <option disabled selected defaultValue={""}>
+                                  Select Payroll setup..
+                                </option>
+                                {payrollsetup && payrollsetup.map((d, i) => {
+
+                                  return (
+                                    <>
+                                      <option key={d._id} value={d._id}>
+                                        {d.title}
                                       </option>
                                     </>
                                   );
@@ -1395,7 +1434,7 @@ const Cards = ({ data }) => {
                 </Accordion.Body>
               </Accordion.Item>
 
-
+              <NotificationContainer />
 
               {/* Asad data */}
               <Accordion.Item eventKey="7" style={{ marginTop: "2%" }}>
