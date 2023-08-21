@@ -42,7 +42,7 @@ const Cards = ({ data }) => {
   
 
 
-  const myshift = emp.work_shift
+
   const url3 = "/shifts/allShifts"
   const payrollSittingUrl = "/payrollsetup/";
   const getUrl = "/leaverequest/all/";
@@ -326,7 +326,7 @@ const Cards = ({ data }) => {
     departmentemployees();
   }, [data]);
 
-
+  const myshift = emp.work_shift
 
   const [empdetails, setempdetails] = useState({
     company: "",
