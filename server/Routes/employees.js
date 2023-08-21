@@ -60,25 +60,31 @@ router.get("/:id", async (req, res, next) => {
   try {
     const employee = await Employees.findById(req.params.id).populate([
       {
-        path: 'departments Leaves supervisors', 
-        select: "departmentname",   
+        path: 'departments Leaves supervisors',
+        select: "departmentname",
       },
       {
         path: 'work_shift',
-        model: 'addShifts' ,
+        model: 'addShifts',
         select: 'shift_name'
       },
       {
         path: 'payroll_setup',
-        model: 'payroll-setup' ,
+        model: 'payroll-setup',
+        select: 'title'
+      },
+      {
+        path: 'company',
+        model: 'Company',
         select: 'title'
       }
     ]);
+    console.log(employee,"...............")
     await employee.populate('Leaves')
     await employee.populate('supervisors')
     const { password, ...others } = employee._doc;
     res.status(200).json(others);
-    console.log(others,"other")
+    console.log(others, "other")
   } catch (error) {
     next(error)
   }
@@ -95,9 +101,9 @@ router.put("/:id", async (req, res, next) => {
       req.params.id,
       {
         $set: { ...reqBody },
-        $push: { departments: req.body.departments },
-        $push: { supervisors: req.body.supervisors },
-    
+      //   $push: { departments: req.body.departments },
+      //   $push: { supervisors: req.body.supervisors },
+      //   $push: { company: req.body.company }
       },
       { new: true, useFindAndModify: false }
     ).populate('supervisors');

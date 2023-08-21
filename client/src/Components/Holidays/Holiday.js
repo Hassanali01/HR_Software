@@ -32,7 +32,7 @@ const Holiday = () => {
   const [error, setError] = useState(false);
   const [update, setupdate] = useState(true);
 
- 
+
   // (date) => {
   //   setSavedate(date.getFullYear())}
 
@@ -98,6 +98,9 @@ const Holiday = () => {
   useEffect(() => {
     fetchData();
   }, [update]);
+
+
+
   const handleInput = (e) => {
     e.preventDefault();
 
@@ -154,9 +157,8 @@ const Holiday = () => {
               </div>
               <div className="card-body">
                 <div className="table-responsive" style={{ height: "500px" }}>
-
-                  
                   <HolidaysDetails />
+
                 </div>
               </div>
             </div>

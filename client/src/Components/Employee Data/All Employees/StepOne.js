@@ -26,6 +26,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
     gender: "",
     martialStatus: "",
     religion: "",
+    // company: "",
   });
 
   //creating error state for validation
@@ -92,6 +93,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
       const companies = await axios.get(`/allCompany`)
       const cs = companies.data
       setCompany(cs)
+      console.log(companies.data, "company")
     }
     catch (error) {
       console.log(error);
@@ -260,7 +262,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                     <Form.Label>D-0-B</Form.Label>
                     <Form.Control
                       type="date"
-  
+
                       placeholder="dd/mm/yyyy"
                       name="dob"
                       defaultValue={values.dob}
@@ -309,7 +311,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                         borderColor: "grey",
                         paddingTop: "1%",
                         paddingBottom: "1%",
-                      }} 
+                      }}
                       name="cnic"
                       required
                       format="#####-#######-#"
@@ -330,52 +332,31 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                     placeholder="company_payroll"
                     onChange={handleFormData("company_payroll")}
                   />
-
-                  {/* 
+             
+                </Col>
+                
+              </Row>
+              <Row>
+              <Col xl="6" lg="6" md="6">
+                  <Form.Label>Company</Form.Label>
                   <Form.Select
-                    required
-                    onChange={(e) => {
-                      setCompany(e.target.value);
-                    }}
+                    name="company"
+                    defaultValue={values.company}
+                    onChange={handleFormData("company")}
                   >
                     <option disabled selected hidden defaultValue={""}>Please Select</option>
-                    {company.map((d) => {
+                    {company && company.map((d) => {
                       return (
                         <option
                           key={d._id}
-                          value={d.title}
-                          name={d.title}
+                          value={d._id}
+                          // name={d.title}
                         >
                           {d.title}
                         </option>
                       );
                     })}
-                  </Form.Select> */}
-
-
-
-                  {/* <Form.Group
-                    as={Col}
-                    controlId="formGridFirstName"
-                    className="formmargin"
-                  >
-                    <PatternFormat
-                      style={{
-                        border: "0.5px solid",
-                        borderRadius: "4px",
-                        width: "100%",
-                        borderColor: "grey",
-                        paddingTop: "1%",
-                        paddingBottom: "1%",
-                      }}
-                      name="company_payroll"
-                      required
-                      allowEmptyFormatting
-                      mask="x"
-                      defaultValue={values.company_payroll}
-                      onChange={handleFormData("company_payroll")}
-                    />
-                  </Form.Group> */}
+                  </Form.Select>  
                 </Col>
               </Row>
 

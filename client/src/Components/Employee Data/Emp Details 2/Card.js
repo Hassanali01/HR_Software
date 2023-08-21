@@ -39,7 +39,7 @@ const Cards = ({ data }) => {
   const [show, setShow] = useState(false);
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
-  
+  const [company, setCompany] = useState();
 
 
 
@@ -84,7 +84,8 @@ const Cards = ({ data }) => {
     branchcode: data.branchcode,
     country: data.country,
     date_of_resignation: data.date_of_resignation,
-    work_shift: data.work_shift
+    work_shift: data.work_shift,
+    company: data.company
   });
 
 
@@ -127,11 +128,13 @@ const Cards = ({ data }) => {
       country: data.country,
       leaves: data.leaves,
       date_of_resignation: data.date_of_resignation,
-      work_shift: data.work_shift
+      work_shift: data.work_shift,
+      company: data.company
     });
     setemployement(data.employementhistory);
     seteducation(data.educationdetails);
     setLeaves(data.leaves)
+    
   }, [data]);
 
   useEffect(() => {
@@ -143,6 +146,12 @@ const Cards = ({ data }) => {
     axios.get(payrollSittingUrl).then(resp => {
       setPayrollsetup(resp.data)
     }, [1, 1]);
+
+    axios.get(`/allCompany`).then(resp => {
+      setCompany(resp.data)
+      console.log(resp.data,"888")
+    }, [1, 1]);
+
 
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
     for (let i in localstoragevalue) {
@@ -221,6 +230,8 @@ const Cards = ({ data }) => {
       leaves: d.employee && d.employee.Leaves.map((d) => d),
       work_shift: d.employee && d.employee.work_shift,
       payroll_setup: d.employee && d.employee.payroll_setup,
+      joiningdate: d.employee && d.employee.joiningdate,
+      company: d.employee && d.employee.company
     });
   });
 
@@ -270,7 +281,8 @@ const Cards = ({ data }) => {
           leaves: data.leaves,
           date_of_resignation: emp.date_of_resignation,
           work_shift: emp.work_shift,
-          payroll_setup: emp.payroll_setup
+          payroll_setup: emp.payroll_setup,
+          company:emp.company
         })
         .then((user) => {
 
@@ -294,8 +306,10 @@ const Cards = ({ data }) => {
           data.bankbranchno = user.data.updateData.bankbranchno;
           data.country = user.data.updateData.country;
           data.date_of_resignation = user.data.updateData.date_of_resignation
+          data.joiningdate = user.data.updateData.joiningdate
           data.work_shift = user.data.updateData.work_shift
           data.payroll_setup = user.data.updateData.payroll_setup
+          data.company = user.data.updateData.company
         });
 
       updateUser && NotificationManager.success("Successfully Updated");
@@ -316,6 +330,7 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
+          console.log("employee",getdep.data)
         });
     } catch (error) {
     }
@@ -369,7 +384,6 @@ const Cards = ({ data }) => {
       duration: empdetails.duration,
       jobdescription: empdetails.jobdescription,
     });
-
     setemployement(empl);
     setEmp({ ...emp, employementhistory: empl });
   };
@@ -445,7 +459,7 @@ const Cards = ({ data }) => {
     });
   };
   //history and educational details end
-  
+
 
 
 
@@ -744,6 +758,44 @@ const Cards = ({ data }) => {
                                 })}
                               </Form.Select>
                             </Form.Group>
+                          </Col>
+                          <Col sm={4}>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGridLastName"
+                              className="formmargin"
+                            >
+                              <Form.Label>Date of Joining</Form.Label>
+                              <Form.Control
+                                type="date"
+                                name="joiningdate"
+                                value={emp.joiningdate && emp.joiningdate.split("T")[0]}
+                                disabled={disableFields}
+                                onChange={handleinput}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                          <Col xl="4" lg="4" md="4" sm={4}>
+                            <Form.Label>Company</Form.Label>
+                            <Form.Select
+                              name="company"
+                              value={emp.company && emp.company.title}
+                              onChange={handleinput}
+                              disabled={disableFields}
+                            >
+                              <option disabled selected hidden defaultValue={""}>{emp.company && emp.company.title}</option>
+                              {company && company.map((d) => {
+                                return (
+                                  <option
+                                    key={d._id}
+                                    value={d._id}
+                                  >
+                                    {d.title}
+                                  </option>
+                                );
+                              })}
+                            </Form.Select>
                           </Col>
                         </Row>
                       </Col>

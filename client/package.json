@@ -29,6 +29,7 @@
     "date-holidays": "^3.16.7",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
+    "framer-motion": "^10.16.0",
     "jquery": "^3.6.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",

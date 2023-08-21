@@ -50,19 +50,22 @@ const HolidaysDetails = () => {
 
   return (
     <>
-      <Form.Label  style={{ cursor: 'pointer' }}>Select Year : </Form.Label>
-      <DatePicker
-       style={{ cursor: 'pointer' }}
-        id="DatePicker"
-        type="string"
-        selected={savedate}
-        className="text-primary text-center"
-        onChange={ChangeYear}
-        showYearPicker
-        dateFormat="yyyy"
-        yearItemNumber={10}
-        value={savedate}
-      />
+      <div className="datepicker" style={{ cursor: 'pointer' ,  display: 'flex' , marginBottom: '20px'}}>
+        <Form.Label style={{ cursor: 'pointer' , width: '120px'}}>Select Year  : </Form.Label>
+        <DatePicker
+          style={{ cursor: 'pointer' }}
+          id="DatePicker"
+          type="string"
+          selected={savedate}
+          className="text-primary text-center"
+          onChange={ChangeYear}
+          showYearPicker
+          dateFormat="yyyy"
+          yearItemNumber={10}
+          value={savedate}
+        />
+      </div>
+
       <Table className="striped bordered hover">
         <thead>
           <tr>
@@ -97,9 +100,9 @@ const HolidaysDetails = () => {
             })) : (
               <tr>
                 <td colSpan={5}>
-                <p  style={{ textAlign: "center", fontSize: "22px" , fontWeight: "900" }}>No data for this Year...</p>
+                  <p style={{ textAlign: "center", fontSize: "22px", fontWeight: "900" }}>No data for this Year...</p>
                 </td>
-              </tr>   
+              </tr>
             )
           }
         </tbody>
