@@ -65,14 +65,14 @@ const MonthlyPayroll = () => {
       attendanceTemp.map((at) => {
 
         //filter for  "Sagacious Systems"
-        if (at.employee.company_payroll == "Sagacious Systems") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
-
-        // filter for  "Sagacious Marketing"
-        // if (at.employee.company_payroll == "Sagacious Marketing") {
+        // if (at.employee.company_payroll == "Sagacious Systems") {
         //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         // }
+
+        // filter for  "Sagacious Marketing"
+        if (at.employee.company_payroll == "Sagacious Marketing") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
@@ -367,9 +367,9 @@ const MonthlyPayroll = () => {
 
                     0,
                     userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
-                    parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
+                    parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
 
-                    
+                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                     )
 
 
