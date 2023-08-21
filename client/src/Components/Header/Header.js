@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 const Header = () => {
   const { user, dispatch } = useContext(Context);
-
+  const [header, setHeader] = useState();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

@@ -47,6 +47,7 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
     primaryemail: "",
     secondaryemail: "",
     password: "",
+    company: "",
     emp_id: "",
     primaryphone: "",
     secondaryphone: "",

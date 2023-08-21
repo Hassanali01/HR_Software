@@ -27,6 +27,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
     profilepic: values.profilepic,
     firstname: values.firstName,
     company_payroll: values.company_payroll,
+    company: values.company,
     lastname: values.lastName,
     dob: values.dob,
     cnic: values.cnic,
@@ -82,7 +83,6 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
   const [testUpdate, setTestUpdate] = useState(false);
   const [education, seteducation] = useState([]);
   const [empdetails, setempdetails] = useState({
-    company: "",
     position: "",
     joiningdate: "",
     resignationdate: "",

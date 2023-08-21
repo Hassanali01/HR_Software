@@ -414,8 +414,8 @@ const LeaveRequest = () => {
                                         onChange={(e) => { setShort_leave(e.target.value) }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
+                                        <option value="True">Short Leave</option>
+                                        <option value="False">Full Leave</option>
 
                                       </Form.Select>
                                     </Col>

@@ -188,10 +188,10 @@ const EmployeesSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    terminationdate: {
-      type: Date,
-      default: "N/A",
-    },
+    // terminationdate: {
+    //   type: Date,
+    //   default: "N/A",
+    // },
     terminationreason: {
       type: String,
       default: "",
