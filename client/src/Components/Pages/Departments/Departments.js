@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Modal,
   Form,
@@ -20,7 +20,7 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Table from "./TableView/Table";
-import { get } from "jquery";
+import HeaderContext from '../../../Context/HeaderContext'
 
 
 
@@ -28,6 +28,8 @@ const Departments = () => {
   const [getdata, setData] = useState([]);
   const [show, setShow] = useState(false);
   const [view, setView] = useState(false);
+
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -45,7 +47,7 @@ const Departments = () => {
       const res = dep.data;
 
       setData(res.departments);
-      
+
     } catch (error) {
       console.log(error);
     }
@@ -76,9 +78,13 @@ const Departments = () => {
 
   useEffect(() => {
     departments();
-  }, []);
-  
 
+  }, []);
+
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Departments")
+  })
   return (
     <>
       <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
@@ -86,18 +92,18 @@ const Departments = () => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
-                <h3 className="page-title">Departments</h3>
+                {/* <h3 className="page-title">Departments</h3>
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                      Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Departments</li>
-                </ul>
+                </ul> */}
                 <div className="col-auto float-end ms-auto">
                   <div
                     style={{ display: "flex", alignItems: "center" }}
@@ -116,33 +122,33 @@ const Departments = () => {
                       </i>
                       Add Department
                     </a>
-                    
+
                   </div>
                   <div
-          className="mb-3"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginRight: "70px",
-            marginTop:"4%"
-          }}
-        >
-          <div>
-            <ToggleButtonGroup
-              orientation="horizontal"
-              value={view}
-              exclusive
-              onChange={handleChange}
-            >
-              <ToggleButton value="module" aria-label="module" selected={!view}>
-                <ViewModuleIcon />
-              </ToggleButton>
-              <ToggleButton value="list" aria-label="list" selected={view}>
-                <ViewListIcon />
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-        </div>
+                    className="mb-3"
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      marginRight: "70px",
+                      marginTop: "4%"
+                    }}
+                  >
+                    <div>
+                      <ToggleButtonGroup
+                        orientation="horizontal"
+                        value={view}
+                        exclusive
+                        onChange={handleChange}
+                      >
+                        <ToggleButton value="module" aria-label="module" selected={!view}>
+                          <ViewModuleIcon />
+                        </ToggleButton>
+                        <ToggleButton value="list" aria-label="list" selected={view}>
+                          <ViewListIcon />
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -165,25 +171,25 @@ const Departments = () => {
                     ) : (
                       <Container>
                         <Row>
-                          { getdata.map((d, i) => {
-                         let demo=d.description
-                         let arr=[]
-                         console.log(demo)
-                         for(let a in demo){
-                          arr.push(demo[a])
-                         }
-                         let value=arr.slice(0,20).join('')
-                           
+                          {getdata.map((d, i) => {
+                            let demo = d.description
+                            let arr = []
+                            console.log(demo)
+                            for (let a in demo) {
+                              arr.push(demo[a])
+                            }
+                            let value = arr.slice(0, 20).join('')
+
                             return (
                               <>
                                 <Col xs="12" xl="3" lg="4" md="6" sm="6">
                                   <Card>
                                     <Card.Title className="id">
-                                    {d.departmentname}
+                                      {d.departmentname}
                                     </Card.Title>
                                     <Card.Body>
                                       <Card.Text>{value}...</Card.Text>
-                                    
+
                                     </Card.Body>
                                   </Card>
                                 </Col>

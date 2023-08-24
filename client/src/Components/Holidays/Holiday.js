@@ -12,11 +12,17 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../Context/Context";
+import HeaderContext from '../../Context/HeaderContext'
 
 
 
 
 const Holiday = () => {
+
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -100,6 +106,11 @@ const Holiday = () => {
   }, [update]);
 
 
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Holidays")
+  })
+
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -109,23 +120,23 @@ const Holiday = () => {
 
   return (
     <>
-      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
+      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" , marginTop:"30px"}}>
         <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
-                <h3 className="page-title">Holidays</h3>
+                {/* <h3 className="page-title">Holidays</h3>
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Holidays</li>
-                </ul>
+                </ul> */}
 
                 <div className="col-auto float-end ms-auto">
                   <a

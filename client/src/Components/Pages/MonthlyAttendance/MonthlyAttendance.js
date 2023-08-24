@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import TextField from '@mui/material/TextField';
-import EcxelImport from "./EcxelImport";
+import HeaderContext from "../../../Context/HeaderContext";
 import axios from "axios";
 import {
   NotificationContainer,
@@ -164,7 +163,10 @@ const MonthlyAttendance = () => {
       console.log("error", error)
     }
   }, [])
-
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Attendece Viewer ")
+  })
 
   async function showMonthAttendance() {
 

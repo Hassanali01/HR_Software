@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link } from "react-router-dom";
 import { Button, Container, Table } from "react-bootstrap";
 import axios from "axios";
@@ -13,7 +13,7 @@ import {
     NotificationContainer,
     NotificationManager,
 } from "react-notifications";
-
+import HeaderContext from '../../../Context/HeaderContext'
 
 function AddSlabs() {
     const [shift, setShift] = useState([])
@@ -70,7 +70,10 @@ function AddSlabs() {
     useEffect(() => {
         fetchData();
     }, [])
-
+    const a = useContext(HeaderContext)
+    useEffect(() => {
+      a.update("Human Resource / Job Shifts / Add Slabs")
+    })
 
     return (
         <>
@@ -86,7 +89,7 @@ function AddSlabs() {
                                 >
                                     <li className="breadcrumb-item">
                                         <Link to="/" style={{ color: "#1f1f1f" }}>
-                                            Dashboard
+                                        Human Resource
                                         </Link>
                                     </li>
                                     <li className="breadcrumb-item">

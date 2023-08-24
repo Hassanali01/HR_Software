@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./Employee.css";
-import pp from "./avatar.png";
 import { useState } from "react";
 import Card from "../Emp Card/EmpCard";
 import axios from "axios";
@@ -20,16 +19,13 @@ import {
   Container,
   FormGroup,
 } from "react-bootstrap";
-import Table from "react-bootstrap/Table";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TableView from "../TableView/Table";
 import { useNavigate } from "react-router-dom";
-import ReactFlags from "react-flags-select";
-import { cities } from "./cities";
-import DatePicker from "react-datepicker";
+import HeaderContext from "./../../../Context/HeaderContext"
 import "react-datepicker/dist/react-datepicker.css";
 import EmployeeData from "./EmployeeData";
 const moment = require("moment");
@@ -304,6 +300,10 @@ const AllEmployees = () => {
     fetchData();
     getEmp();
   }, [update]);
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Employee ")
+  })
 
   const PF = "http://localhost:5002/images/";
 
@@ -314,7 +314,7 @@ const AllEmployees = () => {
         <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
-              <div className="col">
+              {/* <div className="col">
                 <h3 className="page-title">Employee</h3>
                 <ul
                   className="breadcrumb"
@@ -322,13 +322,13 @@ const AllEmployees = () => {
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Employee</li>
                 </ul>
-              </div>
-              <div className="col-auto float-end ms-auto">
+              </div> */}
+              <div className="col-auto float-start ms-auto">
                 <a
                   className="btn add-btn "
                   data-bs-toggle="modal"
@@ -374,7 +374,6 @@ const AllEmployees = () => {
               </div>
             </div>
           </div>
-          {/* /.container-fluid */}
         </section>
         {/* Main content */}
         <section className="content" style={{ paddingBottom: "70px" }}>

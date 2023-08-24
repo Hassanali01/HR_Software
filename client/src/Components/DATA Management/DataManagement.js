@@ -1,22 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import EcxelImport from "./EcxelImport";
-import Xlsx from "./Xlsx";
 import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import Table from "./attendanceReportTable/Table";
-import logo3 from './logo3.jpg';
 import path from 'path';
 import ReactToPrint from "react-to-print";
 import { useRef } from 'react'
 import jsPDF from "jspdf";
-import autoTable from 'jspdf-autotable';
 import "./DataManagement.css"
-
+import HeaderContext from '../../Context/HeaderContext';
 
 const moment = require('moment')
 const DataManagement = () => {
@@ -193,13 +189,16 @@ const DataManagement = () => {
       console.log("error", error)
     }
   }, [])
-
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Attendence / Report")
+  })
 
 
   return (
     <>
-      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header">
+      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" , marginTop: "20px"}}>
+        {/* <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
@@ -210,7 +209,7 @@ const DataManagement = () => {
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                      Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Attendance</li>
@@ -219,7 +218,7 @@ const DataManagement = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         <section className="centent">
           <div className="container-fluid">
             <div className="card">

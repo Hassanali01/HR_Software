@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -7,9 +7,11 @@ import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CountUp from 'react-countup';
+import HeaderContext from "../../Context/HeaderContext";
 import DepartmentEmployees from '../charts/DepartmentEmployees/DepartmentEmployees'
 import Hiring from "../charts/Hirring/Hiring";
 import axios from "axios";
+
 const Dashboard = () => {
 
   const [depCount, setDepCount] = useState()
@@ -27,8 +29,9 @@ const Dashboard = () => {
       } catch (error) {
       }
       try {
-        const leaves = await axios.get('leaverequest/all')
+        const leaves = await axios.get('/leaverequest/allForHR')
         const leav = leaves.data.counted;
+        console.log("leaves",leav)
         setleavCount(leav)
       } catch (error) {
         console.log(error)
@@ -41,11 +44,15 @@ const Dashboard = () => {
   useEffect(() => {
     counted()
   }, [])
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Dashboard")
+  })
 
   return (
     <div>
-      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header">
+      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}>
+        {/* <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
@@ -53,7 +60,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         <section>
           <Container fluid>
             <Row>

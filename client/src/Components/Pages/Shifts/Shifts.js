@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
     Modal,
     Form,
@@ -20,6 +20,7 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Table from "./Table";
+import HeaderContext from '../../../Context/HeaderContext'
 
 function Shifts() {
     const [getdata, setData] = useState([]);
@@ -76,7 +77,10 @@ function Shifts() {
     useEffect(() => {
         Shifts()
     }, []);
-
+    const a = useContext(HeaderContext)
+    useEffect(() => {
+      a.update("Human Resource / Job Shifts")
+    })
 
     return (
         <>
@@ -85,18 +89,18 @@ function Shifts() {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col">
-                                <h3 className="page-title">Job Shifts</h3>
+                                {/* <h3 className="page-title">Job Shifts</h3>
                                 <ul
                                     className="breadcrumb"
                                     style={{ backgroundColor: "#f7f7f7" }}
                                 >
                                     <li className="breadcrumb-item">
                                         <Link to="/" style={{ color: "#1f1f1f" }}>
-                                            Dashboard
+                                        Human Resource
                                         </Link>
                                     </li>
                                     <li className="breadcrumb-item active">Job Shifts</li>
-                                </ul>
+                                </ul> */}
                                 <div className="col-auto float-end ms-auto">
                                     <div
                                         style={{ display: "flex", alignItems: "center" }}

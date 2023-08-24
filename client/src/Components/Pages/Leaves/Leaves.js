@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Card, Container, Modal,  Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import HeaderContext from '../../../Context/HeaderContext'
+
 const Leaves = () => {
   const [show, setShow] = useState(false);
 
@@ -34,6 +36,11 @@ const Leaves = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Leaves")
+  })
+
 
   const postData = async (e) => {
     e.preventDefault();
@@ -54,23 +61,23 @@ const Leaves = () => {
 
   return (
     <>
-      <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
+      <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7"}}>
         <section className="content-header ">
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
-                <h3 className="page-title">Leaves</h3>
+                {/* <h3 className="page-title">Leaves</h3>
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Leaves</li>
-                </ul>
+                </ul> */}
                 <div className="col-auto float-end ms-auto">
                   <div style={{ display: "flex", alignItems: "center" }}>
                   <a

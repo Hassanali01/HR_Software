@@ -7,10 +7,8 @@ import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { Table } from "react-bootstrap";
-
+import HeaderContext from "../../Context/HeaderContext";
 import CountUp from 'react-countup';
-import DepartmentEmployees from '../charts/DepartmentEmployees/DepartmentEmployees'
-import Hiring from "../charts/Hirring/Hiring";
 import axios from "axios";
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
@@ -64,7 +62,10 @@ const DashboardNonAdmin = () => {
         userInformation();
     }, []);
 
-
+    const a = useContext(HeaderContext)
+    useEffect(() => {
+        a.update("Human Resource / Dashboard")
+    })
     const counted = async () => {
         try {
             const department = await axios.get("/departments")
@@ -78,7 +79,7 @@ const DashboardNonAdmin = () => {
                 console.log(error)
             }
             try {
-                const leaves = await axios.get('leaverequest/all')
+                const leaves = await axios.get('leaverequest/allForHR')
                 const leav = leaves.data.counted;
                 setleavCount(leav)
             } catch (error) {
@@ -95,9 +96,9 @@ const DashboardNonAdmin = () => {
 
     return (
         <div>
-            <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
+            <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" , marginTop: "20px"}}>
                 {/* Content Header (Page header) */}
-                <section className="content-header">
+                {/* <section className="content-header">
                     <div className="container-fluid">
                         <div className="row align-items-center">
                             <div className="col">
@@ -105,8 +106,7 @@ const DashboardNonAdmin = () => {
                             </div>
                         </div>
                     </div>
-                    {/* /.container-fluid */}
-                </section>
+                </section> */}
                 <section>
                     <Container fluid>
                         <Row>

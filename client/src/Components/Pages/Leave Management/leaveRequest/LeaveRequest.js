@@ -19,6 +19,8 @@ import { useReactToPrint } from "react-to-print";
 import img from "../../../../Assets/logo3.jpg";
 import Report from "../report leave request/Report";
 import './LeaveRequest.css'
+import HeaderContext from '../../../../Context/HeaderContext'
+
 
 const LeaveRequest = () => {
   const navigate = useNavigate();
@@ -47,6 +49,11 @@ const LeaveRequest = () => {
   const [details, setDetails] = useState([]);
   const [Short_leave, setShort_leave] = useState([]);
 
+
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Leave Request")
+  })
 
   const employee = user.id;
 
@@ -164,7 +171,7 @@ const LeaveRequest = () => {
     }
   };
 
-  // disabled previous dates
+  // disabled previous datesurl
   var dd, today, mm, yyyy;
   const disableDate = () => {
     today = new Date();
@@ -196,9 +203,9 @@ const LeaveRequest = () => {
     <>
       <div
         className="content-wrapper my-1"
-        style={{ backgroundColor: "#f7f7f7" }}
+        style={{ backgroundColor: "#f7f7f7"}}
       >
-        <section className="content-header py-3">
+        {/* <section className="content-header py-3">
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
@@ -209,7 +216,7 @@ const LeaveRequest = () => {
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Leave Request</li>
@@ -217,12 +224,12 @@ const LeaveRequest = () => {
               </div>
             </div>
           </div>
-        </section>
-        <section className="content">
+        </section> */}
+        <section className="content" style={{marginTop: "30px"}}>
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor ">
-                <h3 className="card-title" style={{ color: "white" }}>
+              <div className="card-header buttoncolor "> 
+                <h3 className="card-title" style={{ color: "white"}}>
                   Add Leave Request
                 </h3>
               </div>

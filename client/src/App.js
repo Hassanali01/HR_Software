@@ -3,7 +3,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EmployeeLeaves from "./Components/Pages/EmpLeaves/EmployeeLeaves";
+// import EmployeeLeaves from "./Components/Pages/EmpLeaves/EmployeeLeaves";
 import EmpAttendance from "./Components/Pages/EmpAttendance/EmpAttendance";
 import EmpHolidays from "./Components/Pages/EmpHolidays/EmpHolidays";
 import AllEmployees from "./Components/Employee Data/All Employees/AllEmployees";
@@ -30,59 +30,65 @@ import EmployeeData from "./Components/Employee Data/All Employees/EmployeeData"
 import Companies from "./Components/Pages/Companies/Companies";
 import Shifts from "./Components/Pages/Shifts/Shifts";
 import AddSlabs from "./Components/Pages/Shifts/AddSlabs";
+import HeaderState from "./Context/HeaderState";
 
-function App() {
+
+
+function App(props) {
   const context = useContext(Context);
+
   return (
     <>
-      <BrowserRouter>
-        {context.user ? (
-          <>
-            <Sidebar />
-            <Header />
+      <HeaderState>
+        <BrowserRouter>
+          {context.user ? (
+            <>
+              <Sidebar />
+              <Header />
 
-            <Routes>
+              <Routes>
+                {/* <Route path="/Leaves" element={<EmployeeLeaves />} /> */}
+                <Route path="/" element={<Navigate to="/dashboard" />}></Route>
+                {context.user.isAdmin && <Route path="/dashboard" element={<Dashboard />} />}
 
-              {/* <Route path="/Leaves" element={<EmployeeLeaves />} /> */}
-              <Route path="/" element={<Navigate to="/dashboard" />}></Route>
-              {context.user.isAdmin && <Route path="/dashboard" element={<Dashboard />} />}
+                <Route path="/dashboard" element={<DashboardNonAdmin />} />
+                <Route path="/attendance" element={<EmpAttendance />} />
+                <Route path="/holidays" element={<EmpHolidays />} />
+                <Route path="/employees" element={<AllEmployees />} />
+                <Route path="/employees/:id" element={<EmpDetails />} />
+                <Route path="/calendar" element={<Calendar />}></Route>
+                <Route path="/calendar/:id" element={<CalendarDetails />}></Route>
+                <Route path="/datamanagement" element={<DataManagement />} />
+                <Route path='/leaves' element={<Leaves />} />
+                <Route path='/departments' element={<Departments />} />
+                <Route path='/companies' element={<Companies />} />
 
-              <Route path="/dashboard" element={<DashboardNonAdmin />} />
-              <Route path="/attendance" element={<EmpAttendance />} />
-              <Route path="/holidays" element={<EmpHolidays />} />
-              <Route path="/employees" element={<AllEmployees />} />
-              <Route path="/employees/:id" element={<EmpDetails />} />
-              <Route path="/calendar" element={<Calendar />}></Route>
-              <Route path="/calendar/:id" element={<CalendarDetails />}></Route>
-              <Route path="/datamanagement" element={<DataManagement />} />
-              <Route path='/leaves' element={<Leaves />} />
-              <Route path='/departments' element={<Departments />} />
-              <Route path='/companies' element={<Companies />} />
+                <Route path="/leaverequest" element={<LeaveRequest />} />
+                <Route path="/manageleaves" element={<ManageLeaves />}></Route>
+                <Route path="/monthlypayroll" element={<MonthlyPayroll />}></Route>
+                <Route path="/monthlyattendance" element={<MonthlyAttendance />}></Route>
+                <Route path="/payrollsetup" element={<SetupPayroll />}></Route>
+                <Route path="/employeeData" element={<EmployeeData />}></Route>
+                <Route path='/shifts' element={<Shifts />} />
+                <Route path="/addslabs" element={<AddSlabs />}></Route>
 
-              <Route path="/leaverequest" element={<LeaveRequest />} />
-              <Route path="/manageleaves" element={<ManageLeaves />}></Route>
-              <Route path="/monthlypayroll" element={<MonthlyPayroll />}></Route>
-              <Route path="/monthlyattendance" element={<MonthlyAttendance />}></Route>
-              <Route path="/payrollsetup" element={<SetupPayroll />}></Route>
-              <Route path="/employeeData" element={<EmployeeData />}></Route>
-              <Route path='/shifts' element={<Shifts />} />
-              <Route path="/addslabs" element={<AddSlabs />}></Route>
-
-            </Routes>
-
-            {/* <Footer /> */}
+              </Routes>
 
 
-          </>
-        ) : (
-          <>
-            <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
-              <Route exact path="/login" element={<Login />} />
-            </Routes>
-          </>
-        )}
-      </BrowserRouter>
+    
+
+
+            </>
+          ) : (
+            <>
+              <Routes>
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route exact path="/login" element={<Login />} />
+              </Routes>
+            </>
+          )}
+        </BrowserRouter>
+      </HeaderState>
     </>
   );
 }

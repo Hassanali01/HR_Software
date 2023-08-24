@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import TextField from "@mui/material/TextField";
 import EcxelImport from "./EcxelImport";
@@ -13,11 +13,19 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
+import HeaderContext from '../../../Context/HeaderContext'
+
 
 const Attendance = () => {
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [AttendanceToDB, setAttendanceToDB] = useState([]);
+
+
+
+
+
+
 
   const columns = [
     { field: "id", headerName: "EmployeeID", width: 90 },
@@ -146,8 +154,10 @@ const Attendance = () => {
       console.log("error--------", error);
     }
   }, []);
-
-
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Attendence ")
+  })
 
   const createRequests = async (data) => {
 

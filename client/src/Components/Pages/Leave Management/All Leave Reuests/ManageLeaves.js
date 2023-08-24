@@ -27,7 +27,14 @@ import Report from "../report leave request/Report";
 import { useuserInformation } from "../leaveRequest/useuserinformation";
 import LeaveApplication from "./LeaveApplication";
 import PrintIcon from "@mui/icons-material/Print";
+import HeaderContext from '../../../../Context/HeaderContext'
+
 const ManageLeaves = () => {
+
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Leave Management")
+  })
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -389,9 +396,9 @@ const ManageLeaves = () => {
     <div>
       <div
         className="content-wrapper my-1"
-        style={{ backgroundColor: "#f7f7f7" }}
+        style={{ backgroundColor: "#f7f7f7" , marginTop: "20px"}}
       >
-        <section className="content-header py-3">
+        {/* <section className="content-header py-3">
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
@@ -402,7 +409,7 @@ const ManageLeaves = () => {
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Leave Management</li>
@@ -411,8 +418,8 @@ const ManageLeaves = () => {
               </div>
             </div>
           </div>
-        </section>
-        <section className="content">
+        </section> */}
+        <section className="content" style={{marginTop: "30px"}}>
           <div className="container">
             <div className="card">
               <div className="card-header buttoncolor ">

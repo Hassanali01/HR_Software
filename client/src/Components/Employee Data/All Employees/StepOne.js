@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
-  Modal,
   Form,
   Col,
   Row,
-  Container,
-  FormGroup,
   Button,
 } from "react-bootstrap";
 import validator from "validator";
 import { PatternFormat } from "react-number-format";
 import pp from "./avatar.png";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+import HeaderContext from "./../../../Context/HeaderContext"
 import axios from "axios";
 // creating functional component ans getting props from app.js and destucturing them
 const StepOne = ({ nextStep, handleFormData, values }) => {
@@ -105,9 +102,11 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
 
   useEffect(() => {
     getdata()
-
   }, [])
-
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Employee / Add Employee ")
+  })
 
   return (
     <>
