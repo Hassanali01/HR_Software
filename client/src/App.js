@@ -45,12 +45,10 @@ function App(props) {
             <>
               <Sidebar />
               <Header />
-
               <Routes>
                 {/* <Route path="/Leaves" element={<EmployeeLeaves />} /> */}
                 <Route path="/" element={<Navigate to="/dashboard" />}></Route>
                 {context.user.isAdmin && <Route path="/dashboard" element={<Dashboard />} />}
-
                 <Route path="/dashboard" element={<DashboardNonAdmin />} />
                 <Route path="/attendance" element={<EmpAttendance />} />
                 <Route path="/holidays" element={<EmpHolidays />} />
@@ -62,7 +60,6 @@ function App(props) {
                 <Route path='/leaves' element={<Leaves />} />
                 <Route path='/departments' element={<Departments />} />
                 <Route path='/companies' element={<Companies />} />
-
                 <Route path="/leaverequest" element={<LeaveRequest />} />
                 <Route path="/manageleaves" element={<ManageLeaves />}></Route>
                 <Route path="/monthlypayroll" element={<MonthlyPayroll />}></Route>
@@ -71,13 +68,7 @@ function App(props) {
                 <Route path="/employeeData" element={<EmployeeData />}></Route>
                 <Route path='/shifts' element={<Shifts />} />
                 <Route path="/addslabs" element={<AddSlabs />}></Route>
-
               </Routes>
-
-
-    
-
-
             </>
           ) : (
             <>

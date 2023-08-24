@@ -226,8 +226,12 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
-            if (i.current == moment(te.date).utc().format('YYYY-MM-DD') && te.status == 'A') {
-              te.status = "G.H";
+            if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
+              if (te.status == 'A') {
+                te.status = "G.H";
+              } else {
+                te.status = te.status * 2
+              }
             }
           })
         })
@@ -346,16 +350,16 @@ const MonthlyPayroll = () => {
                     const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                     const items = generateItems(
-                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
-                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
 
-                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
 
-                    0,
-                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
-                    parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                      0,
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
+                      parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
 
-                    userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                     )
 
 
@@ -433,7 +437,7 @@ const MonthlyPayroll = () => {
                         })
                       }
 
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>
@@ -451,7 +455,6 @@ const MonthlyPayroll = () => {
                         // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length) +
                         // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length) +
                         // parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
-
                         usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays
                       }
                       </td>
@@ -463,7 +466,12 @@ const MonthlyPayroll = () => {
 
 
 
-                    {/* {usersPayrollCalculations && usersPayrollCalculations.reduce((total, num) => { return (total + (1 - parseFloat(num.netpaydays))) }, 0)} */}
+                    {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => { 
+                      
+                      
+                      // console.log("num", num)
+
+                      return (total + parseFloat(num[1].netpaydays)) }, 0)}
 
                     {/* {
                       Object.keys(userAttendance).reduce(function (previous, key) {
@@ -480,12 +488,13 @@ const MonthlyPayroll = () => {
                   </th>
                 </tr>
                 <tr>
-                  <th colSpan="45" >   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
+                  <th colSpan="45" >   
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
                     <h6>Verified By: ____________</h6>
                     <h6>Approved By: ___________</h6>
                   </div>
-                    <div style={{ marginTop: "3rem" }}>
-                      <p>It's a computer generated report and does not require any signature.</p>
+                    <div style={{ marginTop: "3rem",display: "flex"}}>
+                      * It's a computer generated report and does not require any signature.
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
                       <h6>Printed by: {context.user.firstname}</h6>
