@@ -3,33 +3,32 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import EmployeeLeaves from "./Components/Pages/EmpLeaves/EmployeeLeaves";
-import EmpAttendance from "./Components/Pages/EmpAttendance/EmpAttendance";
-import EmpHolidays from "./Components/Pages/EmpHolidays/EmpHolidays";
-import AllEmployees from "./Components/Employee Data/All Employees/AllEmployees";
+import EmpAttendance from "./Pages/EmpAttendance/EmpAttendance";
+import EmpHolidays from "./Pages/EmpHolidays/EmpHolidays";
+import AllEmployees from "./Pages/Employee Data/All Employees/AllEmployees";
 import Calendar from "./Components/Calendar/Calendar";
-import EmpDetails from "./Components/Employee Data/Emp Details 2/EmpDetails";
+import EmpDetails from "./Pages/Employee Data/Emp Details 2/EmpDetails";
 import CalendarDetails from "./Components/Calendar/CalendarDetails";
 import { Context } from "./Context/Context";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import Leaves from './Components/Pages/Leaves/Leaves'
+import Leaves from './Pages/Leaves/Leaves'
 import "./index.css";
-import DataManagement from "./Components/DATA Management/DataManagement";
+import DataManagement from "./Pages/Attendence Report/DataManagement";
 import Login from "./Auth/Login/Login";
-import Departments from "./Components/Pages/Departments/Departments";
-import LeaveRequest from "./Components/Pages/Leave Management/leaveRequest/LeaveRequest";
-import ManageLeaves from "./Components/Pages/Leave Management/All Leave Reuests/ManageLeaves";
+import Departments from "./Pages/Departments/Departments";
+import LeaveRequest from "./Pages/Leave Management/leaveRequest/LeaveRequest";
+import ManageLeaves from "./Pages/Leave Management/All Leave Reuests/ManageLeaves";
 import './index.css'
-import Dashboard from "./Components/Dashboard/Dashboard";
-import DashboardNonAdmin from "./Components/Dashboard/DashboardNonAdmin";
-import MonthlyPayroll from "./Components/Pages/MonthlyPayroll/MonthlyPayroll";
-import MonthlyAttendance from "./Components/Pages/MonthlyAttendance/MonthlyAttendance";
-import SetupPayroll from "./Components/Payroll/SetupPages/payrollSetupPage";
-import EmployeeData from "./Components/Employee Data/All Employees/EmployeeData";
-import Companies from "./Components/Pages/Companies/Companies";
-import Shifts from "./Components/Pages/Shifts/Shifts";
-import AddSlabs from "./Components/Pages/Shifts/AddSlabs";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import DashboardNonAdmin from "./Pages/Dashboard/DashboardNonAdmin";
+import MonthlyPayroll from "./Pages/MonthlyPayroll/MonthlyPayroll";
+import MonthlyAttendance from "./Pages/MonthlyAttendance/MonthlyAttendance";
+import SetupPayroll from "./Pages/Payroll/SetupPages/payrollSetupPage";
+import EmployeeData from "./Pages/Employee Data/All Employees/EmployeeData";
+import Companies from "./Pages/Companies/Companies";
+import Shifts from "./Pages/Shifts/Shifts";
+import AddSlabs from "./Pages/Shifts/AddSlabs";
 import HeaderState from "./Context/HeaderState";
 
 
@@ -45,12 +44,9 @@ function App(props) {
             <>
               <Sidebar />
               <Header />
-
               <Routes>
-                {/* <Route path="/Leaves" element={<EmployeeLeaves />} /> */}
                 <Route path="/" element={<Navigate to="/dashboard" />}></Route>
                 {context.user.isAdmin && <Route path="/dashboard" element={<Dashboard />} />}
-
                 <Route path="/dashboard" element={<DashboardNonAdmin />} />
                 <Route path="/attendance" element={<EmpAttendance />} />
                 <Route path="/holidays" element={<EmpHolidays />} />
@@ -62,7 +58,6 @@ function App(props) {
                 <Route path='/leaves' element={<Leaves />} />
                 <Route path='/departments' element={<Departments />} />
                 <Route path='/companies' element={<Companies />} />
-
                 <Route path="/leaverequest" element={<LeaveRequest />} />
                 <Route path="/manageleaves" element={<ManageLeaves />}></Route>
                 <Route path="/monthlypayroll" element={<MonthlyPayroll />}></Route>
@@ -71,13 +66,7 @@ function App(props) {
                 <Route path="/employeeData" element={<EmployeeData />}></Route>
                 <Route path='/shifts' element={<Shifts />} />
                 <Route path="/addslabs" element={<AddSlabs />}></Route>
-
               </Routes>
-
-
-    
-
-
             </>
           ) : (
             <>
@@ -89,6 +78,7 @@ function App(props) {
           )}
         </BrowserRouter>
       </HeaderState>
+      <Footer/>
     </>
   );
 }
