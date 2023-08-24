@@ -15,8 +15,6 @@ const CalendarDetails = () => {
     const handleShow = () => setShow(true);
 
     const [show, setShow] = useState(false);
-    const [calendar, setcalendar] = useState([]);
-    const [calendarId, setStoreId] = useState("");
     const [title, settitle] = useState("");
     const [from, setfrom] = useState("");
     const [type, settype] = useState("");
@@ -51,8 +49,6 @@ const CalendarDetails = () => {
         }
         fetchEmp()
     }, [path])
-
-
 
     const columns = [
         { field: 'id', headerName: 'Sr #', width: 120 },
@@ -152,8 +148,6 @@ const CalendarDetails = () => {
                                 <Form.Label>Holiday Type</Form.Label>
                                 <Form.Control type="text" name='type' onChange={(e) => { settype(e.target.value) }} />
                             </Form.Group>
-
-
 
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Button type="submit" className='btn mt-4'  >

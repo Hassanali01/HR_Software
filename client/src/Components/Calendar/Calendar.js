@@ -2,17 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from "react"
 import { Modal, Button, Form, Card, Row, Col } from 'react-bootstrap';
-import { DataGrid } from "@mui/x-data-grid";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './calendar.css';
 import axios from "axios"
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from "react-router-dom";
 
+
 const Calendar = () => {
-
-
     const navigate = useNavigate()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -127,7 +124,6 @@ const Calendar = () => {
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
                     show={show}
-
                 >
                     <Modal.Header closeButton >
                         <Modal.Title id="contained-modal-title-vcenter" className='header-modal'>
@@ -151,9 +147,7 @@ const Calendar = () => {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-
             </div>
-
         </>
     )
 }

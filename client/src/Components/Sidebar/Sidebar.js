@@ -6,15 +6,12 @@ import { useState } from 'react';
 import { Context } from "./../../Context/Context";
 import { useContext } from "react";
 import "../Sidebar/Sidebar2.css"
+
 const Sidebar = () => {
   const context = useContext(Context);
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
 
-
-  useEffect(() => {
-
-  }, []);
   return (
     <>
       {/* <!-- Main Sidebar Container --> */}
@@ -54,16 +51,13 @@ const Sidebar = () => {
                with font-awesome or any other icon font library --> */}
               <li className="nav-item">
                 <Link to="/dashboard" className="nav-link">
-                  {/* <i className="nav-icon fas fa-tachometer-alt iconColor" ></i> */}
                   <i className="nav-icon fa-sharp fa-solid fa-network-wired iconColor"></i>
-
                   <p className='iconColor'>
                     Dashboard
                   </p>
                 </Link>
               </li>
               {context.user.isAdmin &&
-
                 <li className="nav-item">
                   <Link to="/employees" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
@@ -71,7 +65,6 @@ const Sidebar = () => {
                       Employees
                     </p>
                   </Link>
-
                 </li>
               }
 
@@ -79,7 +72,6 @@ const Sidebar = () => {
                 <li className="nav-item">
                   <Link to="/departments" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
-                    
                     <p className='iconColor'>
                       Departments
                     </p>
@@ -99,13 +91,11 @@ const Sidebar = () => {
               <li className="nav-item">
                 <Link to="/leaves" className="nav-link">
                   <i className="nav-icon fa-solid fa-user-xmark iconColor"></i>
-
                   <p className='iconColor'>
                     Leave Types
                   </p>
                 </Link>
               </li>
-
 
               <li className='nav-item' onClick={() => { settoggle(!toggleLeaves) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
@@ -127,29 +117,6 @@ const Sidebar = () => {
                 </a>
               </li>
 
-
-              {/* <li className="nav-item"> */}
-              {/* <a  className="nav-link"> */}
-              {/* <Link to={"attendance"} style={{textDecoration:"none"}} className="nav-link">
-                <i className="nav-icon fa-solid fa-user iconColor"></i>
-                  <p className='iconColor'>
-                     Projects
-                  </p>
-                  </Link> */}
-              {/* </a> */}
-
-              {/* </li> */}
-
-              {/* <li className="nav-item">
-                <Link to="/calendar" className="nav-link">
-                <i className=" nav-icon fa-solid fa-calendar-days iconColor"></i>
-                 
-                    <p className='iconColor'>
-                     Calandar
-                    </p>
-                  </Link>
-                
-              </li> */}
               <li className="nav-item">
                 <Link to="/holidays" className="nav-link">
                   <i className="nav-icon fa-solid fa-calendar-days iconColor"></i>
@@ -167,24 +134,11 @@ const Sidebar = () => {
                   </p>
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link to="/datamanagement" className="nav-link">
-                  <i className="nav-icon  fa-solid fa-user iconColor"></i>
-
-                  <p className='iconColor'>
-                    Attendance Report
-                  </p>
-                </Link>
-
-              </li> */}
-
-
 
               <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <div className='d-flex'>
                   <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
-
                     <p className='iconColor'> Attendance Management</p>
                     <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
                   </div>
@@ -193,7 +147,6 @@ const Sidebar = () => {
                     <>
                       <Link to="/datamanagement" className="nav-link">
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
-
                         <p className='iconColor'>
                           Reports
                         </p>
