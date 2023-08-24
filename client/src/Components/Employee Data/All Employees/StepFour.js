@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import validator from "validator";
 import axios from "axios";
 import {
-  Modal,
   Form,
   Col,
   Row,
-  Container,
-  FormGroup,
   Button,
 } from "react-bootstrap";
 

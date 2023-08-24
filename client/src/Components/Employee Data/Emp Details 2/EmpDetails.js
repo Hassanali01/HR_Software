@@ -3,10 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Card } from "react-bootstrap";
 import Cards from "./Card";
-import pp from "../All Employees/avatar.png";
-import Moment from "react-moment";
 import "./card.css";
 const EmpDetails = () => {
   const location = useLocation();
@@ -45,8 +42,8 @@ const EmpDetails = () => {
 
   return (
     <>
-      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header">
+      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "30px" }}>
+        {/* <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
@@ -57,7 +54,7 @@ const EmpDetails = () => {
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item ">
@@ -70,7 +67,7 @@ const EmpDetails = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         <section className="content">
           <div className="content-fluid">
             <div className="row gy-3 justify-content-center">

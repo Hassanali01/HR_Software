@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Modal,
   Form,
@@ -20,7 +20,7 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Table from "./TableView/Table";
-import { get } from "jquery";
+import HeaderContext from '../../../Context/HeaderContext'
 
 
 
@@ -82,7 +82,10 @@ const Companies = () => {
   useEffect(() => {
     companies();
   }, []);
-  
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Companies")
+  })
 
   return (
     <>
@@ -91,18 +94,18 @@ const Companies = () => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
-                <h3 className="page-title">Companies</h3>
+                {/* <h3 className="page-title">Companies</h3>
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Companies</li>
-                </ul>
+                </ul> */}
                 <div className="col-auto float-end ms-auto">
                   <div
                     style={{ display: "flex", alignItems: "center" }}

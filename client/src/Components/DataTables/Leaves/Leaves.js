@@ -18,7 +18,7 @@ export default class Table extends Component {
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
                                         <li className="breadcrumb-item"><a href="#">Leaves</a></li>
-                                        <li className="breadcrumb-item active">Dashboard</li>
+                                        <li className="breadcrumb-item active"> Human Resource</li>
                                     </ol>
                                 </div>
                             </div>

@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "@mui/material";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import App from "./FormulaInput/FormulaEditor";
+import HeaderContext from '../../../Context/HeaderContext'
+
 const Setup = () => {
 
 
@@ -30,7 +32,10 @@ const Setup = () => {
     fetchData()
 }, [])
 
-
+const a = useContext(HeaderContext)
+useEffect(() => {
+  a.update("Human Resource / Payroll setup")
+})
 
 
   return (
@@ -40,21 +45,27 @@ const Setup = () => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
-                <h3 className="page-title">Payroll</h3>
+                {/* <h3 className="page-title">Payroll</h3>
                 <ul
                   className="breadcrumb"
                   style={{ backgroundColor: "#f7f7f7" }}
                 >
                   <li className="breadcrumb-item">
                     <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Dashboard
+                    Human Resource
                     </Link>
                   </li>
                   <li className="breadcrumb-item active">Payroll</li>
-                </ul>
+                </ul> */}
                 <div className="col-auto float-end ms-auto">
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Button variant="primary" onClick={handleShow}>
+                    <i
+                        className="fa fa-plus"
+                        style={{ fontSize: "14px", marginRight: "2px" }}
+                      >
+                        {" "}
+                      </i>
                       Add Setup
                     </Button>
 

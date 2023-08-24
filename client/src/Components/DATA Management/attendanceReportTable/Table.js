@@ -1,12 +1,9 @@
 import React from 'react'
-import { DataGrid } from '@mui/x-data-grid';
 import "./table.css"
-import { Link } from 'react-router-dom';
-import ReactToPrint from "react-to-print";
-import { useRef } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import logo from './../logo3.jpg';
 import jsPDF from "jspdf";
-import autoTable from 'jspdf-autotable';
+import HeaderContext from '../../../Context/HeaderContext';
 
 
 const Table = ({ data }) => {
@@ -50,7 +47,10 @@ const Table = ({ data }) => {
         Out: row.out,
         Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent"
     }))
-
+    const a = useContext(HeaderContext)
+    useEffect(() => {
+      a.update("Human Resource / Attendence / Report")
+    })
 
     return (
         <div>

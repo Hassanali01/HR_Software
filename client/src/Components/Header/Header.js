@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import HeaderContext from '../../Context/HeaderContext'
+
+
 const Header = () => {
   const { user, dispatch } = useContext(Context);
-  const [header, setHeader] = useState();
   const navigate = useNavigate();
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update()
+  })
 
   const handleLogout = async () => {
     await dispatch({ type: "LOGOUT" });
@@ -14,6 +20,7 @@ const Header = () => {
   };
   return (
     <>
+
       <div className="wrapper">
         {/* <!-- Navbar --> */}
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -29,6 +36,10 @@ const Header = () => {
                 <i className="fas fa-bars"></i>
               </a>
             </li>
+            <li>
+              <p style={{ color: "black", padding: "7px" }}>{a.header}</p>
+            </li>
+
           </ul>
 
           {/* <!-- Right navbar links --> */}
@@ -203,6 +214,7 @@ const Header = () => {
           </ul>
         </nav>
       </div>
+
     </>
   );
 };

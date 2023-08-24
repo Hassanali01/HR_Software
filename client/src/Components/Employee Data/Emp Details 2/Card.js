@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import "./card.css";
 import Table from "react-bootstrap/Table";
+import HeaderContext from "../../../Context/HeaderContext"
 import {
   NotificationContainer,
   NotificationManager,
@@ -16,8 +17,10 @@ import {
 import Accordion from "react-bootstrap/Accordion";
 const moment = require("moment");
 
+
 const Cards = ({ data }) => {
   const navigate = useNavigate();
+  const [empID, setEmpID] = useState();
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
@@ -134,7 +137,7 @@ const Cards = ({ data }) => {
     setemployement(data.employementhistory);
     seteducation(data.educationdetails);
     setLeaves(data.leaves)
-    
+
   }, [data]);
 
   useEffect(() => {
@@ -149,7 +152,7 @@ const Cards = ({ data }) => {
 
     axios.get(`/allCompany`).then(resp => {
       setCompany(resp.data)
-      console.log(resp.data,"888")
+      console.log(resp.data, "888")
     }, [1, 1]);
 
 
@@ -282,7 +285,7 @@ const Cards = ({ data }) => {
           date_of_resignation: emp.date_of_resignation,
           work_shift: emp.work_shift,
           payroll_setup: emp.payroll_setup,
-          company:emp.company
+          company: emp.company
         })
         .then((user) => {
 
@@ -330,16 +333,35 @@ const Cards = ({ data }) => {
           },
         })
         .then((d) => {
-          console.log("employee",getdep.data)
+          console.log("employee", getdep.data)
         });
     } catch (error) {
     }
   };
 
 
+
+
+
   useEffect(() => {
     departmentemployees();
+    axios.get(`/employees/${data._id}`)
+    .then(response => {
+      setEmpID(response.data);
+      console.log(response.data,"hihi")
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+
+    });
+
+
   }, [data]);
+
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Employee")
+  })
 
   const myshift = emp.work_shift
 
@@ -1316,6 +1338,24 @@ const Cards = ({ data }) => {
                             <option>Cash</option>
                             <option>Bank Transfer</option>
                           </Form.Select>
+                        </Form.Group>
+                      </Col>
+
+                      <Col>
+                        <Form.Group
+                          as={Col}
+                          controlId="formGridLastName"
+                          className="formmargin"
+                        >
+                          <Form.Label>Employee ID</Form.Label>
+                          <Form.Control
+                            type="text"
+                            required
+                            name="EmpID"
+                            placeholder="Employee ID"
+                            value={empID && empID.emp_id}
+                            disabled={disableFields}
+                          />
                         </Form.Group>
                       </Col>
                     </Row>
