@@ -70,9 +70,9 @@ const MonthlyPayroll = () => {
         // }
 
         // filter for  "Sagacious Marketing"
-        if (at.employee.company_payroll == "Sagacious Marketing") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious Marketing") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         //filter for  "Jalvi Developers"
         // if (at.employee.company_payroll == "Jalvi Developers") {
@@ -80,9 +80,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
-        // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
 
         //filter for  "Sagacious Construction"
@@ -232,7 +232,7 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
-            if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
+            if (i.current == moment(te.date).utc().format('YYYY-MM-DD') && te.status == 'A') {
               te.status = "G.H";
             }
           })
@@ -481,7 +481,12 @@ const MonthlyPayroll = () => {
                 <tr>
                   <th colSpan="44" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
                     {/* Sum of net pay days */}
-                    {
+
+
+
+                    {/* {usersPayrollCalculations && usersPayrollCalculations.reduce((total, num) => { return (total + (1 - parseFloat(num.netpaydays))) }, 0)} */}
+
+                    {/* {
                       Object.keys(userAttendance).reduce(function (previous, key) {
                         return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
                           parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
@@ -492,7 +497,7 @@ const MonthlyPayroll = () => {
                           parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
                         )
                       }, 0)
-                    }
+                    } */}
                   </th>
                 </tr>
                 <tr>
@@ -501,7 +506,7 @@ const MonthlyPayroll = () => {
                     <h6>Approved By: ___________</h6>
                   </div>
                     <div style={{ marginTop: "3rem" }}>
-                      <p>* It's a computer generated report and does not require any signature.</p>
+                      <p>It's a computer generated report and does not require any signature.</p>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
                       <h6>Printed by: {context.user.firstname}</h6>

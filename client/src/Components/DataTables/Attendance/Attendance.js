@@ -60,93 +60,16 @@ const Attendance = () => {
     { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
   ];
-  function NewToolbar() {
-    return (
-      <>
-        <TextField />
-      </>
-    );
-  }
 
-  const [show, setShow] = useState();
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+
   const [tableData, setTableData] = useState([]);
-  const url = "/postimport/attendance";
-  const urlForEmployees = "/employees";
-  let table = [];
-
-  data.forEach((elem) => {
-    table.push({
-      Employee_ID: elem[0],
-      Name: elem[1],
-      department: elem[2],
-      Date: elem[3] && elem[3].split ? elem[3] : (new Date(Math.round((elem[3] - 25569) * 86400 * 1000))).toISOString().substring(0, 10),
-      in: elem[4],
-      Out: elem[5],
-      Duration: elem[6],
-    });
-  });
-
-  let InTimes = [];
+ 
+ 
 
 
-  // for in
-  table.map((d) => {
-
-    let fromExcel = d.in; //translates to 17:02:00
-
-    let equivTimeIN = fromExcel * 24;
-    let hoursIN = Math.floor(equivTimeIN);
-    var minutesIN = Math.round((equivTimeIN % 1) * 60);
-
-    let dayIN = d.Date.split("/");
-    let monthIN = d.Date.split("/")[1];
-    let yearIN = d.Date.split("/")[2];
-    let InTime = hoursIN + ":" + minutesIN;
-
-    //for Out
-    let outTime = d.Out;
-    let equivTimeOUT = outTime * 24;
-    let hoursOUT = Math.floor(equivTimeOUT);
-
-    var minutesOUT = Math.round((equivTimeOUT % 1) * 60);
-
-    let OutTime = hoursOUT + ":" + minutesOUT;
 
 
-    let totalDuration = d.Out - d.in;
-    let basenumber3 = totalDuration * 24;
-    let hoursT = `${Math.floor(basenumber3).toString()} hours`;
-    if (hoursT.length < 2) {
-      hoursT = `0${hoursT} hours`;
-    }
-    var minutesT = `${Math.round((basenumber3 % 1) * 60).toString()} minutes`;
-
-    if (minutesT.length < 2) {
-      minutesT = `0${minutesT} minutes`;
-    }
-    let DurationTime = `${hoursT} ${minutesT}`;
-    InTimes.push({
-      Employee_ID: d.Employee_ID,
-      Name: d.Name,
-      Date: d.Date,
-      in: InTime,
-      out: OutTime,
-      duration: DurationTime,
-      department: d.department
-    });
-  });
-
-
-  let converted = [];
-  table.map((d) => {
-    converted.push({
-      Employee_ID: d.Employee_ID,
-      Name: d.Name,
-      Date: d.Date,
-    });
-  });
 
 
   const postData = async () => {
@@ -197,7 +120,7 @@ const Attendance = () => {
 
       const updateData = await setAttendanceToDB(tempAttendance);
 
-      const savedata = await axios.post(url, tempAttendance);
+      const savedata = await axios.post("/postimport/attendance", tempAttendance);
       NotificationManager.success("successfully posted");
     } catch (error) {
       const code = error.response.data.code;
@@ -214,7 +137,7 @@ const Attendance = () => {
 
   useEffect(() => {
     try {
-      axios.get(urlForEmployees).then((res) => {
+      axios.get("/employees").then((res) => {
         setEmployees(res.data.employees);
 
       });
@@ -226,7 +149,76 @@ const Attendance = () => {
 
 
 
-  const createRequests = async () => {
+  const createRequests = async (data) => {
+
+    let table = [];
+
+    console.log("data", data)
+
+    data.forEach((elem) => {
+      table.push({
+        Employee_ID: elem[0],
+        Name: elem[1],
+        department: elem[2],
+        Date: elem[3] && elem[3].split ? elem[3] : (new Date(Math.round((elem[3] - 25569) * 86400 * 1000))).toISOString().substring(0, 10),
+        in: elem[4],
+        Out: elem[5],
+        Duration: elem[6],
+      });
+    });
+
+    console.log("table", table)
+
+    
+
+
+    let InTimes = [];
+
+
+
+    table.map((d) => {
+
+      let fromExcel = d.in; //translates to 17:02:00
+  
+      let equivTimeIN = fromExcel * 24;
+      let hoursIN = Math.floor(equivTimeIN);
+      var minutesIN = Math.round((equivTimeIN % 1) * 60);
+  
+      let InTime = hoursIN + ":" + minutesIN;
+  
+      //for Out
+      let outTime = d.Out;
+      let equivTimeOUT = outTime * 24;
+      let hoursOUT = Math.floor(equivTimeOUT);
+  
+      var minutesOUT = Math.round((equivTimeOUT % 1) * 60);
+  
+      let OutTime = hoursOUT + ":" + minutesOUT;
+  
+  
+      let totalDuration = d.Out - d.in;
+      let basenumber3 = totalDuration * 24;
+      let hoursT = `${Math.floor(basenumber3).toString()} hours`;
+      if (hoursT.length < 2) {
+        hoursT = `0${hoursT} hours`;
+      }
+      var minutesT = `${Math.round((basenumber3 % 1) * 60).toString()} minutes`;
+  
+      if (minutesT.length < 2) {
+        minutesT = `0${minutesT} minutes`;
+      }
+      let DurationTime = `${hoursT} ${minutesT}`;
+      InTimes.push({
+        Employee_ID: d.Employee_ID,
+        Name: d.Name,
+        Date: d.Date,
+        in: InTime,
+        out: OutTime,
+        duration: DurationTime,
+        department: d.department
+      });
+    });
+
     const tempAttendance = [];
     await InTimes.map((i) => {
       const month = [
@@ -294,6 +286,15 @@ const Attendance = () => {
     setTableData(InTimes);
 
     setAttendanceToDB(tempAttendance);
+
+
+    console.log("intimes", InTimes)
+
+    console.log("tempAttendance", tempAttendance)
+
+
+
+
   };
 
   return (
@@ -310,8 +311,8 @@ const Attendance = () => {
 
                 <div style={{ marginLeft: "3%" }}>
                   <Stack direction="horizontal" gap={3}>
-                    <EcxelImport uploadHandler={setData} />
-                    <Button
+                    <EcxelImport uploadHandler={createRequests} />
+                    {/* <Button
                       variant="outline-danger"
                       onClick={createRequests}
                       style={{
@@ -320,7 +321,7 @@ const Attendance = () => {
                       }}
                     >
                       Fetch
-                    </Button>
+                    </Button> */}
                     <div className="submitAttendance">
                       <Button
                         variant="outline-danger"
@@ -343,7 +344,7 @@ const Attendance = () => {
                 <Table
                   data={tableData}
                   setTableData={setTableData}
-                  style={{ width: "auto" }}
+                  style={{ width: "auto"}}
                 />
 
               </Card.Body>

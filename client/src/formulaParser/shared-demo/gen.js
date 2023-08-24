@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateFormulaFields = exports.generateItems = exports.supportedColumns = exports.supportedRefs = void 0;
-exports.supportedRefs = ['wd', 'cpl', 'gh', 'dayoff', 'lwp', 'sl', 'a'
-    // , 'loggedTime'
-];
+exports.supportedRefs = ['wd', 'cpl', 'gh', 'dayoff', 'lwp', 'sl', 'a'];
 exports.supportedColumns = [
     { key: 'wd', title: 'W.D', type: 'default' },
     { key: 'dayoff', title: 'D.O', type: 'default' },
@@ -20,9 +18,6 @@ function generateItems(wd, dayoff, gh, cpl, lwp, sl, a) {
         out.push({
             id: crypto.randomUUID(),
             title: "Item #".concat(i + 1),
-            // estimation: Math.floor(Math.random() * 10) + 1,
-            // budget: (Math.floor(Math.random() * 10) + 1) * 100,
-            // loggedTime: Math.floor(Math.random() * 20000)
             wd: wd,
             dayoff: dayoff,
             gh: gh,
@@ -38,7 +33,6 @@ exports.generateItems = generateItems;
 function generateFormulaFields() {
     return [
         { id: crypto.randomUUID(), referenceName: 'net pay days', npd_formula: '' },
-
         // { id: crypto.randomUUID(), referenceName: '', formula: '' },
         // { id: crypto.randomUUID(), referenceName: 'tax', formula: '21' },
         // { id: crypto.randomUUID(), referenceName: 'timeHours', formula: 'floor({loggedTime} / 3600)' },        

@@ -26,21 +26,28 @@ const Table = ({ data, setTableData }) => {
     const [tableSearch, setTableSearch] = useState("");
 
     const columns = [
-        { field: "id", headerName: "Employee_ID", width: 180 },
-        { field: "Name", headerName: "Name", width: 220 },
-        { field: "Department", headerName: "Department", width: 200 },
-        {
-            field: "In", headerName: "In", width: 100, renderCell: (params) => {
-                return (<>
-                    <div style={{ color: params.value > 9.15 ? "red" : "green" }}>
-                        {params.value.split(".")[0] != "NaN" ?
+        // { field: "id", headerName: "Employee_ID", width: 180 },
+        { field: "Employee_ID", headerName: "Employee_ID", width: 100 },
 
-                            `${params.value.toString().split(".")[0]}`
-                            : "NaN"}
-                    </div>
-                </>)
-            }
-        },
+        { field: "Name", headerName: "Name", width: 250 },
+        { field: "Department", headerName: "Department", width: 200 },
+        // {
+        //     field: "In", headerName: "In", width: 100, renderCell: (params) => {
+        //         return (<>
+        //             <div style={{ color: params.value > 9.15 ? "red" : "green" }}>
+        //                 {params.value.split(".")[0] != "NaN" ?
+
+        //                     `${params.value.toString().split(".")[0]}`
+        //                     : "NaN"}
+        //             </div>
+        //         </>)
+        //     }
+        // },
+        { field: "Date", headerName: "Date", width: 200 },
+
+
+        { field: "In", headerName: "In", width: 100 },
+
         { field: "Out", headerName: "Out", width: 100 },
         {
             field: "Status", headerName: "Status", width: 150, renderCell: (params) => {
@@ -69,17 +76,25 @@ const Table = ({ data, setTableData }) => {
             }
         },
     ]
-    const rows = data && data.filter((d) => d.Name && d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
+    const rows = data.length>0 && data.filter((d) => d.Name && d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row, index) => (
+        
+        
+        {
 
-        id: row.Employee_ID,
+
+        
+
+        id: index,
+        Employee_ID: row.Employee_ID,
         Name: row.Name,
-        // Date: row.Date,
+        Date: row.Date,
         Department: row.department,
         In: row.in,//((row.in.split(":")[0] * 1) + (row.in.split(":")[1] * 0.01)).toFixed(2),
         Out: row.out,
         Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
         Action: row
     }))
+
 
 
     return (
@@ -126,24 +141,20 @@ const Table = ({ data, setTableData }) => {
 
                 <div >
                     <div className="d-flex justify-content-between">
-                        <div>
-                            <div style={{ fontSize: "26px", paddingTop: "10px" }}> <span style={{ fontSize: "20px" }}>{data[0] && data[0].Date}</span></div>
-                            <div className="d-flex justify-content-center">
-                                <div style={{ fontSize: "18px" }}>{rows[0] && rows[0].Date}</div>
-                            </div>
-                        </div>
                         <div style={{ width: 170 }}></div>
                     </div>
 
                     Search Employee: <input style={{ width: "50vw" }} value={tableSearch} onChange={(e) => { setTableSearch(e.target.value) }}></input>
                     <br />                    <br />
+
+{console.log("rows in data grid",rows )}
                     <DataGrid
-                        style={{ height: "55vh", width: "75vw" }}
-                        rows={rows}
+                        style={{ height: "68vh", width: "76vw" }}
+                        rows= {rows}
                         columns={columns}
                         pageSize={40}
-                        disableSelectionOnClick
-                        experimentalFeatures={{ newEditingApi: true }}
+                        // disableSelectionOnClick
+                        // experimentalFeatures={{ newEditingApi: true }}
 
                     />
                 </div>
