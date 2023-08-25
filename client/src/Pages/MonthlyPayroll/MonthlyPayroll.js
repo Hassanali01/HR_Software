@@ -461,7 +461,7 @@ const MonthlyPayroll = () => {
                       // console.log("num", num)
 
                       return (total + parseFloat(num[1].netpaydays)) }, 0)}
-
+{/* 
                     {
                       Object.keys(userAttendance).reduce(function (previous, key) {
                         return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
@@ -473,7 +473,7 @@ const MonthlyPayroll = () => {
                           parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0))
                         )
                       }, 0)
-                    }
+                    } */}
                   </th>
                 </tr>
                 <tr>

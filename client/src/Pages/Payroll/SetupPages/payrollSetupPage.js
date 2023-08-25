@@ -13,6 +13,8 @@ const Setup = () => {
   const [show, setShow] = useState(false);
   const [setupTitle, setSetupTitle] = useState("");
   const [setupFormula, setSetupFormula] = useState("");
+  const [applyGazettedHoliday, setApplyGazettedHoliday] = useState(true);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -97,6 +99,15 @@ useEffect(() => {
                                   </div>
                                 </Col>
                               </Row>
+                              <Row>
+                                <Col xl='6' lg='6' md='6'>
+                                  <div className="d-flex flex-column justify-content-center py-3">
+                                    <div><h6 className="font-weight-bold">Gazetted holidays applied</h6>{JSON.stringify(ps.applyGazettedHoliday)}</div>
+                                    
+                                  </div>
+                                </Col>
+                             
+                              </Row>
                             </Col>
                           </Row>
                         </Card>
@@ -109,13 +120,17 @@ useEffect(() => {
                         <Modal.Title>Modal heading</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App></Modal.Body>
+                        <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
+
+                        <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e)=>{setApplyGazettedHoliday(e.target.checked)}} />
+                        
+                      </Modal.Body>
                       <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
-                          const savesetup = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula });
+                          const savesetup = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday });
 
                           handleClose()
                         }}>

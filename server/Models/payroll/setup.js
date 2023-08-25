@@ -9,6 +9,10 @@ const setupSchema  = mongoose.Schema({
       type:String,
       required:true  
    },
+   applyGazettedHoliday:{
+      type:Boolean,
+      required:true
+   }
 })
 
 const Setup = mongoose.model('payroll-setup',setupSchema)

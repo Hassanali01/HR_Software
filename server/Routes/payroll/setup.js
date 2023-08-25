@@ -8,7 +8,8 @@ router.post('/',async(req,res,next)=>{
     try{
           const setup = new Setup({
             title:req.body.title,
-            npd_formula:req.body.npd_formula,  
+            npd_formula:req.body.npd_formula, 
+            applyGazettedHoliday: req.body.applyGazettedHoliday 
           })
           const payrollsetup = await setup.save();
           save && res.status(200).json({message:"success", payrollsetup})

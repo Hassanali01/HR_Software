@@ -30,11 +30,8 @@ const leaveformonth = require('./Routes/employees/leaveReq')
 env.config()
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-    ],
-    credentials: true,
-  })
+    origin: '*'
+})
 );
 
 app.use("/leaverequest/addrequest",fileUpload())
