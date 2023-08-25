@@ -15,6 +15,9 @@ router.post('/',async(req,res,next)=>{
           save && res.status(200).json({message:"success", payrollsetup})
     }
     catch(error){
+
+        console.log("error in payroll setup", error)
+
         next(error)
     }
 });

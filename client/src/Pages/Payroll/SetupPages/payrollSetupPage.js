@@ -130,7 +130,7 @@ useEffect(() => {
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
-                          const savesetup = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday });
+                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday });
 
                           handleClose()
                         }}>

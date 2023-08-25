@@ -362,7 +362,7 @@ const AllEmployees = () => {
                   datas.map((p, i) => {
                     return (
                       <div
-                        className="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3"
+                        className="col-md-2 col-sm-2 col-2 col-lg-2 col-xl-2"
                         key={i}
                       >
                         <div>
