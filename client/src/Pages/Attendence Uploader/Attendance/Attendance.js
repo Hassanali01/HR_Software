@@ -60,7 +60,7 @@ const Attendance = () => {
       });
 
       const updateData = await setAttendanceToDB(tempAttendance);
-      const savedata = await axios.post("/postimport/attendance", tempAttendance);
+      const savedata = await axios.post(process.env.React_APP_ORIGIN_URL + "postimport/attendance", tempAttendance);
       NotificationManager.success("successfully posted");
     } catch (error) {
       const code = error.response.data.code;
@@ -75,7 +75,7 @@ const Attendance = () => {
 
   useEffect(() => {
     try {
-      axios.get("/employees").then((res) => {
+      axios.get(process.env.React_APP_ORIGIN_URL + "employees").then((res) => {
         setEmployees(res.data.employees);
       });
     } catch (error) {

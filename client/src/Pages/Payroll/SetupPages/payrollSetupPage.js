@@ -19,7 +19,7 @@ const Setup = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const res = await axios.get('payrollsetup/')
+        const res = await axios.get(process.env.React_APP_ORIGIN_URL + 'payrollsetup/')
         setPayrollSetups(res.data)
     }
     fetchData()
@@ -115,7 +115,7 @@ useEffect(() => {
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
-                          const savesetup = await axios.post("payrollsetup", { title: setupTitle, npd_formula: setupFormula });
+                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", { title: setupTitle, npd_formula: setupFormula });
 
                           handleClose()
                         }}>

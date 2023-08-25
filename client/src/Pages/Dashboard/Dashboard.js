@@ -19,17 +19,17 @@ const Dashboard = () => {
   const [leavCount, setleavCount] = useState()
   const counted = async () => {
     try {
-      const department = await axios.get("/departments")
+      const department = await axios.get(process.env.React_APP_ORIGIN_URL + "departments")
       const saveresult = department.data.counted;
       setDepCount(saveresult)
       try {
-        const employees = await axios.get('/employees')
+        const employees = await axios.get(process.env.React_APP_ORIGIN_URL + 'employees')
         const emp = employees.data.counted;
         setDepEmp(emp)
       } catch (error) {
       }
       try {
-        const leaves = await axios.get('/leaverequest/allForHR')
+        const leaves = await axios.get(process.env.React_APP_ORIGIN_URL + 'leaverequest/allForHR')
         const leav = leaves.data.counted;
         console.log("leaves",leav)
         setleavCount(leav)

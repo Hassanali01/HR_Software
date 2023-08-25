@@ -80,7 +80,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
 
   const getdata = async () => {
     try {
-      const companies = await axios.get(`/allCompany`)
+      const companies = await axios.get(process.env.React_APP_ORIGIN_URL + `allCompany`)
       const cs = companies.data
       setCompany(cs)
     }

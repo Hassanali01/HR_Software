@@ -20,15 +20,15 @@ const DataManagement = () => {
   const [AttendanceToDB, setAttendanceToDB] = useState([]);
   const [tableData, setTableData] = useState([]);
 
-  const url = "/postimport/attendance";
-  const urlForEmployees = "/employees"
+  const url = "postimport/attendance";
+  const urlForEmployees = "employees"
 
   var img = new Image();
   img.src = path.resolve('logo3.jpg');
   const generateAttendanceReportOfSpecificDate = async () => {
     const tempAttendance = [];
     try {
-      const dateAttendance = await axios.get(`/AttendanceForDate`,
+      const dateAttendance = await axios.get(process.env.React_APP_ORIGIN_URL + `AttendanceForDate`,
         {
           params: {
             date: new Date(dateForAttendanceReport)
@@ -138,7 +138,7 @@ const DataManagement = () => {
 
   const postData = async () => {
     try {
-      const savedata = await axios.post(url, AttendanceToDB);
+      const savedata = await axios.post(process.env.React_APP_ORIGIN_URL + url, AttendanceToDB);
 
       NotificationManager.success("successfully posted");
     } catch (error) {
@@ -151,7 +151,7 @@ const DataManagement = () => {
 
   useEffect(() => {
     try {
-      axios.get(urlForEmployees).then((res) => {
+      axios.get(process.env.React_APP_ORIGIN_URL + urlForEmployees).then((res) => {
         setEmployees(res.data.employees)
       });
 

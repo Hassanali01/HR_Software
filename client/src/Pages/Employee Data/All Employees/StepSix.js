@@ -66,7 +66,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
   });
 
   //creating error state for validation
-  const url1 = "/auth/register";
+  const url1 = "auth/register";
 
   const [file, setfile] = useState();
   const [childModel1, setShowChildModel1] = useState(false);
@@ -200,13 +200,13 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
       emp.profilepic = filename;
 
       try {
-        await axios.post("/upload", data);
+        await axios.post(process.env.React_APP_ORIGIN_URL + "upload", data);
       } catch (err) {
         NotificationManager.error("Pic not Uploaded");
       }
     }
     try {
-      const res = await axios.post(url1, emp);
+      const res = await axios.post(process.env.React_APP_ORIGIN_URL + url1, emp);
       res && NotificationManager.success("Sucessfully Added Employee");
     } catch (error) {
       NotificationManager.error("Something went wrong ");

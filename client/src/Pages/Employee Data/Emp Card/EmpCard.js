@@ -33,7 +33,7 @@ const EmpCard = ({ data, setUpdate }) => {
   //deleting an employee
   const handledelete = async () => {
     try {
-      const deleteUser = await axios.delete(`/employees/${data._id}`);
+      const deleteUser = await axios.delete(process.env.React_APP_ORIGIN_URL + `employees/${data._id}`);
       NotificationManager.success("sucessfully deleted");
 
     } catch (error) {
@@ -53,7 +53,7 @@ const EmpCard = ({ data, setUpdate }) => {
     e.preventDefault(e);
     const url = `employees/${data._id}`;
     try {
-      const updateUser = await axios.put(url, handleupdateform);
+      const updateUser = await axios.put(process.env.React_APP_ORIGIN_URL + url, handleupdateform);
       if (updateUser) {
         return (
           (data.firstname = firstname),

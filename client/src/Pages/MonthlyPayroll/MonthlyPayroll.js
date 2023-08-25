@@ -59,7 +59,7 @@ const MonthlyPayroll = () => {
   async function generateMonthAttendance() {
     try {
       setLoading(true);
-      const attendanceTemp = await (await axios.get(`/monthattendance/${payrollMonth}`)).data;
+      const attendanceTemp = await (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`)).data;
       setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
@@ -103,14 +103,14 @@ const MonthlyPayroll = () => {
         // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
 
-      const approvedLeave = await axios.get(`/leaverequest/approved-leaves/${payrollMonth}`)
+      const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
-      const gaztedholidays = await axios.get(`/holiday/holidaypayroll`)
+      const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)
       setGaztedholiday(gaztedholidays.data)
 
       //shift data fetch
-      let shift = await axios.get(`/shifts/allShifts`)
+      let shift = await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/allShifts`)
       shift = shift.data
       setEmpshift(shift)
 

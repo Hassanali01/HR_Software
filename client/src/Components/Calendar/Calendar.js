@@ -20,7 +20,7 @@ const Calendar = () => {
         calendarname: ""
     })
     const url = "calendar/addcalendar";
-    const url1 = "/calendar";
+    const url1 = "calendar";
     //handle input
     let name, value;
     const handleInput = (e) => {
@@ -31,7 +31,7 @@ const Calendar = () => {
     //posting calendars
     const postCalendar = async () => {
         try {
-            const post = await axios.post(url, Calendar);
+            const post = await axios.post(process.env.React_APP_ORIGIN_URL + url, Calendar);
             post && navigate('/calendar')
         } catch (error) {
             console.log(error)
@@ -40,7 +40,7 @@ const Calendar = () => {
     //get all calendars
     const getCalendars = async () => {
         try {
-            const response = await axios.get(url1);
+            const response = await axios.get(process.env.React_APP_ORIGIN_URL + url1);
             const data = response.data;
             setcalendar(data.calendar);
             setnoofholidays(data.totalholidays)
