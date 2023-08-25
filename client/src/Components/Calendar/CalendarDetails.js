@@ -19,7 +19,7 @@ const CalendarDetails = () => {
     const [from, setfrom] = useState("");
     const [type, settype] = useState("");
     const [to, setto] = useState("")
-    const url = "/holiday/addholiday";
+    const url = "holiday/addholiday";
     const [details, setdetails] = useState({})
     const [arr, setarr] = useState([])
 
@@ -33,7 +33,7 @@ const CalendarDetails = () => {
             calendarId: details._id
         }
         try {
-            const saveHoliday = await axios.post(url, newHoliday)
+            const saveHoliday = await axios.post(process.env.React_APP_ORIGIN_URL + url, newHoliday)
             saveHoliday && handleClose();
             NotificationManager.success("Successfully Created")
         } catch (error) {
@@ -43,7 +43,7 @@ const CalendarDetails = () => {
 
     useEffect(() => {
         const fetchEmp = async () => {
-            const res = await axios.get('/calendar/' + path)
+            const res = await axios.get(process.env.React_APP_ORIGIN_URL + 'calendar/' + path)
             setdetails(res.data)
             setarr(res.data.holidays)
         }

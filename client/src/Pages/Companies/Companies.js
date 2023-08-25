@@ -32,11 +32,11 @@ const Companies = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const url = "/allCompany";
+  const url = "allCompany";
 
   const companies = async () => {
     try {
-      const companies = await axios.get(url);
+      const companies = await axios.get(process.env.React_APP_ORIGIN_URL + url);
       const res = companies.data;
       setData(res);
 
@@ -54,7 +54,7 @@ const Companies = () => {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const save = await axios.post('/company', {
+      const save = await axios.post(process.env.React_APP_ORIGIN_URL + 'company', {
         title: companyName,
         description: description,
       });

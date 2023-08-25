@@ -35,7 +35,7 @@ const MonthlyAttendance = () => {
     </>)
   }
  
-  const urlForEmployees = "/employees"
+  const urlForEmployees = "employees"
   let table = [];
   data.forEach((elem) => {
     table.push({
@@ -96,7 +96,7 @@ const MonthlyAttendance = () => {
 
   useEffect(() => {
     try {
-      axios.get(urlForEmployees).then((res) => {
+      axios.get(process.env.React_APP_ORIGIN_URL + urlForEmployees).then((res) => {
 
         setEmployees(res.data.employees)
       });
@@ -112,7 +112,7 @@ const MonthlyAttendance = () => {
   async function showMonthAttendance() {
     const tempAttendance = [];
     try {
-      const attendanceTemp = (await axios.get(`/monthattendance/${payrollMonth}`));
+      const attendanceTemp = (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`));
       await attendanceTemp.data.map((i) => {
         const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const dateToAdd = `${i.date.split("-")[2].split("T")[0]}-${i.date.split("-")[1]}-${i.date.split("-")[0]}`

@@ -30,9 +30,9 @@ import EmployeeData from "./EmployeeData";
 const moment = require("moment");
 
 const AllEmployees = () => {
-  const url2 = "/departments";
-  const url = "/employees";
-  const url1 = "/auth/register";
+  const url2 = "departments";
+  const url = "employees";
+  const url1 = "auth/register";
   const [dep, setDep] = useState([]);
   const [datas, setData] = useState();
   const handleClose = () => setShow(false);
@@ -233,7 +233,7 @@ const AllEmployees = () => {
       data.append("file", file);
       emp.profilepic = filename;
       try {
-        await axios.post("/upload", data);
+        await axios.post(process.env.React_APP_ORIGIN_URL + "upload", data);
       } catch (err) {
 
         NotificationManager.error("Pic not Uploaded");
@@ -241,7 +241,7 @@ const AllEmployees = () => {
     }
 
     try {
-      const res = await axios.post(url1, emp);
+      const res = await axios.post(process.env.React_APP_ORIGIN_URL + url1, emp);
       res && NotificationManager.success("Sucessfully Added Employee");
     } catch (error) {
       NotificationManager.error("Something went wrong ");
@@ -251,7 +251,7 @@ const AllEmployees = () => {
   //fetching employees data
   const fetchData = async () => {
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
       const data = res.data.employees;
       setData(data);
     } catch (error) {
@@ -262,7 +262,7 @@ const AllEmployees = () => {
   //getting Employees
   const getEmp = async () => {
     try {
-      const res = await axios.get(url2);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url2);
       const datas = res.data.departments;
       setDep(datas);
     } catch (error) {

@@ -44,7 +44,7 @@ const LeaveRequest = () => {
   })
 
   const employee = user.id;
-  const getEmp = `/employees/${user.id}`;
+  const getEmp = `employees/${user.id}`;
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -53,7 +53,7 @@ const LeaveRequest = () => {
 
   const userInformation = async () => {
     try {
-      const res = await axios.get(getEmp);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + getEmp);
       const empinfo = res.data;
       const InfoData = [];
       await empinfo.Leaves.map((d) => {
@@ -94,10 +94,10 @@ const LeaveRequest = () => {
   };
 
   const depurl = user.departments.map((d) => d._id);
-  const depemployees = `/departments/${depurl}`
+  const depemployees = `departments/${depurl}`
   const fetchData = async () => {
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
       const dd = res.data.getLeave;
       setLeaves(dd);
     } catch (error) {
@@ -107,7 +107,7 @@ const LeaveRequest = () => {
 
   const allemployees = async () => {
     try {
-      const res = await axios.get(depemployees);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + depemployees);
       const data = res.data.department.employees;
       setdepemp(data)
     } catch (error) {
@@ -133,7 +133,7 @@ const LeaveRequest = () => {
     try {
       const addreq = await axios({
         method: "post",
-        url: `${posturl}`,
+        url: process.env.React_APP_ORIGIN_URL + `${posturl}`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

@@ -20,7 +20,7 @@ const HolidaysDetails = () => {
 
   const holidaydelete = async (id) => {
     try {
-      const del = await axios.delete(`/holiday/${id}`)
+      const del = await axios.delete(process.env.React_APP_ORIGIN_URL + `holiday/${id}`)
       NotificationManager.success("Successfully Deleted")
     }
     catch {
@@ -29,7 +29,7 @@ const HolidaysDetails = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`holiday/${savedate}`);
+      const response = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/${savedate}`);
       setholiday(response.data)
     } catch (error) {
       setholiday([]);

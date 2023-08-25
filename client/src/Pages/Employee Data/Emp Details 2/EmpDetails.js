@@ -12,7 +12,7 @@ const EmpDetails = () => {
 
   useEffect(() => {
     const fetchEmp = async () => {
-      const res = await axios.get("/employees/" + path);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "employees/" + path);
       setEmp(res.data);
     };
     fetchEmp();

@@ -44,9 +44,9 @@ const Cards = ({ data }) => {
 
 
 
-  const url3 = "/shifts/allShifts"
-  const payrollSittingUrl = "/payrollsetup/";
-  const getUrl = "/leaverequest/all/";
+  const url3 = "shifts/allShifts"
+  const payrollSittingUrl = "payrollsetup/";
+  const getUrl = "leaverequest/all/";
 
   const [emp, setEmp] = useState({
     profilepic: data.profilepic,
@@ -138,15 +138,15 @@ const Cards = ({ data }) => {
   }, [data]);
 
   useEffect(() => {
-    axios.get(url3).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + url3).then(resp => {
       setShift(resp.data)
     }, [1, 1]);
 
-    axios.get(payrollSittingUrl).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + payrollSittingUrl).then(resp => {
       setPayrollsetup(resp.data)
     }, [1, 1]);
 
-    axios.get(`/allCompany`).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + `allCompany`).then(resp => {
       setCompany(resp.data)
     }, [1, 1]);
 
@@ -185,9 +185,9 @@ const Cards = ({ data }) => {
     var getLeaves = [];
     {
       if (user.isAdmin) {
-        getLeaves = await axios.get(`${getUrl}${user.id}`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `${getUrl}${user.id}`);
       } else {
-        getLeaves = await axios.get(`/leaverequest/allForHR`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR`);
       }
     }
     const data = getLeaves.data;
@@ -232,7 +232,7 @@ const Cards = ({ data }) => {
     const url = `${data._id}`;
     try {
       const updateUser = await axios
-        .put(url, {
+        .put(process.env.React_APP_ORIGIN_URL + url, {
           profilepic: emp.profilepic,
           firstname: emp.firstname,
           lastname: emp.lastname,
@@ -314,7 +314,7 @@ const Cards = ({ data }) => {
   const departmentemployees = async () => {
     try {
       const getdep = await axios
-        .get("employeesofdepartments", {
+        .get(process.env.React_APP_ORIGIN_URL + "employeesofdepartments", {
           params: {
             departments: data.departments.map((d) => d._id),
           },
@@ -329,7 +329,7 @@ const Cards = ({ data }) => {
 
   useEffect(() => {
     departmentemployees();
-    axios.get(`/employees/${data._id}`)
+    axios.get(process.env.React_APP_ORIGIN_URL + `employees/${data._id}`)
     .then(response => {
       setEmpID(response.data);
       console.log(response.data,"hihi")

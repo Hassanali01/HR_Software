@@ -20,11 +20,11 @@ const Leaves = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const url = "/leaves";
-  const url2 = "/leaves/addleaves";
+  const url = "leaves";
+  const url2 = "leaves/addleaves";
   const fetchData = async () => {
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
       const dd = res.data.getLeave;
       setLeaves(dd);
     } catch (error) {
@@ -43,7 +43,7 @@ const Leaves = () => {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const save = await axios.post(url2, {
+      const save = await axios.post(process.env.React_APP_ORIGIN_URL + url2, {
         leaveType: leaveType,
         description: description,
       });

@@ -8,7 +8,7 @@ const DepartmentEmployees = () => {
   const [Series, setSeries] = useState([])
   const getData = async () => {
     try {
-      const noofemployees = await axios.get("departments/get/info");
+      const noofemployees = await axios.get(process.env.React_APP_ORIGIN_URL + "departments/get/info");
       const Labels = []
       const Series = [];
       noofemployees.data.depwiseemployees.map((d) => {
@@ -41,7 +41,7 @@ const DepartmentEmployees = () => {
   const [department, setDepartment] = useState([])
   const fetch = async () => {
     try {
-      const res = await axios.get("departments")
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "departments")
       const data = res.data.departments
       setDepartment(data)
     } catch (error) {

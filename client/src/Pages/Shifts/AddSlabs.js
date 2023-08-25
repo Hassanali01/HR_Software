@@ -35,11 +35,11 @@ function AddSlabs() {
         setView(!view);
     };
     let count = 1
-    const url = `/shifts/${id}`;
+    const url = `shifts/${id}`;
     const postData = async (e) => {
         e.preventDefault();
         try {
-            const save = await axios.put(url, {
+            const save = await axios.put(process.env.React_APP_ORIGIN_URL + url, {
                 slabs: [
                     {
                         laterthen: slabstime
@@ -57,7 +57,7 @@ function AddSlabs() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/shifts/${id}`);
+            const response = await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/${id}`);
             setShift(response.data)
             setSlabs(response.data.slabs);
         } catch (error) {

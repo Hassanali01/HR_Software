@@ -47,7 +47,7 @@ const Table = ({ data }) => {
   const handleForm = async (e) => {
     e.preventDefault();
     try {
-      const postdata = await axios.put(`/updateuserattendance/${employee}`, {
+      const postdata = await axios.put(process.env.React_APP_ORIGIN_URL + `updateuserattendance/${employee}`, {
         employee,
         date,
         in: In,
@@ -75,7 +75,7 @@ const Table = ({ data }) => {
 
   const handleShowmodal = async (params) => {
     setmodaldata(params.row.identity);
-    const dateAttendance = await axios.get(`/currentUserAttendance`, {
+    const dateAttendance = await axios.get(process.env.React_APP_ORIGIN_URL + `currentUserAttendance`, {
       params: {
         date: new Date(new Date().toISOString().split("T")[0]),
         employee: params.row.identity,
@@ -161,7 +161,7 @@ const Table = ({ data }) => {
 
   const rows = data.map((row) => ({
     id: row.emp_id,
-    Employees: row.firstname + row.lastname,
+    Employees: row.firstname + " " + row.lastname,
     profilepic: row.profilepic,
     Designation: row.designation,
     Department: row.departments.map((rd) => rd.departmentname),

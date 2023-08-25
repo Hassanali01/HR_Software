@@ -258,14 +258,14 @@ const ManageLeaves = () => {
 
 
   const { user } = useContext(Context);
-  const getUrl = "/leaverequest/all/";
+  const getUrl = "leaverequest/all/";
   const getLeavesrequests = async () => {
     var getLeaves = [];
     {
       if (!user.isAdmin) {
-        getLeaves = await axios.get(`${getUrl}${user.id}`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `${getUrl}${user.id}`);
       } else {
-        getLeaves = await axios.get(`/leaverequest/allForHR`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR`);
       }
     }
     const data = getLeaves.data;
@@ -302,9 +302,9 @@ const ManageLeaves = () => {
 
   const updateUserStatus = async (e) => {
     e.preventDefault();
-    const updateStatus = `/leaverequest/${modaldata.id}`;
+    const updateStatus = `leaverequest/${modaldata.id}`;
     try {
-      const update = await axios.put(updateStatus, {
+      const update = await axios.put(process.env.React_APP_ORIGIN_URL + updateStatus, {
         status,
         supervisorApproval,
       });

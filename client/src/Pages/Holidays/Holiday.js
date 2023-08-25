@@ -32,12 +32,12 @@ const Holiday = () => {
     type: "",
     to: "",
   });
-  const url = "/holiday/addholiday";
+  const url = "holiday/addholiday";
 
   //posting calendar with holidays 
   const fetchData = async () => {
     try {
-      const res = await axios.get("/calendar");
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "calendar");
       const data = res.data.calendar;
       setcalendar(data);
     } catch (error) {
@@ -69,7 +69,7 @@ const Holiday = () => {
     }
     setvalidate(errors);
     try {
-      const saveHoliday = await axios.post(url, newHoliday);
+      const saveHoliday = await axios.post(process.env.React_APP_ORIGIN_URL + url, newHoliday);
       saveHoliday && handleClose();
       NotificationManager.success("Successfully Created");
     } catch (error) {

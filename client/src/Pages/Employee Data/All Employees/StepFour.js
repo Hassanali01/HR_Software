@@ -18,10 +18,10 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   const [empl, setEmpl] = useState([])
   const [shift, setShift] = useState([])
   const [payrollsetup, setPayrollsetup] = useState([])
-  const url2 = "/departments";
-  const url = "/employees";
-  const url3 = "/shifts/allShifts"
-  const payrollSittingUrl= "/payrollsetup/";
+  const url2 = "departments";
+  const url = "employees";
+  const url3 = "shifts/allShifts"
+  const payrollSittingUrl= "payrollsetup/";
   let name, value;
   const handleinput = (e) => {
 
@@ -91,22 +91,22 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   };
 
   useEffect(() => {
-    axios.get(url2).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + url2).then(resp => {
       setDep(resp.data)
     }, [1, 1]);
 
-    axios.get(url3).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + url3).then(resp => {
       setShift(resp.data)
     }, [1, 1]);
 
-    axios.get(payrollSittingUrl).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + payrollSittingUrl).then(resp => {
       setPayrollsetup(resp.data)
     }, [1, 1]);
 
 
     const fetchData = async () => {
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
         const data = res.data.employees;
         setEmpl(data);
       } catch (error) {

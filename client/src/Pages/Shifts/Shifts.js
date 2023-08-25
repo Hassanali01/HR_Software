@@ -31,8 +31,8 @@ function Shifts() {
 
 
 
-    const url2 = "/shifts/addShifts"
-    const url1 = "/shifts/allShifts";
+    const url2 = "shifts/addShifts"
+    const url1 = "shifts/allShifts";
     const [shiftname, setshiftname] = useState("");
     const [description, setDescription] = useState("");
     const [fromTime, setFromTime] = useState("")
@@ -40,7 +40,7 @@ function Shifts() {
 
     const Shifts = async () => {
         try {
-            const shift = await axios.get(url1);
+            const shift = await axios.get(process.env.React_APP_ORIGIN_URL + url1);
             setData(shift.data);
         } catch (error) {
             console.log(error);
@@ -56,7 +56,7 @@ function Shifts() {
     const postData = async (e) => {
         e.preventDefault();
         try {
-            const save = await axios.post(url2, {
+            const save = await axios.post(process.env.React_APP_ORIGIN_URL + url2, {
                 shift_name: shiftname,
                 description: description,
                 start_time: fromTime,

@@ -32,12 +32,12 @@ const Departments = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const url = "/departments/adddepartment";
-  const url1 = "/departments";
+  const url = "departments/adddepartment";
+  const url1 = "departments";
 
   const departments = async () => {
     try {
-      const dep = await axios.get(url1);
+      const dep = await axios.get(process.env.React_APP_ORIGIN_URL + url1);
       const res = dep.data;
       setData(res.departments);
     } catch (error) {
@@ -54,7 +54,7 @@ const Departments = () => {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const save = await axios.post(url, {
+      const save = await axios.post(process.env.React_APP_ORIGIN_URL + url, {
         departmentname: departmentname,
         description: description,
       });

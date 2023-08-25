@@ -21,7 +21,7 @@ const Setup = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const res = await axios.get('payrollsetup/')
+        const res = await axios.get(process.env.React_APP_ORIGIN_URL + 'payrollsetup/')
         setPayrollSetups(res.data)
     }
     fetchData()

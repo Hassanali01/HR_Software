@@ -21,7 +21,7 @@ const Table = ({ data }) => {
         <Button
           onClick={() => {
             const id = params.row.id;
-            axios.delete(`shifts/${id}`)
+            axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/${id}`)
               .then(response => {
                 console.log("Data deleted successfully!");
               })
