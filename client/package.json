@@ -66,8 +66,8 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.9/xlsx-0.18.9.tgz"
   },
   "scripts": {
-    "start": "env-cmd -f .env react-scripts --openssl-legacy-provider start",
-    "build": "env-cmd -f .env react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
