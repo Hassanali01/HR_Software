@@ -15,6 +15,7 @@ import { evaluateTokenNodes, getExtendedTokens } from './../../formulaParser/sha
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
 import HeaderContext from '../../Context/HeaderContext'
+import { Form } from "react-bootstrap";
 
 
 const MonthlyPayroll = () => {
@@ -33,13 +34,20 @@ const MonthlyPayroll = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [fields, setFields] = useState(generateFormulaFields())
   const [show, setShow] = useState(false);
-
+  const [company, setCompany] = useState();
+  const [comapnyID, setCompanyID] = useState()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const CompanyName = (e) => {
+    console.log("comapny id", e)
+    setCompanyID(e)
+
+  }
 
   // For fetching current time to display on report
   useEffect(() => {
+    getdata();
     const intervalId = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
@@ -54,6 +62,17 @@ const MonthlyPayroll = () => {
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
+  }
+
+  const getdata = async () => {
+    try {
+      const companies = await axios.get(process.env.React_APP_ORIGIN_URL + `allCompany`)
+      const cs = companies.data
+      setCompany(cs)
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   async function generateMonthAttendance() {
@@ -82,9 +101,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
-        if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
 
         //filter for  "Sagacious Construction"
@@ -98,11 +117,13 @@ const MonthlyPayroll = () => {
         //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
         // }  
 
+        if (at.employee.company == comapnyID) {
+          //filter for all
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
-        //filter for all
-        // tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
       })
-
+      console.log("company", tempUserAttendance)
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
@@ -191,16 +212,16 @@ const MonthlyPayroll = () => {
 
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-      
-          tempUserAttendance[key].forEach((te) => {
-            console.log("inside the dayoff", te)
-            const locale = "en-US"
-            var date = new Date(te.date);
-            var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
-              te.status = "D.O";
-            }
-          });
+
+        tempUserAttendance[key].forEach((te) => {
+          console.log("inside the dayoff", te)
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
+            te.status = "D.O";
+          }
+        });
       });
 
 
@@ -231,16 +252,17 @@ const MonthlyPayroll = () => {
 
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
 
-              if (te.employee.payroll_setup.applyGazettedHoliday){
+              if (te.employee.payroll_setup.applyGazettedHoliday) {
 
 
-              if (te.status == 'A') {
-                te.status = "G.H";
-              } else {
+                if (te.status == 'A') {
+                  te.status = "G.H";
+                } else {
 
-                te.status = te.status * 2
+                  te.status = te.status * 2
+                }
               }
-            }}
+            }
           })
         })
       })
@@ -331,6 +353,19 @@ const MonthlyPayroll = () => {
                 />
               </div>
             </Modal>
+            <select
+            style={{ marginRight: "10px" , outline: "none", padding: "2px 0px", backgroundColor: "#f5f3f3",borderColor: "darkgray" , borderRadius: "2px"}}
+              name="company"
+              placeholder='Select Company'
+              onChange={(event) => CompanyName(event.target.value)}
+            >
+              <option disabled selected hidden defaultValue={""}>Please Select Company</option>
+              {company && company.map((d) => (
+                <option key={d._id} value={d._id}>
+                  {d.title}
+                </option>
+              ))}
+            </select>
             <Button className="mr-3" onClick={async () => {
               await generateMonthAttendance()
 
@@ -465,13 +500,14 @@ const MonthlyPayroll = () => {
 
 
 
-                    {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => { 
-                      
-                      
+                    {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => {
+
+
                       // console.log("num", num)
 
-                      return (total + parseFloat(num[1].netpaydays)) }, 0)}
-{/* 
+                      return (total + parseFloat(num[1].netpaydays))
+                    }, 0)}
+                    {/* 
                     {
                       Object.keys(userAttendance).reduce(function (previous, key) {
                         return (previous + parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
@@ -487,12 +523,12 @@ const MonthlyPayroll = () => {
                   </th>
                 </tr>
                 <tr>
-                  <th colSpan="45" >   
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
-                    <h6>Verified By: ____________</h6>
-                    <h6>Approved By: ___________</h6>
-                  </div>
-                    <div style={{ marginTop: "3rem",display: "flex"}}>
+                  <th colSpan="45" >
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem", marginLeft: "28rem" }}>
+                      <h6>Verified By: ____________</h6>
+                      <h6>Approved By: ___________</h6>
+                    </div>
+                    <div style={{ marginTop: "3rem", display: "flex" }}>
                       * It's a computer generated report and does not require any signature.
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>

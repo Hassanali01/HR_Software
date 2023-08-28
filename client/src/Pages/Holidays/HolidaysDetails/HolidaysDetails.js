@@ -47,6 +47,7 @@ const HolidaysDetails = () => {
         <DatePicker
           id="DatePicker"
           type="string"
+        
           selected={savedate}
           className="text-primary text-center"
           onChange={ChangeYear}
