@@ -67,9 +67,9 @@ const MonthlyPayroll = () => {
       attendanceTemp.map((at) => {
 
         //filter for  "Sagacious Systems"
-        if (at.employee.company_payroll == "Sagacious Systems") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious Systems") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
         // filter for  "Sagacious Marketing"
         // if (at.employee.company_payroll == "Sagacious Marketing") {
@@ -82,9 +82,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
-        // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
 
         //filter for  "Sagacious Construction"
@@ -189,19 +189,18 @@ const MonthlyPayroll = () => {
       );
 
 
-      // adding Day-Of inside the user attendance
+      // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        let dayof = daysOfMonth.filter((td) => td.day == "Sun");
-        dayof.forEach((al) => {
+      
           tempUserAttendance[key].forEach((te) => {
+            console.log("inside the dayoff", te)
             const locale = "en-US"
             var date = new Date(te.date);
             var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            if (day == "Sunday") {
+            if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
               te.status = "D.O";
             }
           });
-        });
       });
 
 
@@ -229,7 +228,6 @@ const MonthlyPayroll = () => {
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
 
-            console.log("te in temp ", te)
 
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
 
