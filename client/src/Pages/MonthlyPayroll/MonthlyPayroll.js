@@ -222,15 +222,27 @@ const MonthlyPayroll = () => {
 
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+
+        console.log("value of object", value)
+
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
+
+            console.log("te in temp ", te)
+
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
+
+              if (te.employee.payroll_setup.applyGazettedHoliday){
+
+
               if (te.status == 'A') {
                 te.status = "G.H";
               } else {
+
                 te.status = te.status * 2
               }
-            }
+            }}
           })
         })
       })

@@ -78,7 +78,7 @@ console.log("Environment VArible",process.env.React_APP_ORIGIN_URL)
           )}
         </BrowserRouter>
       </HeaderState>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 }

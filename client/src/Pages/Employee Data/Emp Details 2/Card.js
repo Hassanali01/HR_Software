@@ -232,7 +232,7 @@ const Cards = ({ data }) => {
     const url = `${data._id}`;
     try {
       const updateUser = await axios
-        .put(process.env.React_APP_ORIGIN_URL + url, {
+        .put(process.env.React_APP_ORIGIN_URL + "employees/" + url, {
           profilepic: emp.profilepic,
           firstname: emp.firstname,
           lastname: emp.lastname,
