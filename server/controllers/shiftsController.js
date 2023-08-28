@@ -4,9 +4,9 @@ const Shifts = require('../Models/shifts')
 
 //for create shifts
 const addShifts = async (req, res) => {
-    const { shift_name, description, start_time, end_time, slabs } = req.body
+    const { shift_name, description, start_time, end_time, slabs,early_leave_slabs } = req.body
     try {
-        const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slabs })
+        const shifts = await Shifts.create({ shift_name, description, start_time, end_time, slabs,early_leave_slabs })
         res.status(200).json(shifts)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -59,21 +59,35 @@ const deleteShifts = async (req, res) => {
 
 // Update employee shift by ID
 const updateShift = async (req, res) => {
-    const { later_than, deduction } = req.body;
     try {
+        const updatedFields = {};
+
+        if (req.body.slabs && req.body.slabs.length > 0) {
+            updatedFields.slabs = {
+                later_than: req.body.slabs[0].later_than,
+                deduction: req.body.slabs[0].deduction,
+            };
+        }
+
+        if (req.body.early_leave_slabs && req.body.early_leave_slabs.length > 0) {
+            updatedFields.early_leave_slabs = {
+                early_leave_time: req.body.early_leave_slabs[0].early_leave_time,
+                deduction: req.body.early_leave_slabs[0].deduction,
+            };
+        }
+
         const updatedItem = await Shifts.findByIdAndUpdate(
             req.params.id,
-            { $push: { slabs: { later_than: req.body.slabs[0].later_than, deduction : req.body.slabs[1].deduction,} } },
-            { new: true })
-  
-      
-      return res.status(200).json({ message: ' shift updated successfully' });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'An error occurred while updating the  shift' });
-    }
-  };
+            { $push: updatedFields },
+            { new: false }
+        );
 
+        return res.status(200).json({ message: 'Shift updated successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'An error occurred while updating the shift' });
+    }
+};
 
 
 

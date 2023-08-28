@@ -67,9 +67,9 @@ const MonthlyPayroll = () => {
       attendanceTemp.map((at) => {
 
         //filter for  "Sagacious Systems"
-        // if (at.employee.company_payroll == "Sagacious Systems") {
-        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        // }
+        if (at.employee.company_payroll == "Sagacious Systems") {
+          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        }
 
         // filter for  "Sagacious Marketing"
         // if (at.employee.company_payroll == "Sagacious Marketing") {
@@ -82,9 +82,9 @@ const MonthlyPayroll = () => {
         // }
 
         //filter for  "Sagacious (Pvt.) Ltd"
-        if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
-          tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
-        }
+        // if (at.employee.company_payroll == "Sagacious (Pvt.) Ltd") {
+        //   tempUserAttendance[`${at.employee && at.employee.username && at.employee.username}`] = []
+        // }
 
 
         //filter for  "Sagacious Construction"

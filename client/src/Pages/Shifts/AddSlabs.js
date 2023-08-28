@@ -23,8 +23,16 @@ function AddSlabs() {
     const handleShow = () => setShow(true);
     const [slabstime, setSlabstime] = useState("");
     const [slabsdeduction, setSlabsdeduction] = useState("");
+    const [earlyslabstime, setEarlylabstime] = useState("");
+    const [earlyslabsdeduction, setEarlyslabsdeduction] = useState("");
     const [slabs, setSlabs] = useState([])
+    const [earlyslabs, setEarlySlabs] = useState([]);
     const location = useLocation();
+    const [show2, setShow2] = useState(false)
+    const [view2, setView2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+
     const id = location.state.id
 
 
@@ -33,19 +41,33 @@ function AddSlabs() {
         setView(!view);
         setView(nextView);
         setView(!view);
+
+        setView2(!view2);
+        // setView2(nextView);
+        setView2(!view2);
+
     };
     let count = 1
+    let count2 = 1
     const url = `shifts/${id}`;
     const postData = async (e) => {
         e.preventDefault();
         try {
             const save = await axios.put(process.env.React_APP_ORIGIN_URL + url, {
-                slabs: [
+                slabs: slabstime && [
                     {
                         laterthen: slabstime
                     },
                     {
                         deduction: slabsdeduction
+                    }
+                ],
+                early_leave_slabs: earlyslabstime && [
+                    {
+                        early_leave_time: earlyslabstime
+                    },
+                    {
+                        deduction: earlyslabsdeduction
                     }
                 ]
             });
@@ -60,6 +82,7 @@ function AddSlabs() {
             const response = await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/${id}`);
             setShift(response.data)
             setSlabs(response.data.slabs);
+            setEarlySlabs(response.data.early_leave_slabs)
         } catch (error) {
             setShift([]);
             console.error('Axios error:', error);
@@ -70,7 +93,7 @@ function AddSlabs() {
     }, [])
     const a = useContext(HeaderContext)
     useEffect(() => {
-      a.update("Human Resource / Job Shifts / Add Slabs")
+        a.update("Human Resource / Job Shifts / Add Slabs")
     })
 
     return (
@@ -87,7 +110,7 @@ function AddSlabs() {
                                 >
                                     <li className="breadcrumb-item">
                                         <Link to="/" style={{ color: "#1f1f1f" }}>
-                                        Human Resource
+                                            Human Resource
                                         </Link>
                                     </li>
                                     <li className="breadcrumb-item">
@@ -132,7 +155,7 @@ function AddSlabs() {
                         <CardContent>
                             <div style={{ widows: "50%", float: "left" }}>
                                 <h2>
-                                    Shift Slabs
+                                    Late Arrival Slabs
                                 </h2>
                             </div>
                             <div
@@ -174,8 +197,58 @@ function AddSlabs() {
                         </CardContent>
                     </Card>
                 </Container>
+
+                <Container>
+                    <Card>
+                        <CardContent>
+                            <div style={{ widows: "50%", float: "left" }}>
+                                <h2>
+                                    Early Leave Slabs
+                                </h2>
+                            </div>
+                            <div
+                                style={{ float: "right" }}
+                                onClick={handleShow2}
+                            >
+                                <a
+                                    className="btn add-btn "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#add_calendar"
+                                >
+                                    <i
+                                        className="fa fa-plus"
+                                        style={{ fontSize: "14px", marginRight: "2px" }}
+                                    >
+                                        {" "}
+                                    </i>
+                                    Add Slab
+                                </a>
+                            </div>
+                            <Table className="striped bordered hover" >
+                                <tbody>
+                                    <tr>
+                                        <th>Sr #</th>
+                                        <th> Early than</th>
+                                        <th> Deduction</th>
+                                    </tr>
+                                    {shift.early_leave_slabs && shift.early_leave_slabs.map((i) => {
+                                        return (<>
+                                            <tr>
+                                                <td>{count2++}</td>
+                                                <td>{i.early_leave_time}</td>
+                                                <td>{i.deduction}</td>
+                                            </tr>
+                                        </>)
+                                    })}
+                                </tbody>
+                            </Table>
+                        </CardContent>
+                    </Card>
+                </Container>
             </div >
             <NotificationContainer />
+
+            {/* late arrival deduction */}
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Slab</Modal.Title>
@@ -197,6 +270,42 @@ function AddSlabs() {
                             required
                             onChange={(e) => {
                                 setSlabsdeduction(e.target.value);
+                            }}
+                        >
+                            <option disabled selected hidden value="">Please Select</option>
+                            <option value="0.25">0.25</option>
+                            <option value="0.5">0.5</option>
+                            <option value="0.75">0.75</option>
+                            <option value="1">1</option>
+                        </Form.Select>
+                        <div className="mt-2 d-flex align-items-center justify-content-center">
+                            <Button type="submit">Submit</Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+            {/* //Early Leaves slabs model */}
+            <Modal show={show2} onHide={handleClose2} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Slab</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={postData}>
+                        <Form.Label>Early Leave Slab Time </Form.Label>
+                        <Form.Control
+                            type="time"
+                            required
+                            onChange={(e) => {
+                                setEarlylabstime(e.target.value);
+                            }}
+                        ></Form.Control>
+                        <br />
+                        <Form.Label>Slab Deduction</Form.Label>
+                        <Form.Select
+                            type="text"
+                            required
+                            onChange={(e) => {
+                                setEarlyslabsdeduction(e.target.value);
                             }}
                         >
                             <option disabled selected hidden value="">Please Select</option>

@@ -19,10 +19,14 @@ const addShifts = new Schema({
         type:String,
     },
     slabs:{
-        type:Array
+        type:Array,
+    },
+    early_leave_slabs: {
+        type:Array,
     }
 },{timestamps:true})
 
 module.exports = mongoose.model("addShifts",addShifts)
+
 
  

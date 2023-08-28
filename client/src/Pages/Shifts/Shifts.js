@@ -23,14 +23,12 @@ import Table from "./Table";
 import HeaderContext from '../../Context/HeaderContext'
 
 function Shifts() {
+    
     const [getdata, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [view, setView] = useState('module');
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-
-
     const url2 = "shifts/addShifts"
     const url1 = "shifts/allShifts";
     const [shiftname, setshiftname] = useState("");
