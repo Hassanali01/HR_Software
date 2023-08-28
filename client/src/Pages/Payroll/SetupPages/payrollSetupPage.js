@@ -15,6 +15,10 @@ const Setup = () => {
   const [setupFormula, setSetupFormula] = useState("");
   const [applyGazettedHoliday, setApplyGazettedHoliday] = useState(true);
 
+  const [sundayDayoff, setSundayDayoff] = useState(true);
+  const [lastSaturdayDayoff, setLastSaturdayDayoff] = useState(true);
+
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -108,6 +112,15 @@ useEffect(() => {
                                 </Col>
                              
                               </Row>
+                              <Row>
+                                <Col xl='6' lg='6' md='6'>
+                                  <div className="d-flex flex-column justify-content-center py-3">
+                                    <div><h6 className="font-weight-bold">Days off:</h6>{JSON.stringify(ps.daysoff)}</div>
+                                    
+                                  </div>
+                                </Col>
+                             
+                              </Row>
                             </Col>
                           </Row>
                         </Card>
@@ -123,6 +136,15 @@ useEffect(() => {
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
 
                         <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e)=>{setApplyGazettedHoliday(e.target.checked)}} />
+
+<br />
+                        <label>Days off observed on:</label><br />
+<p>
+                        <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked="true" onClick={(e)=>{setSundayDayoff(e.target.checked)}} />
+                        <br />
+                        <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e)=>{setLastSaturdayDayoff(e.target.checked)}} />
+                        </p>
+
                         
                       </Modal.Body>
                       <Modal.Footer>
@@ -130,7 +152,9 @@ useEffect(() => {
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
-                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday });
+                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday ,
+                            daysoff: {sundayDayoff, lastSaturdayDayoff}
+                          });
 
                           handleClose()
                         }}>

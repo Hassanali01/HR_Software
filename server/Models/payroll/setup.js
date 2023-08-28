@@ -12,6 +12,11 @@ const setupSchema  = mongoose.Schema({
    applyGazettedHoliday:{
       type:Boolean,
       required:true
+   },
+
+   daysoff:{
+      type:Object,
+      
    }
 })
 
