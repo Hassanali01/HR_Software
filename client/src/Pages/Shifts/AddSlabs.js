@@ -50,8 +50,8 @@ function AddSlabs() {
     let count = 1
     let count2 = 1
     const url = `shifts/${id}`;
+
     const postData = async (e) => {
-        console.log("slab data",slabstime,slabsdeduction)
         e.preventDefault();
         try {
             const save = await axios.put(process.env.React_APP_ORIGIN_URL + url, {
