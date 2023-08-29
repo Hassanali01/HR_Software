@@ -32,10 +32,10 @@ const Table = ({ data, setTableData }) => {
     };
 
     const columns = [
-        { field: "Empid", headerName: "Employee_ID", width: 150 },
+        { field: "Empid", headerName: "Employee_ID", width: 100 },
         { field: "Name", headerName: "Name", width: 300 },
         { field: "Department", headerName: "Department", width: 200 },
-        { field: "Date", headerName: "Date", width: 100 },
+        { field: "Date", headerName: "Date", width: 150 },
         {
             field: "In", headerName: "In", width: 100, renderCell: (params) => {
                 return (<>

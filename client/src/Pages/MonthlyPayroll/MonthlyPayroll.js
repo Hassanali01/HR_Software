@@ -40,7 +40,6 @@ const MonthlyPayroll = () => {
   const handleShow = () => setShow(true);
 
   const CompanyName = (e) => {
-    console.log("comapny id", e)
     setCompanyID(e)
 
   }
@@ -123,7 +122,6 @@ const MonthlyPayroll = () => {
         }
 
       })
-      console.log("company", tempUserAttendance)
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
@@ -179,6 +177,12 @@ const MonthlyPayroll = () => {
         const singleuser = a.map((j) => {
           if (j.employee.work_shift) {
             const currentShift = j.employee.work_shift
+
+
+            console.log("currentShift", currentShift)
+
+            // Deduction for employees on late arrival
+
             const date = j.in
             const splitdate = date.split(":")
             const sampleDateIn = new Date()
@@ -191,9 +195,30 @@ const MonthlyPayroll = () => {
               sampleDateSlabs.setHours(splitSlabs[0])
               sampleDateSlabs.setMinutes(splitSlabs[1])
               if (sampleDateIn > sampleDateSlabs) {
-                j.status = (1 - s.deduction)
+                j.status = (j.status - s.deduction)
               }
             })
+
+
+            // Deduction for employees on early leaver
+
+            // const checkOut = j.out
+            // const checkOutArr = checkOut.split(":")
+            // const sampleDateArr = new Date()
+            // sampleDateIn.setHours(splitdate[0])
+            // sampleDateIn.setMinutes(splitdate[1])
+            // currentShift.slabs.forEach((s) => {
+            //   const slabsname = s.later_than
+            //   const splitSlabs = slabsname.split(":")
+            //   const sampleDateSlabs = new Date()
+            //   sampleDateSlabs.setHours(splitSlabs[0])
+            //   sampleDateSlabs.setMinutes(splitSlabs[1])
+            //   if (sampleDateIn > sampleDateSlabs) {
+            //     j.status = (1 - s.deduction)
+            //   }
+            // })
+
+            
           }
         })
       }
@@ -214,7 +239,6 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
 
         tempUserAttendance[key].forEach((te) => {
-          console.log("inside the dayoff", te)
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
@@ -244,7 +268,6 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
 
 
-        console.log("value of object", value)
 
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
