@@ -51,18 +51,19 @@ function AddSlabs() {
     let count2 = 1
     const url = `shifts/${id}`;
     const postData = async (e) => {
+        console.log("slab data",slabstime,slabsdeduction)
         e.preventDefault();
         try {
             const save = await axios.put(process.env.React_APP_ORIGIN_URL + url, {
-                slabs: slabstime && [
+                slabs: [
                     {
-                        laterthen: slabstime
+                        later_than: slabstime
                     },
                     {
                         deduction: slabsdeduction
                     }
                 ],
-                early_leave_slabs: earlyslabstime && [
+                early_leave_slabs:  [
                     {
                         early_leave_time: earlyslabstime
                     },
@@ -71,11 +72,31 @@ function AddSlabs() {
                     }
                 ]
             });
+            console.log("save data",save)
             save && NotificationManager.success("Successfully Added");
         } catch (error) {
             NotificationManager.error("Failed to add Slabs");
         }
     };
+
+
+    const handleDelete = async (i) => {
+        console.log("delete slab", i)
+        try {
+            const response = await axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/deleteslabs/${id}`, {
+                data: {
+                    slabs: i,
+                    early_leave_slabs: i
+                }
+            });
+
+        } catch (error) {
+            console.error(error);
+
+        }
+    };
+
+    
 
     const fetchData = async () => {
         try {
@@ -182,13 +203,15 @@ function AddSlabs() {
                                         <th>Sr #</th>
                                         <th> Later than</th>
                                         <th> Deduction</th>
+                                        <th>Delete</th>
                                     </tr>
-                                    {shift.slabs && shift.slabs.map((i) => {
+                                    {shift.slabs && shift.slabs.map((i, index) => {
                                         return (<>
-                                            <tr>
+                                            <tr key={index}>
                                                 <td>{count++}</td>
                                                 <td>{i.later_than}</td>
                                                 <td>{i.deduction}</td>
+                                                <td><Button onClick={()=>{handleDelete(i.later_than)}} style={{backgroundColor: "red"}}>Delete</Button></td>
                                             </tr>
                                         </>)
                                     })}
@@ -230,6 +253,7 @@ function AddSlabs() {
                                         <th>Sr #</th>
                                         <th> Early than</th>
                                         <th> Deduction</th>
+                                        <th>Delete</th>
                                     </tr>
                                     {shift.early_leave_slabs && shift.early_leave_slabs.map((i) => {
                                         return (<>
@@ -237,6 +261,7 @@ function AddSlabs() {
                                                 <td>{count2++}</td>
                                                 <td>{i.early_leave_time}</td>
                                                 <td>{i.deduction}</td>
+                                                <td><Button onClick={()=>{handleDelete(i.early_leave_time)}} style={{backgroundColor: "red"}}>Delete</Button></td>
                                             </tr>
                                         </>)
                                     })}

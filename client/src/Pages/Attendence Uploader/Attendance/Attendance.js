@@ -220,16 +220,7 @@ const Attendance = () => {
                 <div style={{ marginLeft: "3%" }}>
                   <Stack direction="horizontal" gap={3}>
                     <EcxelImport uploadHandler={createRequests} />
-                    <Button
-                      variant="outline-danger"
-                      onClick={createRequests}
-                      style={{
-                        width: "auto",
-                        height: "auto",
-                      }}
-                    >
-                      Fetch
-                    </Button>
+         
                     <div className="submitAttendance">
                       <Button
                         variant="outline-danger"
