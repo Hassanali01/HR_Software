@@ -179,7 +179,7 @@ const MonthlyAttendance = () => {
 
           if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
 
-            if (te.employee.payroll_setup.applyGazettedHoliday) {
+            if (te.employee.payroll_setup && te.employee.payroll_setup.applyGazettedHoliday) {
 
 
               if (te.status == 'A') {
@@ -201,7 +201,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Sunday"
-          && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.sundayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.sundayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -236,6 +236,8 @@ const MonthlyAttendance = () => {
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
 
     } catch (error) {
+
+      console.log("error in att", error)
       NotificationManager.error("Please select the month of Attendance")
     }
   }
