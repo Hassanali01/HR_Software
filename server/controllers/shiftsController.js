@@ -59,22 +59,27 @@ const deleteShifts = async (req, res) => {
 
 // Update employee shift by ID
 const updateShift = async (req, res) => {
+    console.log(req.body)
     try {
         const updatedFields = {};
-
-        if (req.body.slabs && req.body.slabs.length > 0) {
-            updatedFields.slabs = {
-                later_than: req.body.slabs[0].later_than,
-                deduction: req.body.slabs[1].deduction,
-            };
+        if (!req.body.slabs[0].later_than == '') {
+            if (req.body.slabs && req.body.slabs.length > 0) {
+                updatedFields.slabs = {
+                    later_than: req.body.slabs[0].later_than,
+                    deduction: req.body.slabs[1].deduction,
+                };
+            }
         }
 
-        if (req.body.early_leave_slabs && req.body.early_leave_slabs.length > 0) {
-            updatedFields.early_leave_slabs = {
-                early_leave_time: req.body.early_leave_slabs[0].early_leave_time,
-                deduction: req.body.early_leave_slabs[1].deduction,
-            };
+        if (!req.body.early_leave_slabs[0].early_leave_time == '') {
+            if (req.body.early_leave_slabs && req.body.early_leave_slabs.length > 0) {
+                updatedFields.early_leave_slabs = {
+                    early_leave_time: req.body.early_leave_slabs[0].early_leave_time,
+                    deduction: req.body.early_leave_slabs[1].deduction,
+                };
+            }
         }
+
 
         const updatedItem = await Shifts.findByIdAndUpdate(
             req.params.id,
@@ -102,7 +107,7 @@ const deleteSlabs = async (req, res) => {
         if (req.body.slabs) {
             shift.slabs = shift.slabs.filter(slab => !req.body.slabs.includes(slab.later_than));
         }
-        console.log(req.body.early_leave_slabs)
+
         if (req.body.early_leave_slabs) {
             shift.early_leave_slabs = shift.early_leave_slabs.filter(slab => !req.body.early_leave_slabs.includes(slab.early_leave_time));
         }

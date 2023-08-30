@@ -36,8 +36,8 @@ const LeaveRequest = () => {
   const [details, setDetails] = useState([]);
   const [Short_leave, setShort_leave] = useState([]);
 
-  const url = "/leaves";
-  const posturl = "/leaverequest/addrequest";
+  const url = "leaves";
+  const posturl = "leaverequest/addrequest";
   const a = useContext(HeaderContext)
   useEffect(() => {
     a.update("Human Resource / Leave Request")
