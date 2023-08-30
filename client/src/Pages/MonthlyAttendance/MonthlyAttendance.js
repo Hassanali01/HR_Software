@@ -11,6 +11,8 @@ import Calendar from 'react-calendar';
 import Table from "./attendanceReportTable/Table";
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
+import moment from "moment";
+
 import 'react-calendar/dist/Calendar.css';
 
 const MonthlyAttendance = () => {
@@ -20,6 +22,8 @@ const MonthlyAttendance = () => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState();
   const [tableData, setTableData] = useState([]);
+  const [employeesAttendance, setEmployeesAttendance] = useState({});
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,12 +33,33 @@ const MonthlyAttendance = () => {
   }
 
 
+  function PrintElem(elem) {
+    var mywindow = window.open('', 'PRINT', 'height=900,width=1200');
+
+    mywindow.document.write('<html><head><title>' + 'title' + '</title>');
+    mywindow.document.write('<style>* {-webkit-print-color-adjust: exact !important;}</style>')
+    mywindow.document.write('</head><body ><div>');
+    // mywindow.document.write('<h1>' + document.title  + '</h1>');
+
+
+    mywindow.document.write(document.getElementById(elem).innerHTML);
+    mywindow.document.write('</div></body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+  }
+
   function NewToolbar() {
     return (<>
       <TextField />
     </>)
   }
- 
+
   const urlForEmployees = "employees"
   let table = [];
   data.forEach((elem) => {
@@ -126,6 +151,87 @@ const MonthlyAttendance = () => {
         i.department = "null"
       })
       tempAttendance.length == 0 && NotificationManager.error("Current month has no record");
+
+
+      const gaztedholidays = await (await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)).data
+
+
+
+
+
+
+
+      tempAttendance.forEach((att) => {
+
+
+        if (att.status == "A") {
+          att.in = "Absent";
+          att.out = "Absent";
+        }
+
+      })
+
+
+
+      gaztedholidays.map((i) => {
+        tempAttendance.forEach((te) => {
+
+
+          if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
+
+            if (te.employee.payroll_setup.applyGazettedHoliday) {
+
+
+              if (te.status == 'A') {
+                te.in = "G.H";
+                te.out = "G.H";
+              }
+            }
+          }
+        })
+      })
+
+
+      console.log("tempAttendance", tempAttendance)
+
+      tempAttendance.forEach((att) => {
+
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Sunday"
+          && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.sundayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+        }
+
+      })
+
+
+
+
+
+
+
+      const attendanceByEmployee = tempAttendance.reduce((empAtt, tempAtt) => {
+        const { Employee_ID } = tempAtt;
+        empAtt[Employee_ID] = empAtt[Employee_ID] ? empAtt[Employee_ID] : [];
+        empAtt[Employee_ID].push(tempAtt);
+        return empAtt;
+      }, {});
+
+      console.log("attendanceByEmployee", attendanceByEmployee);
+
+
+      setEmployeesAttendance(attendanceByEmployee)
+
+
+
+
+
+
       setTableData(tempAttendance)
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
 
@@ -166,6 +272,54 @@ const MonthlyAttendance = () => {
                           />
                         </div>
                       </Modal>
+
+                      <button onClick={() => { PrintElem('AttendanceToPrint') }}>Print</button>
+                      <div className='AttendanceToPrint' id='AttendanceToPrint'>
+
+                        {Object.keys(employeesAttendance).map(key =>
+
+
+
+
+
+                          <table style={{ fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse", pageBreakAfter: "always"
+                        
+                          }} >
+                            <tr style={{ fontWeight: "bold", fontSize: 18, border: "2px solid black", height: 50, backgroundColor: "silver" }}>
+
+                              <th colSpan={7}>
+
+                                Attendance August 23
+
+                              </th>
+                            </tr>
+                            <tr style={{ height: 30 }}>
+                              <th style={{ width: "100px", border: "1px solid black" }}>Date</th>
+                              <th style={{ width: "90px", border: "1px solid black" }}>Day</th>
+                              <th style={{ width: "160px", border: "1px solid black" }}>Name</th>
+                              <th style={{ width: "100px", border: "1px solid black" }}>Dept.</th>
+                              <th style={{ width: "70px", border: "1px solid black" }}>Check In</th>
+                              <th style={{ width: "70px", border: "1px solid black" }}>Check Out</th>
+                              <th style={{ width: "100px", border: "1px solid black" }}>Remarks</th>
+                            </tr>
+                            {
+                              employeesAttendance[key].map((t) => <tr style={{ height: 25 }}>
+                                <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.Date}</td>
+                                <td style={{ width: "90px", border: "1px solid black" }}>{t.day}</td>
+                                <td style={{ width: "160px", border: "1px solid black" }}>{t.Name}</td>
+                                <td style={{ width: "100px", border: "1px solid black" }}>{t.department}</td>
+                                <td align="center" style={{ width: "70px", border: "1px solid black" }}>{t.in}</td>
+                                <td align="center" style={{ width: "70px", border: "1px solid black" }}>{t.out}</td>
+                                <td style={{ width: "100px", border: "1px solid black" }}></td>
+                              </tr>)
+                            }
+
+                          </table>
+
+
+
+                        )}
+                      </div>
                       <Table data={tableData} setTableData={setTableData} />
                     </div>
                   </div>

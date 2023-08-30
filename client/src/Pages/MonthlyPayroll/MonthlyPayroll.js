@@ -39,6 +39,9 @@ const MonthlyPayroll = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [key, setKey] = useState(0)
+
+
   const CompanyName = (e) => {
     setCompanyID(e)
 
@@ -175,11 +178,9 @@ const MonthlyPayroll = () => {
       for (let i in userAttendance) {
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
-          if (j.employee.work_shift) {
+          if (j.employee.work_shift && j.status == 1) {
             const currentShift = j.employee.work_shift
 
-
-            console.log("currentShift", currentShift)
 
             // Deduction for employees on late arrival
 
@@ -188,37 +189,43 @@ const MonthlyPayroll = () => {
             const sampleDateIn = new Date()
             sampleDateIn.setHours(splitdate[0])
             sampleDateIn.setMinutes(splitdate[1])
+            let deductionForLate = 0
             currentShift.slabs.forEach((s) => {
               const slabsname = s.later_than
               const splitSlabs = slabsname.split(":")
               const sampleDateSlabs = new Date()
               sampleDateSlabs.setHours(splitSlabs[0])
               sampleDateSlabs.setMinutes(splitSlabs[1])
-              if (sampleDateIn > sampleDateSlabs) {
-                j.status = (j.status - s.deduction)
+              if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
+                deductionForLate = s.deduction;
               }
             })
+
+            j.status = j.status - deductionForLate
 
 
             // Deduction for employees on early leaver
 
-            // const checkOut = j.out
-            // const checkOutArr = checkOut.split(":")
-            // const sampleDateArr = new Date()
-            // sampleDateIn.setHours(splitdate[0])
-            // sampleDateIn.setMinutes(splitdate[1])
-            // currentShift.slabs.forEach((s) => {
-            //   const slabsname = s.later_than
-            //   const splitSlabs = slabsname.split(":")
-            //   const sampleDateSlabs = new Date()
-            //   sampleDateSlabs.setHours(splitSlabs[0])
-            //   sampleDateSlabs.setMinutes(splitSlabs[1])
-            //   if (sampleDateIn > sampleDateSlabs) {
-            //     j.status = (1 - s.deduction)
-            //   }
-            // })
+            const checkOut = j.out
+            const checkOutArr = checkOut.split(":")
+            const sampleDateOut = new Date()
+            sampleDateOut.setHours(checkOutArr[0])
+            sampleDateOut.setMinutes(checkOutArr[1])
+            let deductionForEarlyLeaver = 0
+            currentShift.early_leave_slabs.forEach((s) => {
+              const earlyLeaveTime = s.early_leave_time
+              const earlyLeaveTimeArr = earlyLeaveTime.split(":")
+              const sampleDateEarlyLeaveSlabs = new Date()
+              sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
+              sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
+              if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
+                deductionForEarlyLeaver = s.deduction
+              }
+            })
 
-            
+            j.status = j.status - deductionForEarlyLeaver
+
+
           }
         })
       }
@@ -337,6 +344,9 @@ const MonthlyPayroll = () => {
   const formattedDateTime = currentDateTime.toLocaleDateString(undefined, options);
   let rowNumber = 0;
 
+
+
+
   return (
     <>
       <div className="content-wrapper">
@@ -390,6 +400,15 @@ const MonthlyPayroll = () => {
               ))}
             </select>
             <Button className="mr-3" onClick={async () => {
+
+setUserAttendance({})
+
+
+console.log()
+
+setKey(currentKey => currentKey+1)
+
+
               await generateMonthAttendance()
 
               // Applying the payroll formula for net pay days
@@ -437,6 +456,12 @@ const MonthlyPayroll = () => {
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
                   }
                 );
+
+
+
+
+
+
               } catch (error) { console.log("error in payroll", error) }
             }}>Generate Payroll</Button>
             <ReactToPrint
@@ -444,8 +469,8 @@ const MonthlyPayroll = () => {
               content={() => componentRef}
             />
             {/* component to be printed */}
-            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }}>
-              <table
+            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }} >
+              <table key={key}
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
                   <th rowspan="2" style={{ border: "1px solid black" }}>Sr</th>
@@ -502,7 +527,7 @@ const MonthlyPayroll = () => {
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length : ""}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'Late').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "number").reduce((total, num) => { return (parseFloat(num.status)<= 1 ? total + (1 - parseFloat(num.status)) : total + (2 - parseFloat(num.status))) }, 0) > 0 ? userAttendance[`${key}`].filter((tu) => typeof tu.status == "number").reduce((total, num) => { return (parseFloat(num.status)<= 1 ? total + (1 - parseFloat(num.status)) : total + (2 - parseFloat(num.status))) }, 0) : ""   }</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == '').length : ""}</td>
                       <td style={{ border: "1px solid black", fontWeight: "bold" }}>{
                         // parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
@@ -526,7 +551,6 @@ const MonthlyPayroll = () => {
                     {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => {
 
 
-                      // console.log("num", num)
 
                       return (total + parseFloat(num[1].netpaydays))
                     }, 0)}
