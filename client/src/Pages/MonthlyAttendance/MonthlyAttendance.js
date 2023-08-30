@@ -262,6 +262,8 @@ const MonthlyAttendance = () => {
                         Attendance Month: &nbsp;
                         <input className="mr-3" value={payrollMonth} disabled="true"></input>
                         <Button className="mr-3 showAttendance" onClick={showMonthAttendance}>Fetch</Button>
+                        <Button style={{marginLeft:"20%"}} onClick={() => { PrintElem('AttendanceToPrint') }}>Print monthly attendance</Button>
+
                       </div>
                       <Modal show={show} onHide={handleClose}>
                         <div className='d-flex justify-content-center'>
@@ -273,8 +275,9 @@ const MonthlyAttendance = () => {
                         </div>
                       </Modal>
 
-                      <button onClick={() => { PrintElem('AttendanceToPrint') }}>Print</button>
-                      <div className='AttendanceToPrint' id='AttendanceToPrint'>
+
+
+                      <div style={{display:"none"}} className='AttendanceToPrint' id='AttendanceToPrint'>
 
                         {Object.keys(employeesAttendance).map(key =>
 
