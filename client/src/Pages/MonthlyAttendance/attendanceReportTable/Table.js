@@ -36,28 +36,19 @@ const Table = ({ data, setTableData }) => {
         { field: "Name", headerName: "Name", width: 300 },
         { field: "Department", headerName: "Department", width: 200 },
         { field: "Date", headerName: "Date", width: 150 },
-        {
-            field: "In", headerName: "In", width: 100, renderCell: (params) => {
-                return (<>
-                    <div style={{ color: params.value > 9.30 ? "red" : "green" }}>
-                        {params.value.split(".")[0] != "NaN" ?
+ 
+        { field: "In", headerName: "In", width: 100 },
 
-                            `${params.value.toString().split(".")[0]}`
-                            : "NaN"}
-                    </div>
-                </>)
-            }
-        },
         { field: "Out", headerName: "Out", width: 100 },
-        {
-            field: "Status", headerName: "Status", width: 150, renderCell: (params) => {
-                return (<>
-                    <div style={{ color: params.value == "Absent" ? "red" : "green" }}>
-                        {params.value}
-                    </div>
-                </>)
-            }
-        },
+        // {
+        //     field: "Status", headerName: "Status", width: 150, renderCell: (params) => {
+        //         return (<>
+        //             <div style={{ color: params.value == "Absent" ? "red" : "green" }}>
+        //                 {params.value}
+        //             </div>
+        //         </>)
+        //     }
+        // },
         {
             field: "Action", headerName: "Action", width: 100, renderCell: (params) => {
                 return (<Button variant="primary" onClick={() => {
