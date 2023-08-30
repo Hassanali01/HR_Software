@@ -26,7 +26,7 @@ import HeaderContext from '../../Context/HeaderContext'
 const Departments = () => {
   const [getdata, setData] = useState([]);
   const [show, setShow] = useState(false);
-  const [view, setView] = useState(false);
+  const [view, setView] = useState('module');
   const [departmentname, setdepartmentname] = useState("");
   const [description, setDescription] = useState("");
   const handleClose = () => setShow(false);

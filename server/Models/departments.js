@@ -13,7 +13,6 @@ const departmentSchema  = mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:'Employees'
    }]
-    
 })
 
 const Department = mongoose.model('Departments',departmentSchema)

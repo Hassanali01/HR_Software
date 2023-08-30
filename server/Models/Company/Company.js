@@ -5,10 +5,10 @@ const CompanySchema = new mongooes.Schema({
         type: String,
         required: true
     },
-    employees: {
-        type: [mongooes.Schema.Types.ObjectId],
+    employees: [{
+        type: mongooes.Schema.Types.ObjectId,
         ref: 'employees'
-    },
+    }],
     departments: {
         type: [mongooes.Schema.Types.ObjectId],
         ref: 'departments'

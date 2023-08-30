@@ -35,7 +35,7 @@ import HeaderState from "./Context/HeaderState";
 
 function App(props) {
   const context = useContext(Context);
-console.log("Environment VArible",process.env.React_APP_ORIGIN_URL)
+
   return (
     <>
       <HeaderState>

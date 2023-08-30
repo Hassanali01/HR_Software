@@ -45,6 +45,7 @@ router.put('/company/:id', async (req, res, next) => {
 
 
 
+
 router.delete('/company/:id', async (req, res, next) => {
     try {
         const findcompany = await Company.findById(req.params.id)

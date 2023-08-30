@@ -43,7 +43,7 @@ function AddSlabs() {
         setView(!view);
 
         setView2(!view2);
-        // setView2(nextView);
+        setView2(nextView);
         setView2(!view2);
 
     };
@@ -63,7 +63,7 @@ function AddSlabs() {
                         deduction: slabsdeduction
                     }
                 ],
-                early_leave_slabs:  [
+                early_leave_slabs: [
                     {
                         early_leave_time: earlyslabstime
                     },
@@ -72,7 +72,7 @@ function AddSlabs() {
                     }
                 ]
             });
-            console.log("save data",save)
+
             save && NotificationManager.success("Successfully Added");
         } catch (error) {
             NotificationManager.error("Failed to add Slabs");
@@ -81,7 +81,7 @@ function AddSlabs() {
 
 
     const handleDelete = async (i) => {
-        console.log("delete slab", i)
+
         try {
             const response = await axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/deleteslabs/${id}`, {
                 data: {
@@ -96,7 +96,7 @@ function AddSlabs() {
         }
     };
 
-    
+
 
     const fetchData = async () => {
         try {
@@ -211,7 +211,7 @@ function AddSlabs() {
                                                 <td>{count++}</td>
                                                 <td>{i.later_than}</td>
                                                 <td>{i.deduction}</td>
-                                                <td><Button onClick={()=>{handleDelete(i.later_than)}} style={{backgroundColor: "red"}}>Delete</Button></td>
+                                                <td><Button onClick={() => { handleDelete(i.later_than) }} style={{ backgroundColor: "red" }}>Delete</Button></td>
                                             </tr>
                                         </>)
                                     })}
@@ -261,7 +261,7 @@ function AddSlabs() {
                                                 <td>{count2++}</td>
                                                 <td>{i.early_leave_time}</td>
                                                 <td>{i.deduction}</td>
-                                                <td><Button onClick={()=>{handleDelete(i.early_leave_time)}} style={{backgroundColor: "red"}}>Delete</Button></td>
+                                                <td><Button onClick={() => { handleDelete(i.early_leave_time) }} style={{ backgroundColor: "red" }}>Delete</Button></td>
                                             </tr>
                                         </>)
                                     })}

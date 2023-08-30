@@ -1,16 +1,42 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import "./table.css"
-
+import { Button } from "react-bootstrap";
+import axios from "axios";
 const Table = ({ data }) => {
 
+    let count = 1
     const columns = [
-        { field: "Company", headerName: "Company", width: 210 },
-        { field: "NoOfEmployees", headerName: "No of Employees", width: 200 },
-        { field: "description", headerName: "Description", width: 210 },
+        { field: "Sr", headerName: "Sr #", width: 250},
+        { field: "Company", headerName: "Company", width: 250 },
+        { field: "NoOfEmployees", headerName: "No of Employees", width: 250 },
+        { field: "description", headerName: "Description", width: 250 },
+        {
+            field: "action",
+            headerName: "Action",
+            width: 210,
+            renderCell: (params) => (
+                <Button
+                    onClick={() => {
+                        const id = params.row.id;
+                        axios.delete(process.env.React_APP_ORIGIN_URL + `company/${id}`)
+                            .then(response => {
+                                console.log("Data deleted successfully!");
+                            })
+                            .catch(error => {
+                                console.error("Error deleting data:", error);
+                            });
+                    }}
+                    style={{ backgroundColor: 'red', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }}
+                >
+                    Delete
+                </Button>
+            ),
+        },
     ]
 
     const rows = data.map((row) => ({
+        Sr: count++,
         id: row._id,
         Company: row.title,
         description: row.description,
