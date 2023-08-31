@@ -88,11 +88,11 @@ const Table = ({ data }) => {
   };
 
   const columns = [
-    { field: "id", headerName: "Sr#", width: 110 },
+    { field: "id", headerName: "Emp ID", width: 140 },
     {
       field: "Employees",
       headerName: "Employees",
-      width: 250,
+      width: 230,
       renderCell: (params) => {
         return (
           <>
@@ -111,9 +111,10 @@ const Table = ({ data }) => {
         );
       },
     },
-    { field: "Designation", headerName: "Designation", width: 220 },
-    { field: "Department", headerName: "Department", width: 210 },
-    { field: "JoiningDate", headerName: "Joining Date", width: 200 },
+
+    { field: "Department", headerName: "Department", width: 200 },
+    { field: "payroll_setup", headerName: "Payroll Setup", width: 210 },
+    { field: "work_shift", headerName: "Work Shift", width: 200 },
     {
       field: "RenderCell",
       headerName: "See Deatils",
@@ -158,16 +159,17 @@ const Table = ({ data }) => {
       },
     },
   ];
-
+  console.log(data)
   const rows = data.map((row) => ({
     id: row.emp_id,
     Employees: row.firstname + " " + row.lastname,
     profilepic: row.profilepic,
-    Designation: row.designation,
     Department: row.departments.map((rd) => rd.departmentname),
-    JoiningDate: new Date(row.joiningdate).toDateString(),
+    payroll_setup: row.payroll_setup && row.payroll_setup.title,
+    work_shift: row.work_shift && row.work_shift.shift_name,
     identity: row._id,
-  }));
+  }
+  ));
   return (
     <>
       <div className="userList" style={{ width: "100%", height: "700px" }}>

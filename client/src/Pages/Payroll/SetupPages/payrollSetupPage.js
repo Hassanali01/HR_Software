@@ -43,18 +43,6 @@ useEffect(() => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
-                {/* <h3 className="page-title">Payroll</h3>
-                <ul
-                  className="breadcrumb"
-                  style={{ backgroundColor: "#f7f7f7" }}
-                >
-                  <li className="breadcrumb-item">
-                    <Link to="/" style={{ color: "#1f1f1f" }}>
-                    Human Resource
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active">Payroll</li>
-                </ul> */}
                 <div className="col-auto float-end ms-auto">
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Button variant="primary" onClick={handleShow}>
