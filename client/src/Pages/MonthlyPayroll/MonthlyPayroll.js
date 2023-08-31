@@ -130,6 +130,7 @@ const MonthlyPayroll = () => {
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
+
       const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)
       setGaztedholiday(gaztedholidays.data)
 
@@ -232,7 +233,7 @@ const MonthlyPayroll = () => {
         })
       }
 
-
+   
       // Integrating short leaves
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
@@ -242,7 +243,21 @@ const MonthlyPayroll = () => {
           })
         }
       );
-
+      // Add early leaver LWP and LWOP in payroll
+      // Object.entries(tempUserAttendance).forEach(
+      //   ([key, value]) => {
+      //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
+      //     appliedLeaves.forEach((al) => {
+      //       if(al.leaveNature=="L.W.P"){
+      //         tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
+      //       }
+      //       else{
+      //         tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP"
+      //       }
+   
+      //     })
+      //   }
+      // );
 
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -349,18 +364,6 @@ const MonthlyPayroll = () => {
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
-                {/* <h3 className="page-title">Monthly Payroll</h3>
-                <ul
-                  className="breadcrumb"
-                  style={{ backgroundColor: "#f7f7f7" }}
-                >
-                  <li className="breadcrumb-item">
-                    <Link to="/" style={{ color: "#1f1f1f" }}>
-                      Human Resource
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active">Monthly Payroll</li>
-                </ul> */}
               </div>
             </div>
           </div>

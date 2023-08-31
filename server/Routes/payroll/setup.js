@@ -33,6 +33,18 @@ router.get('/',async(req,res,next)=>{
     }
 })
 
-
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const setupId = req.params.id;
+        const deletedSetup = await Setup.findByIdAndDelete(setupId);
+        if (!deletedSetup) {
+            return res.status(404).json({ message: 'Setup not found' });
+        }
+        res.status(200).json({ message: 'Setup deleted successfully', deletedSetup });
+    } catch (error) {
+        console.log('Error deleting setup', error);
+        next(error);
+    }
+});
 
 module.exports = router

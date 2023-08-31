@@ -9,6 +9,7 @@ import {
     NotificationContainer,
     NotificationManager,
 } from "react-notifications";
+import moment from "moment";
 
 const Table = ({ data, setTableData }) => {
     const [show, setShow] = useState(false);
@@ -36,7 +37,7 @@ const Table = ({ data, setTableData }) => {
         { field: "Name", headerName: "Name", width: 300 },
         { field: "Department", headerName: "Department", width: 200 },
         { field: "Date", headerName: "Date", width: 150 },
- 
+
         { field: "In", headerName: "In", width: 100 },
 
         { field: "Out", headerName: "Out", width: 100 },
@@ -56,7 +57,7 @@ const Table = ({ data, setTableData }) => {
                     setName(params.value.Name)
                     setIn(params.value.in)
                     setOut(params.value.out)
-                    setDate(params.value.date)
+                    setDate(moment(params.value.date).utc().format('YYYY-MM-DD'))
                     setIdOfEmployee(params.value.employee._id)
                     setTableData(data)
                     handleShow()
@@ -66,12 +67,11 @@ const Table = ({ data, setTableData }) => {
             }
         },
     ]
-
     const rows = data.filter((d) => d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
         id: row._id,
         Empid: row.Employee_ID,
         Name: row.Name,
-        Date: row.date,
+        Date: moment(row.date).utc().format('YYYY-MM-DD'),
         Department: row.department,
         In: row.in,//((row.in.split(":")[0] * 1) + (row.in.split(":")[1] * 0.01)).toFixed(2),
         Out: row.out,

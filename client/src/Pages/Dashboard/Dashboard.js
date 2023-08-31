@@ -52,15 +52,6 @@ const Dashboard = () => {
   return (
     <div>
       <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}>
-        {/* <section className="content-header">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col">
-                <h3 className="page-title">Dashboard</h3>
-              </div>
-            </div>
-          </div>
-        </section> */}
         <section>
           <Container fluid>
             <Row>

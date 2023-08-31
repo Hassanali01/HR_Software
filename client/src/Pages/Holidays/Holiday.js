@@ -99,18 +99,7 @@ const Holiday = () => {
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="col">
-                {/* <h3 className="page-title">Holidays</h3>
-                <ul
-                  className="breadcrumb"
-                  style={{ backgroundColor: "#f7f7f7" }}
-                >
-                  <li className="breadcrumb-item">
-                    <Link to="/" style={{ color: "#1f1f1f" }}>
-                    Human Resource
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active">Holidays</li>
-                </ul> */}
+
 
                 <div className="col-auto float-end ms-auto">
                   <a

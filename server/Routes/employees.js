@@ -9,7 +9,11 @@ const { createError } = require('../Utils/CreateError')
 //for getting All employee
 router.get("/", async (req, res, next) => {
   try {
-    const employees = await Employees.find().populate({ path: 'departments', select: "departmentname" });
+    const employees = await Employees.find().populate([
+      { path: 'departments', select: "departmentname" },
+      { path: 'work_shift', select : 'shift_name', model: 'addShifts' },
+      { path: 'payroll_setup', select : 'title', model: 'payroll-setup' }
+    ]);
     const counted = await Employees.count();
     res.status(200).json(
       {
@@ -19,6 +23,7 @@ router.get("/", async (req, res, next) => {
     next(err)
   }
 });
+
 
 
 

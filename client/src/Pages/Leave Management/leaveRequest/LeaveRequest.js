@@ -175,26 +175,6 @@ const LeaveRequest = () => {
         className="content-wrapper my-1"
         style={{ backgroundColor: "#f7f7f7"}}
       >
-        {/* <section className="content-header py-3">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col">
-                <h3 className="page-title">Leave Request</h3>
-                <ul
-                  className="breadcrumb"
-                  style={{ backgroundColor: "#f7f7f7" }}
-                >
-                  <li className="breadcrumb-item">
-                    <Link to="/" style={{ color: "#1f1f1f" }}>
-                    Human Resource
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active">Leave Request</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section> */}
         <section className="content" style={{marginTop: "30px"}}>
           <div className="container">
             <div className="card">

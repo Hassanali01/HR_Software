@@ -22,31 +22,6 @@ const EmpDetails = () => {
   return (
     <>
       <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "30px" }}>
-        {/* <section className="content-header">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col">
-                <h3 className="page-title">Employee Details</h3>
-                <ul
-                  className="breadcrumb"
-                  style={{ backgroundColor: "#f7f7f7" }}
-                >
-                  <li className="breadcrumb-item">
-                    <Link to="/" style={{ color: "#1f1f1f" }}>
-                    Human Resource
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item ">
-                    <Link to="/employees" style={{ color: "#1f1f1f" }}>
-                      Employees
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active">Employee Detail</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>  */}
         <section className="content">
           <div className="content-fluid">
             <div className="row gy-3 justify-content-center">

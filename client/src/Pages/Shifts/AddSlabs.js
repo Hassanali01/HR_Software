@@ -205,10 +205,10 @@ function AddSlabs() {
                                         <th> Deduction</th>
                                         <th>Delete</th>
                                     </tr>
-                                    {shift.slabs && shift.slabs.map((i, index) => {
+                                    {shift.slabs && shift.slabs.map((i) => {
                                         return (<>
-                                            <tr key={index}>
-                                                <td>{count++}</td>
+                                            <tr>
+                                             <td>{count++}</td>
                                                 <td>{i.later_than}</td>
                                                 <td>{i.deduction}</td>
                                                 <td><Button onClick={() => { handleDelete(i.later_than) }} style={{ backgroundColor: "red" }}>Delete</Button></td>
