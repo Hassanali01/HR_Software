@@ -299,6 +299,32 @@ const MonthlyAttendance = () => {
 
 
 
+         
+      // Integrating short leaves
+      // Object.entries(tempUserAttendance).forEach(
+      //   ([key, value]) => {
+      //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
+      //     appliedLeaves.forEach((al) => {
+      //       tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
+      //     })
+      //   }
+      // );
+
+      tempAttendance.forEach(
+        (tempAtt) => {
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave == "True" && al.leaveNature == "L.W.P" && al.date == tempAtt.date)
+
+          if (appliedLeaves.length > 0) {
+            tempAtt.status += " LWP"
+          }
+
+
+
+        }
+      );
+
+
+
 
 
 
@@ -555,7 +581,7 @@ const MonthlyAttendance = () => {
 
                               <th colSpan={7}>
 
-                                Attendance August 23
+                                Attendance {payrollMonth} 23
 
                               </th>
                             </tr>
@@ -571,8 +597,8 @@ const MonthlyAttendance = () => {
                               <th style={{ width: "90px", border: "1px solid black" }}>Day</th>
                               <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
                               <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
-                              <th style={{ width: "50px", border: "1px solid black" }}>Status</th>
-                              <th style={{ width: "250px", border: "1px solid black" }}>Remarks</th>
+                              <th style={{ width: "80px", border: "1px solid black" }}>Status</th>
+                              <th style={{ width: "220px", border: "1px solid black" }}>Remarks</th>
                             </tr>
                             {
                               employeesAttendance[key].map((t) => <tr style={{ height: 25 }}>
@@ -580,8 +606,8 @@ const MonthlyAttendance = () => {
                                 <td style={{ width: "90px", border: "1px solid black" }}>{t.day}</td>
                                 <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
                                 <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
-                                <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td>
-                                <td style={{ width: "300px", border: "1px solid black" }}></td>
+                                <td align="center" style={{ width: "80px", border: "1px solid black" }}>{t.status}</td>
+                                <td style={{ width: "220px", border: "1px solid black" }}></td>
                               </tr>)
                             }
 
