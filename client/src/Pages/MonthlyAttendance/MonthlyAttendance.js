@@ -572,24 +572,24 @@ const MonthlyAttendance = () => {
                       <div style={{ display: "block" }} className='AttendanceToPrint' id='AttendanceToPrint'>
 
                         {Object.keys(employeesAttendance).map(key =>
-<div className="pageperemployee" style={{ pageBreakAfter: "always"}}>
-                          <table style={{
-                            fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse"
+                          <div className="pageperemployee" style={{ pageBreakAfter: "always" }}>
+                            <table style={{
+                              fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse"
 
-                          }} >
-                            <tr style={{ fontWeight: "bold", fontSize: 18, border: "2px solid black", height: 50, backgroundColor: "silver" }}>
+                            }} >
+                              <tr style={{ fontWeight: "bold", fontSize: 18, border: "2px solid black", height: 50, backgroundColor: "silver" }}>
 
-                              <th colSpan={7}>
+                                <th colSpan={7}>
 
                                 Attendance {payrollMonth} 23
 
-                              </th>
-                            </tr>
+                                </th>
+                              </tr>
 
-                            <tr style={{ height: 40 }}>
-                              <td colSpan={3} > <span style={{ fontWeight: "bold" }}>Name:</span> {employeesAttendance[key][0].Name}</td>
-                              <td colSpan={4} ><span style={{ fontWeight: "bold" }}>Department:</span>  {employeesAttendance[key][0].department}</td>
-                            </tr>
+                              <tr style={{ height: 40 }}>
+                                <td colSpan={3} > <span style={{ fontWeight: "bold" }}>Name:</span> {employeesAttendance[key][0].Name}</td>
+                                <td colSpan={4} ><span style={{ fontWeight: "bold" }}>Department:</span>  {employeesAttendance[key][0].department}</td>
+                              </tr>
 
 
                             <tr style={{ height: 30 }}>
@@ -611,21 +611,21 @@ const MonthlyAttendance = () => {
                               </tr>)
                             }
 
-                            <tr style={{ height: 30 }}>
-                              <td colSpan={5}></td>
-                              <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
+                              <tr style={{ height: 30 }}>
+                                <td colSpan={5}></td>
+                                <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
 
-                            </tr>
+                              </tr>
 
-                       
 
-                    </table>
-                    <div style={{marginTop:40}}>
-<div style={{marginLeft:"75%",fontSize:15,marginRight:0}}>
-<span style={{ fontWeight: "bold" }}>Verified by:</span> <span style={{ borderBottom:"1px solid black"}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-</div>
-</div>    
-</div>
+
+                            </table>
+                            <div style={{ marginTop: 40 }}>
+                              <div style={{ marginLeft: "75%", fontSize: 15, marginRight: 0 }}>
+                                <span style={{ fontWeight: "bold" }}>Verified by:</span> <span style={{ borderBottom: "1px solid black" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              </div>
+                            </div>
+                          </div>
                         )}
                       </div>
                       <Table data={tableData} setTableData={setTableData} />
