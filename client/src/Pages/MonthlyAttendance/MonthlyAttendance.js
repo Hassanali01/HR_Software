@@ -12,6 +12,10 @@ import Table from "./attendanceReportTable/Table";
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import moment from "moment";
+import { generateItems, generateFormulaFields, supportedRefs } from './../../formulaParser/shared-demo/gen'
+import { evaluateTokenNodes, getExtendedTokens } from './../../formulaParser/shared/src'
+
+
 
 import 'react-calendar/dist/Calendar.css';
 
@@ -23,11 +27,24 @@ const MonthlyAttendance = () => {
   const [show, setShow] = useState();
   const [tableData, setTableData] = useState([]);
   const [employeesAttendance, setEmployeesAttendance] = useState({});
+  const [empshift, setEmpshift] = useState([])
+  const [empLeaves, setEmpLeaves] = useState([])
+  const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
+  const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
+  const [fields, setFields] = useState(generateFormulaFields())
+
+
+
 
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function onChangeCalendar(e) {
+
+    console.log("onChangeCalendar", e)
+
+    setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
+
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
   }
@@ -39,25 +56,14 @@ const MonthlyAttendance = () => {
     mywindow.document.write('<html><head><title>' + 'title' + '</title>');
     mywindow.document.write('<style>* {-webkit-print-color-adjust: exact !important;}</style>')
     mywindow.document.write('</head><body ><div>');
-    // mywindow.document.write('<h1>' + document.title  + '</h1>');
-
-
     mywindow.document.write(document.getElementById(elem).innerHTML);
     mywindow.document.write('</div></body></html>');
-
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10*/
-
     mywindow.print();
     mywindow.close();
 
     return true;
-  }
-
-  function NewToolbar() {
-    return (<>
-      <TextField />
-    </>)
   }
 
   const urlForEmployees = "employees"
@@ -155,6 +161,19 @@ const MonthlyAttendance = () => {
 
       const gaztedholidays = await (await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)).data
 
+      const shifts = await (await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/allShifts`)).data
+
+      setEmpshift(shifts)
+
+
+      const approvedLeave = await (await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)).data
+
+      console.log("approved leave", approvedLeave)
+
+      setEmpLeaves(approvedLeave.totaldays)
+
+
+
 
 
 
@@ -163,13 +182,123 @@ const MonthlyAttendance = () => {
 
       tempAttendance.forEach((att) => {
 
-
         if (att.status == "A") {
           att.in = "Absent";
           att.out = "Absent";
         }
 
       })
+
+
+      // adding LWP inside the user attendance
+      tempAttendance.forEach(
+        (tempAtt) => {
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.P" && al.date == tempAtt.date)
+
+          if (appliedLeaves.length > 0) {
+            tempAtt.status = "LWP"
+          }
+
+
+
+        }
+      );
+
+
+      // adding LWOP inside the user attendance
+
+
+
+      tempAttendance.forEach(
+        (tempAtt) => {
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.O.P" && al.date == tempAtt.date)
+          if (appliedLeaves.length > 0) {
+            tempAtt.status = "LWOP"
+          }
+        }
+      );
+
+
+
+      // Object.entries(tempUserAttendance).forEach(
+      //   ([key, value]) => {
+      //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
+      //     appliedLeaves.forEach((al) => {
+      //       tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
+      //     })
+      //   }
+      // );
+
+
+
+
+      tempAttendance.forEach((te) => {
+        if (te.status == "P") {
+          te.status = 1;
+        }
+      })
+
+
+
+
+      //Adding shift slabs in payroll
+
+
+      const singleuser = tempAttendance.map((j) => {
+        if (j.employee.work_shift && j.status == 1) {
+          const currentShift = j.employee.work_shift
+
+
+          // Deduction for employees on late arrival
+
+          const date = j.in
+          const splitdate = date.split(":")
+          const sampleDateIn = new Date()
+          sampleDateIn.setHours(splitdate[0])
+          sampleDateIn.setMinutes(splitdate[1])
+          let deductionForLate = 0
+          currentShift.slabs.forEach((s) => {
+            const slabsname = s.later_than
+            const splitSlabs = slabsname.split(":")
+            const sampleDateSlabs = new Date()
+            sampleDateSlabs.setHours(splitSlabs[0])
+            sampleDateSlabs.setMinutes(splitSlabs[1])
+            if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
+              deductionForLate = s.deduction;
+            }
+          })
+
+          j.status = j.status - deductionForLate
+
+
+          // Deduction for employees on early leaver
+
+          const checkOut = j.out
+          const checkOutArr = checkOut.split(":")
+          const sampleDateOut = new Date()
+          sampleDateOut.setHours(checkOutArr[0])
+          sampleDateOut.setMinutes(checkOutArr[1])
+          let deductionForEarlyLeaver = 0
+          currentShift.early_leave_slabs.forEach((s) => {
+            const earlyLeaveTime = s.early_leave_time
+            const earlyLeaveTimeArr = earlyLeaveTime.split(":")
+            const sampleDateEarlyLeaveSlabs = new Date()
+            sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
+            sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
+            if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
+              deductionForEarlyLeaver = s.deduction
+            }
+          })
+
+          j.status = j.status - deductionForEarlyLeaver
+
+
+        }
+      })
+
+
+
+
 
 
 
@@ -185,6 +314,7 @@ const MonthlyAttendance = () => {
               if (te.status == 'A') {
                 te.in = "G.H";
                 te.out = "G.H";
+                te.status = "G.H"
               }
             }
           }
@@ -192,7 +322,42 @@ const MonthlyAttendance = () => {
       })
 
 
-      console.log("tempAttendance", tempAttendance)
+
+
+
+      // Adding last saturday dayoff
+
+
+
+      function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+      }
+
+      var splitDate = currentCalendar.split("/");
+      var selectedMonth = splitDate[0];
+      var selectedYear = splitDate[2];
+      var days = daysInMonth(selectedMonth, selectedYear);
+
+      const daysOfMonth = [];
+
+      for (let i = 1; i <= days; i++) {
+        daysOfMonth.push({ date: `${i}/${selectedMonth}/${selectedYear}`, day: new Date(`${selectedMonth}/${i}/${selectedYear}`).toLocaleString('en-us', { weekday: 'short' }) })
+      }
+      let allSat = daysOfMonth.filter((st) => st.day == "Sat")
+      const lastSat = allSat[allSat.length - 1]
+
+      console.log("allsat", daysOfMonth)
+
+      const [day, month, year] = lastSat.date.split('/');
+      const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+      const Finalsat = convertedDate.toISOString();
+      tempAttendance.forEach((te) => {
+        if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
+          te.status = "D.O";
+        }
+      })
+
+
 
       tempAttendance.forEach((att) => {
 
@@ -205,9 +370,35 @@ const MonthlyAttendance = () => {
         ) {
           att.in = "Day off";
           att.out = "Day off";
+          att.status = "D.O"
         }
 
       })
+
+
+
+      //Employee joining date modification in payroll
+      tempAttendance.forEach((te) => {
+        const dateToCompare = new Date(te.date)
+        if (dateToCompare.setDate(dateToCompare.getDate()) < (new Date(te.employee.joiningdate))) {
+          te.status = "";
+          te.in = "";
+          te.out = "";
+        }
+      })
+
+
+      //Employee resigned date modification in payroll
+      tempAttendance.forEach((te) => {
+        const dateToCompare = new Date(te.date)
+        if (dateToCompare.setDate(dateToCompare.getDate() + 1) > (new Date(te.employee.date_of_resignation))) {
+          te.status = "";
+          te.in = "";
+          te.out = "";
+        }
+      })
+
+
 
 
 
@@ -222,17 +413,90 @@ const MonthlyAttendance = () => {
         return empAtt;
       }, {});
 
-      console.log("attendanceByEmployee", attendanceByEmployee);
+
+
+
 
 
       setEmployeesAttendance(attendanceByEmployee)
 
 
 
-
-
-
       setTableData(tempAttendance)
+
+
+
+
+      //
+
+
+      Object.entries(attendanceByEmployee).forEach(
+        ([key, value]) => {
+          const addField = () => {
+            setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+          }
+          addField()
+          const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+            if (field.referenceName) {
+              out[field.referenceName] = field.npd_formula
+            }
+            return out
+          }, {})
+
+
+          try {
+            const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
+            const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+            const items = generateItems(
+              attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (attendanceByEmployee[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+              attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'D.O').length,
+
+              attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'G.H').length,
+
+              0,
+              attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'LWP').length,
+              parseFloat(attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+
+              attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'A').length
+            )
+
+            const extendedItems =
+              items.map((item) => {
+                const extendedItem = {}
+                Object.entries(item).forEach(([key, value]) => {
+                  extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                })
+                extendedTokensOrdered.forEach((entry) => {
+                  extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                })
+                return extendedItem
+              })
+
+            usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+
+
+          } catch (err) { console.log("error", err) }
+
+
+        }
+
+      );
+
+
+
+      console.log("usersPayrolCalculations", usersPayrollCalculations)
+
+
+
+
+
+
+
+
+
+
+
+
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
 
     } catch (error) {
@@ -264,7 +528,7 @@ const MonthlyAttendance = () => {
                         Attendance Month: &nbsp;
                         <input className="mr-3" value={payrollMonth} disabled="true"></input>
                         <Button className="mr-3 showAttendance" onClick={showMonthAttendance}>Fetch</Button>
-                        <Button style={{marginLeft:"20%"}} onClick={() => { PrintElem('AttendanceToPrint') }}>Print monthly attendance</Button>
+                        <Button style={{ marginLeft: "20%" }} onClick={() => { PrintElem('AttendanceToPrint') }}>Print monthly attendance</Button>
 
                       </div>
                       <Modal show={show} onHide={handleClose}>
@@ -279,16 +543,13 @@ const MonthlyAttendance = () => {
 
 
 
-                      <div style={{display:"none"}} className='AttendanceToPrint' id='AttendanceToPrint'>
+                      <div style={{ display: "block" }} className='AttendanceToPrint' id='AttendanceToPrint'>
 
                         {Object.keys(employeesAttendance).map(key =>
+<div className="pageperemployee" style={{ pageBreakAfter: "always"}}>
+                          <table style={{
+                            fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse"
 
-
-
-
-
-                          <table style={{ fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse", pageBreakAfter: "always"
-                        
                           }} >
                             <tr style={{ fontWeight: "bold", fontSize: 18, border: "2px solid black", height: 50, backgroundColor: "silver" }}>
 
@@ -298,31 +559,47 @@ const MonthlyAttendance = () => {
 
                               </th>
                             </tr>
+
+                            <tr style={{ height: 40 }}>
+                              <td colSpan={3} > <span style={{ fontWeight: "bold" }}>Name:</span> {employeesAttendance[key][0].Name}</td>
+                              <td colSpan={4} ><span style={{ fontWeight: "bold" }}>Department:</span>  {employeesAttendance[key][0].department}</td>
+                            </tr>
+
+
                             <tr style={{ height: 30 }}>
                               <th style={{ width: "100px", border: "1px solid black" }}>Date</th>
                               <th style={{ width: "90px", border: "1px solid black" }}>Day</th>
-                              <th style={{ width: "160px", border: "1px solid black" }}>Name</th>
-                              <th style={{ width: "100px", border: "1px solid black" }}>Dept.</th>
-                              <th style={{ width: "70px", border: "1px solid black" }}>Check In</th>
-                              <th style={{ width: "70px", border: "1px solid black" }}>Check Out</th>
-                              <th style={{ width: "100px", border: "1px solid black" }}>Remarks</th>
+                              <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
+                              <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
+                              <th style={{ width: "50px", border: "1px solid black" }}>Status</th>
+                              <th style={{ width: "250px", border: "1px solid black" }}>Remarks</th>
                             </tr>
                             {
                               employeesAttendance[key].map((t) => <tr style={{ height: 25 }}>
                                 <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.Date}</td>
                                 <td style={{ width: "90px", border: "1px solid black" }}>{t.day}</td>
-                                <td style={{ width: "160px", border: "1px solid black" }}>{t.Name}</td>
-                                <td style={{ width: "100px", border: "1px solid black" }}>{t.department}</td>
-                                <td align="center" style={{ width: "70px", border: "1px solid black" }}>{t.in}</td>
-                                <td align="center" style={{ width: "70px", border: "1px solid black" }}>{t.out}</td>
-                                <td style={{ width: "100px", border: "1px solid black" }}></td>
+                                <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
+                                <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
+                                <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td>
+                                <td style={{ width: "300px", border: "1px solid black" }}></td>
                               </tr>)
                             }
 
-                          </table>
+                            <tr style={{ height: 30 }}>
+                              <td colSpan={5}></td>
+                              <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
 
+                            </tr>
 
+                       
 
+                    </table>
+                    <div style={{marginTop:40}}>
+<div style={{marginLeft:"75%",fontSize:15,marginRight:0}}>
+<span style={{ fontWeight: "bold" }}>Verified by:</span> <span style={{ borderBottom:"1px solid black"}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+</div>    
+</div>
                         )}
                       </div>
                       <Table data={tableData} setTableData={setTableData} />

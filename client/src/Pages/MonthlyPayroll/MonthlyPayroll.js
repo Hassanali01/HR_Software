@@ -61,6 +61,8 @@ const MonthlyPayroll = () => {
   })
 
   function onChangeCalendar(e) {
+
+    
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
@@ -264,7 +266,7 @@ const MonthlyPayroll = () => {
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
         tempUserAttendance[key].forEach((te) => {
-          if (Finalsat == te.date) {
+          if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
             te.status = "D.O";
           }
         })
@@ -274,21 +276,14 @@ const MonthlyPayroll = () => {
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
 
-
-
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
-
-
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-
               if (te.employee.payroll_setup.applyGazettedHoliday) {
-
 
                 if (te.status == 'A') {
                   te.status = "G.H";
                 } else {
-
                   te.status = te.status * 2
                 }
               }
