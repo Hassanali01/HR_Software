@@ -1,0 +1,11 @@
+.content-wrapper{
+    background-color: "#f7f7f7";
+}
+.card-header{
+    background-color:  "rgb(5, 162, 153)";
+}
+.card-title{
+    color: "white";
+    font-weight: bolder;
+    font-size:20 
+}

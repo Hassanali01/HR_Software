@@ -16,25 +16,27 @@ const Sidebar = () => {
     <>
       {/* <!-- Main Sidebar Container --> */}
       {/* <aside className="main-sidebar sidebar-dark-primary elevation-4  " style={{position:"fixed"}}> */}
-      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed", backgroundColor: "#00695c", color: "#fff" }}>
+      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed", backgroundColor: "rgb(3, 110, 104)", color: "#fff" }}>
         {/* <!-- Brand Logo --> */}
         <Link to="/dashboard" className="brand-link">
-          <img src={logo} alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: .8 }} />
-          <span className="brand-text font-weight-light text-white">Human Resource</span>
+          <img src={logo} alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0 }} />
+          <span className="brand-text font-weight-bold text-white">HR Software</span>
         </Link>
         {/* <!-- Sidebar --> */}
         <div className="sidebar">
           {/* <!-- Sidebar user (optional) --> */}
-          <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div className="user-panel mt-3 d-flex">
             <div className="image">
               {/* <img src="" className="img-circle elevation-2" alt="User Image" /> */}
             </div>
-            <div className="info text-decoration-none border-bottom-0">
-              <Link to="/dashboard" className="d-block text-white">Sagacious Systems</Link>
+            <div className="info text-decoration-none border-bottom-2">
+              <Link to="/dashboard" className="d-block text-white" ><h5 style={{color: "#d8d808"}}>Sagacious Systems</h5></Link>
             </div>
+            
           </div>
+          <hr></hr>
           {/* <!-- SidebarSearch Form --> */}
-          <div className="form-inline">
+          {/* <div className="form-inline">
             <div className="input-group" data-widget="sidebar-search">
               <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
               <div className="input-group-append">
@@ -43,7 +45,7 @@ const Sidebar = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-2" style={{ color: "#fff" }}>
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -58,7 +60,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               {context.user.isAdmin &&
-                <li className="nav-item">
+                <li className="nav-item active">
                   <Link to="/employees" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
                     <p className='iconColor'>
