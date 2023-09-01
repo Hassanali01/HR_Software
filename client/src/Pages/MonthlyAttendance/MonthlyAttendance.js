@@ -380,6 +380,8 @@ const MonthlyAttendance = () => {
       tempAttendance.forEach((te) => {
         if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
           te.status = "D.O";
+          te.in = "Day off";
+          te.out = "Day off";
         }
       })
 
