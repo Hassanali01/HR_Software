@@ -23,7 +23,7 @@ const Header = () => {
 
       <div className="wrapper">
         {/* <!-- Navbar --> */}
-        <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav className="main-header navbar navbar-expand navbar-white navbar-light" style={{padding: "7px 44px"}}>
           {/* <!-- Left navbar links --> */}
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -209,7 +209,7 @@ const Header = () => {
               <a className="nav-link"> {user.firstname}</a>
             </li>
             <li>
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button onClick={handleLogout} style={{backgroundColor: "rgb(137, 179, 83)"}}>Logout</Button>
             </li>
           </ul>
         </nav>

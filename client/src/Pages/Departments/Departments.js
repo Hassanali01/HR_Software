@@ -20,7 +20,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Table from "./TableView/Table";
 import HeaderContext from '../../Context/HeaderContext'
-
+import "../Departments/department.css"
 
 
 const Departments = () => {
@@ -76,30 +76,13 @@ const Departments = () => {
 
   return (
     <>
-      <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
+      <div className="content-wrapper ">
         <section className="content-header ">
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
                 <div className="col-auto float-end ms-auto">
-                  <div
-                    style={{ display: "flex", alignItems: "center" }}
-                    onClick={handleShow}
-                  >
-                    <a
-                      className="btn add-btn "
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_calendar"
-                    >
-                      <i
-                        className="fa fa-plus"
-                        style={{ fontSize: "14px", marginRight: "2px" }}
-                      >
-                        {" "}
-                      </i>
-                      Add Department
-                    </a>
-                  </div>
+
                   <div
                     className="mb-3"
                     style={{
@@ -109,21 +92,6 @@ const Departments = () => {
                       marginTop: "4%"
                     }}
                   >
-                    <div>
-                      <ToggleButtonGroup
-                        orientation="horizontal"
-                        value={view}
-                        exclusive
-                        onChange={handleChange}
-                      >
-                        <ToggleButton value="module" aria-label="module" selected={!view}>
-                          <ViewModuleIcon />
-                        </ToggleButton>
-                        <ToggleButton value="list" aria-label="list" selected={view}>
-                          <ViewListIcon />
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -135,9 +103,46 @@ const Departments = () => {
           <div className="container">
             <div className="card">
               <div className="card-header  buttoncolor">
-                <h3 className="card-title" style={{ color: "white" }}>
+                <h3 className="card-title">
                   Departments
                 </h3>
+
+                <div
+                className="toggle-icon"
+                  style={{ float: "right" ,display: "flex", gap: "10px"}}
+                  onClick={handleShow}
+                >
+                  <div>
+                    <ToggleButtonGroup
+                      orientation="horizontal"
+                      value={view}
+                      exclusive
+                      onChange={handleChange}
+                      style={{height:"30px", marginTop:"5px"}}
+                    >
+                      <ToggleButton value="module" aria-label="module" selected={!view}>
+                        <ViewModuleIcon />
+                      </ToggleButton>
+                      <ToggleButton value="list" aria-label="list" selected={view}>
+                        <ViewListIcon />
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </div>
+                  <a
+                    className="btn add-btn "
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_calendar"
+                    style={{ backgroundColor: "#89b353",color:"#ffffff" }}
+                  >
+                    <i
+                      className="fa fa-plus"
+                      style={{ fontSize: "14px", marginRight: "2px" }}
+                    >
+                      {" "}
+                    </i>
+                    Add Department
+                  </a>
+                </div>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
