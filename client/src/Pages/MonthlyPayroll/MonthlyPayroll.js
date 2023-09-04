@@ -426,7 +426,7 @@ setKey(currentKey => currentKey+1)
                       return out
                     }, {})
 
-                    console.log("formulas by refs",formulasByRefs,"supp refs",supportedRefs)
+                    console.log("formulas by refs",key, formulasByRefs,"supp refs",supportedRefs)
                     try{
 
                     const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
@@ -436,13 +436,10 @@ setKey(currentKey => currentKey+1)
                     const items = generateItems(
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP" ))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
-
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
-
                       0,
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
                       parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
-
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                     )
 

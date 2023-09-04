@@ -155,7 +155,7 @@ const Table = ({ data, setTableData }) => {
                     <br />
 
                     <DataGrid
-                        style={{ height: "55vh", width: "75vw" }}
+                        style={{ height: "64vh", width: "75vw" }}
                         rows={rows}
                         columns={columns}
                         pageSize={40}

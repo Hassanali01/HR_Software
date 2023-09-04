@@ -522,7 +522,7 @@ const MonthlyAttendance = () => {
                     </h3>
                   </div>
                   <div className="card-body">
-                    <div style={{ height: '700px' }}>
+                    <div style={{  }}>
                       <div className="ml-5">
                         <Button className="mr-3" variant="primary" onClick={handleShow}>
                           Select the Month
@@ -545,7 +545,7 @@ const MonthlyAttendance = () => {
 
 
 
-                      <div style={{ display: "block" }} className='AttendanceToPrint' id='AttendanceToPrint'>
+                      <div style={{ display: "none" }} className='AttendanceToPrint' id='AttendanceToPrint'>
 
                         {Object.keys(employeesAttendance).map(key =>
                           <div className="pageperemployee" style={{ pageBreakAfter: "always" }}>
