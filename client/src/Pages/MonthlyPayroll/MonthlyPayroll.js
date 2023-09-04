@@ -424,6 +424,10 @@ setKey(currentKey => currentKey+1)
                       return out
                     }, {})
 
+
+                    try {
+
+
                     const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                     const items = generateItems(
@@ -452,6 +456,8 @@ setKey(currentKey => currentKey+1)
                       })
 
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+                  } catch (err) { console.log("error", err) }
+
                   }
                 );
 
