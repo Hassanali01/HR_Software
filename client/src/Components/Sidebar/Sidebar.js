@@ -12,10 +12,10 @@ const Sidebar = () => {
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
 
-  const activeLinkStyle = {
-    backgroundColor: 'yellow-green', 
+  // const activeLinkStyle = {
+  //   backgroundColor: 'yellow-green', 
    
-  };
+  // };
 
   return (
     <>
@@ -57,7 +57,7 @@ const Sidebar = () => {
               {/* <!-- Add icons to the links using the .nav-icon className
                with font-awesome or any other icon font library --> */}
               <li className="nav-item">
-                <NavLink  to="/dashboard" className="nav-link" activeStyle={activeLinkStyle}>
+                <NavLink  to="/dashboard" className="nav-link" >
                   <i className="nav-icon fa-sharp fa-solid fa-network-wired iconColor"></i>
                   <p className='iconColor'>
                     Dashboard
@@ -65,7 +65,7 @@ const Sidebar = () => {
                 </NavLink >
               </li>
               {context.user.isAdmin &&
-                <li className="nav-item active">
+                <li className="nav-item">
                   <Link to="/employees" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
                     <p className='iconColor'>

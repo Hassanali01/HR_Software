@@ -32,6 +32,15 @@ const Table = ({ data, setTableData }) => {
         }
     };
 
+    const deleteAttendence = async (employeeId,date) => {
+        try {
+            const delattendence = await axios.delete(process.env.React_APP_ORIGIN_URL + `userattendance/delattendence/${employeeId}/${date}`);
+            NotificationManager.success("successfully posted");
+        } catch (error) {
+            NotificationManager.error("Error Saving DATA");
+        }
+    }
+
     const columns = [
         { field: "Empid", headerName: "Employee_ID", width: 100 },
         { field: "Name", headerName: "Name", width: 300 },
@@ -66,6 +75,14 @@ const Table = ({ data, setTableData }) => {
                 </Button>)
             }
         },
+        {
+            field: "delete", headerName: "Delete", width: 100, renderCell: (params) => {
+                return (<Button variant="primary" onClick={() => { 
+                    deleteAttendence(params.value.employee._id,params.value.date) }}>
+                    Delete
+                </Button>)
+            }
+        },
     ]
     const rows = data.filter((d) => d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row) => ({
         id: row._id,
@@ -76,7 +93,8 @@ const Table = ({ data, setTableData }) => {
         In: row.in,//((row.in.split(":")[0] * 1) + (row.in.split(":")[1] * 0.01)).toFixed(2),
         Out: row.out,
         Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
-        Action: row
+        Action: row,
+        delete: row
     }))
 
     return (
