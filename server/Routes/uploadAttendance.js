@@ -35,10 +35,11 @@ router.get('/monthattendance/:month', async (req, res) => {
                 },
                 {
                     path: 'work_shift',
-                    model: 'addShifts'                },
-                {     
-                path: 'payroll_setup',
-                model: 'payroll-setup',
+                    model: 'addShifts'
+                },
+                {
+                    path: 'payroll_setup',
+                    model: 'payroll-setup',
 
                 }
                 ],
@@ -74,7 +75,7 @@ router.get('/currentUserAttendance', async (req, res) => {
         res.status(200).json(abc);
     }
     catch (error) {
-        res.status(500).json(err)
+        res.status(500).json()
     }
 })
 
@@ -147,5 +148,26 @@ router.put('/updateuserattendance/:id', async (req, res, next) => {
 })
 
 
+// DELETE /userattendance/:employeeId/:date
+router.delete('/userattendance/delattendence/:employeeId/:date', async (req, res, next) => {
+    
+    try {
+        const employeeId = req.params.employeeId;
+        const date = new Date(req.params.date);
+        console.log(employeeId, date)
+        const deletedAttendance = await Attendance.findOneAndDelete({
+            employee: employeeId,
+            date: date,
+        });
+        console.log(deletedAttendance)
+        if (!deletedAttendance) {
+            return res.status(404).json({ message: 'Attendance not found' });
+        }
+
+        res.status(200).json({ message: 'Attendance deleted', attendance: deletedAttendance });
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router
