@@ -84,7 +84,12 @@ const HolidaysDetails = () => {
                       {moment(d.to).utc().format('YYYY-MM-DD')}
                     </td>
                     <td>
-                      <Button onClick={() => holidaydelete(d._id)} style={{ backgroundColor: "red" }}>Delete</Button>
+                      <i  
+                      class=" fa-regular fa-trash-can" 
+                      style={{ color: 'red',fontSize: "20px", cursor: 'pointer', float: "center"}}
+                      title="Delete"
+                      onClick={() => holidaydelete(d._id)}
+                      ></i>
                     </td>
                   </tr>
                 </>

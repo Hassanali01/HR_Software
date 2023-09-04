@@ -235,29 +235,29 @@ const MonthlyPayroll = () => {
 
    
       // Integrating short leaves
-      Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => {
-          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
-          appliedLeaves.forEach((al) => {
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
-          })
-        }
-      );
-      // Add early leaver LWP and LWOP in payroll
       // Object.entries(tempUserAttendance).forEach(
       //   ([key, value]) => {
       //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
       //     appliedLeaves.forEach((al) => {
-      //       if(al.leaveNature=="L.W.P"){
-      //         tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
-      //       }
-      //       else{
-      //         tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP"
-      //       }
-   
+      //       tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
       //     })
       //   }
       // );
+      // Add early leaver LWP and LWOP in payroll
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave == "True")
+          appliedLeaves.forEach((al) => {
+            if(al.leaveNature=="L.W.P"){
+              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
+            }
+            else{
+              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP"
+            }
+   
+          })
+        }
+      );
 
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
@@ -328,8 +328,6 @@ const MonthlyPayroll = () => {
           }
         })
       })
-
-
       setUserAttendance(tempUserAttendance)
       setUpdate(!update)
     } catch (error) {
@@ -413,18 +411,27 @@ setKey(currentKey => currentKey+1)
               try {
                 Object.entries(userAttendance).forEach(
                   ([key, value]) => {
+
+
+
+
                     const addField = () => {
-                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }])
+                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
                     }
                     addField()
-                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
                       if (field.referenceName) {
                         out[field.referenceName] = field.npd_formula
                       }
                       return out
                     }, {})
 
-                    const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
+                    console.log("formulas by refs",formulasByRefs,"supp refs",supportedRefs)
+                    try{
+
+                    const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
+
+
                     const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                     const items = generateItems(
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
@@ -452,14 +459,12 @@ setKey(currentKey => currentKey+1)
                       })
 
                     usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+
+                    }catch(error){console.log("error", error)}
                   }
+
+
                 );
-
-
-
-
-
-
               } catch (error) { console.log("error in payroll", error) }
             }}>Generate Payroll</Button>
             <ReactToPrint

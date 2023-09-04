@@ -23,7 +23,7 @@ import Table from "./Table";
 import HeaderContext from '../../Context/HeaderContext'
 
 function Shifts() {
-    
+
     const [getdata, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [view, setView] = useState('module');
@@ -73,7 +73,7 @@ function Shifts() {
 
     const a = useContext(HeaderContext)
     useEffect(() => {
-      a.update("Human Resource / Job Shifts")
+        a.update("Human Resource / Job Shifts")
     })
 
     return (
@@ -82,54 +82,7 @@ function Shifts() {
                 <section className="content-header ">
                     <div className="container">
                         <div className="row align-items-center">
-                            <div className="col">
-                                <div className="col-auto float-end ms-auto">
-                                    <div
-                                        style={{ display: "flex", alignItems: "center" }}
-                                        onClick={handleShow}
-                                    >
-                                        <a
-                                            className="btn add-btn "
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#add_calendar"
-                                        >
-                                            <i
-                                                className="fa fa-plus"
-                                                style={{ fontSize: "14px", marginRight: "2px" }}
-                                            >
-                                                {" "}
-                                            </i>
-                                            Add Shifts
-                                        </a>
-                                    </div>
-                                    <div
-                                        className="mb-3"
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "flex-end",
-                                            marginRight: "70px",
-                                            marginTop: "4%"
-                                        }}
-                                    >
-                                        <div>
-                                            <ToggleButtonGroup
-                                                orientation="horizontal"
-                                                value={view}
-                                                exclusive
-                                                onChange={handleChange}
-                                            >
-                                                <ToggleButton value="module" aria-label="module" selected={!view}>
-                                                    <ViewListIcon />
-                                                </ToggleButton>
-
-                                                <ToggleButton value="list" aria-label="list" selected={view}>
-                                                    <ViewModuleIcon />
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                       
                         </div>
                     </div>
                 </section>
@@ -137,10 +90,58 @@ function Shifts() {
                 <section className="content">
                     <div className="container">
                         <div className="card">
-                            <div className="card-header  buttoncolor">
+                            <div className="card-header  buttoncolor" style={{ display: "block" }}>
                                 <h3 className="card-title" style={{ color: "white" }}>
                                     Job Shifts
                                 </h3>
+                                <div className="col" >
+                                    <div className="col-auto float-end ms-auto" style={{ display: "flex" }}>
+
+                                        <div
+                                            className="mb-3"
+                                            style={{
+                                                display: "flex",
+                                                gap: "12px"
+                                            }}
+                                        >
+                                            <div>
+                                                <ToggleButtonGroup
+                                                    orientation="horizontal"
+                                                    value={view}
+                                                    exclusive
+                                                    onChange={handleChange}
+                                                >
+                                                    <ToggleButton value="module" aria-label="module" selected={!view}>
+                                                        <ViewListIcon />
+                                                    </ToggleButton>
+
+                                                    <ToggleButton value="list" aria-label="list" selected={view}>
+                                                        <ViewModuleIcon />
+                                                    </ToggleButton>
+                                                </ToggleButtonGroup>
+                                            </div>
+                                            <div
+                                                style={{ display: "flex" }}
+                                                onClick={handleShow}
+                                            >
+                                                <a
+                                                    className="btn add-btn "
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#add_calendar"
+                                                    style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}
+                                                >
+                                                    <i
+                                                        className="fa fa-plus"
+                                                        style={{ fontSize: "14px", marginRight: "2px" }}
+                                                    >
+                                                        {" "}
+                                                    </i>
+                                                    Add Shifts
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">

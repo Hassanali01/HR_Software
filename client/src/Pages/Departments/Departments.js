@@ -39,6 +39,7 @@ const Departments = () => {
     try {
       const dep = await axios.get(process.env.React_APP_ORIGIN_URL + url1);
       const res = dep.data;
+      console.log(res.departments)
       setData(res.departments);
     } catch (error) {
       console.log(error);
@@ -77,28 +78,6 @@ const Departments = () => {
   return (
     <>
       <div className="content-wrapper ">
-        <section className="content-header ">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col">
-                <div className="col-auto float-end ms-auto">
-
-                  <div
-                    className="mb-3"
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      marginRight: "70px",
-                      marginTop: "4%"
-                    }}
-                  >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="content">
           <div className="container">
             <div className="card">
@@ -106,19 +85,13 @@ const Departments = () => {
                 <h3 className="card-title">
                   Departments
                 </h3>
-
-                <div
-                className="toggle-icon"
-                  style={{ float: "right" ,display: "flex", gap: "10px"}}
-                  onClick={handleShow}
-                >
+                 <div className="icon-button">
                   <div>
                     <ToggleButtonGroup
                       orientation="horizontal"
                       value={view}
                       exclusive
                       onChange={handleChange}
-                      style={{height:"30px", marginTop:"5px"}}
                     >
                       <ToggleButton value="module" aria-label="module" selected={!view}>
                         <ViewModuleIcon />
@@ -128,20 +101,23 @@ const Departments = () => {
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </div>
-                  <a
-                    className="btn add-btn "
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_calendar"
-                    style={{ backgroundColor: "#89b353",color:"#ffffff" }}
+                  <div
+                    style={{ display: "flex", alignItems: "center"}}
+                    onClick={handleShow}
                   >
-                    <i
-                      className="fa fa-plus"
-                      style={{ fontSize: "14px", marginRight: "2px" }}
+                    <a
+                      className="btn add-btn "
+                      data-bs-toggle="modal"
+                      data-bs-target="#add_calendar"
                     >
-                      {" "}
-                    </i>
-                    Add Department
-                  </a>
+                      <i
+                        className="fa fa-plus"
+                      >
+                        {" "}
+                      </i>
+                      Add Department
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="card-body">
@@ -164,11 +140,11 @@ const Departments = () => {
                               <>
                                 <Col xs="12" xl="3" lg="4" md="6" sm="6">
                                   <Card>
-                                    <Card.Title className="id">
+                                    <Card.Title className="id" >
                                       {d.departmentname}
                                     </Card.Title>
                                     <Card.Body>
-                                      <Card.Text>{value}...</Card.Text>
+                                      <Card.Text>{value}</Card.Text>
 
                                     </Card.Body>
                                   </Card>

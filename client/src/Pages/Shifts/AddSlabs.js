@@ -208,10 +208,17 @@ function AddSlabs() {
                                     {shift.slabs && shift.slabs.map((i) => {
                                         return (<>
                                             <tr>
-                                             <td>{count++}</td>
+                                                <td>{count++}</td>
                                                 <td>{i.later_than}</td>
                                                 <td>{i.deduction}</td>
-                                                <td><Button onClick={() => { handleDelete(i.later_than) }} style={{ backgroundColor: "red" }}>Delete</Button></td>
+                                                <td>
+                                                    <i
+                                                        class=" fa-regular fa-trash-can"
+                                                        title="Delete"
+                                                        style={{ color: 'red', fontSize: "20px", cursor: 'pointer', float: "center" }}
+                                                        onClick={() => handleDelete(i.later_than)}
+                                                    ></i>
+                                                </td>
                                             </tr>
                                         </>)
                                     })}
@@ -261,7 +268,14 @@ function AddSlabs() {
                                                 <td>{count2++}</td>
                                                 <td>{i.early_leave_time}</td>
                                                 <td>{i.deduction}</td>
-                                                <td><Button onClick={() => { handleDelete(i.early_leave_time) }} style={{ backgroundColor: "red" }}>Delete</Button></td>
+                                                <td>
+                                                    <i
+                                                        class=" fa-regular fa-trash-can"
+                                                        title="Delete"
+                                                        style={{ color: 'red', fontSize: "20px", cursor: 'pointer', float: "center" }}
+                                                        onClick={() => handleDelete(i.early_leave_time)}
+                                                    ></i>
+                                                </td>
                                             </tr>
                                         </>)
                                     })}

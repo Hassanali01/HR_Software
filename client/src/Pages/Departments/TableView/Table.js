@@ -8,7 +8,7 @@ const Table = ({ data }) => {
 
     let count = 1
     const columns = [
-        { field: "Sr", headerName: "Sr #", width: 250},
+        { field: "Sr", headerName: "Sr #", width: 250 },
         { field: "Department", headerName: "Department", width: 250 },
         { field: "NoOfEmployees", headerName: "No of Employees", width: 250 },
         { field: "description", headerName: "Description", width: 250 },
@@ -17,8 +17,8 @@ const Table = ({ data }) => {
             headerName: "Action",
             width: 210,
             renderCell: (params) => (
-                <Button
-                    onClick={() => {
+                <>
+                    <i onClick={() => {
                         const id = params.row.id;
                         axios.delete(process.env.React_APP_ORIGIN_URL + `departments/${id}`)
                             .then(response => {
@@ -28,10 +28,9 @@ const Table = ({ data }) => {
                                 console.error("Error deleting data:", error);
                             });
                     }}
-                    style={{ backgroundColor: 'red', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }}
-                >
-                    Delete
-                </Button>
+                    style={{ color: 'red',fontSize: "20px", cursor: 'pointer', float: "center"}} class=" fa-regular fa-trash-can"  title="Delete"></i>
+                </>
+
             ),
         },
     ]

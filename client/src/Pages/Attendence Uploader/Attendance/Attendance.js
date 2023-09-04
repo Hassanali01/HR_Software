@@ -103,8 +103,13 @@ const Attendance = () => {
     });
 
 
+
+
+
     let InTimes = [];
     table.map((d) => {
+      console.log("elem. in", d.in)
+
       let fromExcel = d.in; //translates to 17:02:00
       let equivTimeIN = fromExcel * 24;
       let hoursIN = Math.floor(equivTimeIN);

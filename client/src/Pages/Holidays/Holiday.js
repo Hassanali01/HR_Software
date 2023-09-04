@@ -12,6 +12,7 @@ import {
 import { useContext } from "react";
 import HeaderContext from '../../Context/HeaderContext'
 
+
 const Holiday = () => {
 
   const [show, setShow] = useState();
@@ -98,23 +99,6 @@ const Holiday = () => {
         <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
-              <div className="col">
-
-
-                <div className="col-auto float-end ms-auto">
-                  <a
-                    className="btn add-btn "
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_calendar"
-                    onClick={handleShow}
-                  >
-                    <i className="fa fa-plus">
-                      {" "}
-                      Add Holiday
-                    </i>
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -123,11 +107,27 @@ const Holiday = () => {
             <div className="card">
               <div
                 className="card-header  "
-                style={{ backgroundColor: "#26ad9d" }}
+                style={{ backgroundColor: "#26ad9d" , display: "block"}}
               >
                 <h3 className="card-title" style={{ color: "white" }}>
                   Available Holidays
                 </h3>
+                <div className="col">
+                <div className="col-auto float-end ms-auto">
+                  <a
+                    className="btn add-btn "
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_calendar"
+                    onClick={handleShow}
+                    style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}
+                  >
+                    <i className="fa fa-plus">
+                      {" "}
+                      Add Holiday
+                    </i>
+                  </a>
+                </div>
+              </div>
               </div>
               <div className="card-body">
                 <div className="table-responsive" style={{ height: "500px" }}>
