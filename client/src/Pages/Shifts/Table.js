@@ -18,21 +18,17 @@ const Table = ({ data }) => {
       headerName: "Action",
       width: 210,
       renderCell: (params) => (
-        <Button
-          onClick={() => {
-            const id = params.row.id;
-            axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/${id}`)
+        <i onClick={() => {
+          const id = params.row.id;
+          axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/${id}`)
               .then(response => {
-                console.log("Data deleted successfully!");
+                  console.log("Data deleted successfully!");
               })
               .catch(error => {
-                console.error("Error deleting data:", error);
+                  console.error("Error deleting data:", error);
               });
-          }}
-          style={{ backgroundColor: 'red', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }}
-        >
-          Delete
-        </Button>
+      }}
+          style={{ color: 'red',fontSize: "20px", cursor: 'pointer', float: "center"}} class=" fa-regular fa-trash-can"  title="Delete"></i>
       ),
     },
     {

@@ -20,7 +20,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Table from "./TableView/Table";
 import HeaderContext from '../../Context/HeaderContext'
-
+import '../Companies/companies.css'
 
 
 const Companies = () => {
@@ -75,14 +75,32 @@ const Companies = () => {
 
   return (
     <>
-      <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header ">
+      <div className="content-wrapper ">
+        <section className="content">
           <div className="container">
-            <div className="row align-items-center">
-              <div className="col">
-                <div className="col-auto float-end ms-auto">
+            <div className="card">
+              <div className="card-header  buttoncolor">
+                <h3 className="card-title" >
+                  Companies
+                </h3>
+                <div className="icon-button">
+                  <div>
+                    <ToggleButtonGroup
+                      orientation="horizontal"
+                      value={view}
+                      exclusive
+                      onChange={handleChange}
+                    >
+                      <ToggleButton value="module" aria-label="module" selected={!view}>
+                        <ViewModuleIcon />
+                      </ToggleButton>
+                      <ToggleButton value="list" aria-label="list" selected={view}>
+                        <ViewListIcon />
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </div>
                   <div
-                    style={{ display: "flex", alignItems: "center" }}
+                    style={{ display: "flex", alignItems: "center"}}
                     onClick={handleShow}
                   >
                     <a
@@ -92,51 +110,14 @@ const Companies = () => {
                     >
                       <i
                         className="fa fa-plus"
-                        style={{ fontSize: "14px", marginRight: "2px" }}
                       >
                         {" "}
                       </i>
                       Add Companies
                     </a>
                   </div>
-                  <div
-                    className="mb-3"
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      marginRight: "70px",
-                      marginTop: "4%"
-                    }}
-                  >
-                    <div>
-                      <ToggleButtonGroup
-                        orientation="horizontal"
-                        value={view}
-                        exclusive
-                        onChange={handleChange}
-                      >
-                        <ToggleButton value="module" aria-label="module" selected={!view}>
-                          <ViewModuleIcon />
-                        </ToggleButton>
-                        <ToggleButton value="list" aria-label="list" selected={view}>
-                          <ViewListIcon />
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        <section className="content">
-          <div className="container">
-            <div className="card">
-              <div className="card-header  buttoncolor">
-                <h3 className="card-title" style={{ color: "white" }}>
-                  Companies
-                </h3>
               </div>
               <div className="card-body">
                 <div className="table-responsive">

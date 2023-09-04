@@ -1,20 +1,23 @@
-.main-sidebar  {
+.main-sidebar {
   background-color: rgb(3, 110, 104);
 }
 
 .nav-sidebar>.nav-item .nav-link .nav-icon {
-    font-size: 0.9rem;
-  }
-  ul li {
-    color: #FFFF;
-    font-size: 14px;
+  font-size: 0.9rem;
 }
-.nav-sidebar li:hover{
+
+ul li {
+  color: #FFFF;
+  font-size: 14px;
+}
+
+.nav-sidebar li:hover {
   background-color: #ade35b;
 }
-.nav-sidebar li:hover p,.nav-sidebar li:hover i {
+
+.nav-sidebar li:hover p,
+.nav-sidebar li:hover i {
   color: black;
 }
-.nav-sidebar .active {
-  color: #d8d808; 
-}
+
+

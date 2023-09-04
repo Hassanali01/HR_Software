@@ -1,0 +1,18 @@
+.content-wrapper{
+    background-color: #f7f7f7;
+}
+.card-header{
+    display: flex;
+    gap: 72%;
+}
+.card-header .icon-button a {
+    background-color: #89b353;
+    color: #ffffff;
+    padding: 11px 5px;
+}
+.icon-button{
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+}
+

@@ -25,16 +25,16 @@ const Setup = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const res = await axios.get(process.env.React_APP_ORIGIN_URL + 'payrollsetup/')
-        setPayrollSetups(res.data)
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + 'payrollsetup/')
+      setPayrollSetups(res.data)
     }
     fetchData()
-}, [])
+  }, [])
 
-const a = useContext(HeaderContext)
-useEffect(() => {
-  a.update("Human Resource / Payroll setup")
-})
+  const a = useContext(HeaderContext)
+  useEffect(() => {
+    a.update("Human Resource / Payroll setup")
+  })
 
   return (
     <div>
@@ -42,32 +42,33 @@ useEffect(() => {
         <section className="content-header ">
           <div className="container">
             <div className="row align-items-center">
-              <div className="col">
-                <div className="col-auto float-end ms-auto">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Button variant="primary" onClick={handleShow}>
-                    <i
-                        className="fa fa-plus"
-                        style={{ fontSize: "14px", marginRight: "2px" }}
-                      >
-                        {" "}
-                      </i>
-                      Add Setup
-                    </Button>
-
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor ">
+              <div className="card-header buttoncolor " style={{ display: "block" }}>
                 <h3 className="card-title" style={{ color: "white" }}>
                   Payroll Setups
                 </h3>
+                <div className="col">
+                  <div className="col-auto float-end ms-auto">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Button variant="primary" onClick={handleShow}
+                        style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}>
+                        <i
+                          className="fa fa-plus"
+                          style={{ fontSize: "14px", marginRight: "2px" }}
+                        >
+                          {" "}
+                        </i>
+                        Add Setup
+                      </Button>
+
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
@@ -95,19 +96,19 @@ useEffect(() => {
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Gazetted holidays applied</h6>{JSON.stringify(ps.applyGazettedHoliday)}</div>
-                                    
+
                                   </div>
                                 </Col>
-                             
+
                               </Row>
                               <Row>
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Days off:</h6>{JSON.stringify(ps.daysoff)}</div>
-                                    
+
                                   </div>
                                 </Col>
-                             
+
                               </Row>
                             </Col>
                           </Row>
@@ -123,25 +124,26 @@ useEffect(() => {
                       <Modal.Body>
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
 
-                        <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e)=>{setApplyGazettedHoliday(e.target.checked)}} />
+                        <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e) => { setApplyGazettedHoliday(e.target.checked) }} />
 
-<br />
-                        <label>Days off observed on:</label><br />
-<p>
-                        <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked="true" onClick={(e)=>{setSundayDayoff(e.target.checked)}} />
                         <br />
-                        <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e)=>{setLastSaturdayDayoff(e.target.checked)}} />
+                        <label>Days off observed on:</label><br />
+                        <p>
+                          <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked="true" onClick={(e) => { setSundayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
                         </p>
 
-                        
+
                       </Modal.Body>
                       <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
-                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", { title: setupTitle, npd_formula: setupFormula,applyGazettedHoliday:applyGazettedHoliday ,
-                            daysoff: {sundayDayoff, lastSaturdayDayoff}
+                          const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", {
+                            title: setupTitle, npd_formula: setupFormula, applyGazettedHoliday: applyGazettedHoliday,
+                            daysoff: { sundayDayoff, lastSaturdayDayoff }
                           });
 
                           handleClose()

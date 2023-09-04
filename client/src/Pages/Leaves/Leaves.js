@@ -61,6 +61,19 @@ const Leaves = () => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col">
+             
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="content">
+          <div className="container">
+            <div className="card">
+              <div
+                className="card-header buttoncolor "  style={{ display: "block" }}   >
+                <h3 className="card-title" style={{ color: "white" }}>
+                  Leave Types
+                </h3>
                 <div className="col-auto float-end ms-auto">
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <a
@@ -68,6 +81,7 @@ const Leaves = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#add_calendar"
                       onClick={handleShow}
+                      style={{ backgroundColor: "#89b353", color: "#ffffff"}}
                     >
                       <i
                         className="fa fa-plus"
@@ -79,19 +93,6 @@ const Leaves = () => {
                     </a>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="content">
-          <div className="container">
-            <div className="card">
-              <div
-                className="card-header buttoncolor "
-              >
-                <h3 className="card-title" style={{ color: "white" }}>
-                  Leave Types
-                </h3>
               </div>
               <div className="card-body">
                 <div className="table-responsive">

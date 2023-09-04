@@ -1,11 +1,37 @@
-.content-wrapper{
+.content-wrapper {
     background-color: "#f7f7f7";
 }
-.card-header{
-    background-color:  "rgb(5, 162, 153)";
+
+.card {
+    margin-top: 30px;
 }
-.card-title{
-    color: "white";
-    font-weight: bolder;
-    font-size:20 
+
+.card-header {
+    /* background-color: "rgb(5, 162, 153)"; */
+    display: flex;
+    gap: 72%;
+}
+
+.card-header .icon-button a {
+    background-color: #89b353;
+    color: #ffffff;
+    padding: 11px 5px;
+}
+
+.card-header .icon-button a i {
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+
+.toggle-icon {
+    float: right;
+    display: flex;
+    /* gap: 10px; */
+    white-space: nowrap;
+}
+
+.toggle-icon ToggleButtonGroup {
+    height: 30px;
+    margin-top: 5px;
 }

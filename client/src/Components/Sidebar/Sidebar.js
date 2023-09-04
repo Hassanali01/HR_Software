@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import logo from '../../Assets/img/AdminLTELogo.png'
-import { Link } from 'react-router-dom';
+import { Link ,NavLink} from 'react-router-dom';
 import { useState } from 'react';
 import { Context } from "./../../Context/Context";
 import { useContext } from "react";
@@ -11,6 +11,11 @@ const Sidebar = () => {
   const context = useContext(Context);
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
+
+  const activeLinkStyle = {
+    backgroundColor: 'yellow-green', 
+   
+  };
 
   return (
     <>
@@ -30,9 +35,9 @@ const Sidebar = () => {
               {/* <img src="" className="img-circle elevation-2" alt="User Image" /> */}
             </div>
             <div className="info text-decoration-none border-bottom-2">
-              <Link to="/dashboard" className="d-block text-white" ><h5 style={{color: "#d8d808"}}>Sagacious Systems</h5></Link>
+              <Link to="/dashboard" className="d-block text-white" ><h5 style={{ color: "#d8d808" }}>Sagacious Systems</h5></Link>
             </div>
-            
+
           </div>
           <hr></hr>
           {/* <!-- SidebarSearch Form --> */}
@@ -52,12 +57,12 @@ const Sidebar = () => {
               {/* <!-- Add icons to the links using the .nav-icon className
                with font-awesome or any other icon font library --> */}
               <li className="nav-item">
-                <Link to="/dashboard" className="nav-link">
+                <NavLink  to="/dashboard" className="nav-link" activeStyle={activeLinkStyle}>
                   <i className="nav-icon fa-sharp fa-solid fa-network-wired iconColor"></i>
                   <p className='iconColor'>
                     Dashboard
                   </p>
-                </Link>
+                </NavLink >
               </li>
               {context.user.isAdmin &&
                 <li className="nav-item active">
@@ -80,12 +85,12 @@ const Sidebar = () => {
                   </Link>
                 </li>
               }
-                       {context.user.isAdmin &&
+              {context.user.isAdmin &&
                 <li className="nav-item">
                   <Link to="/companies" className="nav-link">
                     <i className="nav-icon fa-solid fa-building iconColor"></i>
                     <p className='iconColor'>
-                    Companies
+                      Companies
                     </p>
                   </Link>
                 </li>
@@ -99,11 +104,13 @@ const Sidebar = () => {
                 </Link>
               </li>
 
+
               <li className='nav-item' onClick={() => { settoggle(!toggleLeaves) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                   <p className='iconColor'>Leave Management</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+
                   {
                     toggleLeaves && <>
                       <Link to={'/leaverequest'} className='nav-link '>
@@ -122,11 +129,11 @@ const Sidebar = () => {
               <li className="nav-item">
                 <Link to="/holidays" className="nav-link">
                   <i className="nav-icon fa-solid fa-calendar-days iconColor"></i>
-                    <p className='iconColor'>
-                      Holidays
-                    </p>
-                  </Link>
-                
+                  <p className='iconColor'>
+                    Holidays
+                  </p>
+                </Link>
+
               </li>
               <li className="nav-item">
                 <Link to="/attendance" className="nav-link">
@@ -140,7 +147,7 @@ const Sidebar = () => {
               <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <div className='d-flex'>
-                  <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
+                    <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
                     <p className='iconColor'> Attendance Management</p>
                     <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
                   </div>
@@ -177,7 +184,7 @@ const Sidebar = () => {
                 <Link to="/payrollsetup" className="nav-link">
                   <i className="nav-icon fa-solid fa-file-invoice-dollar iconColor"></i>
                   <p className='iconColor'>
-                  Payroll Setup
+                    Payroll Setup
                   </p>
                 </Link>
               </li>
