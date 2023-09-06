@@ -80,8 +80,8 @@ const EmpCard = ({ data, setUpdate }) => {
   };
   const applyImgStyle = {
     borderRadius: "50%",
-    width: "120px",
-    height: "120px",
+    width: "105px",
+    height: "105px",
     marginTop: "2px",
   };
   const cardImg = {
@@ -97,7 +97,7 @@ const EmpCard = ({ data, setUpdate }) => {
 
   return (
     <>
-      <Card>
+      <Card style={{height: "300px"}}>
         <div style={{ display: "flex", justifyContent: "end" }}>
           <IconButton
             aria-label="more"
@@ -148,7 +148,7 @@ const EmpCard = ({ data, setUpdate }) => {
           <div style={cardDetail}>
 
             <div>
-              <h4>{data.firstname}</h4>
+              <h4 style={{textAlign: "center"}}>{data.firstname}</h4>
             </div>
 
             <div className="small text-muted">{data.designation}</div>

@@ -70,8 +70,8 @@ const Table = ({ data, setTableData }) => {
                     setIdOfEmployee(params.value.employee._id)
                     setTableData(data)
                     handleShow()
-                }}>
-                    Edit
+                }}  title="Delete">
+                    Detail
                 </Button>)
             }
         },

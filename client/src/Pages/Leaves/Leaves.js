@@ -57,21 +57,12 @@ const Leaves = () => {
   return (
     <>
       <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header ">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col">
-             
-              </div>
-            </div>
-          </div>
-        </section>
         <section className="content">
           <div className="container">
             <div className="card">
               <div
-                className="card-header buttoncolor "  style={{ display: "block" }}   >
-                <h3 className="card-title" style={{ color: "white" }}>
+                className="card-header buttoncolor "  style={{ display: "block" , height: "64px"}}   >
+                <h3 className="card-title" style={{ color: "white" , fontWeight: "700"}}>
                   Leave Types
                 </h3>
                 <div className="col-auto float-end ms-auto">
@@ -85,7 +76,6 @@ const Leaves = () => {
                     >
                       <i
                         className="fa fa-plus"
-                        style={{ fontSize: "14px", marginRight: "2px" }}
                       >
                         {" "}
                       </i>

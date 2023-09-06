@@ -217,7 +217,7 @@ const Attendance = () => {
         <section className="content mt-4">
           <div className="container-fluid">
             <Card>
-              <Card.Header className="buttoncolor">
+              <Card.Header className="buttoncolor" style={{fontWeight: "700"}}>
                 {" "}
                 Daily Attendance Uploader
               </Card.Header>

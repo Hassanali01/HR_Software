@@ -96,24 +96,19 @@ const Holiday = () => {
   return (
     <>
       <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" , marginTop:"30px"}}>
-        <section className="content-header">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-            </div>
-          </div>
-        </section>
+  
         <section className="centent">
           <div className="container-fluid">
-            <div className="card">
+            <div className="card" style={{width:"92%", margin: "0 auto"}}>
               <div
                 className="card-header  "
                 style={{ backgroundColor: "#26ad9d" , display: "block"}}
               >
-                <h3 className="card-title" style={{ color: "white" }}>
+                <h3 className="card-title" style={{ color: "white" , fontWeight: "700"}}>
                   Available Holidays
                 </h3>
                 <div className="col">
-                <div className="col-auto float-end ms-auto">
+                <div className="col-auto float-end">
                   <a
                     className="btn add-btn "
                     data-bs-toggle="modal"
@@ -122,15 +117,16 @@ const Holiday = () => {
                     style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}
                   >
                     <i className="fa fa-plus">
-                      {" "}
-                      Add Holiday
+                      {"    "}
+                    
                     </i>
+                    {"  "}Add Holiday
                   </a>
                 </div>
               </div>
               </div>
               <div className="card-body">
-                <div className="table-responsive" style={{ height: "500px" }}>
+                <div className="table-responsive" style={{ height: "500px", width: "100%" }}>
                   <HolidaysDetails />
 
                 </div>

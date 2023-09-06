@@ -74,7 +74,7 @@ const Departments = () => {
   useEffect(() => {
     a.update("Human Resource / Departments")
   })
-
+  
   return (
     <>
       <div className="content-wrapper ">
@@ -82,7 +82,7 @@ const Departments = () => {
           <div className="container">
             <div className="card">
               <div className="card-header  buttoncolor">
-                <h3 className="card-title">
+                <h3 className="card-title" style={{ fontWeight: "700"}}>
                   Departments
                 </h3>
                  <div className="icon-button">

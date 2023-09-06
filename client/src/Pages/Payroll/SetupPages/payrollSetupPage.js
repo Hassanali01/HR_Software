@@ -39,17 +39,11 @@ const Setup = () => {
   return (
     <div>
       <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-        <section className="content-header ">
-          <div className="container">
-            <div className="row align-items-center">
-            </div>
-          </div>
-        </section>
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor " style={{ display: "block" }}>
-                <h3 className="card-title" style={{ color: "white" }}>
+              <div className="card-header buttoncolor " style={{ display: "block", height: "64px" }}>
+                <h3 className="card-title" style={{ color: "white" , fontWeight:"700"}}>
                   Payroll Setups
                 </h3>
                 <div className="col">
@@ -75,7 +69,7 @@ const Setup = () => {
                   <div style={{ height: "min-content", width: "100%" }}>
                     <Container >
                       {payrollSetups.map((ps) =>
-                        <Card>
+                        <Card style={{width: "91%"}}>
                           <Row className="px-3">
                             <Col xxl='12' xl='12' md='12' lg='12' sm='12'>
                               <Row>

@@ -156,6 +156,21 @@ const MonthlyPayroll = () => {
       );
 
 
+
+         // adding CPL inside the user attendance
+         Object.entries(tempUserAttendance).forEach(
+          ([key, value]) => {
+            let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "C.P.L")
+            appliedLeaves.forEach((al) => {
+              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "CPL"
+            })
+          }
+        );
+
+
+
+
+
       // adding LWOP inside the user attendance
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
@@ -267,10 +282,32 @@ const MonthlyPayroll = () => {
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
           if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
-            te.status = "D.O";
-          }
+            if (te.status == 'A') {
+              te.status = "D.O";
+            } else {
+              te.status = te.status * 2
+            }          }
         });
       });
+
+
+
+
+            // adding Tuesday Day-Off inside the user attendance
+            Object.entries(tempUserAttendance).forEach(([key, value]) => {
+
+              tempUserAttendance[key].forEach((te) => {
+                const locale = "en-US"
+                var date = new Date(te.date);
+                var day = date.toLocaleDateString(locale, { weekday: 'long' });
+                if (day == "Tuesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.tuesdayDayoff) {
+                  if (te.status == 'A') {
+                    te.status = "D.O";
+                  } else {
+                    te.status = te.status * 2
+                  }                }
+              });
+            });
 
 
       // Adding last saturday dayoff
@@ -358,14 +395,7 @@ const MonthlyPayroll = () => {
   return (
     <>
       <div className="content-wrapper">
-        <section className="content-header">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col">
-              </div>
-            </div>
-          </div>
-        </section>
+
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
           <div className='card-body'>
             <Button className="mr-3" variant="primary" onClick={handleShow}>
@@ -438,7 +468,7 @@ setKey(currentKey => currentKey+1)
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                       0,
-                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length,
+                      userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length +  userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
                       parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
                       userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                     )
@@ -470,6 +500,9 @@ setKey(currentKey => currentKey+1)
             />
             {/* component to be printed */}
             <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }} >
+
+
+
               <table key={key}
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
@@ -500,7 +533,7 @@ setKey(currentKey => currentKey+1)
                   ([key, value]) =>
                     <tr>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{++rowNumber}</td>
-                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].Name}</td>
+                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.firstname}</td>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.designation}</td>
                       {
                         daysOfMonth.map((dm) => {
@@ -528,7 +561,7 @@ setKey(currentKey => currentKey+1)
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP' || (typeof tu.status == "string" && tu.status.split(" ")[1] == "LWOP")).length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWOP').length + userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWOP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "number").reduce((total, num) => { return (parseFloat(num.status)<= 1 ? total + (1 - parseFloat(num.status)) : total + (2 - parseFloat(num.status))) }, 0) > 0 ? userAttendance[`${key}`].filter((tu) => typeof tu.status == "number").reduce((total, num) => { return (parseFloat(num.status)<= 1 ? total + (1 - parseFloat(num.status)) : total + (2 - parseFloat(num.status))) }, 0) : ""   }</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status === '').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status === '').length : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].length < days ? userAttendance[`${key}`].filter((tu) => tu.status === '').length + (days-userAttendance[`${key}`].length): ""}</td>
                       <td style={{ border: "1px solid black", fontWeight: "bold" }}>{
                         // parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75).reduce((total, num) => { return (total + num.status) }, 0)) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)) +
                         // parseInt(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'HW').length) +
@@ -576,7 +609,13 @@ setKey(currentKey => currentKey+1)
                       <h6>Approved By: ___________</h6>
                     </div>
                     <div style={{ marginTop: "3rem", display: "flex" }}>
+                      <textarea style={{width:"900px", border:"0 none" , background:"transparent",  outline: "none"}}></textarea>
+                    </div>
+                    <div style={{ marginTop: "1rem", display: "flex" }}>
+                 
+
                       * It's a computer generated report and does not require any signature.
+
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
                       <h6>Printed by: {context.user.firstname}</h6>

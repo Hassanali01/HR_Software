@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import logo from '../../Assets/img/AdminLTELogo.png'
-import { Link ,NavLink} from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { Context } from "./../../Context/Context";
 import { useContext } from "react";
@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   // const activeLinkStyle = {
   //   backgroundColor: 'yellow-green', 
-   
+
   // };
 
   return (
@@ -57,7 +57,7 @@ const Sidebar = () => {
               {/* <!-- Add icons to the links using the .nav-icon className
                with font-awesome or any other icon font library --> */}
               <li className="nav-item">
-                <NavLink  to="/dashboard" className="nav-link" >
+                <NavLink to="/dashboard" className="nav-link" >
                   <i className="nav-icon fa-sharp fa-solid fa-network-wired iconColor"></i>
                   <p className='iconColor'>
                     Dashboard

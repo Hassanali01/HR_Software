@@ -545,7 +545,10 @@ const MonthlyAttendance = () => {
 
 
 
+
+
                       <div style={{ display: "none" }} className='AttendanceToPrint' id='AttendanceToPrint'>
+
 
                         {Object.keys(employeesAttendance).map(key =>
                           <div className="pageperemployee" style={{ pageBreakAfter: "always" }}>

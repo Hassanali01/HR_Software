@@ -330,13 +330,13 @@ const Cards = ({ data }) => {
   useEffect(() => {
     departmentemployees();
     axios.get(process.env.React_APP_ORIGIN_URL + `employees/${data._id}`)
-    .then(response => {
-      setEmpID(response.data);
-      console.log(response.data,"hihi")
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+      .then(response => {
+        setEmpID(response.data);
+        console.log(response.data, "hihi")
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   }, [data]);
 
   const a = useContext(HeaderContext)
@@ -458,31 +458,34 @@ const Cards = ({ data }) => {
     });
   };
 
+
   return (
     <>
-      <div className="d-flex">
-        <div style={{ marginLeft: "59vw", marginRight: 10 }}>
-          <Button
-            onClick={() => {
-              setDisableFields(false);
-            }}
-          >
-            Edit
-          </Button>
+      { user.isAdmin &&
+        <div className="d-flex">
+          <div style={{ marginLeft: "59vw", marginRight: 10 }}>
+            <Button
+              onClick={() => {
+                setDisableFields(false);
+              }}
+            >
+              Edit
+            </Button>
+          </div>
+          <div>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                setDisableFields(true);
+                addhistory();
+                Closechildmodal();
+              }}
+            >
+              Save
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button
-            onClick={() => {
-              handleSubmit();
-              setDisableFields(true);
-              addhistory();
-              Closechildmodal();
-            }}
-          >
-            Save
-          </Button>
-        </div>
-      </div>
+      }
       <div style={{ height: "auto" }}>
         <Accordion
           defaultActiveKey="0"

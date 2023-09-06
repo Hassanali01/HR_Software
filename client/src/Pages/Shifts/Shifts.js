@@ -79,19 +79,13 @@ function Shifts() {
     return (
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-                <section className="content-header ">
-                    <div className="container">
-                        <div className="row align-items-center">
-                       
-                        </div>
-                    </div>
-                </section>
+            
 
                 <section className="content">
                     <div className="container">
                         <div className="card">
-                            <div className="card-header  buttoncolor" style={{ display: "block" }}>
-                                <h3 className="card-title" style={{ color: "white" }}>
+                            <div className="card-header  buttoncolor" style={{ display: "block" , paddingBottom: "0px" ,height: "64px"}}>
+                                <h3 className="card-title" style={{ color: "white" , fontWeight: "700"}}>
                                     Job Shifts
                                 </h3>
                                 <div className="col" >
