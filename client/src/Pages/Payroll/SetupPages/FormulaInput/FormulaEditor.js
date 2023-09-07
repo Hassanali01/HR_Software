@@ -3,7 +3,10 @@ import { useState, useMemo } from 'react'
 import { evaluateTokenNodes, getExtendedTokens } from '../../../../formulaParser/shared/src'
 import { generateItems, generateFormulaFields, supportedColumns, supportedRefs } from '../../../../formulaParser/shared-demo/gen'
 import { FormulaInput } from './FormulaInput'
+
 import '../../../../formulaParser/shared-demo/global.css'
+
+const { v4: uuidv4 } = require('uuid');
 
 export function App({ setSetupTitle, setSetupFormula }) {
 
@@ -12,7 +15,7 @@ export function App({ setSetupTitle, setSetupFormula }) {
     setFields(fields.map(f => f.id === field.id ? field : f))
   }
   const addField = () => {
-    setFields([...fields, { id: crypto.randomUUID(), referenceName: '', npd_formula: '' }])
+    setFields([...fields, { id: uuidv4(), referenceName: '', npd_formula: '' }])
   }
 
   const formulasByRefs = useMemo(() => fields.reduce((out, field) => {

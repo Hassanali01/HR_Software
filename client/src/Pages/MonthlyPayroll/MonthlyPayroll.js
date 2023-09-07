@@ -17,6 +17,9 @@ import './MonthlyPayroll.css'
 import HeaderContext from '../../Context/HeaderContext'
 import { Form } from "react-bootstrap";
 
+const { v4: uuidv4 } = require('uuid');
+
+
 
 const MonthlyPayroll = () => {
   const context = useContext(Context);
@@ -377,10 +380,10 @@ const MonthlyPayroll = () => {
                   ([key, value]) => {
 
                     const addField = () => {
-                      setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+                      setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
                     }
                     addField()
-                    const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+                    const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
                       if (field.referenceName) {
                         out[field.referenceName] = field.npd_formula
                       }

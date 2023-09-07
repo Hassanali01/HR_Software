@@ -1,5 +1,9 @@
 "use strict";
+
+const { v4: uuidv4 } = require('uuid');
+
 Object.defineProperty(exports, "__esModule", { value: true });
+
 exports.generateFormulaFields = exports.generateItems = exports.supportedColumns = exports.supportedRefs = void 0;
 exports.supportedRefs = ['wd', 'cpl', 'gh', 'dayoff', 'lwp', 'sl', 'a'];
 exports.supportedColumns = [
@@ -16,7 +20,7 @@ function generateItems(wd, dayoff, gh, cpl, lwp, sl, a) {
     var out = [];
     for (var i = 0; i < 1; i++) {
         out.push({
-            id: crypto.randomUUID(),
+            id: uuidv4(),
             title: "Item #".concat(i + 1),
             wd: wd,
             dayoff: dayoff,
@@ -32,7 +36,7 @@ function generateItems(wd, dayoff, gh, cpl, lwp, sl, a) {
 exports.generateItems = generateItems;
 function generateFormulaFields() {
     return [
-        { id: crypto.randomUUID(), referenceName: 'net pay days', npd_formula: '' },
+        { id: uuidv4(), referenceName: 'net pay days', npd_formula: '' },
         // { id: crypto.randomUUID(), referenceName: '', formula: '' },
         // { id: crypto.randomUUID(), referenceName: 'tax', formula: '21' },
         // { id: crypto.randomUUID(), referenceName: 'timeHours', formula: 'floor({loggedTime} / 3600)' },        

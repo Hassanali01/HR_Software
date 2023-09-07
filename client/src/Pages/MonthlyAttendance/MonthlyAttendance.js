@@ -15,6 +15,8 @@ import moment from "moment";
 import { generateItems, generateFormulaFields, supportedRefs } from './../../formulaParser/shared-demo/gen'
 import { evaluateTokenNodes, getExtendedTokens } from './../../formulaParser/shared/src'
 import 'react-calendar/dist/Calendar.css';
+const { v4: uuidv4 } = require('uuid');
+
 
 
 const MonthlyAttendance = () => {
@@ -343,10 +345,10 @@ const MonthlyAttendance = () => {
       Object.entries(attendanceByEmployee).forEach(
         ([key, value]) => {
           const addField = () => {
-            setFields([...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+            setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
           }
           addField()
-          const formulasByRefs = [...fields, { id: crypto.randomUUID(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+          const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
             if (field.referenceName) {
               out[field.referenceName] = field.npd_formula
             }
