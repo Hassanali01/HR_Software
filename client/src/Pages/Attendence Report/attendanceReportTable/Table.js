@@ -6,7 +6,6 @@ import HeaderContext from '../../../Context/HeaderContext';
 
  
 const Table = ({ data }) => {
-
     const rows = data.map((row) => ({
         id: row.Employee_ID,
         Name: row.Name,
@@ -37,8 +36,8 @@ const Table = ({ data }) => {
                     </div>
                     <table style={{ width: "77vw", marginBottom: "60px", marginTop: "1px" }} id="mytable" >
                         <tr style={{ backgroundColor: "#89CFF0" }}>
-                            <th style={{ border: "1px solid black", width: "10%" }}>Employee ID</th>
-                            <th style={{ border: "1px solid black", width: "30%" }}>Name</th>
+                            <th style={{ border: "1px solid black", width: "20%" }}>Employee ID</th>
+                            <th style={{ border: "1px solid black", width: "20%" }}>Name</th>
                             <th style={{ border: "1px solid black", width: "20%" }}>Department</th>
                             <th style={{ border: "1px solid black", width: "10%", textAlign: "center" }}>In</th>
                             <th style={{ border: "1px solid black", width: "10%", textAlign: "center" }}>Out</th>

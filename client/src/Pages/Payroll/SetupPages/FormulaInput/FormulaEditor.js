@@ -8,9 +8,10 @@ import '../../../../formulaParser/shared-demo/global.css'
 
 const { v4: uuidv4 } = require('uuid');
 
-export function App({ setSetupTitle, setSetupFormula }) {
 
+export function App({ setSetupTitle, setSetupFormula }) {
   const [fields, setFields] = useState(generateFormulaFields())
+
   const setField = (field) => {
     setFields(fields.map(f => f.id === field.id ? field : f))
   }
@@ -51,7 +52,6 @@ export function App({ setSetupTitle, setSetupFormula }) {
 
 
   return (
-
     <div className="fm-container">
       <div className="fm-block">
         <div className="fm-block__content">

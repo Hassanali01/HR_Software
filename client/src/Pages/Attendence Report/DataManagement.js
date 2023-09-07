@@ -167,10 +167,15 @@ const DataManagement = () => {
 
   return (
     <>
-      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7" , marginTop: "20px"}}>
+      <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}>
         <section className="centent">
           <div className="container-fluid">
-            <div className="card">
+            <div className="card" style={{width: "96%", margin: "0 auto"}}>
+              <div className="card-header  buttoncolor " style={{ paddingRight: "0px", height: "57px" }}>
+                <h3 className="card-title" style={{ fontWeight: "700" }} >
+                  Attendence Report
+                </h3>
+              </div>
               <div className="card-body">
                 <div className="table-responsive" style={{}}>
                   <div className="">
