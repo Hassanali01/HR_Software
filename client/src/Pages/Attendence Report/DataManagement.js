@@ -184,7 +184,7 @@ const DataManagement = () => {
                           onClick={generateAttendanceReportOfSpecificDate}
                           style={{
                             border: "none",
-                            backgroundColor: "#17a392",
+                            backgroundColor: "rgb(137, 179, 83)",
                             color: "white",
                             padding: "5px",
                             borderRadius: "5px",
@@ -200,7 +200,7 @@ const DataManagement = () => {
                             onClick={postData}
                             style={{
                               border: "none",
-                              backgroundColor: "#17a392",
+                              backgroundColor: "rgb(137, 179, 83)",
                               color: "white",
                               padding: "5px",
                               borderRadius: "5px",

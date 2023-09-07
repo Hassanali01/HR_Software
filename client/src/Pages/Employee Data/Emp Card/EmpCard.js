@@ -158,7 +158,7 @@ const EmpCard = ({ data, setUpdate }) => {
                   style={{
                     border: "none",
                     borderRadius: "5px",
-                    backgroundColor: "#26ad9d",
+                    backgroundColor: "rgb(137, 179, 83)" ,
                     color: "#fff",
                     marginTop: "5px",
                   }}
@@ -243,7 +243,7 @@ const EmpCard = ({ data, setUpdate }) => {
             </Row>
 
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <Button type="submit" className="btn">
+              <Button type="submit" className="btn"  style={{backgroundColor: "rgb(137, 179, 83)"}}>
                 Update Employee
               </Button>
             </div>

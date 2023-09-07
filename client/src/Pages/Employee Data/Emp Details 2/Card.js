@@ -468,6 +468,7 @@ const Cards = ({ data }) => {
               onClick={() => {
                 setDisableFields(false);
               }}
+              style={{backgroundColor: "rgb(137, 179, 83)"}}
             >
               Edit
             </Button>
@@ -480,6 +481,7 @@ const Cards = ({ data }) => {
                 addhistory();
                 Closechildmodal();
               }}
+              style={{backgroundColor: "rgb(137, 179, 83)"}}
             >
               Save
             </Button>
@@ -1065,6 +1067,7 @@ const Cards = ({ data }) => {
                           onClick={() => {
                             setShowChildModel1(true);
                           }}
+                          style={{backgroundColor: "rgb(137, 179, 83)"}}
                         >
                           Edit
                         </a>
@@ -1138,6 +1141,7 @@ const Cards = ({ data }) => {
                           onClick={() => {
                             setShowChildModel(true);
                           }}
+                          style={{backgroundColor: "rgb(137, 179, 83)"}}
                         >
                           Edit
                         </a>
@@ -1464,16 +1468,7 @@ const Cards = ({ data }) => {
                 </Accordion.Header>
                 <Row>
                   <Accordion.Body>
-                    <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
-                      <a
-                        className="btn buttoncolor  "
-                        onClick={() => {
-
-                        }}
-                      >
-                        Edit
-                      </a>
-                    </div>
+                
                     <Row style={{ marginTop: "3%" }}>
                       <Col lg={12}>
                         <Table striped bordered hover>
@@ -1636,6 +1631,7 @@ const Cards = ({ data }) => {
                   addeducation();
                   Closechildmodal1();
                 }}
+                style={{backgroundColor: "rgb(137, 179, 83)"}}
               >
                 Add Education
               </Button>
@@ -1765,6 +1761,7 @@ const Cards = ({ data }) => {
                   addhistory();
                   Closechildmodal();
                 }}
+                style={{backgroundColor: "rgb(137, 179, 83)"}}
               >
                 Add Employement
               </Button>

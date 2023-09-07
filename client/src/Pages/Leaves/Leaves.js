@@ -72,7 +72,7 @@ const Leaves = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#add_calendar"
                       onClick={handleShow}
-                      style={{ backgroundColor: "#89b353", color: "#ffffff"}}
+                      style={{ backgroundColor: "rgb(137, 179, 83)", color: "#ffffff"}}
                     >
                       <i
                         className="fa fa-plus"
@@ -140,7 +140,7 @@ const Leaves = () => {
               }}
             ></textarea>
             <div className="mt-2 d-flex align-items-center justify-content-center">
-              <Button type="submit">Submit</Button>
+              <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
             </div>
           </Form>
         </Modal.Body>

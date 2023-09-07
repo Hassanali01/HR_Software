@@ -295,6 +295,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                     onClick={() => {
                       setShowChildModel(true);
                     }}
+                    style={{backgroundColor: "rgb(137, 179, 83)"}}
                   >
                     Add Employement
                   </Button>
@@ -477,6 +478,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                         Closechildmodal();
                         values.employementhistory = employement;
                       }}
+                      style={{backgroundColor: "rgb(137, 179, 83)"}}
                     >
                       Add Employement
                     </Button>
@@ -499,6 +501,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                     onClick={() => {
                       setShowChildModel1(true);
                     }}
+                    style={{backgroundColor: "rgb(137, 179, 83)"}}
                   >
                     Add Education
                   </Button>
@@ -676,6 +679,7 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
                         Closechildmodal1();
                         values.educationdetails = education;
                       }}
+                      style={{backgroundColor: "rgb(137, 179, 83)"}}
                     >
                       Add Education
                     </Button>
@@ -685,14 +689,14 @@ const StepSix = ({ nextStep, handleFormData, prevStep, values }) => {
             </Modal>
 
             <div style={{ display: "flex" }}>
-              <Button variant="primary" onClick={prevStep}>
+              <Button variant="primary" onClick={prevStep} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                 Previous
               </Button>
 
               <Button
                 variant="primary"
                 type="submit"
-                style={{ marginLeft: "2%" }}
+                style={{ marginLeft: "2%",backgroundColor: "rgb(137, 179, 83)" }}
                 onClick={handleSubmit}
               >
                 Submit

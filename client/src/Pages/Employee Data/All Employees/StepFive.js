@@ -175,14 +175,14 @@ const StepFive = ({ nextStep, handleFormData, prevStep, values }) => {
             </Row>
 
             <div style={{ display: "flex" }}>
-              <Button variant="primary" onClick={prevStep}>
+              <Button variant="primary" onClick={prevStep} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                 Previous
               </Button>
 
               <Button
                 variant="primary"
                 type="submit"
-                style={{ marginLeft: "2%" }}
+                style={{ marginLeft: "2%",backgroundColor: "rgb(137, 179, 83)" }}
               >
                 Next
               </Button>

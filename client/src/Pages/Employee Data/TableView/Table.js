@@ -126,6 +126,7 @@ const Table = ({ data }) => {
               <Link
                 to={`/employees/${params.row.identity}`}
                 className={"buttoncolor px-2 py-1 rounded"}
+                style={{backgroundColor: "rgb(137, 179, 83)"}}
               >
                 Details
               </Link>
@@ -145,11 +146,11 @@ const Table = ({ data }) => {
             <div>
               <p
                 className={"buttoncolor px-2 py-1 rounded "}
-                style={{ cursor: "pointer" }}
                 onClick={() => {
                   handleShowmodal(params);
                   setShowmodal(!showmodal);
                 }}
+                style={{backgroundColor: "rgb(137, 179, 83)",cursor: "pointer"}}
               >
                 Add Attendance
               </p>
@@ -207,7 +208,7 @@ const Table = ({ data }) => {
                 {checkin ? (
                   In
                 ) : (
-                  <button className="btn btn-primary" onClick={checkInn}>
+                  <button className="btn btn-primary" onClick={checkInn}  style={{backgroundColor: "rgb(137, 179, 83)"}}>
                     Check In
                   </button>
                 )}
@@ -217,14 +218,14 @@ const Table = ({ data }) => {
                 {checkout ? (
                   out
                 ) : (
-                  <button className="btn btn-primary" onClick={checkOut}>
+                  <button className="btn btn-primary" onClick={checkOut}  style={{backgroundColor: "rgb(137, 179, 83)"}}>
                     Check Out
                   </button>
                 )}
 
               </div>
               <div>
-                <Button className=" rounded " type="submit">
+                <Button className=" rounded " type="submit"  style={{backgroundColor: "rgb(137, 179, 83)"}}>
                   Submit Attendance
                 </Button>
               </div>

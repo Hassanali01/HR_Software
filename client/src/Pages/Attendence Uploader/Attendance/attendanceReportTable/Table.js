@@ -46,24 +46,25 @@ const Table = ({ data, setTableData }) => {
                     setOut(params.value.out)
                     setTableData(data)
                     handleShow()
-                }}>
+                }}
+                    style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                     Edit
                 </Button>)
             }
         },
     ]
-    const rows = data.length>0 && data.filter((d) => d.Name && d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row, index) => (
+    const rows = data.length > 0 && data.filter((d) => d.Name && d.Name.toLowerCase().includes(tableSearch.toLowerCase())).map((row, index) => (
         {
-        id: index,
-        Employee_ID: row.Employee_ID,
-        Name: row.Name,
-        Date: row.Date,
-        Department: row.department,
-        In: row.in,
-        Out: row.out,
-        Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
-        Action: row
-    }))
+            id: index,
+            Employee_ID: row.Employee_ID,
+            Name: row.Name,
+            Date: row.Date,
+            Department: row.department,
+            In: row.in,
+            Out: row.out,
+            Status: row.in.split(":")[0] != "NaN" ? "Present" : "Absent",
+            Action: row
+        }))
 
     return (
         <div>
@@ -105,11 +106,11 @@ const Table = ({ data, setTableData }) => {
                         <div style={{ width: 170 }}></div>
                     </div>
                     Search Employee: <input style={{ width: "50vw" }} value={tableSearch} onChange={(e) => { setTableSearch(e.target.value) }}></input>
-                    <br />                 
+                    <br />
                     <br />
                     <DataGrid
                         style={{ height: "68vh", width: "76vw" }}
-                        rows= {rows}
+                        rows={rows}
                         columns={columns}
                         pageSize={40}
                     />

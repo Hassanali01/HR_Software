@@ -14,14 +14,11 @@ const Setup = () => {
   const [setupTitle, setSetupTitle] = useState("");
   const [setupFormula, setSetupFormula] = useState("");
   const [applyGazettedHoliday, setApplyGazettedHoliday] = useState(true);
-
   const [sundayDayoff, setSundayDayoff] = useState(true);
   const [lastSaturdayDayoff, setLastSaturdayDayoff] = useState(true);
 
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +40,7 @@ const Setup = () => {
           <div className="container">
             <div className="card">
               <div className="card-header buttoncolor " style={{ display: "block", height: "64px" }}>
-                <h3 className="card-title" style={{ color: "white" , fontWeight:"700"}}>
+                <h3 className="card-title" style={{ color: "white", fontWeight: "700" }}>
                   Payroll Setups
                 </h3>
                 <div className="col">
@@ -69,7 +66,7 @@ const Setup = () => {
                   <div style={{ height: "min-content", width: "100%" }}>
                     <Container >
                       {payrollSetups.map((ps) =>
-                        <Card style={{width: "91%"}}>
+                        <Card style={{ width: "91%" }}>
                           <Row className="px-3">
                             <Col xxl='12' xl='12' md='12' lg='12' sm='12'>
                               <Row>
@@ -90,19 +87,15 @@ const Setup = () => {
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Gazetted holidays applied</h6>{JSON.stringify(ps.applyGazettedHoliday)}</div>
-
                                   </div>
                                 </Col>
-
                               </Row>
                               <Row>
                                 <Col xl='6' lg='6' md='6'>
                                   <div className="d-flex flex-column justify-content-center py-3">
                                     <div><h6 className="font-weight-bold">Days off:</h6>{JSON.stringify(ps.daysoff)}</div>
-
                                   </div>
                                 </Col>
-
                               </Row>
                             </Col>
                           </Row>
@@ -119,7 +112,6 @@ const Setup = () => {
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
 
                         <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e) => { setApplyGazettedHoliday(e.target.checked) }} />
-
                         <br />
                         <label>Days off observed on:</label><br />
                         <p>
@@ -128,10 +120,9 @@ const Setup = () => {
                           <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
                         </p>
 
-
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={handleClose} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
@@ -139,14 +130,12 @@ const Setup = () => {
                             title: setupTitle, npd_formula: setupFormula, applyGazettedHoliday: applyGazettedHoliday,
                             daysoff: { sundayDayoff, lastSaturdayDayoff }
                           });
-
                           handleClose()
-                        }}>
+                        }} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                           Save Changes
                         </Button>
                       </Modal.Footer>
                     </Modal>
-
                   </div>
                 </div>
               </div>

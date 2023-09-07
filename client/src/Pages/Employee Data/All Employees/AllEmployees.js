@@ -292,6 +292,7 @@ const AllEmployees = () => {
                   className="btn add-btn "
                   data-bs-toggle="modal"
                   data-bs-target="#add_employee"
+                  style={{backgroundColor: "rgb(137, 179, 83)"}}
                 >
                   <i
                     className="fa fa-plus"
@@ -373,7 +374,7 @@ const AllEmployees = () => {
             <Modal.Header closeButton>
               <Modal.Title
                 id="contained-modal-title-vcenter "
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "center"  }}
               >
                 <h5> Add Employee</h5>
               </Modal.Title>
@@ -552,13 +553,14 @@ const AllEmployees = () => {
                 </Col>
               </Row>
 
-              <div className="d-flex justify-content-center my-3">
+              <div className="d-flex justify-content-center my-3" >
                 <Button
                   onClick={() => {
                     addeducation();
                     Closechildmodal1();
                     showChildModel1();
                   }}
+      
                 >
                   Add Education
                 </Button>

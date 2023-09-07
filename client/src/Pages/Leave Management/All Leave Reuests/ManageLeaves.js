@@ -493,7 +493,7 @@ const ManageLeaves = () => {
 
                 <Col sm={3}>
                   <Button
-                    style={{ width: "100%" }}
+                    style={{ width: "100%" ,backgroundColor: "rgb(137, 179, 83)" }}
                     onClick={() => {
                       var extension = modaldata.attachment.name.substring(
                         modaldata.attachment.name.lastIndexOf(".")
@@ -539,7 +539,7 @@ const ManageLeaves = () => {
                       <option>Approved</option>
                     </Form.Select>
                     <div className="my-3">
-                      <Button type="submit">Update Status</Button>
+                      <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Update Status</Button>
                     </div>
                   </Form>
                 </Col>
@@ -571,11 +571,12 @@ const ManageLeaves = () => {
                       className="my-3 d-flex justify-content-between"
                       style={{ width: "35%" }}
                     >
-                      <Button type="submit">Update Status</Button>
+                      <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Update Status</Button>
                       <Button
                         onClick={() => {
                           handlePrint();
                         }}
+                        style={{backgroundColor: "rgb(137, 179, 83)"}}
                       >
                         Generate PDF
                       </Button>

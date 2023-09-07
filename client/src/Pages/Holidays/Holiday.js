@@ -210,7 +210,7 @@ const Holiday = () => {
               </Form.Group>
 
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="submit" className="btn mt-4">
+                <Button type="submit" className="btn mt-4" style={{backgroundColor: "rgb(137, 179, 83)"}}>
                   Add Holidays
                 </Button>
               </div>

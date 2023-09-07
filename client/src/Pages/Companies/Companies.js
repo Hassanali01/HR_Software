@@ -186,7 +186,7 @@ const Companies = () => {
               }}
             ></textarea>
             <div className="mt-2 d-flex align-items-center justify-content-center">
-              <Button type="submit">Submit</Button>
+              <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
             </div>
           </Form>
         </Modal.Body>

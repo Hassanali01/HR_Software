@@ -49,7 +49,7 @@ export class EcxelImport extends Component {
               id="button"
               onChange={this.uploadFile}
               style={{ width: "40%", display: "none", backgroundColor: '#17a392', color: 'white', }}
-            /><span style={{ backgroundColor: '#17a392', color: 'white', padding: '8px', borderRadius: '5px' }}>Upload</span></Form.Label>
+            /><span style={{backgroundColor: "rgb(137, 179, 83)", color: 'white', padding: '8px', borderRadius: '5px' }}>Upload</span></Form.Label>
 
 
         </Stack>

@@ -344,7 +344,7 @@ const StepOne = ({ nextStep, handleFormData, values }) => {
                 </Col>
               </Row>
 
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" style={{backgroundColor: "rgb(137, 179, 83)", marginTop: "10px"}}>
                 Next
               </Button>
             </Form>

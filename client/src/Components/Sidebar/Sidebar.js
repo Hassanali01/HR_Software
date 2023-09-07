@@ -12,10 +12,7 @@ const Sidebar = () => {
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
 
-  // const activeLinkStyle = {
-  //   backgroundColor: 'yellow-green', 
-
-  // };
+ 
 
   return (
     <>
@@ -66,7 +63,7 @@ const Sidebar = () => {
               </li>
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/employees" className="nav-link">
+                  <Link to="/employees" className="nav-link" >
                     <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
                     <p className='iconColor'>
                       Employees

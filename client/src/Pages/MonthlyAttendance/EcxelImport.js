@@ -32,7 +32,7 @@ export class EcxelImport extends Component {
       <div className="excel-import-container" >
         <div className="file-upload" style={{backgroundColor:"white"}}>
           <input type="file" onChange={this.uploadFile} />
-          <button style={{width:"200px"}}>Upload Excel File</button>
+          <button style={{width:"200px" , backgroundColor: "rgb(137, 179, 83)"}}>Upload Excel File</button>
         </div>
       </div>
     )

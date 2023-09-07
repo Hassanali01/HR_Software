@@ -436,7 +436,7 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                     <Col>
-                                      <Button variant="primary" type="submit" className="submitButton">
+                                      <Button variant="primary" type="submit" className="submitButton" style={{backgroundColor: "rgb(137, 179, 83)"}}>
                                         Submit
                                       </Button>
                                     </Col>
@@ -536,6 +536,7 @@ const LeaveRequest = () => {
                   onClick={() => {
                     handlePrint();
                   }}
+                  style={{backgroundColor: "rgb(137, 179, 83)"}}
                 >
                   Generate Report
                 </Button>

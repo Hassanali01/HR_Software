@@ -233,6 +233,7 @@ const Attendance = () => {
                         style={{
                           width: "auto",
                           height: "auto",
+                          backgroundColor: "rgb(137, 179, 83)"
                         }}
                       >
                         Submit

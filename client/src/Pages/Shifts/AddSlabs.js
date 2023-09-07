@@ -120,32 +120,7 @@ function AddSlabs() {
     return (
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-                <section className="content-header ">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col">
-                                <h3 className="page-title">Add Slabs</h3>
-                                <ul
-                                    className="breadcrumb"
-                                    style={{ backgroundColor: "#f7f7f7" }}
-                                >
-                                    <li className="breadcrumb-item">
-                                        <Link to="/" style={{ color: "#1f1f1f" }}>
-                                            Human Resource
-                                        </Link>
-                                    </li>
-                                    <li className="breadcrumb-item">
-                                        <Link to="/shifts" style={{ color: "#1f1f1f" }}>Job Shifts </Link>
-                                    </li >
-                                    <li className="breadcrumb-item">
-                                        <Link to="/addslabs" style={{ color: "#1f1f1f" }}>Add Slabs </Link>
-                                    </li>
-                                </ul>
 
-                            </div>
-                        </div>
-                    </div>
-                </section>
                 <Container>
 
                     <Card sx={{ minWidth: 275 }}>
@@ -187,6 +162,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
+                                    style={{backgroundColor: "rgb(137, 179, 83)"}}
                                 >
                                     <i
                                         className="fa fa-plus"
@@ -244,6 +220,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
+                                    style={{backgroundColor: "rgb(137, 179, 83)"}}
                                 >
                                     <i
                                         className="fa fa-plus"
@@ -318,7 +295,7 @@ function AddSlabs() {
                             <option value="1">1</option>
                         </Form.Select>
                         <div className="mt-2 d-flex align-items-center justify-content-center">
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
                         </div>
                     </Form>
                 </Modal.Body>
@@ -354,7 +331,7 @@ function AddSlabs() {
                             <option value="1">1</option>
                         </Form.Select>
                         <div className="mt-2 d-flex align-items-center justify-content-center">
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
                         </div>
                     </Form>
                 </Modal.Body>

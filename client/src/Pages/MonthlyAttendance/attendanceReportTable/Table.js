@@ -70,17 +70,22 @@ const Table = ({ data, setTableData }) => {
                     setIdOfEmployee(params.value.employee._id)
                     setTableData(data)
                     handleShow()
-                }}  title="Delete">
+                }}  title="Delete"
+                style={{backgroundColor: "rgb(137, 179, 83)"}}
+                >
                     Detail
                 </Button>)
             }
         },
         {
             field: "delete", headerName: "Delete", width: 100, renderCell: (params) => {
-                return (<Button variant="primary" onClick={() => { 
-                    deleteAttendence(params.value.employee._id,params.value.date) }}>
-                    Delete
-                </Button>)
+                return (<i variant="primary" onClick={() => { 
+                    deleteAttendence(params.value.employee._id,params.value.date) }}
+                    style={{ color: 'red',fontSize: "20px", cursor: 'pointer', float: "center"}} 
+                    class=" fa-regular fa-trash-can" 
+                     title="Delete">
+                  
+                </i>)
             }
         },
     ]
@@ -145,7 +150,7 @@ const Table = ({ data, setTableData }) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={() => {
@@ -155,7 +160,7 @@ const Table = ({ data, setTableData }) => {
                         data.filter((d) => d.Employee_ID == Employee_ID)[0].date = Date
                         updateAttendance()
                         setShow(false)
-                    }}>
+                    }} style={{backgroundColor: "rgb(137, 179, 83)"}}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

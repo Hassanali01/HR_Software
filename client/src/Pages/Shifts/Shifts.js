@@ -122,7 +122,7 @@ function Shifts() {
                                                     className="btn add-btn "
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#add_calendar"
-                                                    style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}
+                                                    style={{ backgroundColor: "rgb(137, 179, 83)", color: "#ffffff", padding: "11px 5px" }}
                                                 >
                                                     <i
                                                         className="fa fa-plus"
@@ -221,7 +221,7 @@ function Shifts() {
                             }}
                         />
                         <div className="mt-2 d-flex align-items-center justify-content-center">
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
                         </div>
                     </Form>
                 </Modal.Body>
