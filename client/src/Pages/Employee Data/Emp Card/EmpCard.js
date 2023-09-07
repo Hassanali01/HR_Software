@@ -80,8 +80,8 @@ const EmpCard = ({ data, setUpdate }) => {
   };
   const applyImgStyle = {
     borderRadius: "50%",
-    width: "105px",
-    height: "105px",
+    width: "100px",
+    height: "100px",
     marginTop: "2px",
   };
   const cardImg = {
@@ -97,7 +97,7 @@ const EmpCard = ({ data, setUpdate }) => {
 
   return (
     <>
-      <Card style={{height: "300px"}}>
+      <Card style={{height: "270px", marginTop: "0px"}}>
         <div style={{ display: "flex", justifyContent: "end" }}>
           <IconButton
             aria-label="more"

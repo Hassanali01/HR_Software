@@ -9,10 +9,10 @@ import { Link } from 'react-router-dom';
 const Table = ({ data }) => {
 
   const columns = [
-    { field: "shift_name", headerName: "Shift Name", width: 210 },
+    { field: "shift_name", headerName: "Shift Name", width: 200 },
     { field: "description", headerName: "Description", width: 200 },
-    { field: "start_time", headerName: "Start Time", width: 210 },
-    { field: "end_time", headerName: "End Time", width: 210 },
+    { field: "start_time", headerName: "Start Time", width: 200 },
+    { field: "end_time", headerName: "End Time", width: 200 },
     {
       field: "action",
       headerName: "Action",
@@ -36,7 +36,7 @@ const Table = ({ data }) => {
       headerName: "Detail",
       width: 210,
       renderCell: (params) => (
-        <Link to="/addslabs" state={{ id: params.row.id }} style={{ backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }} >
+        <Link to="/addslabs" state={{ id: params.row.id }} style={{ backgroundColor: '#17a392', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 16px', cursor: 'pointer' }} >
           Detail
         </Link>
       ),

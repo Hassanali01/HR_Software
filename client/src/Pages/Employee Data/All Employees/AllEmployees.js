@@ -223,7 +223,7 @@ const AllEmployees = () => {
     setView(nextView);
     setView(!view);
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
@@ -287,12 +287,40 @@ const AllEmployees = () => {
         <section className="content-header">
           <div className="container-fluid">
             <div className="row align-items-center">
-              <div className="col-auto float-start ms-auto">
+              <div className="col-auto float-start ms-auto" style={{ display: "flex", gap: "15px" }}>
+                <div
+                  // className="mt-4"
+                  style={{ display: "flex" }}
+                >
+                  <div>
+                    <ToggleButtonGroup
+                      orientation="horizontal"
+                      value={view}
+                      exclusive
+                      onChange={handleChange}
+                    >
+                      <ToggleButton
+                        value="module"
+                        aria-label="module"
+                        selected={!view}
+                      >
+                        <ViewModuleIcon />
+                      </ToggleButton>
+                      <ToggleButton
+                        value="list"
+                        aria-label="list"
+                        selected={view}
+                      >
+                        <ViewListIcon />
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </div>
+                </div>
                 <a
                   className="btn add-btn "
                   data-bs-toggle="modal"
                   data-bs-target="#add_employee"
-                  style={{backgroundColor: "rgb(137, 179, 83)"}}
+                  style={{ backgroundColor: "rgb(137, 179, 83)" }}
                 >
                   <i
                     className="fa fa-plus"
@@ -302,9 +330,11 @@ const AllEmployees = () => {
                   </i>
                   <Link to="/employeeData">Add Employee</Link>
                 </a>
+
+
               </div>
 
-              <div
+              {/* <div
                 className="mt-4"
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
@@ -331,7 +361,7 @@ const AllEmployees = () => {
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -346,18 +376,18 @@ const AllEmployees = () => {
               {view
                 ? datas && <TableView data={datas} />
                 : datas &&
-                  datas.map((p, i) => {
-                    return (
-                      <div
-                        className="col-md-2 col-sm-2 col-2 col-lg-2 col-xl-2"
-                        key={i}
-                      >
-                        <div>
-                          <Card data={p} setUpdate={setUpdate} />
-                        </div>
+                datas.map((p, i) => {
+                  return (
+                    <div
+                      className="col-md-2 col-sm-2 col-2 col-lg-2 col-xl-2"
+                      key={i}
+                    >
+                      <div>
+                        <Card data={p} setUpdate={setUpdate} />
                       </div>
-                    );
-                  })}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </section>
@@ -374,7 +404,7 @@ const AllEmployees = () => {
             <Modal.Header closeButton>
               <Modal.Title
                 id="contained-modal-title-vcenter "
-                style={{ textAlign: "center"  }}
+                style={{ textAlign: "center" }}
               >
                 <h5> Add Employee</h5>
               </Modal.Title>
@@ -560,7 +590,7 @@ const AllEmployees = () => {
                     Closechildmodal1();
                     showChildModel1();
                   }}
-      
+
                 >
                   Add Education
                 </Button>
