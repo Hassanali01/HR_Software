@@ -1,13 +1,11 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import "./table.css"
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
 
 const Table = ({ data }) => {
-
   const columns = [
     { field: "shift_name", headerName: "Shift Name", width: 200 },
     { field: "description", headerName: "Description", width: 200 },

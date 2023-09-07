@@ -336,9 +336,15 @@ const MonthlyPayroll = () => {
   return (
     <>
       <div className="content-wrapper">
+    
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
+        <div className="card-header  buttoncolor " style={{ paddingRight: "0px" , height: "57px"}}>
+          <h3 className="card-title" style={{ fontWeight: "700" }} >
+            Monthly Payroll
+          </h3>
+        </div>
           <div className='card-body'>
-            <Button className="mr-3" variant="primary" onClick={handleShow} style={{backgroundColor: "rgb(137, 179, 83)"}}>
+            <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
               Select the Month
             </Button>
             Payroll Month: &nbsp;
@@ -386,7 +392,7 @@ const MonthlyPayroll = () => {
                       }
                       return out
                     }, {})
-                
+
                     try {
                       const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                       const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
@@ -418,10 +424,10 @@ const MonthlyPayroll = () => {
                   }
                 );
               } catch (error) { console.log("error in payroll", error) }
-            }} style={{backgroundColor: "rgb(137, 179, 83)"}}>Generate Payroll</Button>
+            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Payroll</Button>
 
             <ReactToPrint
-              trigger={() => <Button style={{backgroundColor: "rgb(137, 179, 83)"}}>Print Payroll</Button>}
+              trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
               content={() => componentRef}
             />
             {/* component to be printed */}

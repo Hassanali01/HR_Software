@@ -29,12 +29,13 @@ function Shifts() {
     const [view, setView] = useState('module');
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const url2 = "shifts/addShifts"
-    const url1 = "shifts/allShifts";
     const [shiftname, setshiftname] = useState("");
     const [description, setDescription] = useState("");
     const [fromTime, setFromTime] = useState("")
     const [endTime, setEndTime] = useState("")
+
+    const url2 = "shifts/addShifts"
+    const url1 = "shifts/allShifts";
 
     const Shifts = async () => {
         try {
@@ -60,7 +61,6 @@ function Shifts() {
                 start_time: fromTime,
                 end_time: endTime,
             });
-            console.log(shiftname, description, fromTime, endTime)
             save && NotificationManager.success("Successfully Added");
         } catch (error) {
             NotificationManager.error("Failed to add department");
@@ -79,8 +79,6 @@ function Shifts() {
     return (
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-            
-
                 <section className="content">
                     <div className="container">
                         <div className="card">
@@ -90,7 +88,6 @@ function Shifts() {
                                 </h3>
                                 <div className="col" >
                                     <div className="col-auto float-end ms-auto" style={{ display: "flex" }}>
-
                                         <div
                                             className="mb-3"
                                             style={{
@@ -109,7 +106,6 @@ function Shifts() {
                                                     <ToggleButton value="module" aria-label="module" selected={!view}>
                                                         <ViewListIcon />
                                                     </ToggleButton>
-
                                                     <ToggleButton value="list" aria-label="list" selected={view}>
                                                         <ViewModuleIcon />
                                                     </ToggleButton>

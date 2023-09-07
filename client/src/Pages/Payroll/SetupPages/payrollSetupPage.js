@@ -56,7 +56,6 @@ const Setup = () => {
                         </i>
                         Add Setup
                       </Button>
-
                     </div>
                   </div>
                 </div>
@@ -102,7 +101,6 @@ const Setup = () => {
                         </Card>
                       )
                       }
-
                     </Container>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
@@ -110,7 +108,6 @@ const Setup = () => {
                       </Modal.Header>
                       <Modal.Body>
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
-
                         <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e) => { setApplyGazettedHoliday(e.target.checked) }} />
                         <br />
                         <label>Days off observed on:</label><br />
@@ -119,10 +116,9 @@ const Setup = () => {
                           <br />
                           <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
                         </p>
-
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose} style={{backgroundColor: "rgb(137, 179, 83)"}}>
+                        <Button variant="secondary" onClick={handleClose} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                           Close
                         </Button>
                         <Button variant="primary" onClick={async () => {
@@ -131,7 +127,7 @@ const Setup = () => {
                             daysoff: { sundayDayoff, lastSaturdayDayoff }
                           });
                           handleClose()
-                        }} style={{backgroundColor: "rgb(137, 179, 83)"}}>
+                        }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                           Save Changes
                         </Button>
                       </Modal.Footer>

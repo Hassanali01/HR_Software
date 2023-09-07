@@ -35,8 +35,6 @@ function AddSlabs() {
 
     const id = location.state.id
 
-
-
     const handleChange = (event, nextView) => {
         setView(!view);
         setView(nextView);
@@ -72,7 +70,6 @@ function AddSlabs() {
                     }
                 ]
             });
-
             save && NotificationManager.success("Successfully Added");
         } catch (error) {
             NotificationManager.error("Failed to add Slabs");
@@ -81,7 +78,6 @@ function AddSlabs() {
 
 
     const handleDelete = async (i) => {
-
         try {
             const response = await axios.delete(process.env.React_APP_ORIGIN_URL + `shifts/deleteslabs/${id}`, {
                 data: {
@@ -89,13 +85,10 @@ function AddSlabs() {
                     early_leave_slabs: i
                 }
             });
-
         } catch (error) {
             console.error(error);
-
         }
     };
-
 
 
     const fetchData = async () => {
@@ -109,6 +102,7 @@ function AddSlabs() {
             console.error('Axios error:', error);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, [])
@@ -120,9 +114,7 @@ function AddSlabs() {
     return (
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
-
                 <Container>
-
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <h2>Overview</h2>
@@ -162,7 +154,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
-                                    style={{backgroundColor: "rgb(137, 179, 83)"}}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
                                 >
                                     <i
                                         className="fa fa-plus"
@@ -203,7 +195,6 @@ function AddSlabs() {
                         </CardContent>
                     </Card>
                 </Container>
-
                 <Container>
                     <Card>
                         <CardContent>
@@ -220,7 +211,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
-                                    style={{backgroundColor: "rgb(137, 179, 83)"}}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
                                 >
                                     <i
                                         className="fa fa-plus"
@@ -295,7 +286,7 @@ function AddSlabs() {
                             <option value="1">1</option>
                         </Form.Select>
                         <div className="mt-2 d-flex align-items-center justify-content-center">
-                            <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
+                            <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Submit</Button>
                         </div>
                     </Form>
                 </Modal.Body>
@@ -331,7 +322,7 @@ function AddSlabs() {
                             <option value="1">1</option>
                         </Form.Select>
                         <div className="mt-2 d-flex align-items-center justify-content-center">
-                            <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
+                            <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Submit</Button>
                         </div>
                     </Form>
                 </Modal.Body>

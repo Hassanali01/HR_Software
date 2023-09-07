@@ -2,8 +2,10 @@ import React from 'react';
 import { useState, useMemo, useRef, useLayoutEffect } from 'react'
 
 export function FormulaInput(props) {
+
   const { modelValue, onChange, tokens, validationErrors } = props
   const [isFocused, setFocused] = useState(false)
+
   const highlight = useMemo(() => {
     const errorsByTokenIndexes = validationErrors && validationErrors.reduce((out, error) => {
       if (error.tokenIndex || error.tokenIndex === 0) {
@@ -11,6 +13,7 @@ export function FormulaInput(props) {
       }
       return out
     }, {})
+    
     return tokens && tokens.map((token, tokenIndex) => ({
       value: token.value,
       css: `fm-colored-input__highlight--${token.type}` + (errorsByTokenIndexes[tokenIndex] ? ' fm-colored-input__highlight--error' : '')

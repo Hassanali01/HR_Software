@@ -51,8 +51,8 @@ const MonthlyAttendance = () => {
     mywindow.document.write('</head><body ><div>');
     mywindow.document.write(document.getElementById(elem).innerHTML);
     mywindow.document.write('</div></body></html>');
-    mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
+    mywindow.document.close();
+    mywindow.focus();
     mywindow.print();
     mywindow.close();
     return true;
@@ -75,7 +75,7 @@ const MonthlyAttendance = () => {
   let InTimes = [];
   // for in
   table.map((d) => {
-    let fromExcel = d.in; //translates to 17:02:00
+    let fromExcel = d.in;
     let equivTimeIN = fromExcel * 24
     let hoursIN = Math.floor(equivTimeIN);
     var minutesIN = Math.round((equivTimeIN % 1) * 60)
@@ -184,16 +184,7 @@ const MonthlyAttendance = () => {
       );
 
 
-      // Object.entries(tempUserAttendance).forEach(
-      //   ([key, value]) => {
-      //     let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
-      //     appliedLeaves.forEach((al) => {
-      //       tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
-      //     })
-      //   }
-      // );
-
-
+      // adding 1 inside the user attendance
       tempAttendance.forEach((te) => {
         if (te.status == "P") {
           te.status = 1;
@@ -248,14 +239,11 @@ const MonthlyAttendance = () => {
         }
       })
 
-
+      // adding GH inside the user attendance
       gaztedholidays.map((i) => {
         tempAttendance.forEach((te) => {
-
           if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-
             if (te.employee.payroll_setup && te.employee.payroll_setup.applyGazettedHoliday) {
-
               if (te.status == 'A') {
                 te.in = "G.H";
                 te.out = "G.H";
@@ -282,7 +270,6 @@ const MonthlyAttendance = () => {
       }
       let allSat = daysOfMonth.filter((st) => st.day == "Sat")
       const lastSat = allSat[allSat.length - 1]
-
       const [day, month, year] = lastSat.date.split('/');
       const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
       const Finalsat = convertedDate.toISOString();
@@ -294,8 +281,8 @@ const MonthlyAttendance = () => {
         }
       })
 
+      // adding DO inside the user attendance
       tempAttendance.forEach((att) => {
-
         const locale = "en-US"
         var date = new Date(att.date);
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
@@ -328,14 +315,13 @@ const MonthlyAttendance = () => {
           te.out = "";
         }
       })
-
-
       const attendanceByEmployee = tempAttendance.reduce((empAtt, tempAtt) => {
         const { Employee_ID } = tempAtt;
         empAtt[Employee_ID] = empAtt[Employee_ID] ? empAtt[Employee_ID] : [];
         empAtt[Employee_ID].push(tempAtt);
         return empAtt;
       }, {});
+
 
       setEmployeesAttendance(attendanceByEmployee)
       setTableData(tempAttendance)
@@ -381,14 +367,12 @@ const MonthlyAttendance = () => {
           } catch (err) { console.log("error", err) }
         }
       );
-
-
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
     } catch (error) {
-
       NotificationManager.error("Please select the month of Attendance")
     }
   }
+
 
   return (
     <div>
@@ -404,15 +388,15 @@ const MonthlyAttendance = () => {
                     </h3>
                   </div>
                   <div className="card-body">
-                    <div style={{  }}>
+                    <div>
                       <div className="ml-5">
-                        <Button className="mr-3" variant="primary" onClick={handleShow} style={{backgroundColor: "rgb(137, 179, 83)"}}>
+                        <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                           Select the Month
                         </Button>
                         Attendance Month: &nbsp;
                         <input className="mr-3" value={payrollMonth} disabled="true"></input>
-                        <Button className="mr-3 showAttendance" onClick={showMonthAttendance} style={{backgroundColor: "rgb(137, 179, 83)"}}>Fetch</Button>
-                        <Button style={{ marginLeft: "20%" ,backgroundColor: "rgb(137, 179, 83)"}} onClick={() => { PrintElem('AttendanceToPrint') }}>Print monthly attendance</Button>
+                        <Button className="mr-3 showAttendance" onClick={showMonthAttendance} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Fetch</Button>
+                        <Button style={{ marginLeft: "20%", backgroundColor: "rgb(137, 179, 83)" }} onClick={() => { PrintElem('AttendanceToPrint') }}>Print monthly attendance</Button>
                       </div>
                       <Modal show={show} onHide={handleClose}>
                         <div className='d-flex justify-content-center'>
@@ -446,7 +430,6 @@ const MonthlyAttendance = () => {
                                 <th style={{ width: "100px", border: "1px solid black" }}>Day</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
-                                {/* <th style={{ width: "50px", border: "1px solid black" }}>Status</th> */}
                                 <th style={{ width: "290px", border: "1px solid black" }}>Remarks</th>
                               </tr>
                               {
@@ -455,16 +438,10 @@ const MonthlyAttendance = () => {
                                   <td style={{ width: "100px", border: "1px solid black" }}>{t.day}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
-                                  {/* <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td> */}
                                   <td style={{ width: "290px", border: "1px solid black" }}></td>
                                 </tr>)
                               }
 
-                              {/* <tr style={{ height: 30 }}>
-                                <td colSpan={5}></td>
-                                <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
-
-                              </tr> */}
                             </table>
                             <div style={{ marginTop: 40 }}>
                               <div style={{ marginLeft: "75%", fontSize: 15, marginRight: 0 }}>
