@@ -79,7 +79,7 @@ const Companies = () => {
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header  buttoncolor " >
+              <div className="card-header  buttoncolor " style={{paddingRight: "0px"}}>
                 <h3 className="card-title" style={{ fontWeight: "700"}} >
                   Companies
                 </h3>
@@ -87,6 +87,7 @@ const Companies = () => {
                   <div>
                     <ToggleButtonGroup
                       orientation="horizontal"
+                      style={{height: "38px"}}
                       value={view}
                       exclusive
                       onChange={handleChange}

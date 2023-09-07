@@ -81,16 +81,18 @@ const Departments = () => {
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header  buttoncolor">
+              <div className="card-header  buttoncolor" style={{paddingRight: "22px"}}>
                 <h3 className="card-title" style={{ fontWeight: "700"}}>
                   Departments
                 </h3>
                  <div className="icon-button">
                   <div>
                     <ToggleButtonGroup
+                        style={{height: "38px"}}
                       orientation="horizontal"
                       value={view}
                       exclusive
+                     
                       onChange={handleChange}
                     >
                       <ToggleButton value="module" aria-label="module" selected={!view}>

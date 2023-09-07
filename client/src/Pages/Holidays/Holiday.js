@@ -114,7 +114,7 @@ const Holiday = () => {
                     data-bs-toggle="modal"
                     data-bs-target="#add_calendar"
                     onClick={handleShow}
-                    style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}
+                    style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "6px 5px" }}
                   >
                     <i className="fa fa-plus">
                       {"    "}

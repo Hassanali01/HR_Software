@@ -61,7 +61,7 @@ const Leaves = () => {
           <div className="container">
             <div className="card">
               <div
-                className="card-header buttoncolor "  style={{ display: "block" , height: "64px"}}   >
+                className="card-header buttoncolor "  style={{ display: "block" , height: "57px"}}   >
                 <h3 className="card-title" style={{ color: "white" , fontWeight: "700"}}>
                   Leave Types
                 </h3>

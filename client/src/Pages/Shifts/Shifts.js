@@ -84,7 +84,7 @@ function Shifts() {
                 <section className="content">
                     <div className="container">
                         <div className="card">
-                            <div className="card-header  buttoncolor" style={{ display: "block" , paddingBottom: "0px" ,height: "64px"}}>
+                            <div className="card-header  buttoncolor" style={{ display: "block" , paddingBottom: "0px" ,height: "57px"}}>
                                 <h3 className="card-title" style={{ color: "white" , fontWeight: "700"}}>
                                     Job Shifts
                                 </h3>
@@ -102,6 +102,7 @@ function Shifts() {
                                                 <ToggleButtonGroup
                                                     orientation="horizontal"
                                                     value={view}
+                                                    style={{height: "38px"}}
                                                     exclusive
                                                     onChange={handleChange}
                                                 >
@@ -122,7 +123,7 @@ function Shifts() {
                                                     className="btn add-btn "
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#add_calendar"
-                                                    style={{ backgroundColor: "rgb(137, 179, 83)", color: "#ffffff", padding: "11px 5px" }}
+                                                    style={{ backgroundColor: "rgb(137, 179, 83)", color: "#ffffff", padding: "6px 5px" }}
                                                 >
                                                     <i
                                                         className="fa fa-plus"

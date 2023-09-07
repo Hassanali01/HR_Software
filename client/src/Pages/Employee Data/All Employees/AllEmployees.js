@@ -294,6 +294,7 @@ const AllEmployees = () => {
                 >
                   <div>
                     <ToggleButtonGroup
+                       style={{height: "38px"}}
                       orientation="horizontal"
                       value={view}
                       exclusive

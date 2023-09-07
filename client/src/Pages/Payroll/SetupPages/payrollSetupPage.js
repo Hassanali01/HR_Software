@@ -39,7 +39,7 @@ const Setup = () => {
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor " style={{ display: "block", height: "64px" }}>
+              <div className="card-header buttoncolor " style={{ display: "block", height: "57px" }}>
                 <h3 className="card-title" style={{ color: "white", fontWeight: "700" }}>
                   Payroll Setups
                 </h3>
@@ -47,7 +47,7 @@ const Setup = () => {
                   <div className="col-auto float-end ms-auto">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Button variant="primary" onClick={handleShow}
-                        style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "11px 5px" }}>
+                        style={{ backgroundColor: "#89b353", color: "#ffffff", padding: "6px 5px" }}>
                         <i
                           className="fa fa-plus"
                           style={{ fontSize: "14px", marginRight: "2px" }}
