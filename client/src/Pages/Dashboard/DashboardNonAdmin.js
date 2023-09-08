@@ -344,14 +344,14 @@ const DashboardNonAdmin = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>_id</th>
+                                    <th>Emp ID</th>
                                     <th>Name</th>
-                                    <th>department</th>
+                                    <th>Department</th>
                                     <th>Leave Type</th>
-                                    <th>from</th>
-                                    <th>to</th>
-                                    <th>reason</th>
-                                    <th>status</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>

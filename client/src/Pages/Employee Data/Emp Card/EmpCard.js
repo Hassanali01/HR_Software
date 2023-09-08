@@ -97,7 +97,7 @@ const EmpCard = ({ data, setUpdate }) => {
 
   return (
     <>
-      <Card style={{height: "270px", marginTop: "0px"}}>
+      <Card style={{height: "284px", marginTop: "0px"}}>
         <div style={{ display: "flex", justifyContent: "end" }}>
           <IconButton
             aria-label="more"

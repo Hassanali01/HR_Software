@@ -3,9 +3,11 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
+import { Checkbox } from "@mui/material";
 import Modal from 'react-bootstrap/Modal';
 import App from "./FormulaInput/FormulaEditor";
 import HeaderContext from '../../../Context/HeaderContext'
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 const Setup = () => {
 
@@ -65,36 +67,47 @@ const Setup = () => {
                   <div style={{ height: "min-content", width: "100%" }}>
                     <Container >
                       {payrollSetups.map((ps) =>
-                        <Card style={{ width: "91%" }}>
+                        <Card style={{ width: "95%", margin: "30px auto" }}>
+                          <CardHeader style={{ gap: "10px" }}>
+                            <h4 style={{ marginTop: "5px" }}>{ps.title}</h4>
+                          </CardHeader>
+
                           <Row className="px-3">
                             <Col xxl='12' xl='12' md='12' lg='12' sm='12'>
-                              <Row>
-                                <Col xl='3' lg='3' md='3'>
-                                  <div className="d-flex flex-column justify-content-center py-3">
-                                    <div><h6 className="font-weight-bold">Title</h6></div>
-                                    <div><p>{ps.title}</p></div>
-                                  </div>
-                                </Col>
-                                <Col xl='9' lg='9' md='9'>
-                                  <div className="d-flex flex-column justify-content-center py-3">
-                                    <div><h6 className="font-weight-bold">Formula</h6></div>
-                                    <div><p>{ps.npd_formula}</p></div>
-                                  </div>
-                                </Col>
+                              <Row xl='9' lg='9' md='9'>
+                                <div className="d-flex flex-row  py-3 " style={{ gap: "60px" }}>
+                                  <label className="font-weight-bold">Formula : </label>
+                                  <p>{ps.npd_formula}</p>
+                                </div>
                               </Row>
-                              <Row>
-                                <Col xl='6' lg='6' md='6'>
-                                  <div className="d-flex flex-column justify-content-center py-3">
-                                    <div><h6 className="font-weight-bold">Gazetted holidays applied</h6>{JSON.stringify(ps.applyGazettedHoliday)}</div>
-                                  </div>
-                                </Col>
+                              <Row xl='9' lg='9' md='9'>
+                                <div className="d-flex flex-row py-3" style={{ gap: "60px" }}>
+                                  <label className="font-weight-bold" style={{marginTop:"6px"}}>Gazetted holidays applied :</label>
+                                  {ps.applyGazettedHoliday ? (
+                                    <label>
+                                     <Checkbox defaultChecked color="success" readOnly/>
+                                    
+                                    </label>
+                                  ) : (
+                                    <p> Gazetted Holiday is not Applied</p>
+                                  )}
+                                </div>
                               </Row>
-                              <Row>
-                                <Col xl='6' lg='6' md='6'>
-                                  <div className="d-flex flex-column justify-content-center py-3">
-                                    <div><h6 className="font-weight-bold">Days off:</h6>{JSON.stringify(ps.daysoff)}</div>
-                                  </div>
-                                </Col>
+                              <Row xl='9' lg='9' md='9'>
+                                <div className="d-flex flex-row py-3" style={{ gap: "60px" }}>
+                                  <label className="font-weight-bold">Days off:</label>
+                                  <p>
+                                    {(() => {
+                                      const keys = [];
+                                      for (const key in ps.daysoff) {
+                                        if (ps.daysoff.hasOwnProperty(key)) {
+                                          keys.push(key);
+                                        }
+                                      }
+                                      return keys.join(', ').split("Dayoff"); 
+                                    })()}
+                                  </p>
+                                </div>
                               </Row>
                             </Col>
                           </Row>

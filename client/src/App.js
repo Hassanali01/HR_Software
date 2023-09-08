@@ -35,7 +35,7 @@ import HeaderState from "./Context/HeaderState";
 
 function App(props) {
   const context = useContext(Context);
-
+  const { user } = useContext(Context);
   return (
     <>
       <HeaderState>
@@ -48,8 +48,8 @@ function App(props) {
                 <Route path="/" element={<Navigate to="/dashboard" />}></Route>
                 {context.user.isAdmin && <Route path="/dashboard" element={<Dashboard />} />}
                 <Route path="/dashboard" element={<DashboardNonAdmin />} />
-                <Route path="/attendance" element={<EmpAttendance />} />
-                <Route path="/holidays" element={<EmpHolidays />} />
+                <Route path="/attendance" element={user.isAdmin &&  <EmpAttendance />} />
+                <Route path="/holidays" element={user.isAdmin &&  <EmpHolidays />} />
                 <Route path="/employees" element={<AllEmployees />} />
                 <Route path="/employees/:id" element={<EmpDetails />} />
                 <Route path="/calendar" element={<Calendar />}></Route>
@@ -60,11 +60,11 @@ function App(props) {
                 <Route path='/companies' element={<Companies />} />
                 <Route path="/leaverequest" element={<LeaveRequest />} />
                 <Route path="/manageleaves" element={<ManageLeaves />}></Route>
-                <Route path="/monthlypayroll" element={<MonthlyPayroll />}></Route>
-                <Route path="/monthlyattendance" element={<MonthlyAttendance />}></Route>
-                <Route path="/payrollsetup" element={<SetupPayroll />}></Route>
+                <Route path="/monthlypayroll"  element={user.isAdmin && <MonthlyPayroll />} />
+                <Route path="/monthlyattendance" element={user.isAdmin && <MonthlyAttendance />}></Route>
+                <Route path="/payrollsetup" element={user.isAdmin && <SetupPayroll />}></Route>
                 <Route path="/employeeData" element={<EmployeeData />}></Route>
-                <Route path='/shifts' element={<Shifts />} />
+                <Route path='/shifts' element={user.isAdmin && <Shifts />} />
                 <Route path="/addslabs" element={<AddSlabs />}></Route>
               </Routes>
             </>

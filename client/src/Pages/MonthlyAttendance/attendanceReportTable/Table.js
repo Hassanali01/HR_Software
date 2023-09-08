@@ -50,15 +50,7 @@ const Table = ({ data, setTableData }) => {
         { field: "In", headerName: "In", width: 100 },
 
         { field: "Out", headerName: "Out", width: 100 },
-        // {
-        //     field: "Status", headerName: "Status", width: 150, renderCell: (params) => {
-        //         return (<>
-        //             <div style={{ color: params.value == "Absent" ? "red" : "green" }}>
-        //                 {params.value}
-        //             </div>
-        //         </>)
-        //     }
-        // },
+     
         {
             field: "Action", headerName: "Action", width: 100, renderCell: (params) => {
                 return (<Button variant="primary" onClick={() => {
@@ -71,7 +63,7 @@ const Table = ({ data, setTableData }) => {
                     setTableData(data)
                     handleShow()
                 }}  title="Delete"
-                style={{backgroundColor: "rgb(137, 179, 83)"}}
+                style={{ backgroundColor: '#17a392'}}
                 >
                     Detail
                 </Button>)

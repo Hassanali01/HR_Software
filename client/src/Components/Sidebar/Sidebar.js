@@ -12,7 +12,7 @@ const Sidebar = () => {
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
 
- 
+
 
   return (
     <>
@@ -122,8 +122,7 @@ const Sidebar = () => {
                   }
                 </a>
               </li>
-
-              <li className="nav-item">
+              {context.user.isAdmin && <li className="nav-item">
                 <Link to="/holidays" className="nav-link">
                   <i className="nav-icon fa-solid fa-calendar-days iconColor"></i>
                   <p className='iconColor'>
@@ -132,7 +131,8 @@ const Sidebar = () => {
                 </Link>
 
               </li>
-              <li className="nav-item">
+              }
+              {context.user.isAdmin && <li className="nav-item">
                 <Link to="/attendance" className="nav-link">
                   <i className="nav-icon fas fa-tachometer-alt iconColor" ></i>
                   <p className='iconColor'>
@@ -140,6 +140,8 @@ const Sidebar = () => {
                   </p>
                 </Link>
               </li>
+              }
+
 
               <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
@@ -157,34 +159,40 @@ const Sidebar = () => {
                           Reports
                         </p>
                       </Link>
-                      <Link to="/monthlyattendance" className="nav-link">
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
+                      {context.user.isAdmin &&
+                        <Link to="/monthlyattendance" className="nav-link">
+                          <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
 
-                        <p className='iconColor'>
-                          Attendance History
-                        </p>
-                      </Link>
+                          <p className='iconColor'>
+                            Attendance History
+                          </p>
+                        </Link>
+                      }
+
                     </>
                   }
                 </a>
               </li>
+              {context.user.isAdmin &&
+                <li className="nav-item">
+                  <Link to="/monthlypayroll" className="nav-link">
+                    <i className="nav-icon fa-solid fa-hand-holding-dollar iconColor"></i>
+                    <p className='iconColor'>
+                      Monthly Payroll
+                    </p>
+                  </Link>
+                </li>}
+              {context.user.isAdmin &&
+                <li className="nav-item">
+                  <Link to="/payrollsetup" className="nav-link">
+                    <i className="nav-icon fa-solid fa-file-invoice-dollar iconColor"></i>
+                    <p className='iconColor'>
+                      Payroll Setup
+                    </p>
+                  </Link>
+                </li>
+              }
 
-              <li className="nav-item">
-                <Link to="/monthlypayroll" className="nav-link">
-                  <i className="nav-icon fa-solid fa-hand-holding-dollar iconColor"></i>
-                  <p className='iconColor'>
-                    Monthly Payroll
-                  </p>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/payrollsetup" className="nav-link">
-                  <i className="nav-icon fa-solid fa-file-invoice-dollar iconColor"></i>
-                  <p className='iconColor'>
-                    Payroll Setup
-                  </p>
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link
                   to={`/employees/${context.myID}`}
@@ -196,16 +204,19 @@ const Sidebar = () => {
                 </Link>
               </li>
               {/* add shift for employee */}
-              <li className="nav-item">
-                <Link
-                  to={`/shifts`}
-                  className="nav-link">
-                  <i className="nav-icon fa-solid fa-business-time iconColor"></i>
-                  <p className='iconColor'>
-                    Job Shifts
-                  </p>
-                </Link>
-              </li>
+              {context.user.isAdmin &&
+                <li className="nav-item">
+                  <Link
+                    to={`/shifts`}
+                    className="nav-link">
+                    <i className="nav-icon fa-solid fa-business-time iconColor"></i>
+                    <p className='iconColor'>
+                      Job Shifts
+                    </p>
+                  </Link>
+                </li>
+              }
+
             </ul>
           </nav>
           {/* <!-- /.sidebar-menu --> */}
