@@ -126,7 +126,7 @@ const Holiday = () => {
               </div>
               </div>
               <div className="card-body">
-                <div className="table-responsive" style={{ height: "500px", width: "100%" }}>
+                <div className="table-responsive" style={{ height: "700px", width: "100%" }}>
                   <HolidaysDetails />
 
                 </div>

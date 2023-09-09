@@ -82,19 +82,6 @@ const Setup = () => {
                               </Row>
                               <Row xl='9' lg='9' md='9'>
                                 <div className="d-flex flex-row py-3" style={{ gap: "60px" }}>
-                                  <label className="font-weight-bold" style={{marginTop:"6px"}}>Gazetted holidays applied :</label>
-                                  {ps.applyGazettedHoliday ? (
-                                    <label>
-                                     <Checkbox defaultChecked color="success" readOnly/>
-                                    
-                                    </label>
-                                  ) : (
-                                    <p> Gazetted Holiday is not Applied</p>
-                                  )}
-                                </div>
-                              </Row>
-                              <Row xl='9' lg='9' md='9'>
-                                <div className="d-flex flex-row py-3" style={{ gap: "60px" }}>
                                   <label className="font-weight-bold">Days off:</label>
                                   <p>
                                     {(() => {
@@ -109,6 +96,19 @@ const Setup = () => {
                                   </p>
                                 </div>
                               </Row>
+                              <Row xl='9' lg='9' md='9'>
+                                <div className="d-flex flex-row py-3" style={{ gap: "60px" }}>
+                                  <label className="font-weight-bold" style={{marginTop:"6px"}}>Gazetted holidays applied :</label>
+                                  {ps.applyGazettedHoliday ? (
+                                    <label>
+                                     <Checkbox defaultChecked color="success" readOnly/>
+                                    
+                                    </label>
+                                  ) : (
+                                    <p> Gazetted Holiday is not Applied</p>
+                                  )}
+                                </div>
+                              </Row>
                             </Col>
                           </Row>
                         </Card>
@@ -117,11 +117,11 @@ const Setup = () => {
                     </Container>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Payroll Setup</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <App setSetupTitle={setSetupTitle} setSetupFormula={setSetupFormula}></App>
-                        <label>apply gazetted holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e) => { setApplyGazettedHoliday(e.target.checked) }} />
+                        <label>Apply Gazetted Holidays:</label> &nbsp;<input type="checkbox" value={applyGazettedHoliday} defaultChecked="true" onClick={(e) => { setApplyGazettedHoliday(e.target.checked) }} />
                         <br />
                         <label>Days off observed on:</label><br />
                         <p>

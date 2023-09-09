@@ -384,7 +384,7 @@ const ManageLeaves = () => {
                 </h3>
               </div>
               <div className="card-body">
-                <div style={{ width: "100%", height: "600px" }}>
+                <div style={{ width: "100%", height: "700px" }}>
                   <DataGrid columns={columns} rows={rows} />
                 </div>
               </div>

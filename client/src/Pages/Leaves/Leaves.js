@@ -86,7 +86,7 @@ const Leaves = () => {
               </div>
               <div className="card-body">
                 <div className="table-responsive">
-                  <div style={{ height: 550, width: "100%" }}>
+                  <div style={{ height: 700, width: "100%" }}>
 
                     <Container>
                       <Row>

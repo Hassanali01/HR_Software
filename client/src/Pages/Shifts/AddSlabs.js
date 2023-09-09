@@ -14,6 +14,7 @@ import {
     NotificationManager,
 } from "react-notifications";
 import HeaderContext from '../../Context/HeaderContext'
+import { CardHeader } from '@mui/material';
 
 function AddSlabs() {
     const [shift, setShift] = useState([])
@@ -115,9 +116,12 @@ function AddSlabs() {
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
                 <Container>
-                    <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                            <h2>Overview</h2>
+                    <Card sx={{ minWidth: 275 }} style={{padding: "0px"}} >
+                        <CardContent style={{padding: "0px" , paddingBottom: "20px"}}>
+                            <div className="card-header  buttoncolor">
+                            <h3 >Overview</h3>
+                            </div>
+                       
                             <Table className="striped bordered hover" >
                                 <thead>
                                     <tr>
@@ -140,11 +144,12 @@ function AddSlabs() {
                     </Card>
 
                     <Card>
-                        <CardContent>
-                            <div style={{ widows: "50%", float: "left" }}>
-                                <h2>
+                        <CardContent style={{padding: "0px" , paddingBottom: "20px"}}>
+                            <div  className="card-header  buttoncolor" style={{gap: "70%", whiteSpace: "nowrap"}}>
+                            <div style={{ widows: "50%", float: "left" }} >
+                                <h3>
                                     Late Arrival Slabs
-                                </h2>
+                                </h3>
                             </div>
                             <div
                                 style={{ float: "right" }}
@@ -164,6 +169,7 @@ function AddSlabs() {
                                     </i>
                                     Add Slab
                                 </a>
+                            </div>
                             </div>
                             <Table className="striped bordered hover" >
                                 <tbody>
@@ -197,11 +203,12 @@ function AddSlabs() {
                 </Container>
                 <Container>
                     <Card>
-                        <CardContent>
+                        <CardContent style={{padding: "0px", paddingBottom: "20px"}}>
+                            <div className="card-header  buttoncolor" style={{gap: "70%", whiteSpace: "nowrap"}}>
                             <div style={{ widows: "50%", float: "left" }}>
-                                <h2>
+                                <h3>
                                     Early Leave Slabs
-                                </h2>
+                                </h3>
                             </div>
                             <div
                                 style={{ float: "right" }}
@@ -222,6 +229,8 @@ function AddSlabs() {
                                     Add Slab
                                 </a>
                             </div>
+                            </div>
+              
                             <Table className="striped bordered hover" >
                                 <tbody>
                                     <tr>

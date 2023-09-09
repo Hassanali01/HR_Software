@@ -179,7 +179,7 @@ const DataManagement = () => {
               <div className="card-body">
                 <div className="table-responsive" style={{}}>
                   <div className="">
-                    <div className="card-body">
+                    <div className="card-body" style={{height: "700px"}}>
                       <div
                         style={{ display: "flex", justifyContent: "center" }}
                       >

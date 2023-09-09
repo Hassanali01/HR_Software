@@ -122,7 +122,7 @@ const Companies = () => {
               </div>
               <div className="card-body">
                 <div className="table-responsive">
-                  <div style={{ height: 500, width: "100%" }}>
+                  <div style={{ height: 700, width: "100%" }}>
                     {view ? (
                       <Table data={getdata}></Table>
                     ) : (
