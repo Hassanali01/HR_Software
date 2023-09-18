@@ -222,21 +222,31 @@ const MonthlyPayroll = () => {
       );
 
 
+
+      /*  ***********************************  Calculations involving payroll setup   *********************************************************  */
+
+
+
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Sunday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.sundayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
+
 
 
       // adding Tuesday Day-Off inside the user attendance
@@ -245,15 +255,133 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Tuesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.tuesdayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Tuesday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.tuesdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
+
+
+
+      // adding Monday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+
+          if (day == "Monday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.mondayDayoff) {
+
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+               }
+            })
+          }
+        });
+      });
+
+
+
+      // adding Wednesday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Wednesday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.wednesdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
+          }
+        });
+      });
+
+
+
+      // adding Tuesday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Thursday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.thursdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
+          }
+        });
+      });
+
+
+
+      // adding Friday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Friday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.fridayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
+          }
+        });
+      });
+
+
+
+      // adding Saturday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Saturday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.saturdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
+          }
+        });
+      });
+
 
 
       // Adding last saturday dayoff
@@ -269,6 +397,7 @@ const MonthlyPayroll = () => {
           }
         })
       })
+
 
 
       //Adding gazted holidays in payroll
@@ -287,6 +416,10 @@ const MonthlyPayroll = () => {
           })
         })
       })
+
+
+
+      /*  ******************************** END calculations involving payroll setup  *********************************************  */
 
 
       //Employee joining date modification in payroll
@@ -313,6 +446,7 @@ const MonthlyPayroll = () => {
       setUserAttendance(tempUserAttendance)
       setUpdate(!update)
     } catch (error) {
+      console.log("error", error)
       setLoading(false);
       NotificationManager.error("Please select  the month of Payroll")
     }
@@ -339,100 +473,107 @@ const MonthlyPayroll = () => {
   return (
     <>
       <div className="content-wrapper">
-    
+
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
-        <div className="card-header  buttoncolor " style={{ paddingRight: "0px" , height: "57px"}}>
-          <h3 className="card-title" style={{ fontWeight: "700" }} >
-            Monthly Payroll
-          </h3>
-        </div>
+          <div className="card-header  buttoncolor " style={{ paddingRight: "0px", height: "57px" }}>
+            <h3 className="card-title" style={{ fontWeight: "700" }} >
+              Monthly Payroll
+            </h3>
+          </div>
           <div className='card-body'>
-            <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
-              Select the Month
-            </Button>
-            Payroll Month: &nbsp;
-            <input className="mr-3" value={payrollMonth} disabled="true"></input>
-            <Modal show={show} onHide={handleClose}>
-              <div className='d-flex justify-content-center'>
-                <Calendar
-                  onChange={onChangeCalendar}
-                  value={date}
-                  maxDetail='year'
-                />
-              </div>
-            </Modal>
-            <select
-              style={{ marginRight: "10px", outline: "none", padding: "2px 0px", backgroundColor: "#f5f3f3", borderColor: "darkgray", borderRadius: "2px" }}
-              name="company"
-              placeholder='Select Company'
-              onChange={(event) => CompanyName(event.target.value)}
-            >
-              <option disabled selected hidden defaultValue={""}>Please Select Company</option>
-              {company && company.map((d) => (
-                <option key={d._id} value={d._id}>
-                  {d.title}
-                </option>
-              ))}
-            </select>
-            <Button className="mr-3" onClick={async () => {
+            <div>
+              <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                Select the month
+              </Button>
+              <input className="mr-3" value={payrollMonth} disabled="true"></input>
+              <Modal show={show} onHide={handleClose}>
+                <div className='d-flex justify-content-center'>
+                  <Calendar
+                    onChange={onChangeCalendar}
+                    value={date}
+                    maxDetail='year'
+                  />
+                </div>
+              </Modal>
+              <select
+                style={{ marginRight: "10px", outline: "none", padding: "2px 0px", backgroundColor: "#f5f3f3", borderColor: "darkgray", borderRadius: "2px" }}
+                name="company"
+                placeholder='Select Company'
+                onChange={(event) => CompanyName(event.target.value)}
+              >
+                <option disabled selected hidden defaultValue={""}>Please Select Company</option>
+                {company && company.map((d) => (
+                  <option key={d._id} value={d._id}>
+                    {d.title}
+                  </option>
+                ))}
+              </select>
 
-              setUserAttendance({})
-              setKey(currentKey => currentKey + 1)
-              await generateMonthAttendance()
 
-              // Applying the payroll formula for net pay days
-              try {
-                Object.entries(userAttendance).forEach(
-                  ([key, value]) => {
+              <Button className="mr-3" onClick={async () => {
 
-                    const addField = () => {
-                      setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
-                    }
-                    addField()
-                    const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
-                      if (field.referenceName) {
-                        out[field.referenceName] = field.npd_formula
+                setUserAttendance({})
+                setKey(currentKey => currentKey + 1)
+                await generateMonthAttendance()
+
+                // Applying the payroll formula for net pay days
+                try {
+                  Object.entries(userAttendance).forEach(
+                    ([key, value]) => {
+
+                      const addField = () => {
+                        setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
                       }
-                      return out
-                    }, {})
 
-                    try {
-                      const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
-                      const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-                      const items = generateItems(
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
-                        0,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
-                      )
+                      addField()
+                      const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+                        if (field.referenceName) {
+                          out[field.referenceName] = field.npd_formula
+                        }
+                        return out
+                      }, {})
 
-                      const extendedItems =
-                        items.map((item) => {
-                          const extendedItem = {}
-                          Object.entries(item).forEach(([key, value]) => {
-                            extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                      try {
+                        const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
+                        const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+                        const items = generateItems(
+                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
+                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
+                          0,
+                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
+                          parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
+                        )
+                        const extendedItems =
+                          items.map((item) => {
+                            const extendedItem = {}
+                            Object.entries(item).forEach(([key, value]) => {
+                              extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                            })
+                            extendedTokensOrdered.forEach((entry) => {
+                              extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                            })
+                            return extendedItem
                           })
-                          extendedTokensOrdered.forEach((entry) => {
-                            extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
-                          })
-                          return extendedItem
-                        })
 
-                      usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+                        usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
 
-                    } catch (error) { console.log("error", error) }
-                  }
-                );
-              } catch (error) { console.log("error in payroll", error) }
-            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Payroll</Button>
+                      } catch (error) { console.log("error", error) }
+                    }
+                  );
+                } catch (error) { console.log("error in payroll", error) }
+              }} style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft: "30vw" }}>Generate Payroll</Button>
 
-            <ReactToPrint
-              trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
-              content={() => componentRef}
-            />
+              <ReactToPrint
+                trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
+                content={() => componentRef}
+              />
+
+
+            </div>
+
+
             {/* component to be printed */}
             <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }} >
               <table key={key}

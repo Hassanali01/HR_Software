@@ -246,10 +246,22 @@ const EmployeesSchema = new mongoose.Schema(
       ref: "Employees",
       unique: true,
     },
+    // payroll_setup: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "payroll-setup",
+    // },
+
+
     payroll_setup: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "payroll-setup",
+      type: [{
+        // paryrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},
+
+        payrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},        
+        dateFrom: Date,
+        dateTo: Date
+      }],
     },
+
   },
   { timestamps: true }
 );

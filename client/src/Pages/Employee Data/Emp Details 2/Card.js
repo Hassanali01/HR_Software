@@ -33,6 +33,11 @@ const Cards = ({ data }) => {
   const handleCloseModal = () => setShow(false);
   const [childModel, setShowChildModel] = useState(false);
   const [childModel1, setShowChildModel1] = useState(false);
+
+
+  const [showPayrollSetupModal, setShowPayrollSetupModal] = useState(false);
+
+
   const [testUpdate, setTestUpdate] = useState(false);
   const [leaves, setLeaves] = useState(false)
   const [leavesData, setLeavesData] = useState([]);
@@ -41,6 +46,13 @@ const Cards = ({ data }) => {
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
   const [company, setCompany] = useState();
+
+
+  const [addPayrollSetup, setAddPayrollSetup] = useState({
+    payrollSetup: "",
+    dateFrom: "",
+    dateTo: ""
+  })
 
 
 
@@ -461,14 +473,14 @@ const Cards = ({ data }) => {
 
   return (
     <>
-      { user.isAdmin &&
+      {user.isAdmin &&
         <div className="d-flex">
           <div style={{ marginLeft: "59vw", marginRight: 10 }}>
             <Button
               onClick={() => {
                 setDisableFields(false);
               }}
-              style={{backgroundColor: "rgb(137, 179, 83)"}}
+              style={{ backgroundColor: "rgb(137, 179, 83)" }}
             >
               Edit
             </Button>
@@ -481,7 +493,7 @@ const Cards = ({ data }) => {
                 addhistory();
                 Closechildmodal();
               }}
-              style={{backgroundColor: "rgb(137, 179, 83)"}}
+              style={{ backgroundColor: "rgb(137, 179, 83)" }}
             >
               Save
             </Button>
@@ -757,7 +769,125 @@ const Cards = ({ data }) => {
                                 })}
                               </Form.Select>
                             </Form.Group>
+
+
+
+                            <div >
+                              <Button
+                                className="btn buttoncolor"
+                                onClick={() => {
+                                  setShowPayrollSetupModal(true);
+                                  console.log("payroll setup")
+                                }}
+                                style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                              >
+                                Edit
+                              </Button>
+                            </div>
+
+
+
+
+
+
+                            <Modal
+                              aria-labelledby="contained-modal-title-vcenter"
+                              centered
+                              show={showPayrollSetupModal}
+                              onHide={() => { setShowPayrollSetupModal(false) }}
+                              size="lg"
+                            >
+                              <Modal.Header closeButton>
+                                <Modal.Title
+                                  id="contained-modal-title-vcenter "
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <h5>Payroll Setup</h5>
+                                </Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                <Container fluid>
+
+                                  <Form.Label>Payroll Setup</Form.Label>
+                                  <Form.Select name="payroll_setup"
+                                    Value={emp.payroll_setup && emp.payroll_setup.title}
+                                    onChange={(e) => { setAddPayrollSetup({ ...addPayrollSetup, payrollSetup: e.target.value }) }}
+                                    disabled={disableFields}
+                                  >
+                                    <option disabled selected defaultValue={""}>
+                                      {emp.payroll_setup && emp.payroll_setup.title}
+                                    </option>
+                                    {payrollsetup && payrollsetup.map((d, i) => {
+                                      return (
+                                        <>
+                                          <option key={d._id} value={d._id}>
+                                            {d.title}
+                                          </option>
+                                        </>
+                                      );
+                                    })}
+                                  </Form.Select>
+
+
+
+                                  <Form.Group
+                                    as={Col}
+                                    controlId="formGridLastName"
+                                    className="formmargin"
+                                  >
+                                    <Form.Label>Date From</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      name="joiningdate"
+                                      // value={emp.joiningdate && emp.joiningdate.split("T")[0]}
+                                      onChange={(e) => { setAddPayrollSetup({ ...addPayrollSetup, dateFrom: e.target.value }) }}
+                                    />
+
+
+                                  </Form.Group>    
+                                    <Form.Group
+                                    as={Col}
+                                    controlId="formGridLastName"
+                                    className="formmargin"
+                                  >
+                                    <Form.Label>Date To</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      name="joiningdate"
+                                      // value={emp.joiningdate && emp.joiningdate.split("T")[0]}
+                                      onChange={(e) => {
+
+                                        setAddPayrollSetup({ ...addPayrollSetup, dateTo: e.target.value })
+                                      }}
+                                    />
+                                  </Form.Group>
+
+                                  <div className="d-flex justify-content-center my-3">
+                                    <Button
+                                      onClick={() => {
+                                        data.payroll_setup.push(addPayrollSetup)
+                                        setShowPayrollSetupModal(false)
+                                      }}
+                                      style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    >
+                                      Add Setup
+                                    </Button>
+
+
+                                    <>Payroll setup: {JSON.stringify(emp.payroll_setup)}</>
+
+
+
+
+
+
+
+                                  </div>
+                                </Container>
+                              </Modal.Body>
+                            </Modal>
                           </Col>
+  
                           <Col sm={4}>
                             <Form.Group
                               as={Col}
@@ -831,7 +961,6 @@ const Cards = ({ data }) => {
                           />
                         </Form.Group>
                       </Col>
-
                       <Col>
                         <Form.Label
                           as={Col}
@@ -886,7 +1015,6 @@ const Cards = ({ data }) => {
                         </Form.Group>
                       </Col>
                       <Col>
-
                         <Form.Label
                           as={Col}
                           controlId="formGridLastName"
@@ -922,7 +1050,6 @@ const Cards = ({ data }) => {
                   </Accordion.Body>
                 </Row>
               </Accordion.Item>
-
               <Accordion.Item eventKey="2" style={{ marginTop: "2%" }}>
                 <div>
 
@@ -1067,7 +1194,7 @@ const Cards = ({ data }) => {
                           onClick={() => {
                             setShowChildModel1(true);
                           }}
-                          style={{backgroundColor: "rgb(137, 179, 83)"}}
+                          style={{ backgroundColor: "rgb(137, 179, 83)" }}
                         >
                           Edit
                         </a>
@@ -1141,7 +1268,7 @@ const Cards = ({ data }) => {
                           onClick={() => {
                             setShowChildModel(true);
                           }}
-                          style={{backgroundColor: "rgb(137, 179, 83)"}}
+                          style={{ backgroundColor: "rgb(137, 179, 83)" }}
                         >
                           Edit
                         </a>
@@ -1468,7 +1595,7 @@ const Cards = ({ data }) => {
                 </Accordion.Header>
                 <Row>
                   <Accordion.Body>
-                
+
                     <Row style={{ marginTop: "3%" }}>
                       <Col lg={12}>
                         <Table striped bordered hover>
@@ -1631,7 +1758,7 @@ const Cards = ({ data }) => {
                   addeducation();
                   Closechildmodal1();
                 }}
-                style={{backgroundColor: "rgb(137, 179, 83)"}}
+                style={{ backgroundColor: "rgb(137, 179, 83)" }}
               >
                 Add Education
               </Button>
@@ -1761,7 +1888,7 @@ const Cards = ({ data }) => {
                   addhistory();
                   Closechildmodal();
                 }}
-                style={{backgroundColor: "rgb(137, 179, 83)"}}
+                style={{ backgroundColor: "rgb(137, 179, 83)" }}
               >
                 Add Employement
               </Button>

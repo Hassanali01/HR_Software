@@ -27,7 +27,7 @@ router.get('/monthattendance/:month', async (req, res) => {
             {
                 path: 'employee',
                 model: 'Employees',
-                select: 'username firstname emp_id company_payroll shift_id joiningdate designation date_of_resignation company',
+                select: 'username firstname emp_id payroll_setup company_payroll shift_id joiningdate designation date_of_resignation company',
                 populate: [{
                     path: 'departments',
                     model: 'Departments',
@@ -38,10 +38,11 @@ router.get('/monthattendance/:month', async (req, res) => {
                     model: 'addShifts'
                 },
                 {
-                    path: 'payroll_setup',
+                    path: 'payroll_setup.payrollSetup',
                     model: 'payroll-setup',
 
-                }
+                },
+            
                 ],
             },
         ])

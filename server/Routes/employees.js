@@ -1,7 +1,7 @@
 
 const express = require('express')
 const router = express.Router()
-const Employees = require('../Models/Employees')
+const Employees = require('../Models/employees')
 const Department = require('../Models/departments')
 const { createError } = require('../Utils/CreateError')
 
