@@ -280,7 +280,7 @@ const MonthlyPayroll = () => {
 
           if (day == "Monday" && te.employee.payroll_setup.length > 0) {
             te.employee.payroll_setup.forEach((ps) => {
-              
+
               if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.mondayDayoff) {
 
                 if (te.status == 'A') {
@@ -288,7 +288,7 @@ const MonthlyPayroll = () => {
                 } else {
                   te.status = te.status * 2
                 }
-               }
+              }
             })
           }
         });
@@ -392,10 +392,12 @@ const MonthlyPayroll = () => {
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
         tempUserAttendance[key].forEach((te) => {
-          if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
+          te.employee.payroll_setup.forEach((ps) => {
+          if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
             te.status = "D.O";
           }
         })
+      })
       })
 
 
@@ -405,13 +407,15 @@ const MonthlyPayroll = () => {
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-              if (te.employee.payroll_setup.applyGazettedHoliday) {
+              te.employee.payroll_setup.forEach((ps) => {
+              if (ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
                 if (te.status == 'A') {
                   te.status = "G.H";
                 } else {
                   te.status = te.status * 2
                 }
               }
+            })
             }
           })
         })
@@ -521,45 +525,58 @@ const MonthlyPayroll = () => {
                   Object.entries(userAttendance).forEach(
                     ([key, value]) => {
 
-                      const addField = () => {
-                        setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
-                      }
 
-                      addField()
-                      const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
-                        if (field.referenceName) {
-                          out[field.referenceName] = field.npd_formula
+                      // Applying each payroll setup formula for the specified days
+
+
+                      value[0].employee.payroll_setup.forEach((ps) => {
+
+
+                        const addField = () => {
+                          setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }])
                         }
-                        return out
-                      }, {})
 
-                      try {
-                        const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
-                        const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-                        const items = generateItems(
-                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
-                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
-                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
-                          0,
-                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
-                          parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
-                          userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
-                        )
-                        const extendedItems =
-                          items.map((item) => {
-                            const extendedItem = {}
-                            Object.entries(item).forEach(([key, value]) => {
-                              extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                        addField()
+                        const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }].reduce((out, field) => {
+                          if (field.referenceName) {
+                            out[field.referenceName] = field.npd_formula
+                          }
+                          return out
+                        }, {})
+
+
+                        try {
+                          const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
+                          const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+                          const items = generateItems(
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
+                            0,
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
+                            parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
+                          )
+                          const extendedItems =
+                            items.map((item) => {
+                              const extendedItem = {}
+                              Object.entries(item).forEach(([key, value]) => {
+                                extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                              })
+                              extendedTokensOrdered.forEach((entry) => {
+                                extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                              })
+                              return extendedItem
                             })
-                            extendedTokensOrdered.forEach((entry) => {
-                              extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
-                            })
-                            return extendedItem
-                          })
 
-                        usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+                          usersPayrollCalculations[`${key}`] = { netpaydays: usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays || 0 + parseFloat(extendedItems[0].netpaydays) }
 
-                      } catch (error) { console.log("error", error) }
+                        } catch (error) { console.log("error", error) }
+
+
+                      })
+
+
                     }
                   );
                 } catch (error) { console.log("error in payroll", error) }

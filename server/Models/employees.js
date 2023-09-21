@@ -250,8 +250,6 @@ const EmployeesSchema = new mongoose.Schema(
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "payroll-setup",
     // },
-
-
     payroll_setup: {
       type: [{
         // paryrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},
@@ -261,7 +259,6 @@ const EmployeesSchema = new mongoose.Schema(
         dateTo: Date
       }],
     },
-
   },
   { timestamps: true }
 );
