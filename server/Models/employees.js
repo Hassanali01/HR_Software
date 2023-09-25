@@ -160,10 +160,24 @@ const EmployeesSchema = new mongoose.Schema(
       ref: "Company",
     },
 
+    // work_shift: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "addshifts",
+    // },
+
+
     work_shift: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "addshifts",
+      type: [{
+        workShift: {type: mongoose.Schema.Types.ObjectId, ref:"addshifts"},        
+        dateFrom: Date,
+        dateTo: Date
+      }],
     },
+
+
+
+
+
     jobtitle: {
       type: String,
       default: "",

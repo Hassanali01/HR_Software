@@ -194,49 +194,59 @@ const MonthlyAttendance = () => {
       })
 
 
+
       //Adding shift slabs in payroll
       const singleuser = tempAttendance.map((j) => {
         if (j.employee.work_shift && j.status == 1) {
-          const currentShift = j.employee.work_shift
 
-          // Deduction for employees on late arrival
-          const date = j.in
-          const splitdate = date.split(":")
-          const sampleDateIn = new Date()
-          sampleDateIn.setHours(splitdate[0])
-          sampleDateIn.setMinutes(splitdate[1])
-          let deductionForLate = 0
-          currentShift.slabs.forEach((s) => {
-            const slabsname = s.later_than
-            const splitSlabs = slabsname.split(":")
-            const sampleDateSlabs = new Date()
-            sampleDateSlabs.setHours(splitSlabs[0])
-            sampleDateSlabs.setMinutes(splitSlabs[1])
-            if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
-              deductionForLate = s.deduction;
+          // const currentShift = j.employee.work_shift
+
+          j.employee.work_shift.forEach((ps) => {
+            if (new Date(j.date) >= new Date(ps.dateFrom) && new Date(j.date) <= new Date(ps.dateTo)) {
+
+
+              // Deduction for employees on late arrival
+              const date = j.in
+              const splitdate = date.split(":")
+              const sampleDateIn = new Date()
+              sampleDateIn.setHours(splitdate[0])
+              sampleDateIn.setMinutes(splitdate[1])
+              let deductionForLate = 0
+              ps.workShift.slabs.forEach((s) => {
+                const slabsname = s.later_than
+                const splitSlabs = slabsname.split(":")
+                const sampleDateSlabs = new Date()
+                sampleDateSlabs.setHours(splitSlabs[0])
+                sampleDateSlabs.setMinutes(splitSlabs[1])
+                if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
+                  deductionForLate = s.deduction;
+                }
+              })
+
+              j.status = j.status - deductionForLate
+              // Deduction for employees on early leaver
+
+              const checkOut = j.out
+              const checkOutArr = checkOut.split(":")
+              const sampleDateOut = new Date()
+              sampleDateOut.setHours(checkOutArr[0])
+              sampleDateOut.setMinutes(checkOutArr[1])
+              let deductionForEarlyLeaver = 0
+              ps.workShift.early_leave_slabs.forEach((s) => {
+                const earlyLeaveTime = s.early_leave_time
+                const earlyLeaveTimeArr = earlyLeaveTime.split(":")
+                const sampleDateEarlyLeaveSlabs = new Date()
+                sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
+                sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
+                if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
+                  deductionForEarlyLeaver = s.deduction
+                }
+              })
+              j.status = j.status - deductionForEarlyLeaver
+
             }
-          })
 
-          j.status = j.status - deductionForLate
-          // Deduction for employees on early leaver
-
-          const checkOut = j.out
-          const checkOutArr = checkOut.split(":")
-          const sampleDateOut = new Date()
-          sampleDateOut.setHours(checkOutArr[0])
-          sampleDateOut.setMinutes(checkOutArr[1])
-          let deductionForEarlyLeaver = 0
-          currentShift.early_leave_slabs.forEach((s) => {
-            const earlyLeaveTime = s.early_leave_time
-            const earlyLeaveTimeArr = earlyLeaveTime.split(":")
-            const sampleDateEarlyLeaveSlabs = new Date()
-            sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
-            sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
-            if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
-              deductionForEarlyLeaver = s.deduction
-            }
           })
-          j.status = j.status - deductionForEarlyLeaver
 
         }
       })
@@ -371,6 +381,9 @@ const MonthlyAttendance = () => {
       );
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
     } catch (error) {
+
+      console.log("error in attendance", error)
+
       NotificationManager.error("Please select the month of Attendance")
     }
   }

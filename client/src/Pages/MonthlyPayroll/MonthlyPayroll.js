@@ -15,7 +15,6 @@ import { evaluateTokenNodes, getExtendedTokens } from './../../formulaParser/sha
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
 import HeaderContext from '../../Context/HeaderContext'
-import { Form } from "react-bootstrap";
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -159,48 +158,58 @@ const MonthlyPayroll = () => {
 
 
       //Adding shift slabs in payroll
+
+
       for (let i in userAttendance) {
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
           if (j.employee.work_shift && j.status == 1) {
-            const currentShift = j.employee.work_shift
+            // const currentShift = j.employee.work_shift
             // Deduction for employees on late arrival
-            const date = j.in
-            const splitdate = date.split(":")
-            const sampleDateIn = new Date()
-            sampleDateIn.setHours(splitdate[0])
-            sampleDateIn.setMinutes(splitdate[1])
-            let deductionForLate = 0
-            currentShift.slabs.forEach((s) => {
-              const slabsname = s.later_than
-              const splitSlabs = slabsname.split(":")
-              const sampleDateSlabs = new Date()
-              sampleDateSlabs.setHours(splitSlabs[0])
-              sampleDateSlabs.setMinutes(splitSlabs[1])
-              if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
-                deductionForLate = s.deduction;
+
+            j.employee.work_shift.forEach((ps) => {
+              if (new Date(j.date) >= new Date(ps.dateFrom) && new Date(j.date) <= new Date(ps.dateTo)) {
+
+                const date = j.in
+                const splitdate = date.split(":")
+                const sampleDateIn = new Date()
+                sampleDateIn.setHours(splitdate[0])
+                sampleDateIn.setMinutes(splitdate[1])
+                let deductionForLate = 0
+                ps.workShift.slabs.forEach((s) => {
+                  const slabsname = s.later_than
+                  const splitSlabs = slabsname.split(":")
+                  const sampleDateSlabs = new Date()
+                  sampleDateSlabs.setHours(splitSlabs[0])
+                  sampleDateSlabs.setMinutes(splitSlabs[1])
+                  if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
+                    deductionForLate = s.deduction;
+                  }
+                })
+
+                j.status = j.status - deductionForLate
+                // Deduction for employees on early leaver
+                const checkOut = j.out
+                const checkOutArr = checkOut.split(":")
+                const sampleDateOut = new Date()
+                sampleDateOut.setHours(checkOutArr[0])
+                sampleDateOut.setMinutes(checkOutArr[1])
+                let deductionForEarlyLeaver = 0
+                ps.workShift.early_leave_slabs.forEach((s) => {
+                  const earlyLeaveTime = s.early_leave_time
+                  const earlyLeaveTimeArr = earlyLeaveTime.split(":")
+                  const sampleDateEarlyLeaveSlabs = new Date()
+                  sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
+                  sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
+                  if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
+                    deductionForEarlyLeaver = s.deduction
+                  }
+                })
+                j.status = j.status - deductionForEarlyLeaver
+
               }
             })
 
-            j.status = j.status - deductionForLate
-            // Deduction for employees on early leaver
-            const checkOut = j.out
-            const checkOutArr = checkOut.split(":")
-            const sampleDateOut = new Date()
-            sampleDateOut.setHours(checkOutArr[0])
-            sampleDateOut.setMinutes(checkOutArr[1])
-            let deductionForEarlyLeaver = 0
-            currentShift.early_leave_slabs.forEach((s) => {
-              const earlyLeaveTime = s.early_leave_time
-              const earlyLeaveTimeArr = earlyLeaveTime.split(":")
-              const sampleDateEarlyLeaveSlabs = new Date()
-              sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
-              sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
-              if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
-                deductionForEarlyLeaver = s.deduction
-              }
-            })
-            j.status = j.status - deductionForEarlyLeaver
           }
         })
       }
@@ -393,11 +402,11 @@ const MonthlyPayroll = () => {
         const Finalsat = convertedDate.toISOString();
         tempUserAttendance[key].forEach((te) => {
           te.employee.payroll_setup.forEach((ps) => {
-          if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
-            te.status = "D.O";
-          }
+            if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
+              te.status = "D.O";
+            }
+          })
         })
-      })
       })
 
 
@@ -408,14 +417,14 @@ const MonthlyPayroll = () => {
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
               te.employee.payroll_setup.forEach((ps) => {
-              if (ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
-                if (te.status == 'A') {
-                  te.status = "G.H";
-                } else {
-                  te.status = te.status * 2
+                if (ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
+                  if (te.status == 'A') {
+                    te.status = "G.H";
+                  } else {
+                    te.status = te.status * 2
+                  }
                 }
-              }
-            })
+              })
             }
           })
         })
@@ -525,12 +534,9 @@ const MonthlyPayroll = () => {
                   Object.entries(userAttendance).forEach(
                     ([key, value]) => {
 
-
                       // Applying each payroll setup formula for the specified days
 
-
                       value[0].employee.payroll_setup.forEach((ps) => {
-
 
                         const addField = () => {
                           setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }])
@@ -544,16 +550,17 @@ const MonthlyPayroll = () => {
                           return out
                         }, {})
 
-
                         try {
                           const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                           const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+
+
                           const items = generateItems(
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                             0,
-                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
+                            userAttendance[`${key}`].length > 0 && (userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length),
                             parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                           )
@@ -568,15 +575,9 @@ const MonthlyPayroll = () => {
                               })
                               return extendedItem
                             })
-
                           usersPayrollCalculations[`${key}`] = { netpaydays: usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays || 0 + parseFloat(extendedItems[0].netpaydays) }
-
                         } catch (error) { console.log("error", error) }
-
-
                       })
-
-
                     }
                   );
                 } catch (error) { console.log("error in payroll", error) }

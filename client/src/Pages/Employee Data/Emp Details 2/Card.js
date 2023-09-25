@@ -27,17 +27,17 @@ const Cards = ({ data }) => {
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const [shift, setShift] = useState([]);
-  const [payrollsetup, setPayrollsetup] = useState([])
+
+  const [payrollsetup, setPayrollsetup] = useState([]);
+  const [workshift, setWorkShift] = useState([]);
+
   const Closechildmodal = () => setShowChildModel(false);
   const Closechildmodal1 = () => setShowChildModel1(false);
   const handleCloseModal = () => setShow(false);
   const [childModel, setShowChildModel] = useState(false);
   const [childModel1, setShowChildModel1] = useState(false);
-
-
   const [showPayrollSetupModal, setShowPayrollSetupModal] = useState(false);
-
-
+  const [showWorkshiftSetupModal, setShowWorkshiftSetupModal] = useState(false);
   const [testUpdate, setTestUpdate] = useState(false);
   const [leaves, setLeaves] = useState(false)
   const [leavesData, setLeavesData] = useState([]);
@@ -54,10 +54,15 @@ const Cards = ({ data }) => {
     dateTo: ""
   })
 
+  
+  const [addWorkShift, setAddWorkShift] = useState({
+    workShift: "",
+    dateFrom: "",
+    dateTo: ""
+  })
 
 
   const url3 = "shifts/allShifts"
-  const payrollSittingUrl = "payrollsetup/";
   const getUrl = "leaverequest/all/";
 
   const [emp, setEmp] = useState({
@@ -154,9 +159,15 @@ const Cards = ({ data }) => {
       setShift(resp.data)
     }, [1, 1]);
 
-    axios.get(process.env.React_APP_ORIGIN_URL + payrollSittingUrl).then(resp => {
+    axios.get(process.env.React_APP_ORIGIN_URL + "payrollsetup/").then(resp => {
       setPayrollsetup(resp.data)
     }, [1, 1]);
+
+
+    axios.get(process.env.React_APP_ORIGIN_URL + "shifts/allShifts/").then(resp => {
+      setWorkShift(resp.data)
+    }, [1, 1]);
+
 
     axios.get(process.env.React_APP_ORIGIN_URL + `allCompany`).then(resp => {
       setCompany(resp.data)
@@ -781,7 +792,17 @@ const Cards = ({ data }) => {
                                 }}
                                 style={{ backgroundColor: "rgb(137, 179, 83)" }}
                               >
-                                Edit
+                                Change payroll setups
+                              </Button>
+
+                              <Button
+                                className="btn buttoncolor"
+                                onClick={() => {
+                                  setShowWorkshiftSetupModal(true);
+                                }}
+                                style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                              >
+                                Change Work shifts
                               </Button>
                             </div>
 
@@ -819,11 +840,11 @@ const Cards = ({ data }) => {
                                     </option>
                                     {payrollsetup && payrollsetup.map((d, i) => {
                                       return (
-                                        <>
+                            
                                           <option key={d._id} value={d._id}>
                                             {d.title}
                                           </option>
-                                        </>
+                                    
                                       );
                                     })}
                                   </Form.Select>
@@ -844,8 +865,8 @@ const Cards = ({ data }) => {
                                     />
 
 
-                                  </Form.Group>    
-                                    <Form.Group
+                                  </Form.Group>
+                                  <Form.Group
                                     as={Col}
                                     controlId="formGridLastName"
                                     className="formmargin"
@@ -873,21 +894,149 @@ const Cards = ({ data }) => {
                                       Add Setup
                                     </Button>
 
+                                    <Button
+                                      onClick={() => {
+                                        data.payroll_setup.splice(0, data.payroll_setup.length)
+                                        setShowPayrollSetupModal(false)
 
-                                    <>Payroll setup: {JSON.stringify(emp.payroll_setup)}</>
-
-
-
-
+                                        console.log("payroll setups", data)
+                                      }}
+                                      style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    >
+                                      Remove payroll setups
+                                    </Button>
 
 
 
                                   </div>
+                                  <div>{emp.payroll_setup && emp.payroll_setup.map((ps) => <>
+                                    <div>payroll setup:{ps.payrollSetup}</div>
+                                    <div>Date from:{ps.dateFrom}</div>
+                                    <div>Date to:{ps.dateTo}</div>
+
+                                  </>)}</div>
                                 </Container>
                               </Modal.Body>
                             </Modal>
+
+
+
+
+
+
+                            <Modal
+                              aria-labelledby="contained-modal-title-vcenter"
+                              centered
+                              show={showWorkshiftSetupModal}
+                              onHide={() => { setShowWorkshiftSetupModal(false) }}
+                              size="lg"
+                            >
+                              <Modal.Header closeButton>
+                                <Modal.Title
+                                  id="contained-modal-title-vcenter "
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <h5>Work Shift Setup</h5>
+                                </Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                <Container fluid>
+
+                                  <Form.Label>Work Shift Setup</Form.Label>
+                                  <Form.Select name="payroll_setup"
+                                    value={emp.work_shift && emp.work_shift.title}
+                                    onChange={(e) => { setAddWorkShift({ ...addWorkShift, workShift: e.target.value }) }}
+                                    disabled={disableFields}
+                                  >
+                                    <option disabled selected defaultValue={""}>
+                                      {emp.work_shift && emp.work_shift.title}
+                                    </option>
+                                    {workshift && workshift.map((d, i) => {
+                                      return (
+                                          <option key={d._id} value={d._id}>
+                                            {d.shift_name}
+                                          </option> 
+                                      );
+                                    })}
+                                  </Form.Select>
+
+                                  <Form.Group
+                                    as={Col}
+                                    controlId="formGridLastName"
+                                    className="formmargin"
+                                  >
+                                    <Form.Label>Date From</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      name="joiningdate"
+                                      // value={emp.joiningdate && emp.joiningdate.split("T")[0]}
+                                      onChange={(e) => { setAddWorkShift({ ...addWorkShift, dateFrom: e.target.value }) }}
+                                    />
+                                  </Form.Group>
+                                  <Form.Group
+                                    as={Col}
+                                    controlId="formGridLastName"
+                                    className="formmargin"
+                                  >
+                                    <Form.Label>Date To</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      name="joiningdate"
+                                      // value={emp.joiningdate && emp.joiningdate.split("T")[0]}
+                                      onChange={(e) => {
+
+                                        setAddWorkShift({ ...addWorkShift, dateTo: e.target.value })
+                                      }}
+                                    />
+                                  </Form.Group>
+
+                                  <div className="d-flex justify-content-center my-3">
+                                    <Button
+                                      onClick={() => {
+                                        data.work_shift.push(addWorkShift)
+                                        setShowPayrollSetupModal(false)
+                                      }}
+                                      style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    >
+                                      Add Setup
+                                    </Button>
+
+                                    <Button
+                                      onClick={() => {
+                                        data.work_shift.splice(0, data.work_shift.length)
+                                        setShowPayrollSetupModal(false)
+
+                                        console.log("payroll setups", data)
+                                      }}
+                                      style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    >
+                                      Remove payroll setups
+                                    </Button>
+
+                                  </div>
+
+
+                                  <div>{emp.work_shift && emp.work_shift.map((ws) => <>
+                                    <div>workshifts:{ws.workShift}</div>
+                                    <div>Date from:{ws.dateFrom}</div>
+                                    <div>Date to:{ws.dateTo}</div>
+
+                                  </>)}</div>
+                                </Container>
+                              </Modal.Body>
+                            </Modal>
+
+
+
+
+
+
+
+
+
+
                           </Col>
-  
+
                           <Col sm={4}>
                             <Form.Group
                               as={Col}
