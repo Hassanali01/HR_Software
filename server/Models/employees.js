@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
+
+
+
 const EmployeesSchema = new mongoose.Schema(
   {
     //personal info //
@@ -33,7 +36,7 @@ const EmployeesSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    martialStatus: {
+    maritalStatus: {
       type: String,
       default: "",
     },
@@ -42,12 +45,7 @@ const EmployeesSchema = new mongoose.Schema(
       default: "",
     },
     //contact information//
-    primaryphone: {
-      type: String,
-      require: true,
-      trim: true,
-      lowercase: true,
-    },
+    phone_no:  [{ type: String }] ,
     secondaryphone: {
       type: Number,
       require: true,
@@ -66,30 +64,25 @@ const EmployeesSchema = new mongoose.Schema(
       lowercase: true,
     },
     ///address and region//
-    permanentaddress: {
-      type: String,
-      require: true,
-    },
-    temporaryaddress: {
-      type: String,
-      require: true,
-    },
-    country: {
-      type: String,
-      default: "",
-    },
-    province: {
-      type: String,
-      default: "",
-    },
-    city: {
-      type: String,
-      default: "",
-    },
 
-    postalCode: {
-      type: String,
-    },
+
+  address: [
+    {
+        address:{
+          type: String,
+        },
+        city:{
+          type: String
+        },
+        province: {
+          type: String
+        },  
+        country: {
+          type: String
+        }
+   } ],
+
+
     //education details
     educationdetails: [
       {
@@ -165,7 +158,6 @@ const EmployeesSchema = new mongoose.Schema(
     //   ref: "addshifts",
     // },
 
-
     work_shift: {
       type: [{
         workShift: {type: mongoose.Schema.Types.ObjectId, ref:"addshifts"},        
@@ -173,10 +165,6 @@ const EmployeesSchema = new mongoose.Schema(
         dateTo: Date
       }],
     },
-
-
-
-
 
     jobtitle: {
       type: String,
@@ -186,7 +174,6 @@ const EmployeesSchema = new mongoose.Schema(
       type: String,
       default: "admin",
     },
-
     departments: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Departments",
@@ -250,7 +237,6 @@ const EmployeesSchema = new mongoose.Schema(
       type: Number,
       default: "",
     },
-
     isAdmin: {
       type: Boolean,
       default: false,
@@ -267,7 +253,6 @@ const EmployeesSchema = new mongoose.Schema(
     payroll_setup: {
       type: [{
         // paryrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},
-
         payrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},        
         dateFrom: Date,
         dateTo: Date
@@ -276,5 +261,6 @@ const EmployeesSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 const Employees = mongoose.model("Employees", EmployeesSchema);
 module.exports = Employees;
