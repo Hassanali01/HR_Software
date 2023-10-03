@@ -69,14 +69,14 @@ const Dashboard = () => {
                           Departments
                         </h5>
                       </div>
-                      <div>
+                      {/* <div>
                         <p>
                           <ExpandLessIcon style={{ color: "green" }} />
                           <span style={{ fontSize: "1vw", color: "green" }}>
                             +5%
                           </span>
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -127,14 +127,14 @@ const Dashboard = () => {
                           Employees
                         </h5>
                       </div>
-                      <div>
+                      {/* <div>
                         <p>
                           <ExpandLessIcon style={{ color: "green" }} />
                           <span style={{ fontSize: "1vw", color: "green" }}>
                             +45%
                           </span>
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -186,14 +186,14 @@ const Dashboard = () => {
                           Leaves
                         </h5>
                       </div>
-                      <div>
+                      {/* <div>
                         <p>
                           <ExpandLessIcon style={{ color: "green" }} />
                           <span style={{ fontSize: "1vw", color: "green" }}>
                             +25%
                           </span>
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -244,14 +244,14 @@ const Dashboard = () => {
                           Attendance
                         </h5>
                       </div>
-                      <div>
+                      {/* <div>
                         <p>
                           <ExpandLessIcon style={{ color: "green" }} />
                           <span style={{ fontSize: "1vw", color: "green" }}>
                             +15%
                           </span>
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">

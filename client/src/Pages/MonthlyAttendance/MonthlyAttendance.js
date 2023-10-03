@@ -432,6 +432,7 @@ const MonthlyAttendance = () => {
                                 <th style={{ width: "100px", border: "1px solid black" }}>Day</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
+                                <th style={{ width: "50px", border: "1px solid black" }}>Status</th>
                                 <th style={{ width: "290px", border: "1px solid black" }}>Remarks</th>
                               </tr>
                               {
@@ -440,9 +441,15 @@ const MonthlyAttendance = () => {
                                   <td style={{ width: "100px", border: "1px solid black" }}>{t.day}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
+                                  <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td>
                                   <td style={{ width: "290px", border: "1px solid black" }}></td>
                                 </tr>)
                               }
+
+                              <tr style={{ height: 30 }}>
+                                <td colSpan={5}></td>
+                                <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
+                              </tr>
 
                             </table>
                             <div style={{ marginTop: 40 }}>

@@ -116,10 +116,10 @@ function AddSlabs() {
         <>
             <div className="content-wrapper " style={{ backgroundColor: "#f7f7f7" }}>
                 <Container>
-                    <Card sx={{ minWidth: 275 }} style={{padding: "0px"}} >
-                        <CardContent style={{padding: "0px" , paddingBottom: "20px"}}>
+                    <Card sx={{ minWidth: 275 }} style={{padding: "0px", width: "95%", margin: "30px auto"}} >
+                        <CardContent style={{padding: "0px" , paddingBottom: "20px" }}>
                             <div className="card-header  buttoncolor">
-                            <h3 >Overview</h3>
+                            <h3 style={{fontSize:"20px"}}>Overview</h3>
                             </div>
                        
                             <Table className="striped bordered hover" >
@@ -143,11 +143,11 @@ function AddSlabs() {
                         </CardContent>
                     </Card>
 
-                    <Card>
+                    <Card style={{width: "95%", margin: "0 auto"}}>
                         <CardContent style={{padding: "0px" , paddingBottom: "20px"}}>
-                            <div  className="card-header  buttoncolor" style={{gap: "70%", whiteSpace: "nowrap"}}>
-                            <div style={{ widows: "50%", float: "left" }} >
-                                <h3>
+                            <div  className="card-header  buttoncolor" style={{gap: "76%", whiteSpace: "nowrap", height: "45px", paddingTop: "0px"}}>
+                            <div  className="card-title" style={{ widows: "50%", float: "left" }} >
+                                <h3 style={{fontSize:"20px"}}>
                                     Late Arrival Slabs
                                 </h3>
                             </div>
@@ -159,7 +159,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
-                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)" , margin: "7px 0px", padding: "3px 8px"}}
                                 >
                                     <i
                                         className="fa fa-plus"
@@ -202,11 +202,11 @@ function AddSlabs() {
                     </Card>
                 </Container>
                 <Container>
-                    <Card>
+                    <Card style={{width: "95%", margin: "30px auto"}}> 
                         <CardContent style={{padding: "0px", paddingBottom: "20px"}}>
-                            <div className="card-header  buttoncolor" style={{gap: "70%", whiteSpace: "nowrap"}}>
-                            <div style={{ widows: "50%", float: "left" }}>
-                                <h3>
+                            <div className="card-header  buttoncolor" style={{gap: "76%", whiteSpace: "nowrap" , height: "45px", paddingTop: "0px"}}>
+                            <div className="card-title"  style={{ widows: "50%", float: "left" }}>
+                                <h3 style={{fontSize:"20px"}}> 
                                     Early Leave Slabs
                                 </h3>
                             </div>
@@ -218,7 +218,7 @@ function AddSlabs() {
                                     className="btn add-btn "
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_calendar"
-                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)" , margin: "7px 0px", padding: "3px 8px"}}
                                 >
                                     <i
                                         className="fa fa-plus"

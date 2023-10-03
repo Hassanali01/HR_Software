@@ -85,6 +85,7 @@ const Departments = () => {
                 <h3 className="card-title" style={{ fontWeight: "700"}}>
                   Departments
                 </h3>
+                
                  <div className="icon-button">
                   <div>
                     <ToggleButtonGroup

@@ -350,7 +350,7 @@ const MonthlyPayroll = () => {
             <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
               Select the Month
             </Button>
-            Payroll Month: &nbsp;
+           
             <input className="mr-3" value={payrollMonth} disabled="true"></input>
             <Modal show={show} onHide={handleClose}>
               <div className='d-flex justify-content-center'>
@@ -385,11 +385,14 @@ const MonthlyPayroll = () => {
                 Object.entries(userAttendance).forEach(
                   ([key, value]) => {
 
+
+                    console.log("key", key)
+
                     const addField = () => {
-                      setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+                      setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value.length>0 && value[0].employee &&  value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
                     }
                     addField()
-                    const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+                    const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0] && value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
                       if (field.referenceName) {
                         out[field.referenceName] = field.npd_formula
                       }
@@ -404,7 +407,7 @@ const MonthlyPayroll = () => {
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                         0,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
+                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length +  userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
                         parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                       )
@@ -427,14 +430,14 @@ const MonthlyPayroll = () => {
                   }
                 );
               } catch (error) { console.log("error in payroll", error) }
-            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Payroll</Button>
+            }} style={{ backgroundColor: "rgb(137, 179, 83)"}}>Generate Payroll</Button>
 
             <ReactToPrint
               trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
               content={() => componentRef}
             />
             {/* component to be printed */}
-            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }} >
+            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "75vh", }} >
               <table key={key}
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>

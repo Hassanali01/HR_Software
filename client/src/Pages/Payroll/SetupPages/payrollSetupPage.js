@@ -68,7 +68,7 @@ const Setup = () => {
                     <Container >
                       {payrollSetups.map((ps) =>
                         <Card style={{ width: "95%", margin: "30px auto" }}>
-                          <CardHeader style={{ gap: "10px" }}>
+                          <CardHeader style={{ gap: "10px" ,}}>
                             <h4 style={{ marginTop: "5px" }}>{ps.title}</h4>
                           </CardHeader>
 

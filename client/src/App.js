@@ -6,9 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EmpAttendance from "./Pages/EmpAttendance/EmpAttendance";
 import EmpHolidays from "./Pages/EmpHolidays/EmpHolidays";
 import AllEmployees from "./Pages/Employee Data/All Employees/AllEmployees";
-import Calendar from "./Components/Calendar/Calendar";
+// import Calendar from "./Components/Calendar/Calendar";
 import EmpDetails from "./Pages/Employee Data/Emp Details 2/EmpDetails";
-import CalendarDetails from "./Components/Calendar/CalendarDetails";
+// import CalendarDetails from "./Components/Calendar/CalendarDetails";
 import { Context } from "./Context/Context";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
@@ -52,8 +52,8 @@ function App(props) {
                 <Route path="/holidays" element={user.isAdmin &&  <EmpHolidays />} />
                 <Route path="/employees" element={<AllEmployees />} />
                 <Route path="/employees/:id" element={<EmpDetails />} />
-                <Route path="/calendar" element={<Calendar />}></Route>
-                <Route path="/calendar/:id" element={<CalendarDetails />}></Route>
+                {/* <Route path="/calendar" element={<Calendar />}></Route> */}
+                {/* <Route path="/calendar/:id" element={<CalendarDetails />}></Route> */}
                 <Route path="/datamanagement" element={<DataManagement />} />
                 <Route path='/leaves' element={<Leaves />} />
                 <Route path='/departments' element={<Departments />} />

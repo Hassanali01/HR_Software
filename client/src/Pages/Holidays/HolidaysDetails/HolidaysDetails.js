@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-import { Button, Form } from "react-bootstrap";
+import {  Form } from "react-bootstrap";
 import { NotificationManager } from 'react-notifications'
 import DatePicker from 'react-datepicker';
 
@@ -14,7 +14,6 @@ const HolidaysDetails = () => {
   const [holiday, setholiday] = useState([]);
   const ChangeYear = (e) => {
     const dateStr = e;
-    const year = new Date(dateStr).getFullYear();
     setSavedate(dateStr)
   }
 
