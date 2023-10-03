@@ -17,6 +17,13 @@ const Setup = () => {
   const [setupFormula, setSetupFormula] = useState("");
   const [applyGazettedHoliday, setApplyGazettedHoliday] = useState(true);
   const [sundayDayoff, setSundayDayoff] = useState(true);
+  const [mondayDayoff, setMondayDayoff] = useState(false);
+  const [tuesdayDayoff, setTuesdayDayoff] = useState(false);
+  const [wednesdayDayoff, setWednesdayDayoff] = useState(false);
+  const [thursdayDayoff, setThursdayDayoff] = useState(false);
+  const [fridayDayoff, setFridayDayoff] = useState(false);
+  const [saturdayDayoff, setSaturdayDayoff] = useState(false);
+
   const [lastSaturdayDayoff, setLastSaturdayDayoff] = useState(true);
 
   const handleClose = () => setShow(false);
@@ -68,7 +75,7 @@ const Setup = () => {
                     <Container >
                       {payrollSetups.map((ps) =>
                         <Card style={{ width: "95%", margin: "30px auto" }}>
-                          <CardHeader style={{ gap: "10px" ,}}>
+                          <CardHeader style={{ gap: "10px" }}>
                             <h4 style={{ marginTop: "5px" }}>{ps.title}</h4>
                           </CardHeader>
 
@@ -127,6 +134,18 @@ const Setup = () => {
                         <p>
                           <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked="true" onClick={(e) => { setSundayDayoff(e.target.checked) }} />
                           <br />
+                          <label>Monday:</label> &nbsp;  <input type="checkbox" value={mondayDayoff} defaultChecked="true" onClick={(e) => { setMondayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Tuesday:</label> &nbsp;  <input type="checkbox" value={tuesdayDayoff} defaultChecked="true" onClick={(e) => { setTuesdayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Wednesday:</label> &nbsp;  <input type="checkbox" value={wednesdayDayoff} defaultChecked="true" onClick={(e) => { setWednesdayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Thursday:</label> &nbsp;  <input type="checkbox" value={thursdayDayoff} defaultChecked="true" onClick={(e) => { setThursdayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Friday:</label> &nbsp;  <input type="checkbox" value={fridayDayoff} defaultChecked="true" onClick={(e) => { setFridayDayoff(e.target.checked) }} />
+                          <br />
+                          <label>Saturday:</label> &nbsp;  <input type="checkbox" value={saturdayDayoff} defaultChecked="true" onClick={(e) => { setSaturdayDayoff(e.target.checked) }} />
+                          <br />
                           <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
                         </p>
                       </Modal.Body>
@@ -137,7 +156,7 @@ const Setup = () => {
                         <Button variant="primary" onClick={async () => {
                           const savesetup = await axios.post(process.env.React_APP_ORIGIN_URL + "payrollsetup", {
                             title: setupTitle, npd_formula: setupFormula, applyGazettedHoliday: applyGazettedHoliday,
-                            daysoff: { sundayDayoff, lastSaturdayDayoff }
+                            daysoff: { sundayDayoff, lastSaturdayDayoff, mondayDayoff, tuesdayDayoff, wednesdayDayoff, thursdayDayoff, fridayDayoff, saturdayDayoff }
                           });
                           handleClose()
                         }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>

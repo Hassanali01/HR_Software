@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
@@ -12,6 +11,7 @@ import CountUp from 'react-countup';
 import axios from "axios";
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
+
 const DashboardNonAdmin = () => {
     const { user } = useContext(Context);
     const [depCount, setDepCount] = useState()
@@ -111,7 +111,7 @@ const DashboardNonAdmin = () => {
                                                         fontSize: "1.3vw",
                                                     }}
                                                 >
-                                                    Departments
+                                                  Departments
                                                 </h5>
                                             </div>                                        
                                         </div>

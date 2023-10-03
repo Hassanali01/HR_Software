@@ -298,6 +298,124 @@ const MonthlyAttendance = () => {
         }
       })
 
+
+
+
+           // adding Monday DO inside the user attendance
+           tempAttendance.forEach((att) => {
+            const locale = "en-US"
+            var date = new Date(att.date);
+            var day = date.toLocaleDateString(locale, { weekday: 'long' });
+            att.day = day
+            if (day == "Monday"
+              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.mondayDayoff
+            ) {
+              att.in = "Day off";
+              att.out = "Day off";
+              att.status = "D.O"
+            }
+          })
+
+
+
+               // adding Tuesday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Tuesday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.tuesdayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
+
+
+
+      
+               // adding Wednesday DO inside the user attendance
+               tempAttendance.forEach((att) => {
+                const locale = "en-US"
+                var date = new Date(att.date);
+                var day = date.toLocaleDateString(locale, { weekday: 'long' });
+                att.day = day
+                if (day == "Wednesday"
+                  && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.wednesdayDayoff
+                ) {
+                  att.in = "Day off";
+                  att.out = "Day off";
+                  att.status = "D.O"
+                }
+              })
+
+
+           // adding Thursday DO inside the user attendance
+           tempAttendance.forEach((att) => {
+            const locale = "en-US"
+            var date = new Date(att.date);
+            var day = date.toLocaleDateString(locale, { weekday: 'long' });
+            att.day = day
+            if (day == "Thursday"
+              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.thursdayDayoff
+            ) {
+              att.in = "Day off";
+              att.out = "Day off";
+              att.status = "D.O"
+            }
+          })
+
+
+
+
+
+               // adding Friday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Friday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.fridayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
+
+
+
+
+           // adding Saturday DO inside the user attendance
+           tempAttendance.forEach((att) => {
+            const locale = "en-US"
+            var date = new Date(att.date);
+            var day = date.toLocaleDateString(locale, { weekday: 'long' });
+            att.day = day
+            if (day == "Saturday"
+              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.saturdayDayoff
+            ) {
+              att.in = "Day off";
+              att.out = "Day off";
+              att.status = "D.O"
+            }
+          })
+
+
+
+
+
+
+
+
+
+
+
+
+
       //Employee joining date modification in payroll
       tempAttendance.forEach((te) => {
         const dateToCompare = new Date(te.date)

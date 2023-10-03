@@ -239,13 +239,13 @@ const MonthlyPayroll = () => {
       });
 
 
-      // adding Tuesday Day-Off inside the user attendance
+      // adding Monday Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Tuesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.tuesdayDayoff) {
+          if (day == "Monday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.mondayDayoff) {
             if (te.status == 'A') {
               te.status = "D.O";
             } else {
@@ -254,6 +254,95 @@ const MonthlyPayroll = () => {
           }
         });
       });
+
+            // adding Tuesday Day-Off inside the user attendance
+            Object.entries(tempUserAttendance).forEach(([key, value]) => {
+              tempUserAttendance[key].forEach((te) => {
+                const locale = "en-US"
+                var date = new Date(te.date);
+                var day = date.toLocaleDateString(locale, { weekday: 'long' });
+                if (day == "Tuesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.tuesdayDayoff) {
+                  if (te.status == 'A') {
+                    te.status = "D.O";
+                  } else {
+                    te.status = te.status * 2
+                  }
+                }
+              });
+            });
+
+
+
+                  // adding Wednesday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Wednesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.wednesdayDayoff) {
+            if (te.status == 'A') {
+              te.status = "D.O";
+            } else {
+              te.status = te.status * 2
+            }
+          }
+        });
+      });
+
+
+
+            // adding Thursday Day-Off inside the user attendance
+            Object.entries(tempUserAttendance).forEach(([key, value]) => {
+              tempUserAttendance[key].forEach((te) => {
+                const locale = "en-US"
+                var date = new Date(te.date);
+                var day = date.toLocaleDateString(locale, { weekday: 'long' });
+                if (day == "Thursday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.thursdayDayoff) {
+                  if (te.status == 'A') {
+                    te.status = "D.O";
+                  } else {
+                    te.status = te.status * 2
+                  }
+                }
+              });
+            });
+
+
+
+                  // adding Friday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Friday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.fridayDayoff) {
+            if (te.status == 'A') {
+              te.status = "D.O";
+            } else {
+              te.status = te.status * 2
+            }
+          }
+        });
+      });
+
+
+       // adding Saturday Day-Off inside the user attendance
+       Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Saturday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.saturdayDayoff) {
+            if (te.status == 'A') {
+              te.status = "D.O";
+            } else {
+              te.status = te.status * 2
+            }
+          }
+        });
+      });
+
+
 
 
       // Adding last saturday dayoff
@@ -277,9 +366,9 @@ const MonthlyPayroll = () => {
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
               if (te.employee.payroll_setup.applyGazettedHoliday) {
-                if (te.status == 'A') {
+                if (te.status == 'A' ) {
                   te.status = "G.H";
-                } else {
+                } else if(te.status != "D.O") {
                   te.status = te.status * 2
                 }
               }
@@ -343,7 +432,7 @@ const MonthlyPayroll = () => {
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
         <div className="card-header  buttoncolor " style={{ paddingRight: "0px" , height: "57px"}}>
           <h3 className="card-title" style={{ fontWeight: "700" }} >
-            Monthly Payroll
+            Monthly Attendance
           </h3>
         </div>
           <div className='card-body'>
@@ -430,10 +519,10 @@ const MonthlyPayroll = () => {
                   }
                 );
               } catch (error) { console.log("error in payroll", error) }
-            }} style={{ backgroundColor: "rgb(137, 179, 83)"}}>Generate Payroll</Button>
+            }} style={{ backgroundColor: "rgb(137, 179, 83)"}}>Generate Attendance</Button>
 
             <ReactToPrint
-              trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
+              trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Attendance</Button>}
               content={() => componentRef}
             />
             {/* component to be printed */}

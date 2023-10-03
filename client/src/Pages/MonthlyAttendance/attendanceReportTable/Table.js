@@ -42,17 +42,15 @@ const Table = ({ data, setTableData }) => {
     }
 
     const columns = [
-        { field: "Empid", headerName: "Employee_ID", width: 100 },
-        { field: "Name", headerName: "Name", width: 300 },
+        { field: "Empid", headerName: "Employee_ID", width: 150 },
+        { field: "Name", headerName: "Name", width: 200 },
+        // { field: "Status", headerName: "Status", width: 100 },
         { field: "Department", headerName: "Department", width: 200 },
         { field: "Date", headerName: "Date", width: 150 },
-
         { field: "In", headerName: "In", width: 100 },
-
         { field: "Out", headerName: "Out", width: 100 },
-     
         {
-            field: "Action", headerName: "Action", width: 100, renderCell: (params) => {
+            field: "Action", headerName: "Action", width: 130, renderCell: (params) => {
                 return (<Button variant="primary" onClick={() => {
                     setEmployee_ID(params.value.Employee_ID)
                     setName(params.value.Name)
