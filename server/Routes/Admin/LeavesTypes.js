@@ -7,7 +7,8 @@ router.post('/addleaves', async (req, res, next) => {
     try {
         const leaves = new Leaves({
             leaveType: req.body.leaveType,
-            description: req.body.description
+            description: req.body.description,
+            allocation: req.body.allocation
         })
         const postLeave = await leaves.save();
         postLeave && res.status(200).json({

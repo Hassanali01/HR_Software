@@ -7,8 +7,13 @@ const leavesSchema = mongoose.Schema({
     },
     description:{
         type:String,
+        required:false
+    },
+    allocation:{
+        type:Number,
         required:true
-    }
+    },
+
 })
 
 const LeavesTypes = mongoose.model('Leaves',leavesSchema);

@@ -204,7 +204,6 @@ const MonthlyAttendance = () => {
           j.employee.work_shift.forEach((ps) => {
             if (new Date(j.date) >= new Date(ps.dateFrom) && new Date(j.date) <= new Date(ps.dateTo)) {
 
-
               // Deduction for employees on late arrival
               const date = j.in
               const splitdate = date.split(":")
@@ -222,10 +221,8 @@ const MonthlyAttendance = () => {
                   deductionForLate = s.deduction;
                 }
               })
-
               j.status = j.status - deductionForLate
               // Deduction for employees on early leaver
-
               const checkOut = j.out
               const checkOutArr = checkOut.split(":")
               const sampleDateOut = new Date()
@@ -243,11 +240,8 @@ const MonthlyAttendance = () => {
                 }
               })
               j.status = j.status - deductionForEarlyLeaver
-
             }
-
           })
-
         }
       })
 
@@ -445,6 +439,8 @@ const MonthlyAttendance = () => {
                                 <th style={{ width: "100px", border: "1px solid black" }}>Day</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
+                                                                <th style={{ width: "50px", border: "1px solid black" }}>Status</th>
+
                                 <th style={{ width: "290px", border: "1px solid black" }}>Remarks</th>
                               </tr>
                               {
@@ -453,10 +449,17 @@ const MonthlyAttendance = () => {
                                   <td style={{ width: "100px", border: "1px solid black" }}>{t.day}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
+                                                                    <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td>
+
                                   <td style={{ width: "290px", border: "1px solid black" }}></td>
                                 </tr>)
                               }
 
+
+      <tr style={{ height: 30 }}>
+                                <td colSpan={5}></td>
+                                <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
+                              </tr>
                             </table>
                             <div style={{ marginTop: 40 }}>
                               <div style={{ marginLeft: "75%", fontSize: 15, marginRight: 0 }}>

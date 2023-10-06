@@ -88,6 +88,9 @@ const MonthlyPayroll = () => {
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
 
+
+      console.log("attendanceTamp", attendanceTemp)
+
       attendanceTemp.map((at) => {
         if (at.employee.company == comapnyID) {
           //filter for all
@@ -215,6 +218,7 @@ const MonthlyPayroll = () => {
       }
 
 
+    
       // Add early leaver LWP and LWOP in payroll
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
@@ -222,6 +226,9 @@ const MonthlyPayroll = () => {
           appliedLeaves.forEach((al) => {
             if (al.leaveNature == "L.W.P") {
               tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWP"
+            }
+            else if (al.leaveNature == "C.P.L") {
+              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " CPL"
             }
             else {
               tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP"
@@ -456,6 +463,8 @@ const MonthlyPayroll = () => {
         })
       })
 
+
+
       setUserAttendance(tempUserAttendance)
       setUpdate(!update)
     } catch (error) {
@@ -529,12 +538,16 @@ const MonthlyPayroll = () => {
                 setKey(currentKey => currentKey + 1)
                 await generateMonthAttendance()
 
+                console.log("value",userAttendance)
+
+
                 // Applying the payroll formula for net pay days
                 try {
                   Object.entries(userAttendance).forEach(
                     ([key, value]) => {
 
                       // Applying each payroll setup formula for the specified days
+
 
                       value[0].employee.payroll_setup.forEach((ps) => {
 
@@ -556,7 +569,7 @@ const MonthlyPayroll = () => {
 
 
                           const items = generateItems(
-                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                             0,
@@ -643,7 +656,7 @@ const MonthlyPayroll = () => {
                         })
                       }
 
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>
@@ -667,7 +680,7 @@ const MonthlyPayroll = () => {
                     </tr>)
                 }
                 <tr>
-                  <th colSpan="44" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
+                  <th colSpan={`${daysOfMonth.length + 13}`} style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
                     {/* Sum of net pay days */}
                     {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => {
                       return (total + parseFloat(num[1].netpaydays))
