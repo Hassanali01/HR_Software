@@ -38,6 +38,14 @@ function WorkLeave() {
   const [superviser, setSuperviser] = useState("");
   const [superviserid, setSuperviserid] = useState("");
 
+  const [placeToVisit, setPlaceToVisit] = useState("");
+  const [reasonToVisit, setReasonToVisit] = useState("");
+  const [personToMeet, setPersonToMeet] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [meterStartReading, setMeterStartReading] = useState("");
+  const [meterEndReading, setMeterEndReading] = useState("");
+  const [overallRemarks, setOverallRemarks] = useState("");
+
   const url = "leaves";
   const a = useContext(HeaderContext)
   useEffect(() => {
@@ -75,7 +83,7 @@ function WorkLeave() {
           assignedBy: d.assignedBy,
           task: d.task,
           project: d.project,
-          leave_status:d.leave_status,
+          leave_status: d.leave_status,
         });
       });
       setinfo(InfoData);
@@ -125,10 +133,17 @@ function WorkLeave() {
     formData.append("assignedBy", assignedBy)
     formData.append("fromTime", fromTime)
     formData.append("toTime", toTime)
-    // formData.append("leaveNature", leaveNature)
     formData.append("task", task);
-    formData.append("leave_status",leave_status);
+    formData.append("leave_status", leave_status);
     formData.append("project", project);
+    formData.append("placeToVisit", placeToVisit);
+    formData.append("personToMeet", personToMeet);
+    formData.append("reasonToVisit", reasonToVisit);
+    formData.append("remarks", remarks);
+    formData.append("meterStartReading", meterStartReading);
+    formData.append("meterEndReading", meterEndReading);
+    formData.append("overallRemarks", overallRemarks);
+    console.log("formData", formData)
     try {
       const addreq = await axios({
         method: "post",
@@ -197,7 +212,7 @@ function WorkLeave() {
                     <h4>Work Absence Form</h4>
                     <hr />
                     <Row>
-                      <Col xs="7">
+                      <Col >
                         <Card>
                           <Card.Body>
                             <Container>
@@ -208,7 +223,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Absence Types</Form.Label>
+                                      <Form.Label>Work Types</Form.Label>
                                       <Form.Select
                                         required
                                         onChange={(e) => {
@@ -235,6 +250,17 @@ function WorkLeave() {
                                           value={"open"}
                                           disabled
                                         ></Form.Control>
+                                      </div>
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Project</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setProject(e.target.value);
+                                          }}
+                                        />
                                       </div>
                                     </Col>
                                   </Row>
@@ -265,8 +291,32 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
+                                    <Col>
+                                      <Form.Label>Total Days</Form.Label>
+                                      <Form.Control
+                                        type="number"
+                                        value={diffDays}
+                                        disabled
+                                      />
+                                    </Col>
                                   </Row>
+                                </Form.Group>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
                                   <Row>
+                                    <Col>
+                                      <Form.Label>Task</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setTask(e.target.value);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
                                     <Col>
                                       <Form.Label>Time From</Form.Label>
                                       <Form.Control
@@ -287,6 +337,7 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
+
                                   </Row>
                                 </Form.Group>
                                 <Form.Group
@@ -294,14 +345,6 @@ function WorkLeave() {
                                   controlId="formBasicPassword"
                                 >
                                   <Row>
-                                    <Col>
-                                      <Form.Label>Total Days</Form.Label>
-                                      <Form.Control
-                                        type="number"
-                                        value={diffDays}
-                                        disabled
-                                      />
-                                    </Col>
                                     <Col>
                                       <Form.Label>Description</Form.Label>
                                       <div className="reason">
@@ -313,35 +356,28 @@ function WorkLeave() {
                                         />
                                       </div>
                                     </Col>
-                                  </Row>
-                                </Form.Group>
-
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col>
-                                      <Form.Label>Task</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setTask(e.target.value);
-                                          }}
-                                        />
-                                      </div>
+                                    <Col  >
+                                      <Form.Label>Work Status</Form.Label>
+                                      <Form.Select
+                                        value={workStatus}
+                                        onChange={(e) => { setWorkStatus(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="Partially Progress">Partially Progress</option>
+                                        <option value="No Progress">No Progress</option>
+                                        <option value="Completed">Completed</option>
+                                      </Form.Select>
                                     </Col>
                                     <Col>
-                                      <Form.Label>Project</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setProject(e.target.value);
-                                          }}
-                                        />
-                                      </div>
+                                      <Form.Label>Short leave</Form.Label>
+                                      <Form.Select
+                                        value={leave_status}
+                                        onChange={(e) => { setLeave_status(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="True">Short Leave</option>
+                                        <option value="False">Full Leave</option>
+                                      </Form.Select>
                                     </Col>
                                   </Row>
                                 </Form.Group>
@@ -351,7 +387,7 @@ function WorkLeave() {
                                   controlId="formBasicPassword"
                                 >
                                   <Row>
-                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
+                                    <Col>
                                       <Form.Label>Assigned By</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setAssignedBy(e.target.value) }}
@@ -377,30 +413,84 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
-                                  </Row>
-                                  <Row>                            
-                                   <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Work Status</Form.Label>
-                                      <Form.Select
-                                        value={workStatus}
-                                        onChange={(e) => { setWorkStatus(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden value="">Please Select</option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Completed">Completed</option>
-                                        <option value="In Progress">In Progress</option>
-                                      </Form.Select>
+                                    <Col>
+                                      <Form.Label>Place To Visit</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setPlaceToVisit(e.target.value);
+                                        }}
+                                      />
                                     </Col>
-                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Short leave</Form.Label>
-                                      <Form.Select
-                                        value={leave_status}
-                                        onChange={(e) => { setLeave_status(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">Short Leave</option>
-                                        <option value="False">Full Leave</option>
-                                      </Form.Select>
+                                  </Row>
+                                </Form.Group>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col>
+                                      <Form.Label>Reason For Visit</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setReasonToVisit(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Person To Meet</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setPersonToMeet(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Remarks</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setRemarks(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                  </Row>
+                                </Form.Group>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col>
+                                      <Form.Label>Meter Start Reading</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setMeterStartReading(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Meter End Reading</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setMeterEndReading(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Overall Reamrks</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setOverallRemarks(e.target.value);
+                                        }}
+                                      />
                                     </Col>
                                   </Row>
                                 </Form.Group>
@@ -481,8 +571,8 @@ function WorkLeave() {
                           </Card.Body>
                         </Card>
                       </Col>
-                      <Col>
-                        <Card>
+                      {/* <Col> */}
+                      {/* <Card>
                           <Card.Header className="buttoncolor ">
                             <Card.Title style={{ width: "100%" }}>
                               <h4 className="text-center">
@@ -553,8 +643,8 @@ function WorkLeave() {
                               })}
                             </Container>
                           </Card.Body>
-                        </Card>
-                      </Col>
+                        </Card>  */}
+                      {/* </Col> */}
                     </Row>
                   </div>
                 </Container>

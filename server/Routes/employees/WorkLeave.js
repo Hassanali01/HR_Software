@@ -60,6 +60,13 @@ router.post('/', async (req, res, next) => {
             fromTime: req.body.fromTime,
             toTime: req.body.toTime,
             leave_status: req.body.leave_status,
+            placeToVisit: req.body.placeToVisit,
+            reasonToVisit: req.body.reasonToVisit,
+            remarks: req.body.remarks,
+            personToMeet: req.body.personToMeet,
+            meterStartReading: req.body.meterStartReading,
+            meterEndReading: req.body.meterEndReading,
+            overallRemarks: req.body.overallRemarks,
         })
         const leaverequest = await reqLeave.save()
         leaverequest && res.status(200).json({ message: "Leave Request", leaverequest });

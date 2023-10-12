@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const WorkLeaveSchema = mongoose.Schema({
     workabsence: {
         type: String,
-        // required: true,
         ref: 'Leaves'
     },
     Leave_Days: {
@@ -49,7 +48,7 @@ const WorkLeaveSchema = mongoose.Schema({
     },
     Workstatus: {
         type: String,
-        enum: ["Completing", "Pending", "In Progress"],
+        enum: ["Partially Progress", "No Progress", "Completed"],
         // default:"Pending Approval" 
     },
     status: {
@@ -80,6 +79,27 @@ const WorkLeaveSchema = mongoose.Schema({
         type: mongoose.Schema.Types.Mixed
     },
     leave_status:{
+        type: String
+    },
+    placeToVisit:{
+        type: String
+    },
+    reasonToVisit:{
+        type: String
+    },
+    personToMeet:{
+        type: String
+    },
+    remarks:{
+        type: String
+    },
+    meterStartReading:{
+        type: String
+    },
+    meterEndReading:{
+        type: String
+    },
+    overallRemarks:{
         type: String
     }
 
