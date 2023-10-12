@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
@@ -25,14 +24,32 @@ const Dashboard = () => {
       try {
         const employees = await axios.get(process.env.React_APP_ORIGIN_URL + 'employees')
         const emp = employees.data.counted;
-        setDepEmp(emp)
+        let activeempCount = 0
+        employees.data.employees.map((i) => {
+          if (!i.date_of_resignation) {
+            activeempCount++
+          }
+          else {
+            console.log("no...")
+          }
+        })
+        setDepEmp(activeempCount)
       } catch (error) {
       }
       try {
         const leaves = await axios.get(process.env.React_APP_ORIGIN_URL + 'leaverequest/allForHR')
         const leav = leaves.data.counted;
-        console.log("leaves",leav)
-        setleavCount(leav)
+        let totalLeave = 0
+        leaves.data.allRequest.map((j) => {
+          var currentDate = new Date();
+          var currentMonth = currentDate.getMonth();
+          const leaveDate = new Date(j.from);
+          var leaveMonth = leaveDate.getMonth();
+          if (currentMonth == leaveMonth) {
+            totalLeave++
+          }
+        })
+        setleavCount(totalLeave)
       } catch (error) {
         console.log(error)
       }
@@ -44,6 +61,7 @@ const Dashboard = () => {
   useEffect(() => {
     counted()
   }, [])
+
   const a = useContext(HeaderContext)
   useEffect(() => {
     a.update("Human Resource / Dashboard")
@@ -216,7 +234,6 @@ const Dashboard = () => {
                           </Link>
                         </div>
                         <div>
-
                           <PersonOutlineIcon
                             className="iconDashboard"
                             style={{
@@ -274,7 +291,6 @@ const Dashboard = () => {
                           </Link>
                         </div>
                         <div>
-
                           <TrendingUpOutlinedIcon
                             className="iconDashboard"
                             style={{
@@ -283,7 +299,6 @@ const Dashboard = () => {
                               fontSize: '1.8vw'
                             }}
                           />
-
                         </div>
                       </div>
                     </Card.Text>

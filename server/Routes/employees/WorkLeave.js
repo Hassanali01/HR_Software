@@ -1,7 +1,7 @@
 const express = require("express")
 const WorkLeave = require("../../Models/WorkLeave")
 const router = express.Router();
-const employees = require('../../Models/Employees')
+const employees = require('../../Models/employees')
 const mongodb = require('mongodb')
 const mongoClient = mongodb.MongoClient
 

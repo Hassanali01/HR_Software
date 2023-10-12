@@ -19,6 +19,7 @@ import HeaderContext from '../../Context/HeaderContext'
 const { v4: uuidv4 } = require('uuid');
 
 
+
 const MonthlyPayroll = () => {
   const context = useContext(Context);
   let componentRef = useRef();
@@ -28,7 +29,6 @@ const MonthlyPayroll = () => {
   const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
   const [loading, setLoading] = useState(false);
   const [empLeaves, setEmpLeaves] = useState([])
-  const [workLeaves, setWorkLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
   const [empshift, setEmpshift] = useState([])
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
@@ -40,10 +40,13 @@ const MonthlyPayroll = () => {
   const [comapnyID, setCompanyID] = useState()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const [key, setKey] = useState(0)
+
 
   const CompanyName = (e) => {
     setCompanyID(e)
+
   }
 
   // For fetching current time to display on report
@@ -54,10 +57,9 @@ const MonthlyPayroll = () => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, []);
-
   const a = useContext(HeaderContext)
   useEffect(() => {
-    a.update("Human Resource / Monthly Attendence")
+    a.update("Human Resource / Monthly Payroll")
   })
 
   function onChangeCalendar(e) {
@@ -99,9 +101,6 @@ const MonthlyPayroll = () => {
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
-      const workLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/September`)
-      setWorkLeaves(workLeave)
-
       const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)
       setGaztedholiday(gaztedholidays.data)
 
@@ -140,6 +139,15 @@ const MonthlyPayroll = () => {
 
 
 
+      // adding LWOP inside the user attendance
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
+          appliedLeaves.forEach((al) => {
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
+          })
+        }
+      );
 
 
       //Adding 1 in P in payroll
@@ -325,6 +333,7 @@ const MonthlyPayroll = () => {
       });
 
 
+
       // adding Tuesday Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
@@ -390,6 +399,7 @@ const MonthlyPayroll = () => {
       });
 
 
+
       // Adding last saturday dayoff
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         let allSat = daysOfMonth.filter((st) => st.day == "Sat")
@@ -413,17 +423,23 @@ const MonthlyPayroll = () => {
         const a = gaztedholidays.data.map((i) => {
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-              if (te.employee.payroll_setup.applyGazettedHoliday) {
-                if (te.status == 'A') {
-                  te.status = "G.H";
-                } else {
-                  te.status = te.status * 2
+              te.employee.payroll_setup.forEach((ps) => {
+                if (ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
+                  if (te.status == 'A') {
+                    te.status = "G.H";
+                  } else {
+                    te.status = te.status * 2
+                  }
                 }
-              }
+              })
             }
           })
         })
       })
+
+
+
+      /*  ******************************** END calculations involving payroll setup  *********************************************  */
 
 
       //Employee joining date modification in payroll
@@ -454,7 +470,6 @@ const MonthlyPayroll = () => {
     } catch (error) {
       console.log("error", error)
       setLoading(false);
-      console.log("error generating payroll", error)
       NotificationManager.error("Please select  the month of Payroll")
     }
   }
@@ -481,42 +496,43 @@ const MonthlyPayroll = () => {
     <>
       <div className="content-wrapper">
 
-
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
-        <div className="card-header  buttoncolor " style={{ paddingRight: "0px" , height: "57px"}}>
-          <h3 className="card-title" style={{ fontWeight: "700" }} >
-            Monthly Payroll
-          </h3>
-        </div>
+          <div className="card-header  buttoncolor " style={{ paddingRight: "0px", height: "57px" }}>
+            <h3 className="card-title" style={{ fontWeight: "700" }} >
+              Monthly Payroll
+            </h3>
+          </div>
           <div className='card-body'>
-            <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
-              Select the Month
-            </Button>
+            <div>
+              <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                Select the month
+              </Button>
+              <input className="mr-3" value={payrollMonth} disabled="true"></input>
+              <Modal show={show} onHide={handleClose}>
+                <div className='d-flex justify-content-center'>
+                  <Calendar
+                    onChange={onChangeCalendar}
+                    value={date}
+                    maxDetail='year'
+                  />
+                </div>
+              </Modal>
+              <select
+                style={{ marginRight: "10px", outline: "none", padding: "2px 0px", backgroundColor: "#f5f3f3", borderColor: "darkgray", borderRadius: "2px" }}
+                name="company"
+                placeholder='Select Company'
+                onChange={(event) => CompanyName(event.target.value)}
+              >
+                <option disabled selected hidden defaultValue={""}>Please Select Company</option>
+                {company && company.map((d) => (
+                  <option key={d._id} value={d._id}>
+                    {d.title}
+                  </option>
+                ))}
+              </select>
 
-            <input className="mr-3" value={payrollMonth} disabled="true"></input>
-            <Modal show={show} onHide={handleClose}>
-              <div className='d-flex justify-content-center'>
-                <Calendar
-                  onChange={onChangeCalendar}
-                  value={date}
-                  maxDetail='year'
-                />
-              </div>
-            </Modal>
-            <select
-              style={{ marginRight: "10px", outline: "none", padding: "2px 0px", backgroundColor: "#f5f3f3", borderColor: "darkgray", borderRadius: "2px" }}
-              name="company"
-              placeholder='Select Company'
-              onChange={(event) => CompanyName(event.target.value)}
-            >
-              <option disabled selected hidden defaultValue={""}>Please Select Company</option>
-              {company && company.map((d) => (
-                <option key={d._id} value={d._id}>
-                  {d.title}
-                </option>
-              ))}
-            </select>
-            <Button className="mr-3" onClick={async () => {
+
+              <Button className="mr-3" onClick={async () => {
 
                 setUserAttendance({})
                 setKey(currentKey => currentKey + 1)
@@ -533,59 +549,61 @@ const MonthlyPayroll = () => {
 
                       value[0].employee.payroll_setup.forEach((ps) => {
 
+                        const addField = () => {
+                          setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }])
+                        }
 
-                    console.log("key", key)
+                        addField()
+                        const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }].reduce((out, field) => {
+                          if (field.referenceName) {
+                            out[field.referenceName] = field.npd_formula
+                          }
+                          return out
+                        }, {})
 
-                    const addField = () => {
-                      setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value.length > 0 && value[0].employee && value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+                        try {
+                          const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
+                          const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+
+                          const items = generateItems(
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
+                            0,
+                            userAttendance[`${key}`].length > 0 && (userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length),
+                            parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
+                          )
+                          const extendedItems =
+                            items.map((item) => {
+                              const extendedItem = {}
+                              Object.entries(item).forEach(([key, value]) => {
+                                extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
+                              })
+                              extendedTokensOrdered.forEach((entry) => {
+                                extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
+                              })
+                              return extendedItem
+                            })
+                          usersPayrollCalculations[`${key}`] = { netpaydays: usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays || 0 + parseFloat(extendedItems[0].netpaydays) }
+                        } catch (error) { console.log("error", error) }
+                      })
                     }
-                    addField()
-                    const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0] && value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
-                      if (field.referenceName) {
-                        out[field.referenceName] = field.npd_formula
-                      }
-                      return out
-                    }, {})
+                  );
+                } catch (error) { console.log("error in payroll", error) }
+              }} style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft: "30vw" }}>Generate Payroll</Button>
 
-                    try {
-                      const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
-                      const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-                      const items = generateItems(
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
-                        0,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
-                      )
+              <ReactToPrint
+                trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Payroll</Button>}
+                content={() => componentRef}
+              />
 
-                      const extendedItems =
-                        items.map((item) => {
-                          const extendedItem = {}
-                          Object.entries(item).forEach(([key, value]) => {
-                            extendedItem[key] = (value === 0 ? 0 : (value || '')).toString()
-                          })
-                          extendedTokensOrdered.forEach((entry) => {
-                            extendedItem[entry.referenceNameOrig] = evaluateTokenNodes(entry.tokenNodes, (prop) => (extendedItem[prop] || '').toString())
-                          })
-                          return extendedItem
-                        })
 
-                      usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+            </div>
 
-                    } catch (error) { console.log("error", error) }
-                  }
-                );
-              } catch (error) { console.log("error in payroll", error) }
-            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Payroll</Button>
 
-            <ReactToPrint
-              trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Attendance</Button>}
-              content={() => componentRef}
-            />
             {/* component to be printed */}
-            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "75vh", }} >
+            <div className="mt-3" style={{ overflow: "auto", width: "78vw", height: "68vh", }} >
               <table key={key}
                 ref={(el) => (componentRef = el)} style={{ border: "1px solid black" }} id="payrollTable" className='payrollTable'>
                 <tr style={{ backgroundColor: "#89CFF0" }}>
@@ -637,7 +655,7 @@ const MonthlyPayroll = () => {
 
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL")).reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL")).reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length : ""}</td>
@@ -659,7 +677,7 @@ const MonthlyPayroll = () => {
                     </tr>)
                 }
                 <tr>
-                  <th colSpan="43" style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
+                  <th colSpan={`${daysOfMonth.length + 13}`} style={{ textAlign: "right" }}>Total:</th><th colSpan="45">
                     {/* Sum of net pay days */}
                     {usersPayrollCalculations && Object.entries(usersPayrollCalculations).reduce((total, num) => {
                       return (total + parseFloat(num[1].netpaydays))
