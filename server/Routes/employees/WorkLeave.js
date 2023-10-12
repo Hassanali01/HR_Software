@@ -67,6 +67,8 @@ router.post('/', async (req, res, next) => {
             meterStartReading: req.body.meterStartReading,
             meterEndReading: req.body.meterEndReading,
             overallRemarks: req.body.overallRemarks,
+            expense: req.body.expense
+            
         })
         const leaverequest = await reqLeave.save()
         leaverequest && res.status(200).json({ message: "Leave Request", leaverequest });
