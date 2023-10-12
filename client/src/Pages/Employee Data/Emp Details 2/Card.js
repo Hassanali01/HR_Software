@@ -907,7 +907,7 @@ const Cards = ({ data }) => {
                             }}
                             style={{ backgroundColor: "rgb(137, 179, 83)" }}
                           >
-                            Change Work shifts
+                            Change work shifts
                           </Button>
                         </Col>
 
@@ -985,24 +985,14 @@ const Cards = ({ data }) => {
                                   Add Setup
                                 </Button>
 
-                                <Button
-                                  onClick={() => {
-                                    data.payroll_setup.splice(0, data.payroll_setup.length)
-                                    setShowPayrollSetupModal(false)
-
-                                    console.log("payroll setups", data)
-                                  }}
-                                  style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                                >
-                                  Remove payroll setups
-                                </Button>
+                         
 
                               </div>
-                              <div>{emp.payroll_setup && emp.payroll_setup.map((ps) => <>
-                                <div>payroll setup:{ps.payrollSetup}</div>
+                              <div>{emp.payroll_setup && emp.payroll_setup.map((ps, index) => <>
+                                <div>payroll setup: {payrollsetup.filter((pf)=>pf._id == ps.payrollSetup)[0].title }</div>
                                 <div>Date from:{ps.dateFrom}</div>
                                 <div>Date to:{ps.dateTo}</div>
-
+                                <button onClick={()=>{emp.payroll_setup.splice(index,1)}}>Delete</button>
                               </>)}</div>
                             </Container>
                           </Modal.Body>
@@ -1069,7 +1059,6 @@ const Cards = ({ data }) => {
                                   name="joiningdate"
                                   // value={emp.joiningdate && emp.joiningdate.split("T")[0]}
                                   onChange={(e) => {
-
                                     setAddWorkShift({ ...addWorkShift, dateTo: e.target.value })
                                   }}
                                 />
@@ -1083,29 +1072,18 @@ const Cards = ({ data }) => {
                                   }}
                                   style={{ backgroundColor: "rgb(137, 179, 83)" }}
                                 >
-                                  Add Setup
+                                  Add workshift
                                 </Button>
 
-                                <Button
-                                  onClick={() => {
-                                    data.work_shift.splice(0, data.work_shift.length)
-                                    setShowPayrollSetupModal(false)
-
-                                    console.log("payroll setups", data)
-                                  }}
-                                  style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                                >
-                                  Remove payroll setups
-                                </Button>
 
                               </div>
 
 
-                              <div>{emp.work_shift && emp.work_shift.map((ws) => <>
-                                <div>workshifts:{ws.workShift}</div>
+                              <div>{emp.work_shift && emp.work_shift.map((ws,index) => <>
+                                <div>workshifts:{workshift.filter((wf)=>wf._id == ws.workShift)[0].shift_name }</div>
                                 <div>Date from:{ws.dateFrom}</div>
                                 <div>Date to:{ws.dateTo}</div>
-
+                                <button onClick={()=>{emp.work_shift.splice(index,1)}}>Delete</button>
                               </>)}</div>
                             </Container>
                           </Modal.Body>

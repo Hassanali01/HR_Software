@@ -538,16 +538,14 @@ const MonthlyPayroll = () => {
                 setKey(currentKey => currentKey + 1)
                 await generateMonthAttendance()
 
-                console.log("value",userAttendance)
-
 
                 // Applying the payroll formula for net pay days
+
                 try {
                   Object.entries(userAttendance).forEach(
                     ([key, value]) => {
 
                       // Applying each payroll setup formula for the specified days
-
 
                       value[0].employee.payroll_setup.forEach((ps) => {
 
@@ -566,7 +564,6 @@ const MonthlyPayroll = () => {
                         try {
                           const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                           const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-
 
                           const items = generateItems(
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
