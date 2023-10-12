@@ -259,13 +259,7 @@ const EmployeesSchema = new mongoose.Schema(
     },
 
 
-    expense: {
-      type: [{
-        type: String,        
-        amount: Number ,
-        description: String
-      }],
-    },
+
 
   },
   { timestamps: true }

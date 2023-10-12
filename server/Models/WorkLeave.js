@@ -101,7 +101,15 @@ const WorkLeaveSchema = mongoose.Schema({
     },
     overallRemarks:{
         type: String
-    }
+    },
+
+    expense: {
+        type: [{
+          type: String,        
+          amount: Number ,
+          description: String
+        }],
+      },
 
 })
 
