@@ -203,27 +203,36 @@ function WorkLeave() {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                  Add Work Absence Request
+                  Work Leave Request
                 </h3>
               </div>
               <div className="card-body">
                 <Container>
                   <div>
-                    <h4>Work Absence Form</h4>
-                    <hr />
+
                     <Row>
                       <Col >
                         <Card>
                           <Card.Body>
                             <Container>
                               <Form onSubmit={addWorkAbsence}>
+
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicEmail"
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Work Types</Form.Label>
+                                      <Form.Label>Date</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        onChange={(e) => {
+                                          setapplicationdate(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Work Type</Form.Label>
                                       <Form.Select
                                         required
                                         onChange={(e) => {
@@ -241,15 +250,41 @@ function WorkLeave() {
                                         <option value={"Others"}>Others</option>
                                       </Form.Select>
                                     </Col>
+
                                     <Col>
-                                      <Form.Label>Status</Form.Label>
-                                      <div className="status">
+                                      <Form.Label>Assigned By</Form.Label>
+                                      <Form.Select
+                                        onChange={(e) => { setAssignedBy(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
+                                        <option value={setSuperviserid}>{superviser}</option>
+                                        {
+                                          array.map((d, i) => {
+                                            return (
+                                              <>
+                                                <option key={i} value={d._id}>{d.firstname}</option>
+                                              </>)
+                                          })
+                                        }
+                                      </Form.Select>
+                                    </Col>
+
+                                  </Row>
+                                </Form.Group>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col>
+                                      <Form.Label>Task</Form.Label>
+                                      <div className="reason">
                                         <Form.Control
                                           type="text"
-                                          required
-                                          value={"open"}
-                                          disabled
-                                        ></Form.Control>
+                                          onChange={(e) => {
+                                            setTask(e.target.value);
+                                          }}
+                                        />
                                       </div>
                                     </Col>
                                     <Col>
@@ -263,6 +298,18 @@ function WorkLeave() {
                                         />
                                       </div>
                                     </Col>
+                                    <Col>
+                                      <Form.Label>Description</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setDescription(e.target.value);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
+
                                   </Row>
                                 </Form.Group>
 
@@ -307,18 +354,17 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Task</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setTask(e.target.value);
-                                          }}
-                                        />
-                                      </div>
+                                      <Form.Label>Departure Time</Form.Label>
+                                      <Form.Control
+                                        type="time"
+                                        value={toTime}
+                                        onChange={(e) => {
+                                          setToTime(e.target.value)
+                                        }}
+                                      />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Time From</Form.Label>
+                                      <Form.Label>Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
                                         value={fromTime}
@@ -327,15 +373,18 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
+
+
                                     <Col>
-                                      <Form.Label>Time To</Form.Label>
-                                      <Form.Control
-                                        type="time"
-                                        value={toTime}
-                                        onChange={(e) => {
-                                          setToTime(e.target.value)
-                                        }}
-                                      />
+                                      <Form.Label> Leave Type</Form.Label>
+                                      <Form.Select
+                                        value={leave_status}
+                                        onChange={(e) => { setLeave_status(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="True">Short Leave</option>
+                                        <option value="False">Full Leave</option>
+                                      </Form.Select>
                                     </Col>
 
                                   </Row>
@@ -345,18 +394,7 @@ function WorkLeave() {
                                   controlId="formBasicPassword"
                                 >
                                   <Row>
-                                    <Col>
-                                      <Form.Label>Description</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setDescription(e.target.value);
-                                          }}
-                                        />
-                                      </div>
-                                    </Col>
-                                    <Col  >
+                                    <Col xs={4} >
                                       <Form.Label>Work Status</Form.Label>
                                       <Form.Select
                                         value={workStatus}
@@ -368,62 +406,20 @@ function WorkLeave() {
                                         <option value="Completed">Completed</option>
                                       </Form.Select>
                                     </Col>
-                                    <Col>
-                                      <Form.Label>Short leave</Form.Label>
-                                      <Form.Select
-                                        value={leave_status}
-                                        onChange={(e) => { setLeave_status(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">Short Leave</option>
-                                        <option value="False">Full Leave</option>
-                                      </Form.Select>
+                                    <Col xs={8}>
+                                      <Form.Label>Remarks</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        onChange={(e) => {
+                                          setRemarks(e.target.value);
+                                        }}
+                                      />
                                     </Col>
                                   </Row>
                                 </Form.Group>
 
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col>
-                                      <Form.Label>Assigned By</Form.Label>
-                                      <Form.Select
-                                        onChange={(e) => { setAssignedBy(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
-                                        <option value={setSuperviserid}>{superviser}</option>
-                                        {
-                                          array.map((d, i) => {
-                                            return (
-                                              <>
-                                                <option key={i} value={d._id}>{d.firstname}</option>
-                                              </>)
-                                          })
-                                        }
-                                      </Form.Select>
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Application Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        onChange={(e) => {
-                                          setapplicationdate(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Place To Visit</Form.Label>
-                                      <Form.Control
-                                        type="text"
-                                        onChange={(e) => {
-                                          setPlaceToVisit(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
+                                <br />
+                                <h5>Visit Details :</h5>
 
                                 <Form.Group
                                   className="mb-3"
@@ -448,18 +444,21 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
+
                                     <Col>
-                                      <Form.Label>Remarks</Form.Label>
+                                      <Form.Label>Place To Visit</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
-                                          setRemarks(e.target.value);
+                                          setPlaceToVisit(e.target.value);
                                         }}
                                       />
                                     </Col>
                                   </Row>
                                 </Form.Group>
+                                <br />
 
+                                <h5>Distance Covered :</h5>
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicPassword"
