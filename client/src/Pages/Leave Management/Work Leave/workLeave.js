@@ -13,35 +13,35 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { useReactToPrint } from "react-to-print";
-import Report from "../report leave request/Report";
-import './LeaveRequest.css'
 import HeaderContext from '../../../Context/HeaderContext'
 
+function WorkLeave() {
 
-
-const LeaveRequest = () => {
   const [from, setFirstdate] = useState(new Date());
-  const [reason, setReason] = useState("");
+  const [description, setDescription] = useState("");
   const [to, setSecond] = useState(new Date());
   const [attachedFile, setAttachedFile] = useState();
-  const [leaveType, setLeaveType] = useState("");
+  const [workabsence, setWorkabsence] = useState("");
   const [applicationdate, setapplicationdate] = useState("")
   const { user } = useContext(Context);
   const [Info, setinfo] = useState([]);
-  const [backupresourse, setbackupresourse] = useState("")
-  const [leaveNature, setLeaveNature] = useState("")
+  const [assignedBy, setAssignedBy] = useState("")
+  const [leave_status, setLeave_status] = useState("")
   const [leaves, setLeaves] = useState([]);
   const [depemp, setdepemp] = useState([])
   const [fromTime, setFromTime] = useState("")
   const [toTime, setToTime] = useState("")
   const [details, setDetails] = useState([]);
-  const [Short_leave, setShort_leave] = useState([]);
+  const [workStatus, setWorkStatus] = useState([]);
+  const [task, setTask] = useState("");
+  const [project, setProject] = useState("");
+  const [superviser, setSuperviser] = useState("");
+  const [superviserid, setSuperviserid] = useState("");
 
   const url = "leaves";
-  const posturl = "leaverequest/addrequest";
   const a = useContext(HeaderContext)
   useEffect(() => {
-    a.update("Human Resource / Leave Request")
+    a.update("Human Resource / Work Leave Request")
   })
 
   const employee = user.id;
@@ -60,19 +60,22 @@ const LeaveRequest = () => {
       await empinfo.Leaves.map((d) => {
         InfoData.push({
           from: d.from,
-          Short_leave: d.Short_leave,
+          workStatus: d.workStatus,
           to: d.to,
           status: d.status,
-          leaveType: d.leaveType,
+          workabsence: d.workabsence,
           name: empinfo.firstname,
           _id: empinfo.emp_id,
           department: empinfo.departments.map((d) => d.departmentname),
-          reason: d.reason,
+          description: d.description,
           applicationdate: d.applicationdate,
           empid: empinfo.emp_id,
           designation: empinfo.designation,
           leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
-          backupresourse: d.backupresourse
+          assignedBy: d.assignedBy,
+          task: d.task,
+          project: d.project,
+          leave_status:d.leave_status,
         });
       });
       setinfo(InfoData);
@@ -85,27 +88,19 @@ const LeaveRequest = () => {
           email: empinfo.email,
           empid: empinfo.emp_id,
           designation: empinfo.designation,
+          supervisors: empinfo.supervisors[0].username
         });
       });
 
       setDetails(departments);
+      setSuperviser(empinfo.supervisors[0].username)
+      setSuperviserid(empinfo.supervisors[0]._id)
     } catch (error) {
       console.log(error);
     }
   };
-
   const depurl = user.departments.map((d) => d._id);
   const depemployees = `departments/${depurl}`
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
-      const dd = res.data.getLeave;
-      setLeaves(dd);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const allemployees = async () => {
     try {
       const res = await axios.get(process.env.React_APP_ORIGIN_URL + depemployees);
@@ -116,29 +111,32 @@ const LeaveRequest = () => {
     }
   }
 
-  const addleaveRequest = async (event) => {
+  const addWorkAbsence = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("leaveType", leaveType);
+    formData.append("workabsence", workabsence);
     formData.append("from", from);
-    formData.append("reason", reason);
+    formData.append("description", description);
     formData.append("to", to);
-    formData.append("Short_leave", Short_leave);
+    formData.append("workStatus", workStatus);
     formData.append("employee", employee);
     formData.append("file", attachedFile);
     formData.append("applicationdate", applicationdate);
-    formData.append("backupresourse", backupresourse)
+    formData.append("assignedBy", assignedBy)
     formData.append("fromTime", fromTime)
     formData.append("toTime", toTime)
-    formData.append("leaveNature", leaveNature)
+    // formData.append("leaveNature", leaveNature)
+    formData.append("task", task);
+    formData.append("leave_status",leave_status);
+    formData.append("project", project);
     try {
       const addreq = await axios({
         method: "post",
-        url: process.env.React_APP_ORIGIN_URL + `${posturl}`,
+        url: process.env.React_APP_ORIGIN_URL + `workLeave`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+      console.log("formdata", formData)
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
       NotificationManager.error("Failed to Add");
@@ -163,63 +161,69 @@ const LeaveRequest = () => {
     Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
   );
 
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
+      const dd = res.data.getLeave;
+      setLeaves(dd);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
     userInformation();
     allemployees();
   }, []);
-
   const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
   return (
     <>
       <div
         className="content-wrapper my-1"
-        style={{ backgroundColor: "#f7f7f7"}}
+        style={{ backgroundColor: "#f7f7f7" }}
       >
-        <section className="content" style={{marginTop: "30px"}}>
+        <section className="content" style={{ marginTop: "30px" }}>
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor "> 
-                <h3 className="card-title" style={{ color: "white"}}>
-                  Add Leave Request
+              <div className="card-header buttoncolor ">
+                <h3 className="card-title" style={{ color: "white" }}>
+                  Add Work Absence Request
                 </h3>
               </div>
               <div className="card-body">
                 <Container>
                   <div>
-                    <h4>Leave Form</h4>
+                    <h4>Work Absence Form</h4>
                     <hr />
                     <Row>
                       <Col xs="7">
                         <Card>
                           <Card.Body>
                             <Container>
-                              <Form onSubmit={addleaveRequest}>
+                              <Form onSubmit={addWorkAbsence}>
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicEmail"
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Leave Type</Form.Label>
+                                      <Form.Label>Absence Types</Form.Label>
                                       <Form.Select
                                         required
                                         onChange={(e) => {
-                                          setLeaveType(e.target.value);
+                                          setWorkabsence(e.target.value);
                                         }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
-                                        {leaves.map((d) => {
-                                          return (
-                                            <option
-                                              key={d._id}
-                                              value={d.leaveType}
-                                              name={d.leaveType}
-                                            >
-                                              {d.leaveType}
-                                            </option>
-                                          );
-                                        })}
+                                        <option value={"Clinet Visit"}>Clinet Visit</option>
+                                        <option value={"Project Site Visit"}>Project Site Visit</option>
+                                        <option value={"Branch Office"}>Branch Office</option>
+                                        <option value={"Bank Visit"}>Bank Visit</option>
+                                        <option value={"Govt. Organization Visit"}>Govt. Organization Visit</option>
+                                        <option value={"Market Visit"}>Market Visit</option>
+                                        <option value={"Vendor Visit"}>Vendor Visit</option>
+                                        <option value={"Others"}>Others</option>
                                       </Form.Select>
                                     </Col>
                                     <Col>
@@ -262,64 +266,6 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                   </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col>
-                                      <Form.Label>Total Days</Form.Label>
-                                      <Form.Control
-                                        type="number"
-                                        value={diffDays}
-                                        disabled
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Reason</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setReason(e.target.value);
-                                          }}
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Backup Resourse</Form.Label>
-                                      <Form.Select
-                                        onChange={(e) => { setbackupresourse(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
-                                        {
-                                          array.map((d, i) => {
-                                            return (
-                                              <>
-                                                <option key={i} value={d._id}>{d.firstname}</option>
-                                              </>)
-                                          })
-                                        }
-                                      </Form.Select>
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Application Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        onChange={(e) => {
-                                          setapplicationdate(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                  </Row>
                                   <Row>
                                     <Col>
                                       <Form.Label>Time From</Form.Label>
@@ -341,28 +287,115 @@ const LeaveRequest = () => {
                                         }}
                                       />
                                     </Col>
-
                                   </Row>
+                                </Form.Group>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col>
+                                      <Form.Label>Total Days</Form.Label>
+                                      <Form.Control
+                                        type="number"
+                                        value={diffDays}
+                                        disabled
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Description</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setDescription(e.target.value);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </Form.Group>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col>
+                                      <Form.Label>Task</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setTask(e.target.value);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
+                                    <Col>
+                                      <Form.Label>Project</Form.Label>
+                                      <div className="reason">
+                                        <Form.Control
+                                          type="text"
+                                          onChange={(e) => {
+                                            setProject(e.target.value);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </Form.Group>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
                                   <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Leave Nature</Form.Label>
-                                      <Form.Select  
-                                        value={leaveNature}
-                                        onChange={(e) => { setLeaveNature(e.target.value) }}
+                                      <Form.Label>Assigned By</Form.Label>
+                                      <Form.Select
+                                        onChange={(e) => { setAssignedBy(e.target.value) }}
                                       >
-                                        <option disabled selected hidden value="">Please Select</option>
-                                        <option value="L.W.P">L.W.P</option>
-                                        <option value="L.W.O.P">L.W.O.P</option>
-                                        <option value="C.P.L">C.P.L</option>
-                                        <option value="W.F.H">W.F.H</option>
+                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
+                                        <option value={setSuperviserid}>{superviser}</option>
+                                        {
+                                          array.map((d, i) => {
+                                            return (
+                                              <>
+                                                <option key={i} value={d._id}>{d.firstname}</option>
+                                              </>)
+                                          })
+                                        }
                                       </Form.Select>
                                     </Col>
-
+                                    <Col>
+                                      <Form.Label>Application Date</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        onChange={(e) => {
+                                          setapplicationdate(e.target.value);
+                                        }}
+                                      />
+                                    </Col>
+                                  </Row>
+                                  <Row>                            
+                                   <Col xs={"4"} lg={6} xl={6} xxl={6}>
+                                      <Form.Label>Work Status</Form.Label>
+                                      <Form.Select
+                                        value={workStatus}
+                                        onChange={(e) => { setWorkStatus(e.target.value) }}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="In Progress">In Progress</option>
+                                      </Form.Select>
+                                    </Col>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Short leave</Form.Label>
                                       <Form.Select
-                                        value={Short_leave}
-                                        onChange={(e) => { setShort_leave(e.target.value) }}
+                                        value={leave_status}
+                                        onChange={(e) => { setLeave_status(e.target.value) }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="True">Short Leave</option>
@@ -380,7 +413,7 @@ const LeaveRequest = () => {
                                         type="file"
                                         id="files"
                                         name="files"
-                                        onChange={(f) => {                                  
+                                        onChange={(f) => {
                                           var ext = f.target.value.match(
                                             /\.([^\.]+)$/
                                           )[1];
@@ -437,7 +470,7 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                     <Col>
-                                      <Button variant="primary" type="submit" className="submitButton" style={{backgroundColor: "rgb(137, 179, 83)"}}>
+                                      <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                                         Submit
                                       </Button>
                                     </Col>
@@ -529,69 +562,10 @@ const LeaveRequest = () => {
             </div>
           </div>
         </section>
-        <section className="py-5">
-          <div className="py-4">
-            {
-              Info.length > 0 ? <Container>
-                <Button
-                  onClick={() => {
-                    handlePrint();
-                  }}
-                  style={{backgroundColor: "rgb(137, 179, 83)"}}
-                >
-                  Generate Report
-                </Button>
-              </Container> : ""
-            }
-          </div>
-          <Container>
-            {
-              Info.length > 0 ? <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Srno</th>
-                    <th>Name</th>
-                    <th>Department</th>
-                    <th>Leave Type</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    Info.slice(Info.length - 6, Info.length).map((d, i) => {
-                      return (
-                        <tr>
-                          <td>{i + 1}</td>
-                          <td>{d.name}</td>
-                          <td>{d.department}</td>
-                          <td>{d.leaveType}</td>
-                          <td>{new Date(d.from).toDateString()}</td>
-                          <td>{new Date(d.to).toDateString()}</td>
-                          <td>{d.reason}</td>
-                          <td>
-                            <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  }
-                </tbody>
-              </Table> : <div><h4 className="text-center">No leaves Data available</h4></div>
-            }
-          </Container>
-        </section>
         <NotificationContainer />
       </div>
-      <div className="pb-5 mb-5" style={{ display: "none" }}>
-        <div ref={componentRef} className=" content-wrapper">
-          <Report Info={Info} />
-        </div>
-      </div>
     </>
-  );
-};
+  )
+}
 
-export default LeaveRequest;
+export default WorkLeave

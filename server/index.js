@@ -27,6 +27,7 @@ const setup = require("./Routes/payroll/setup")
 const company = require('./Routes/company')
 const shifts = require('./Routes/shifts')
 const leaveformonth = require('./Routes/employees/leaveReq')
+const workLeave = require('./Routes/employees/WorkLeave')
 env.config()
 app.use(
   cors({
@@ -35,12 +36,10 @@ app.use(
 );
 
 app.use("/leaverequest/addrequest",fileUpload())
-
-
+app.use("/workLeave",fileUpload())
 
 
 app.use(express.json({limit: '25mb'}));
-
 
 app.use(cookieParser());
 
@@ -52,9 +51,7 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 //xlxs
 //Routes 
 
-
 app.use(bodyparser.urlencoded({limit: '50mb', extended: true}));
-
 
 
 //multer image upload
@@ -90,6 +87,7 @@ app.use('/payrollsetup',setup)
 app.use('/',company)
 app.use('/shifts',shifts)
 app.use('/onemonthleaves', leaveformonth)
+app.use('/workLeave',workLeave)
 
 
 app.use('/approved-leaves',LeaveRequest)

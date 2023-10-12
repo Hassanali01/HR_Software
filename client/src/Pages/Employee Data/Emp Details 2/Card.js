@@ -23,7 +23,7 @@ const Cards = ({ data }) => {
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
   const [designation, setdesignation] = useState(data.designation);
-  const [supervisors, setsupervisors] = useState([]);
+  const [supervisors, setsupervisors] = useState(data.supervisors);
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const [shift, setShift] = useState([]);
@@ -86,7 +86,7 @@ const Cards = ({ data }) => {
     country: data.country,
     date_of_resignation: data.date_of_resignation,
     work_shift: data.work_shift,
-    company: data.company
+    company: data.company,
   });
 
 
@@ -130,7 +130,7 @@ const Cards = ({ data }) => {
       leaves: data.leaves,
       date_of_resignation: data.date_of_resignation,
       work_shift: data.work_shift,
-      company: data.company
+      company: data.company,
     });
     setemployement(data.employementhistory);
     seteducation(data.educationdetails);
@@ -1317,7 +1317,7 @@ const Cards = ({ data }) => {
                           </Form.Select>
                         </Form.Group>
                       </Col>
-
+                      
                       <Col>
                         <Form.Group
                           as={Col}
@@ -1336,6 +1336,7 @@ const Cards = ({ data }) => {
                         </Form.Group>
                       </Col>
                     </Row>
+                   
                   </Accordion.Body>
                 </Row>
               </Accordion.Item>

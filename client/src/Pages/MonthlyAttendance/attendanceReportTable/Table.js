@@ -25,7 +25,7 @@ const Table = ({ data, setTableData }) => {
 
     const updateAttendance = async () => {
         try {
-            const updateUser = await axios.put(process.env.React_APP_ORIGIN_URL + `updateuserattendance/${idOfEmployee}`, { in: In, out: Out, date: Date });
+            const updateUser = await axios.put(process.env.React_APP_ORIGIN_URL + `updateuserattendance/${idOfEmployee}`, { in: In, out: Out, date: Date, status: "P" });
             NotificationManager.success("successfully posted");
         } catch (error) {
             NotificationManager.error("Error Saving DATA");

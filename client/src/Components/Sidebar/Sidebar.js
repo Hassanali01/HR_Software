@@ -217,7 +217,28 @@ const Sidebar = () => {
                   </Link>
                 </li>
               }
-
+              <li className="nav-item">
+                <Link
+                  to={`/workleave`}
+                  className="nav-link">
+                  <i className="nav-icon fa-solid fa-business-time iconColor"></i>
+                  <p className='iconColor'>
+                    Work leave
+                  </p>
+                </Link>
+              </li>
+              {context.user.isAdmin &&
+                <li className="nav-item">
+                  <Link
+                    to={`/manageworkleave`}
+                    className="nav-link">
+                    <i className="nav-icon fa-solid fa-business-time iconColor"></i>
+                    <p className='iconColor'>
+                      Manage Work Leave
+                    </p>
+                  </Link>
+                </li>
+              }
             </ul>
           </nav>
           {/* <!-- /.sidebar-menu --> */}

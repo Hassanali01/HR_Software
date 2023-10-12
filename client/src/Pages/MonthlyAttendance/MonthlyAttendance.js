@@ -175,12 +175,15 @@ const MonthlyAttendance = () => {
       );
 
 
-      // adding LWOP inside the user attendance
+
+
+      
+      // adding CPL inside the user attendance
       tempAttendance.forEach(
         (tempAtt) => {
-          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.O.P" && al.date == tempAtt.date)
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "C.P.L" && al.date == tempAtt.date)
           if (appliedLeaves.length > 0) {
-            tempAtt.status = "LWOP"
+            tempAtt.status = "CPL"
           }
         }
       );
@@ -240,6 +243,42 @@ const MonthlyAttendance = () => {
 
         }
       })
+
+
+
+
+
+
+
+
+      
+      // Add early leaver LWP and LWOP in payroll
+      tempAttendance.forEach(
+        (tempAtt) => {
+
+          console.log("tempAtt", tempAtt)
+
+          let appliedLeaves = approvedLeave.totaldays.filter((td) => td.employee && td.employee.emp_id == tempAtt.Employee_ID && td.Short_leave == "True")
+          appliedLeaves.forEach((al) => {
+            console.log("al", al)
+            if (al.leaveNature == "L.W.P" && tempAtt.date == al.date) {
+              // tempAttendance[`${tempAtt}`].filter((te) => te.date == al.date)[0].status += " LWP"
+              tempAtt.status += " LWP"
+            }
+            else if (al.leaveNature == "L.W.O.P" && tempAtt.date == al.date){
+              // tempAttendance[`${tempAtt}`].filter((te) => te.date == al.date)[0].status += " LWOP"
+              tempAtt.status += " LWOP"
+
+            }
+          })
+        }
+      );
+
+
+
+
+
+
 
       // adding GH inside the user attendance
       gaztedholidays.map((i) => {
@@ -408,6 +447,19 @@ const MonthlyAttendance = () => {
 
 
 
+      // adding LWOP inside the user attendance
+      tempAttendance.forEach(
+        (tempAtt) => {
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.O.P" && al.date == tempAtt.date)
+          if (appliedLeaves.length > 0) {
+            tempAtt.status = "LWOP"
+          }
+        }
+      );
+
+
+
+  
 
 
 
@@ -489,6 +541,8 @@ const MonthlyAttendance = () => {
       );
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
     } catch (error) {
+
+      console.log("error",error)
       NotificationManager.error("Please select the month of Attendance")
     }
   }
@@ -550,8 +604,8 @@ const MonthlyAttendance = () => {
                                 <th style={{ width: "100px", border: "1px solid black" }}>Day</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check In</th>
                                 <th style={{ width: "100px", border: "1px solid black" }}>Check Out</th>
-                                <th style={{ width: "50px", border: "1px solid black" }}>Status</th>
-                                <th style={{ width: "290px", border: "1px solid black" }}>Remarks</th>
+                                <th style={{ width: "70px", border: "1px solid black" }}>Status</th>
+                                <th style={{ width: "270px", border: "1px solid black" }}>Remarks</th>
                               </tr>
                               {
                                 employeesAttendance[key].map((t) => <tr style={{ height: 25 }}>
@@ -559,8 +613,8 @@ const MonthlyAttendance = () => {
                                   <td style={{ width: "100px", border: "1px solid black" }}>{t.day}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.in}</td>
                                   <td align="center" style={{ width: "100px", border: "1px solid black" }}>{t.out}</td>
-                                  <td align="center" style={{ width: "50px", border: "1px solid black" }}>{t.status}</td>
-                                  <td style={{ width: "290px", border: "1px solid black" }}></td>
+                                  <td align="center" style={{ width: "70px", border: "1px solid black" }}>{t.status}</td>
+                                  <td style={{ width: "270px", border: "1px solid black" }}></td>
                                 </tr>)
                               }
 

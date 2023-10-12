@@ -30,7 +30,8 @@ import Companies from "./Pages/Companies/Companies";
 import Shifts from "./Pages/Shifts/Shifts";
 import AddSlabs from "./Pages/Shifts/AddSlabs";
 import HeaderState from "./Context/HeaderState";
-
+import WorkLeave from "./Pages/Leave Management/Work Leave/workLeave";
+import ManageWorkLeave from "./Pages/Leave Management/All Work Leave/ManageWorkLeave";
 
 
 function App(props) {
@@ -66,6 +67,8 @@ function App(props) {
                 <Route path="/employeeData" element={<EmployeeData />}></Route>
                 <Route path='/shifts' element={user.isAdmin && <Shifts />} />
                 <Route path="/addslabs" element={<AddSlabs />}></Route>
+                <Route path="/workleave" element={<WorkLeave />}></Route>
+                <Route path="/manageworkleave" element={<ManageWorkLeave />}></Route>
               </Routes>
             </>
           ) : (
