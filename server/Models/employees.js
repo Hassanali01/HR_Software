@@ -252,12 +252,21 @@ const EmployeesSchema = new mongoose.Schema(
     // },
     payroll_setup: {
       type: [{
-        // paryrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},
         payrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},        
         dateFrom: Date,
         dateTo: Date
       }],
     },
+
+
+    expense: {
+      type: [{
+        type: String,        
+        amount: Number ,
+        description: String
+      }],
+    },
+
   },
   { timestamps: true }
 );
