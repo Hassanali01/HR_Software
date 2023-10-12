@@ -11024,7 +11024,7 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
   z-index: 1033;
 }
 
-.layout-navbar-fixed.text-sm .wrapper .content-wrapper {
+.layout-navbar-fixed.text-sm .wrapper . {
   margin-top: calc(2.93725rem + 1px);
 }
 
@@ -11728,7 +11728,7 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
 }
 
 @media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-  .sidebar-mini-xs .content-wrapper,
+  .sidebar-mini-xs .,
   .sidebar-mini-xs .main-footer,
   .sidebar-mini-xs .main-header {
     transition: none;

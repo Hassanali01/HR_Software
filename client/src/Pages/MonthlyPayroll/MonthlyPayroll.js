@@ -15,6 +15,7 @@ import { evaluateTokenNodes, getExtendedTokens } from './../../formulaParser/sha
 import 'react-calendar/dist/Calendar.css';
 import './MonthlyPayroll.css'
 import HeaderContext from '../../Context/HeaderContext'
+
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -85,6 +86,9 @@ const MonthlyPayroll = () => {
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
       const tempUserAttendance = userAttendance;
 
+
+      console.log("attendanceTamp", attendanceTemp)
+
       attendanceTemp.map((at) => {
         if (at.employee.company == comapnyID) {
           //filter for all
@@ -149,53 +153,64 @@ const MonthlyPayroll = () => {
 
 
       //Adding shift slabs in payroll
+
+
       for (let i in userAttendance) {
         const a = userAttendance[i]
         const singleuser = a.map((j) => {
           if (j.employee.work_shift && j.status == 1) {
-            const currentShift = j.employee.work_shift
+            // const currentShift = j.employee.work_shift
             // Deduction for employees on late arrival
-            const date = j.in
-            const splitdate = date.split(":")
-            const sampleDateIn = new Date()
-            sampleDateIn.setHours(splitdate[0])
-            sampleDateIn.setMinutes(splitdate[1])
-            let deductionForLate = 0
-            currentShift.slabs.forEach((s) => {
-              const slabsname = s.later_than
-              const splitSlabs = slabsname.split(":")
-              const sampleDateSlabs = new Date()
-              sampleDateSlabs.setHours(splitSlabs[0])
-              sampleDateSlabs.setMinutes(splitSlabs[1])
-              if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
-                deductionForLate = s.deduction;
+
+            j.employee.work_shift.forEach((ps) => {
+              if (new Date(j.date) >= new Date(ps.dateFrom) && new Date(j.date) <= new Date(ps.dateTo)) {
+
+                const date = j.in
+                const splitdate = date.split(":")
+                const sampleDateIn = new Date()
+                sampleDateIn.setHours(splitdate[0])
+                sampleDateIn.setMinutes(splitdate[1])
+                let deductionForLate = 0
+                ps.workShift.slabs.forEach((s) => {
+                  const slabsname = s.later_than
+                  const splitSlabs = slabsname.split(":")
+                  const sampleDateSlabs = new Date()
+                  sampleDateSlabs.setHours(splitSlabs[0])
+                  sampleDateSlabs.setMinutes(splitSlabs[1])
+                  if (sampleDateIn > sampleDateSlabs && s.deduction > deductionForLate) {
+                    deductionForLate = s.deduction;
+                  }
+                })
+
+                j.status = j.status - deductionForLate
+                // Deduction for employees on early leaver
+                const checkOut = j.out
+                const checkOutArr = checkOut.split(":")
+                const sampleDateOut = new Date()
+                sampleDateOut.setHours(checkOutArr[0])
+                sampleDateOut.setMinutes(checkOutArr[1])
+                let deductionForEarlyLeaver = 0
+                ps.workShift.early_leave_slabs.forEach((s) => {
+                  const earlyLeaveTime = s.early_leave_time
+                  const earlyLeaveTimeArr = earlyLeaveTime.split(":")
+                  const sampleDateEarlyLeaveSlabs = new Date()
+                  sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
+                  sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
+                  if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
+                    deductionForEarlyLeaver = s.deduction
+                  }
+                })
+                j.status = j.status - deductionForEarlyLeaver
+
               }
             })
 
-            j.status = j.status - deductionForLate
-            // Deduction for employees on early leaver
-            const checkOut = j.out
-            const checkOutArr = checkOut.split(":")
-            const sampleDateOut = new Date()
-            sampleDateOut.setHours(checkOutArr[0])
-            sampleDateOut.setMinutes(checkOutArr[1])
-            let deductionForEarlyLeaver = 0
-            currentShift.early_leave_slabs.forEach((s) => {
-              const earlyLeaveTime = s.early_leave_time
-              const earlyLeaveTimeArr = earlyLeaveTime.split(":")
-              const sampleDateEarlyLeaveSlabs = new Date()
-              sampleDateEarlyLeaveSlabs.setHours(earlyLeaveTimeArr[0])
-              sampleDateEarlyLeaveSlabs.setMinutes(earlyLeaveTimeArr[1])
-              if (sampleDateOut < sampleDateEarlyLeaveSlabs && s.deduction > deductionForEarlyLeaver) {
-                deductionForEarlyLeaver = s.deduction
-              }
-            })
-            j.status = j.status - deductionForEarlyLeaver
           }
         })
       }
 
 
+    
       // Add early leaver LWP and LWOP in payroll
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
@@ -215,21 +230,53 @@ const MonthlyPayroll = () => {
       );
 
 
+
+      /*  ***********************************  Calculations involving payroll setup   *********************************************************  */
+
+
+
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Sunday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.sundayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Sunday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.sundayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
+
+
+
+      // adding Tuesday Day-Off inside the user attendance
+      Object.entries(tempUserAttendance).forEach(([key, value]) => {
+        tempUserAttendance[key].forEach((te) => {
+          const locale = "en-US"
+          var date = new Date(te.date);
+          var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          if (day == "Tuesday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.tuesdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
+          }
+        });
+      });
+
 
 
       // adding Monday Day-Off inside the user attendance
@@ -238,28 +285,19 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Monday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.mondayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
-          }
-        });
-      });
 
-      // adding Tuesday Day-Off inside the user attendance
-      Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance[key].forEach((te) => {
-          const locale = "en-US"
-          var date = new Date(te.date);
-          var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Tuesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.tuesdayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Monday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.mondayDayoff) {
+
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
@@ -272,30 +310,37 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Wednesday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.wednesdayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Wednesday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.wednesdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
 
 
-
-      // adding Thursday Day-Off inside the user attendance
+      // adding Tuesday Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Thursday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.thursdayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Thursday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.thursdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
@@ -308,15 +353,20 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Friday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.fridayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Friday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.fridayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
+
 
 
       // adding Saturday Day-Off inside the user attendance
@@ -325,17 +375,19 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          if (day == "Saturday" && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.saturdayDayoff) {
-            if (te.status == 'A') {
-              te.status = "D.O";
-            } else {
-              te.status = te.status * 2
-            }
+          if (day == "Saturday" && te.employee.payroll_setup.length > 0) {
+            te.employee.payroll_setup.forEach((ps) => {
+              if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.saturdayDayoff) {
+                if (te.status == 'A') {
+                  te.status = "D.O";
+                } else {
+                  te.status = te.status * 2
+                }
+              }
+            })
           }
         });
       });
-
-
 
 
       // Adding last saturday dayoff
@@ -346,11 +398,14 @@ const MonthlyPayroll = () => {
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
         tempUserAttendance[key].forEach((te) => {
-          if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
-            te.status = "D.O";
-          }
+          te.employee.payroll_setup.forEach((ps) => {
+            if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
+              te.status = "D.O";
+            }
+          })
         })
       })
+
 
 
       //Adding gazted holidays in payroll
@@ -361,7 +416,7 @@ const MonthlyPayroll = () => {
               if (te.employee.payroll_setup.applyGazettedHoliday) {
                 if (te.status == 'A') {
                   te.status = "G.H";
-                } else if (te.status != "D.O") {
+                } else {
                   te.status = te.status * 2
                 }
               }
@@ -369,70 +424,6 @@ const MonthlyPayroll = () => {
           })
         })
       })
-
-
-      // adding LWOP inside the user attendance
-      Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => {
-          let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
-          appliedLeaves.forEach((al) => {
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
-          })
-        }
-      );
-
-
-
-
-
-
-
-      // adding WL inside the user attendance
-
-      console.log("work leaves", workLeave)
-      Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => {
-          let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave != "True")
-
-          wl.forEach((al) => {
-
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && (tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "WL")
-          })
-        }
-      );
-
-
-      // Add early leaver WL  in payroll
-      Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => {
-          let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave == "True")
-          wl.forEach((al) => {
-
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " WL"
-
-
-          })
-        })
-
-
-
-
-
-
-      //  // adding A for sandwitch inside the user attendance
-      Object.entries(tempUserAttendance).forEach(
-        ([key, value]) => {
-
-          tempUserAttendance['kaleem'] && tempUserAttendance['kaleem'].length > 0 && tempUserAttendance['kaleem'].filter((te) => te.date == "2023-09-10T00:00:00.000Z" || te.date == "2023-09-17T00:00:00.000Z" || te.date == "2023-09-24T00:00:00.000Z" || te.date == "2023-09-29T00:00:00.000Z" || te.date == "2023-09-30T00:00:00.000Z")
-            .forEach((f) => f.status = "A")
-
-
-          tempUserAttendance['umair'] && tempUserAttendance['umair'].length > 0 && tempUserAttendance['umair'].filter((te) => te.date == "2023-09-24T00:00:00.000Z" || te.date == "2023-09-29T00:00:00.000Z" || te.date == "2023-09-30T00:00:00.000Z")
-            .forEach((f) => f.status = "A")
-
-
-        }
-      );
 
 
       //Employee joining date modification in payroll
@@ -456,9 +447,12 @@ const MonthlyPayroll = () => {
         })
       })
 
+
+
       setUserAttendance(tempUserAttendance)
       setUpdate(!update)
     } catch (error) {
+      console.log("error", error)
       setLoading(false);
       console.log("error generating payroll", error)
       NotificationManager.error("Please select  the month of Payroll")
@@ -487,12 +481,13 @@ const MonthlyPayroll = () => {
     <>
       <div className="content-wrapper">
 
+
         <section className='card' style={{ marginLeft: "40px", marginRight: "40px" }}>
-          <div className="card-header  buttoncolor " style={{ paddingRight: "0px", height: "57px" }}>
-            <h3 className="card-title" style={{ fontWeight: "700" }} >
-              Monthly Attendance
-            </h3>
-          </div>
+        <div className="card-header  buttoncolor " style={{ paddingRight: "0px" , height: "57px"}}>
+          <h3 className="card-title" style={{ fontWeight: "700" }} >
+            Monthly Payroll
+          </h3>
+        </div>
           <div className='card-body'>
             <Button className="mr-3" variant="primary" onClick={handleShow} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
               Select the Month
@@ -523,14 +518,20 @@ const MonthlyPayroll = () => {
             </select>
             <Button className="mr-3" onClick={async () => {
 
-              setUserAttendance({})
-              setKey(currentKey => currentKey + 1)
-              await generateMonthAttendance()
+                setUserAttendance({})
+                setKey(currentKey => currentKey + 1)
+                await generateMonthAttendance()
 
-              // Applying the payroll formula for net pay days
-              try {
-                Object.entries(userAttendance).forEach(
-                  ([key, value]) => {
+
+                // Applying the payroll formula for net pay days
+
+                try {
+                  Object.entries(userAttendance).forEach(
+                    ([key, value]) => {
+
+                      // Applying each payroll setup formula for the specified days
+
+                      value[0].employee.payroll_setup.forEach((ps) => {
 
 
                     console.log("key", key)
@@ -550,12 +551,12 @@ const MonthlyPayroll = () => {
                       const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                       const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                       const items = generateItems(
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
+                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                         0,
-                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].filter((tu) => tu.status == 'WL').length + userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
-                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL")).reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                        userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length,
+                        parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
                         userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                       )
 
@@ -570,12 +571,14 @@ const MonthlyPayroll = () => {
                           })
                           return extendedItem
                         })
+
                       usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
+
                     } catch (error) { console.log("error", error) }
                   }
                 );
               } catch (error) { console.log("error in payroll", error) }
-            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Attendance</Button>
+            }} style={{ backgroundColor: "rgb(137, 179, 83)" }}>Generate Payroll</Button>
 
             <ReactToPrint
               trigger={() => <Button style={{ backgroundColor: "rgb(137, 179, 83)" }}>Print Attendance</Button>}

@@ -146,11 +146,9 @@ const EmpCard = ({ data, setUpdate }) => {
 
         <Card.Body>
           <div style={cardDetail}>
-
             <div>
               <h4 style={{textAlign: "center"}}>{data.firstname}</h4>
             </div>
-
             <div className="small text-muted">{data.designation}</div>
             <div>
               <Link to={`/employees/${data._id}`}>

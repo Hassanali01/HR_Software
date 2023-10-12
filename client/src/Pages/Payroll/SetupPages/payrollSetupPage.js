@@ -109,10 +109,9 @@ const Setup = () => {
                                   {ps.applyGazettedHoliday ? (
                                     <label>
                                      <Checkbox defaultChecked color="success" readOnly/>
-                                    
                                     </label>
                                   ) : (
-                                    <p> Gazetted Holiday is not Applied</p>
+                                    <p>Gazetted Holiday is not Applied</p>
                                   )}
                                 </div>
                               </Row>
@@ -132,21 +131,21 @@ const Setup = () => {
                         <br />
                         <label>Days off observed on:</label><br />
                         <p>
-                          <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked="true" onClick={(e) => { setSundayDayoff(e.target.checked) }} />
+                          <label>Sunday:</label> &nbsp;  <input type="checkbox" value={sundayDayoff} defaultChecked={sundayDayoff} onClick={(e) => { setSundayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Monday:</label> &nbsp;  <input type="checkbox" value={mondayDayoff} defaultChecked="true" onClick={(e) => { setMondayDayoff(e.target.checked) }} />
+                          <label>Monday:</label> &nbsp;  <input type="checkbox" value={mondayDayoff} defaultChecked={mondayDayoff} onClick={(e) => { setMondayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Tuesday:</label> &nbsp;  <input type="checkbox" value={tuesdayDayoff} defaultChecked="true" onClick={(e) => { setTuesdayDayoff(e.target.checked) }} />
+                          <label>Tuesday:</label> &nbsp;  <input type="checkbox" value={tuesdayDayoff} defaultChecked={tuesdayDayoff} onClick={(e) => { setTuesdayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Wednesday:</label> &nbsp;  <input type="checkbox" value={wednesdayDayoff} defaultChecked="true" onClick={(e) => { setWednesdayDayoff(e.target.checked) }} />
+                          <label>Wednesday:</label> &nbsp;  <input type="checkbox" value={wednesdayDayoff} defaultChecked={wednesdayDayoff} onClick={(e) => { setWednesdayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Thursday:</label> &nbsp;  <input type="checkbox" value={thursdayDayoff} defaultChecked="true" onClick={(e) => { setThursdayDayoff(e.target.checked) }} />
+                          <label>Thursday:</label> &nbsp;  <input type="checkbox" value={thursdayDayoff} defaultChecked={thursdayDayoff} onClick={(e) => { setThursdayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Friday:</label> &nbsp;  <input type="checkbox" value={fridayDayoff} defaultChecked="true" onClick={(e) => { setFridayDayoff(e.target.checked) }} />
+                          <label>Friday:</label> &nbsp;  <input type="checkbox" value={fridayDayoff} defaultChecked={fridayDayoff} onClick={(e) => { setFridayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Saturday:</label> &nbsp;  <input type="checkbox" value={saturdayDayoff} defaultChecked="true" onClick={(e) => { setSaturdayDayoff(e.target.checked) }} />
+                          <label>Saturday:</label> &nbsp;  <input type="checkbox" value={saturdayDayoff} defaultChecked={saturdayDayoff} onClick={(e) => { setSaturdayDayoff(e.target.checked) }} />
                           <br />
-                          <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked="true" onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
+                          <label>Last Saturday:</label> &nbsp;  <input type="checkbox" value={lastSaturdayDayoff} defaultChecked={lastSaturdayDayoff} onClick={(e) => { setLastSaturdayDayoff(e.target.checked) }} />
                         </p>
                       </Modal.Body>
                       <Modal.Footer>

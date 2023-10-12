@@ -1,7 +1,7 @@
 const express = require("express")
 const LeaveRequest = require("../../Models/leaverequest")
 const router = express.Router();
-const employees = require('../../Models/Employees')
+const employees = require('../../Models/employees')
 const { createError } = require('../../Utils/CreateError')
 const mongodb = require('mongodb')
 const mongoClient = mongodb.MongoClient
