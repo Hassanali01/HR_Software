@@ -46,6 +46,7 @@ function WorkLeave() {
   const [meterEndReading, setMeterEndReading] = useState("");
   const [overallRemarks, setOverallRemarks] = useState("");
   const [childModel, setShowChildModel] = useState(false);
+  const [testUpdate, setTestUpdate] = useState(false);
 
   const [expense, setExpense] = useState([]);
 
@@ -69,7 +70,7 @@ function WorkLeave() {
     const temp = expense;
     temp.splice(i, 1);
     setExpense(temp);
-    // setTestUpdate(!testUpdate);
+    setTestUpdate(!testUpdate);
   };
 
   const url = "leaves";
@@ -229,7 +230,7 @@ function WorkLeave() {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                  Work Absense Form 
+                  Work Absense Form
                 </h3>
               </div>
               <div className="card-body">
@@ -524,61 +525,61 @@ function WorkLeave() {
 
                                 <h5>Expenses during visit</h5>
 
-                                
-                        <div style={{ marginLeft: "67vw", marginRight: 10 }}>
-                          <a
-                            className="btn buttoncolor  "
-                            onClick={() => {
-                              setShowChildModel(true);
-                            }}
-                            style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                          >
-                            Add
-                          </a>
-                        </div>
-                      
-                      <Row style={{ marginTop: "1%" }}>
-                        <Col lg={12}>
-                          <Table striped bordered hover>
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th style={{ textAlign: "center" }}>
-                                  Expense type
-                                </th>
-                                <th style={{ textAlign: "center" }}>amount</th>
-                                <th style={{ textAlign: "center" }}>description</th>
-            
-                                <th style={{ textAlign: "center" }}>Remove</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {expense &&
-                                expense.map((d, i) => {
-                                  return (
-                                    <tr>
-                                      <th>{i + 1}</th>
-                                      <td>{d.institute}</td>
-                                      <td>{d.degreetitle}</td>
-                                      <td>
-                                        {d.start && d.start.split("T")[0]}
-                                      </td>
-                              
-                                      <td>
-                                        <i
-                                          class="fa fa-trash-can"
-                                          aria-hidden="true"
-                                          style={{ color: "red" }}
-                                          onClick={() => removeitem(i)}
-                                        ></i>
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </tbody>
-                          </Table>
-                        </Col>
-                      </Row>
+
+                                <div style={{ marginLeft: "67vw", marginRight: 10 }}>
+                                  <a
+                                    className="btn buttoncolor  "
+                                    onClick={() => {
+                                      setShowChildModel(true);
+                                    }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                  >
+                                    Add
+                                  </a>
+                                </div>
+
+                                <Row style={{ marginTop: "1%" }}>
+                                  <Col lg={12}>
+                                    <Table striped bordered hover>
+                                      <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th style={{ textAlign: "center" }}>
+                                            Expense type
+                                          </th>
+                                          <th style={{ textAlign: "center" }}>amount</th>
+                                          <th style={{ textAlign: "center" }}>description</th>
+
+                                          <th style={{ textAlign: "center" }}>Remove</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {expense.length>0 &&
+                                          expense.map((d, i) => {
+                                            return (
+                                              <tr>
+                                                <th>{i + 1}</th>
+                                                <td>{d.type}</td>
+                                                <td>{d.amount}</td>
+                                                <td>
+                                                  {d.description}
+                                                </td>
+
+                                                <td>
+                                                  <i
+                                                    class="fa fa-trash-can"
+                                                    aria-hidden="true"
+                                                    style={{ color: "red" }}
+                                                    onClick={() => removeitem(i)}
+                                                  ></i>
+                                                </td>
+                                              </tr>
+                                            );
+                                          })}
+                                      </tbody>
+                                    </Table>
+                                  </Col>
+                                </Row>
 
                                 <Form.Group>
                                   <Row>
@@ -739,93 +740,96 @@ function WorkLeave() {
 
 
                   {/* ///educational details modal  */}
-      <Modal
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        show={childModel}
-        onHide={Closechildmodal}
-        size="lg"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title
-            id="contained-modal-title-vcenter "
-            style={{ textAlign: "center" }}
-          >
-            <h5>Add expense item</h5>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container fluid>
-            <Row className="mb-3">
-              <Col>
-                <Form.Group
-                  as={Col}
-                  controlId="formGridLastName"
-                  className="formmargin"
-                >
-                  <Form.Label>Expense type</Form.Label>
-                  <Form.Control
-                    type="text"
-                    required
-                    name="type"
-                    placeholder="type"
-                    value={addExpense.type}
-                    onChange={handleeducationdetails}
-                  />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group
-                  as={Col}
-                  controlId="formGridLastName"
-                  className="formmargin"
-                >
-                  <Form.Label>Amount</Form.Label>
-                  <Form.Control
-                    type="text"
-                    required
-                    name="amount"
-                    placeholder="amount"
-                    value={addExpense.amount}
-                    onChange={handleeducationdetails}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group
-                  as={Col}
-                  controlId="formGridLastName"
-                  className="formmargin"
-                >
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    type="text"
-                    
-                    name="description"
-                    value={addExpense.description}
-                    onChange={handleeducationdetails}
-                  />
-                </Form.Group>
-              </Col>
-           
-            </Row>
+                  <Modal
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={childModel}
+                    onHide={Closechildmodal}
+                    size="lg"
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title
+                        id="contained-modal-title-vcenter "
+                        style={{ textAlign: "center" }}
+                      >
+                        <h5>Add expense item</h5>
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Container fluid>
+                        <Row className="mb-3">
+                          <Col>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGridLastName"
+                              className="formmargin"
+                            >
+                              <Form.Label>Expense type</Form.Label>
+                              <Form.Control
+                                type="text"
+                                required
+                                name="type"
+                                placeholder="type"
+                                value={addExpense.type}
+                                onChange={handleeducationdetails}
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGridLastName"
+                              className="formmargin"
+                            >
+                              <Form.Label>Amount</Form.Label>
+                              <Form.Control
+                                type="text"
+                                required
+                                name="amount"
+                                placeholder="amount"
+                                value={addExpense.amount}
+                                onChange={handleeducationdetails}
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Form.Group
+                              as={Col}
+                              controlId="formGridLastName"
+                              className="formmargin"
+                            >
+                              <Form.Label>Description</Form.Label>
+                              <Form.Control
+                                type="text"
 
-            <div className="d-flex justify-content-center my-3">
-              <Button
-                onClick={() => {
-                  addExpense();
-                  Closechildmodal();
-                }}
-                style={{ backgroundColor: "rgb(137, 179, 83)" }}
-              >
-                Add
-              </Button>
-            </div>
-          </Container>
-        </Modal.Body>
-      </Modal>
+                                name="description"
+                                value={addExpense.description}
+                                onChange={handleeducationdetails}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                        </Row>
+
+                        <div className="d-flex justify-content-center my-3">
+                          <Button
+                            onClick={() => {
+                              console.log("expense ", expense)
+                              console.log("add expense", addExpense)
+                              expense.push(addExpense)
+                              Closechildmodal();
+                              setAddExpense({})
+                            }}
+                            style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      </Container>
+                    </Modal.Body>
+                  </Modal>
                 </Container>
               </div>
             </div>
