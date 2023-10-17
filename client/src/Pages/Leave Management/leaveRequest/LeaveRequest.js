@@ -139,7 +139,7 @@ const LeaveRequest = () => {
       });
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
-      NotificationManager.error("Failed to Add");
+      NotificationManager.error("Please fill the required fields before submitting");
     }
   };
 
@@ -210,7 +210,7 @@ const LeaveRequest = () => {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label style={{ fontWeight: "400" }}>Application Date</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}>Date</Form.Label>
                                       <Form.Control
                                         type="date"
                                         onChange={(e) => {
@@ -309,6 +309,7 @@ const LeaveRequest = () => {
                                       <Form.Label style={{ fontWeight: "400" }}> Leave duration</Form.Label>
                                       <Form.Select
                                         value={Short_leave}
+                                        required
                                         onChange={(e) => { setShort_leave(e.target.value) }}
                                         style={{padding: "3px 3px"}}
                                       >
@@ -357,6 +358,7 @@ const LeaveRequest = () => {
                                       <Form.Label style={{ fontWeight: "400" }}>Leave Nature</Form.Label>
                                       <Form.Select
                                         value={leaveNature}
+                                        required
                                         onChange={(e) => { setLeaveNature(e.target.value) }}
                                         style={{padding: "3px 3px"}}
                                       >
@@ -447,17 +449,18 @@ const LeaveRequest = () => {
                                     </Col>
                                     <Col>
                                       <div style={{float: "right"}}>
-                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
-                                          Submit
-                                        </Button>
-                                        <Button
+                                      <Button
                                           onClick={() => {
                                             handlePrint();
                                           }}
-                                          style={{ backgroundColor: "rgb(137, 179, 83)" , marginLeft: "10px"}}
+                                          style={{ backgroundColor: "rgb(137, 179, 83)" , marginRight: "10px"}}
                                         >
-                                          Generate Report
+                                          Print
                                         </Button>
+                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                                          Submit
+                                        </Button>
+                                    
                                       </div>
                                     </Col>
                                   </Row>
