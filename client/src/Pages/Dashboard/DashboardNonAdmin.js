@@ -131,7 +131,14 @@ const DashboardNonAdmin = () => {
                 }
             })
             console.log("attendence.userattendance.length",attendence.data.userattendance)
-            setUserattendenceCount(attendence.data.userattendance.length)
+            let Pcount = 0
+           let  Status_P = attendence.data.userattendance.map((i)=>{
+                if(i.status == "P"){
+                    console.log("yes")
+                    Pcount++
+                }
+            })
+            setUserattendenceCount(Pcount)
         } catch (error) {
             console.log(error)
         }
@@ -147,7 +154,7 @@ const DashboardNonAdmin = () => {
             <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}>
                 <section>
                     <Container fluid>
-                        <Row>
+                        <Row style={{padding: "0px 16px"}}>
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
@@ -359,9 +366,9 @@ const DashboardNonAdmin = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>Emp ID</th>
-                                    <th>Name</th>
-                                    <th>Department</th>
+                                    {/* <th>Emp ID</th> */}
+                                    {/* <th>Name</th> */}
+                                    {/* <th>Department</th> */}
                                     <th>Leave Type</th>
                                     <th>From</th>
                                     <th>To</th>
@@ -373,13 +380,13 @@ const DashboardNonAdmin = () => {
                                 {Info.map((d) => {
                                     return (
                                         <tr>
-                                            <td>{d._id}</td>
-                                            <td>{d.name}</td>
-                                            <td>{d.department}</td>
+                                            {/* <td>{d._id}</td> */}
+                                            {/* <td>{d.name}</td> */}
+                                            {/* <td>{d.department}</td> */}
                                             <td>{d.leaveType}</td>
                                             <td>{new Date(d.from).toDateString()}</td>
                                             <td>{new Date(d.to).toDateString()}</td>
-                                            <td>{d.reason ? d.reason : "N/A"}</td>
+                                            <td style={{textAlign: "left"}}>{d.reason ? d.reason : "N/A"}</td>
                                             <td><p className={`${d.status === 'Reject' ? "tableCell1" : ""}  ${d.status === 'Pending Aproval' ? "tableCell2" : ""}  ${d.status === 'Aproved' ? "tableCell " : ""}`} >{d.status}</p></td>
                                         </tr>
                                     );

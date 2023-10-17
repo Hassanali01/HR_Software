@@ -81,7 +81,7 @@ const Departments = () => {
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header  buttoncolor" style={{paddingRight: "22px"}}>
+              <div className="card-header  buttoncolor" style={{paddingRight: "40px"}}>
                 <h3 className="card-title" style={{ fontWeight: "700"}}>
                   Departments
                 </h3>
