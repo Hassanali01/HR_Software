@@ -153,37 +153,38 @@ const Sidebar = () => {
               </li>
               }
 
-
-              <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
-                <a className='nav-link' style={{ cursor: 'pointer' }}>
-                  <div className='d-flex'>
-                    <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
-                    <p className='iconColor'> Attendance Management</p>
-                    <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
-                  </div>
-                  {
-                    toggleAttendance &&
-                    <>
-                      <Link to="/datamanagement" className="nav-link">
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
-                        <p className='iconColor'>
-                          Reports
-                        </p>
-                      </Link>
-                      {context.user.isAdmin &&
-                        <Link to="/monthlyattendance" className="nav-link">
+              {context.user.isAdmin &&
+                <li className='nav-item' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
+                  <a className='nav-link' style={{ cursor: 'pointer' }}>
+                    <div className='d-flex'>
+                      <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
+                      <p className='iconColor'> Attendance Management</p>
+                      <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
+                    </div>
+                    {
+                      toggleAttendance &&
+                      <>
+                        <Link to="/datamanagement" className="nav-link">
                           <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
-
                           <p className='iconColor'>
-                            Attendance History
+                            Reports
                           </p>
                         </Link>
-                      }
+                        {context.user.isAdmin &&
+                          <Link to="/monthlyattendance" className="nav-link">
+                            <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
 
-                    </>
-                  }
-                </a>
-              </li>
+                            <p className='iconColor'>
+                              Attendance History
+                            </p>
+                          </Link>
+                        }
+
+                      </>
+                    }
+                  </a>
+                </li>
+              }
               {context.user.isAdmin &&
                 <li className="nav-item">
                   <Link to="/monthlypayroll" className="nav-link">

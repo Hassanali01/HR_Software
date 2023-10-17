@@ -291,6 +291,7 @@ const ManageLeaves = () => {
       fromTime: d.fromTime,
       toTime: d.toTime,
       Short_leave: d.Short_leave,
+      leaveNature: d.leaveNature,
       reason: d.reason,
       totaldays: diffDays,
       status: d.status,
@@ -448,8 +449,8 @@ const ManageLeaves = () => {
             </Col>
             <Col>
               <Form>
-                <Form.Label>Leave Status</Form.Label>
-                <Form.Control disabled value={modaldata.status}></Form.Control>
+                <Form.Label>Leave Nature</Form.Label>
+                <Form.Control disabled value={modaldata.leaveNature}></Form.Control>
               </Form>
             </Col>
             <Col>

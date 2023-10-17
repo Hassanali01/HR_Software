@@ -819,28 +819,34 @@ const Cards = ({ data }) => {
                           </Form.Group>
                         </Col>
 
-                        <Col xl="4" lg="4" md="4" sm={4}>
-                          <Form.Label>Company</Form.Label>
-                          <Form.Select
-                            name="company"
-                            value={emp.company && emp.company.title}
-                            onChange={handleinput}
-                            disabled={disableFields}
+                        <Col sm={4}>
+                          <Form.Group
+                            as={Col}
+                            controlId="formGridLastName"
+                            className="formmargin"
                           >
-                            <option disabled selected hidden defaultValue={""}>{emp.company && emp.company.title}</option>
-                            {company && company.map((d) => {
-                              return (
-                                <option
-                                  key={d._id}
-                                  value={d._id}
-                                >
-                                  {d.title}
-                                </option>
-                              );
-                            })}
-                          </Form.Select>
+                            <Form.Label>Company</Form.Label>
+                            <Form.Select
+                              name="company"
+                              value={emp.company && emp.company.title}
+                              onChange={handleinput}
+                              disabled={disableFields}
+                            >
+                              <option disabled selected hidden defaultValue={""}>{emp.company && emp.company.title}</option>
+                              {company && company.map((d) => {
+                                return (
+                                  <option
+                                    key={d._id}
+                                    value={d._id}
+                                  >
+                                    {d.title}
+                                  </option>
+                                );
+                              })}
+                            </Form.Select>
+                          </Form.Group>
                         </Col>
-
+<Col></Col>
                         <Col lg={4}>
                           {/* <Form.Group
                               as={Col}
@@ -874,7 +880,7 @@ const Cards = ({ data }) => {
                                 setShowPayrollSetupModal(true);
                                 console.log("payroll setup")
                               }}
-                              style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                              style={{ backgroundColor: "rgb(137, 179, 83)", float: "right" }}
                             >
                               Change payroll setups
                             </Button>
@@ -888,7 +894,7 @@ const Cards = ({ data }) => {
                               onClick={() => {
                                 setShowWorkshiftSetupModal(true);
                               }}
-                              style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                              style={{ backgroundColor: "rgb(137, 179, 83)", float: "right" }}
                             >
                               Change work shifts
                             </Button>
@@ -1137,12 +1143,13 @@ const Cards = ({ data }) => {
                         >
                           Phone numbers
                         </Form.Label>
+                        {user.isAdmin &&
+                          <Button onClick={() => {
+                            emp.phone_no.push("")
+                            setEmp({ ...emp, phone_no: emp.phone_no })
+                          }}>add</Button>
 
-                        <Button onClick={() => {
-                          emp.phone_no.push("")
-                          setEmp({ ...emp, phone_no: emp.phone_no })
-                        }}>add</Button>
-
+                        }
                       </div>
                       <Row>
                         {
@@ -1193,17 +1200,17 @@ const Cards = ({ data }) => {
                 </div>
                 <Accordion.Body>
 
+                  {user.isAdmin &&
+                    <Button
+                      onClick={() => {
+                        setShowAddressModal(true)
 
-                  <Button
-                    onClick={() => {
-                      setShowAddressModal(true)
-
-                    }}
-                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                  >
-                    Add
-                  </Button>
-
+                      }}
+                      style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                    >
+                      Add
+                    </Button>
+                  }
 
                   <Row style={{ marginTop: "3%" }}>
                     <Col lg={12}>
@@ -1325,17 +1332,19 @@ const Cards = ({ data }) => {
                   </div>
                   <div >
                     <Accordion.Body>
-                      <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
-                        <a
-                          className="btn buttoncolor "
-                          onClick={() => {
-                            setShowChildModel(true);
-                          }}
-                          style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                        >
-                          add
-                        </a>
-                      </div>
+                      {user.isAdmin &&
+                        <div style={{ marginLeft: "57.5vw", marginRight: 10 }}>
+                          <a
+                            className="btn buttoncolor "
+                            onClick={() => {
+                              setShowChildModel(true);
+                            }}
+                            style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                          >
+                            add
+                          </a>
+                        </div>
+                      }
                       <Row style={{ marginTop: "3%" }}>
                         <Col lg={12}>
                           <Table striped bordered hover>
