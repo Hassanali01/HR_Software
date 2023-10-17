@@ -510,7 +510,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Overall Reamrks</Form.Label>
+                                      <Form.Label>Overall Remarks</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -653,8 +653,6 @@ function WorkLeave() {
                                     </Col>
                                   </Row>
                                 </Form.Group>
-
-
 
                               </Form>
                             </Container>
@@ -816,8 +814,6 @@ function WorkLeave() {
                         <div className="d-flex justify-content-center my-3">
                           <Button
                             onClick={() => {
-                              console.log("expense ", expense)
-                              console.log("add expense", addExpense)
                               expense.push(addExpense)
                               Closechildmodal();
                               setAddExpense({})

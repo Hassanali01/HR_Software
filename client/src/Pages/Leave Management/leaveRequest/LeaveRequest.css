@@ -1,44 +1,50 @@
-
-    @media (max-width:1445px) {
-        .submitButton{
-        margin-top:3%;
-        }
-        
-    }
-@media(max-width:556px){
-    .status{
-        margin-top: 1.5rem;
-    }
-    .reason{
-        margin-top: 1.5rem;
-       
+@media (max-width:1445px) {
+    .submitButton {
+        margin-top: 3%;
     }
 }
 
-@media(min-width:375px){
-    .name{
+@media(max-width:556px) {
+    .status {
+        margin-top: 1.5rem;
+    }
+
+    .reason {
+        margin-top: 1.5rem;
+    }
+}
+
+@media(min-width:375px) {
+    .name {
         margin-left: 18.5%;
     }
-    .email{
+
+    .email {
         margin-left: 19.5%;
     }
-    .designation{
+
+    .designation {
         margin-left: 7%;
     }
-    .department{
+
+    .department {
         margin-left: 7%
     }
 }
-.main-div{
+
+.main-div {
     display: flex;
     width: 100%;
 }
-.child-div1{
+
+.child-div1 {
     width: 50%;
 }
-.child-div2{
+
+.child-div2 {
     font-weight: bold;
 }
-.child-div3{
+
+.child-div3 {
     width: "50%";
 }

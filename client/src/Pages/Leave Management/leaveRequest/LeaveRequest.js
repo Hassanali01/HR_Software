@@ -347,9 +347,8 @@ const LeaveRequest = () => {
                                         {
                                           array.map((d, i) => {
                                             return (
-                                              <>
-                                                <option key={i} value={d._id}>{d.firstname}</option>
-                                              </>)
+                                              <option key={i} value={d._id}>{d.firstname}</option>
+                                            )
                                           })
                                         }
                                       </Form.Select>
