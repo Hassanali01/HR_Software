@@ -288,6 +288,9 @@ const ManageLeaves = () => {
       department: d.employee && d.employee.departments.map((d) => d.departmentname),
       from: new Date(d.from).toDateString(),
       to: new Date(d.to).toDateString(),
+      fromTime: d.fromTime,
+      toTime: d.toTime,
+      Short_leave: d.Short_leave,
       reason: d.reason,
       totaldays: diffDays,
       status: d.status,
@@ -406,6 +409,7 @@ const ManageLeaves = () => {
         <Modal.Body>
           <h5>Applicant's Information</h5>
           <hr></hr>
+
           <Row>
             <Col>
               <Form>
@@ -479,6 +483,27 @@ const ManageLeaves = () => {
             </Col>
           </Row>
           <Row>
+            <Col>
+              <Form>
+                <Form.Label>From Time</Form.Label>
+                <Form.Control disabled value={modaldata.fromTime}></Form.Control>
+              </Form>
+            </Col>
+            <Col>
+              <Form>
+                <Form.Label>To Time</Form.Label>
+                <Form.Control disabled value={modaldata.toTime}></Form.Control>
+              </Form>
+            </Col>
+            <Col>
+              <Form>
+                <Form.Label>Leave Duration</Form.Label>
+                
+                <Form.Control disabled value={modaldata.Short_leave ? 'Short leave' : 'Full leave'}></Form.Control>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
             <Form>
 
               <Form.Label>Attachment</Form.Label>
@@ -492,7 +517,7 @@ const ManageLeaves = () => {
 
                 <Col sm={3}>
                   <Button
-                    style={{ width: "100%" ,backgroundColor: "rgb(137, 179, 83)" }}
+                    style={{ width: "100%", backgroundColor: "rgb(137, 179, 83)" }}
                     onClick={() => {
                       var extension = modaldata.attachment.name.substring(
                         modaldata.attachment.name.lastIndexOf(".")
@@ -538,7 +563,7 @@ const ManageLeaves = () => {
                       <option>Approved</option>
                     </Form.Select>
                     <div className="my-3">
-                      <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Update Status</Button>
+                      <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Update Status</Button>
                     </div>
                   </Form>
                 </Col>
@@ -570,12 +595,12 @@ const ManageLeaves = () => {
                       className="my-3 d-flex justify-content-between"
                       style={{ width: "35%" }}
                     >
-                      <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Update Status</Button>
+                      <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Update Status</Button>
                       <Button
                         onClick={() => {
                           handlePrint();
                         }}
-                        style={{backgroundColor: "rgb(137, 179, 83)"}}
+                        style={{ backgroundColor: "rgb(137, 179, 83)" }}
                       >
                         Generate PDF
                       </Button>
