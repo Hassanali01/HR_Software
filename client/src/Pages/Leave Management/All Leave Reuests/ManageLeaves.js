@@ -288,6 +288,7 @@ const ManageLeaves = () => {
       department: d.employee && d.employee.departments.map((d) => d.departmentname),
       from: new Date(d.from).toDateString(),
       to: new Date(d.to).toDateString(),
+      date:new Date(d.applicationdate).toDateString(),
       fromTime: d.fromTime,
       toTime: d.toTime,
       Short_leave: d.Short_leave,
@@ -408,9 +409,6 @@ const ManageLeaves = () => {
           <Modal.Title>Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>Applicant's Information</h5>
-          <hr></hr>
-
           <Row>
             <Col>
               <Form>
@@ -438,6 +436,12 @@ const ManageLeaves = () => {
             </Col>
           </Row>
           <Row>
+          <Col>
+              <Form>
+                <Form.Label>Date</Form.Label>
+                <Form.Control disabled value={modaldata.date}></Form.Control>
+              </Form>
+            </Col>
             <Col>
               <Form>
                 <Form.Label>Leave Type</Form.Label>
@@ -451,12 +455,6 @@ const ManageLeaves = () => {
               <Form>
                 <Form.Label>Leave Nature</Form.Label>
                 <Form.Control disabled value={modaldata.leaveNature}></Form.Control>
-              </Form>
-            </Col>
-            <Col>
-              <Form>
-                <Form.Label>Reason</Form.Label>
-                <Form.Control disabled value={modaldata.reason}></Form.Control>
               </Form>
             </Col>
           </Row>
@@ -501,6 +499,14 @@ const ManageLeaves = () => {
                 <Form.Label>Leave duration</Form.Label>
                 
                 <Form.Control disabled value={modaldata.Short_leave =="True" ? 'Short leave' : 'Full leave'}></Form.Control>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+          <Col>
+              <Form>
+                <Form.Label>Reason</Form.Label>
+                <Form.Control disabled value={modaldata.reason}></Form.Control>
               </Form>
             </Col>
           </Row>

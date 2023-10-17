@@ -11,7 +11,7 @@ const Sidebar = () => {
   const context = useContext(Context);
   const [toggleLeaves, settoggle] = useState(false)
   const [toggleAttendance, settoggleAttendance] = useState(false)
-
+  const [toggleWorkLeave, settoggleWorkLeave] = useState(false)
 
 
   return (
@@ -127,7 +127,7 @@ const Sidebar = () => {
                       </Link>
                       <Link to={'/manageleaves'} className="nav-link">
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Subordinates' leaves </p>
+                        <p className='iconColor'>Approve leaves </p>
                       </Link>
                     </>
                   }
@@ -218,7 +218,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
               }
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   to={`/workleave`}
                   className="nav-link">
@@ -239,7 +239,27 @@ const Sidebar = () => {
                     </p>
                   </Link>
                 </li>
-              }
+              } */}
+                      <li className='nav-item' onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
+                <a className='nav-link' style={{ cursor: 'pointer' }}>
+                  <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
+                  <p className='iconColor'>Work leaves</p>
+                  <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+
+                  {
+                    toggleWorkLeave && <>
+                      <Link to={`/workleave`} className='nav-link '>
+                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
+                        <p className='iconColor'>Apply</p>
+                      </Link>
+                      <Link    to={`/manageworkleave`} className="nav-link">
+                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
+                        <p className='iconColor'>Approve</p>
+                      </Link>
+                    </>
+                  }
+                </a>
+              </li>
             </ul>
           </nav>
           {/* <!-- /.sidebar-menu --> */}
