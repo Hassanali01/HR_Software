@@ -25,7 +25,7 @@ const LeaveRequest = () => {
   const [to, setSecond] = useState(new Date());
   const [attachedFile, setAttachedFile] = useState();
   const [leaveType, setLeaveType] = useState("");
-  const [applicationdate, setapplicationdate] = useState("")
+  const [applicationdate, setapplicationdate] = useState(new Date())
   const { user } = useContext(Context);
   const [Info, setinfo] = useState([]);
   const [backupresourse, setbackupresourse] = useState("")
@@ -41,7 +41,7 @@ const LeaveRequest = () => {
   const posturl = "leaverequest/addrequest";
   const a = useContext(HeaderContext)
   useEffect(() => {
-    a.update("Human Resource / Leave Request")
+    a.update("Human Resource / Apply leave ")
   })
 
   const employee = user.id;
@@ -139,7 +139,7 @@ const LeaveRequest = () => {
       });
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
-      NotificationManager.error("Please fill the required fields before submitting");
+      NotificationManager.error("Error in submitting");
     }
   };
 
@@ -154,8 +154,8 @@ const LeaveRequest = () => {
   };
 
   //total no of days between dates
-  var oneDay = 24 * 60 * 60 * 1000; 
-  var firstDate = new Date(from); 
+  var oneDay = 24 * 60 * 60 * 1000;
+  var firstDate = new Date(from);
   var secondDate = new Date(to);
   var diffDays = Math.round(
     Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
@@ -179,7 +179,7 @@ const LeaveRequest = () => {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                 Leave Request
+                   Apply leave 
                 </h3>
               </div>
               <div className="card-body">
@@ -190,9 +190,9 @@ const LeaveRequest = () => {
                         <>
                           <div style={{ display: "flex", gap: "130px" }}>
                             <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {d.empid} </p>
-                            <p><h5 style={{ display: "contents" , fontSize: "16px" }}>Name :</h5>  {d.name}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {d.name}</p>
                             <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{d.designation}</p>
-                            <p><h5 style={{ display: "contents" , fontSize: "16px"}}>Department :</h5> {d.department}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {d.department}</p>
                           </div>
                         </>
                       )
@@ -204,31 +204,37 @@ const LeaveRequest = () => {
                           <Card.Body>
                             <Container>
                               <Form onSubmit={addleaveRequest}>
-                                <Form.Group
+                                {/* <Form.Group
                                   className="mb-3"
                                   controlId="formBasicEmail"
-                                >
-                                  <Row>
-                                    <Col>
-                                      <Form.Label style={{ fontWeight: "400" }}>Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        onChange={(e) => {
-                                          setapplicationdate(e.target.value);
-                                        }}
-                                        style={{height: "33px", marginTop: "0px"}}
-                                      />
-                                    </Col>
-                                    <Col>
+                                > */}
+                                <Row>
+                                  <Col>
+                                    <Form.Label style={{ fontWeight: "400" }}>Date</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      onChange={(e) => {
+                                        setapplicationdate(e.target.value);
+                                      }}
+                                      style={{ height: "33px", marginTop: "0px" }}
+                                    />
+                                  </Col>
+
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formLeaveType"
+                                    >
                                       <Form.Label style={{ fontWeight: "400" }}>Leave Type</Form.Label>
                                       <Form.Select
                                         required
+                                        value={leaveType}
                                         onChange={(e) => {
                                           setLeaveType(e.target.value);
                                         }}
-                                        style={{padding: "3px 3px"}}
+                                        style={{ padding: "3px 3px" }}
                                       >
-                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
+                                        <option disabled selected hidden value="">Please Select</option>
                                         {leaves.map((d) => {
                                           return (
                                             <option
@@ -241,16 +247,20 @@ const LeaveRequest = () => {
                                           );
                                         })}
                                       </Form.Select>
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
+                                    </Form.Group>
 
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col>
+                                  </Col>
+
+                                </Row>
+                                {/* </Form.Group> */}
+
+
+                                <Row>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formFromDate"
+                                    >
                                       <Form.Label style={{ fontWeight: "400" }}>From</Form.Label>
                                       <Form.Control
                                         type="date"
@@ -258,22 +268,30 @@ const LeaveRequest = () => {
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        style={{height: "33px", marginTop: "0px"}}
+                                        style={{ height: "33px", marginTop: "0px" }}
                                       />
-                                    </Col>
-                                    <Col>
+                                    </Form.Group>
+
+                                  </Col>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formToDate"
+                                    >
+
                                       <Form.Label style={{ fontWeight: "400" }}>To</Form.Label>
                                       <Form.Control
                                         type="date"
-                                        reuired
+                                        required
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
-                                        style={{height: "33px", marginTop: "0px"}}
+                                        style={{ height: "33px", marginTop: "0px" }}
                                       />
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
+                                    </Form.Group>
+
+                                  </Col>
+                                </Row>
 
                                 <Row>
                                   <Col>
@@ -284,7 +302,7 @@ const LeaveRequest = () => {
                                       onChange={(e) => {
                                         setFromTime(e.target.value)
                                       }}
-                                      style={{height:"33px"}}
+                                      style={{ height: "33px" }}
                                     />
                                   </Col>
                                   <Col>
@@ -295,7 +313,7 @@ const LeaveRequest = () => {
                                       onChange={(e) => {
                                         setToTime(e.target.value)
                                       }}
-                                      style={{height:"33px"}}
+                                      style={{ height: "33px" }}
                                     />
                                   </Col>
                                 </Row>
@@ -311,11 +329,11 @@ const LeaveRequest = () => {
                                         value={Short_leave}
                                         required
                                         onChange={(e) => { setShort_leave(e.target.value) }}
-                                        style={{padding: "3px 3px"}}
+                                        style={{ padding: "3px 3px" }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">Short Leave</option>
-                                        <option value="False">Full Leave</option>
+                                        <option value="True">Short leave</option>
+                                        <option value="False">Full leave</option>
                                       </Form.Select>
                                     </Col>
                                     <Col>
@@ -326,7 +344,7 @@ const LeaveRequest = () => {
                                           onChange={(e) => {
                                             setReason(e.target.value);
                                           }}
-                                          style={{height: "33px"}}
+                                          style={{ height: "33px" }}
                                         />
                                       </div>
                                     </Col>
@@ -342,7 +360,7 @@ const LeaveRequest = () => {
                                       <Form.Label style={{ fontWeight: "400" }}>Backup Resourse</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setbackupresourse(e.target.value) }}
-                                        style={{padding: "3px 3px"}}
+                                        style={{ padding: "3px 3px" }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {
@@ -360,7 +378,7 @@ const LeaveRequest = () => {
                                         value={leaveNature}
                                         required
                                         onChange={(e) => { setLeaveNature(e.target.value) }}
-                                        style={{padding: "3px 3px"}}
+                                        style={{ padding: "3px 3px" }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="L.W.P">L.W.P</option>
@@ -448,19 +466,19 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                     <Col>
-                                      <div style={{float: "right"}}>
-                                      <Button
+                                      <div style={{ float: "right" }}>
+                                        <Button
                                           onClick={() => {
                                             handlePrint();
                                           }}
-                                          style={{ backgroundColor: "rgb(137, 179, 83)" , marginRight: "10px"}}
+                                          style={{ backgroundColor: "rgb(137, 179, 83)", marginRight: "10px" }}
                                         >
                                           Print
                                         </Button>
                                         <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                                           Submit
                                         </Button>
-                                    
+
                                       </div>
                                     </Col>
                                   </Row>
@@ -471,8 +489,8 @@ const LeaveRequest = () => {
                         </Card>
                       </Col>
                       <Col>
-                        <Card>     
-                          <h6 style={{marginBottom: "15px", paddingLeft: "10px"}}>Leave History</h6>                  
+                        <Card>
+                          <h6 style={{ marginBottom: "15px", paddingLeft: "10px" }}>Leave History</h6>
                           <Container>
                             {
                               Info.length > 0 ? <Table striped bordered hover>
@@ -495,7 +513,7 @@ const LeaveRequest = () => {
                                           <td style={{ fontSize: "13px" }}>{d.leaveType}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.from).toDateString()}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.to).toDateString()}</td>
-                                          <td style={{ fontSize: "13px" }}>{d.Short_leave == "True"? "Short leave" :"Full leave" }</td>
+                                          <td style={{ fontSize: "13px" }}>{d.Short_leave == "True" ? "Short leave" : "Full leave"}</td>
                                           <td>
                                             <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
                                           </td>

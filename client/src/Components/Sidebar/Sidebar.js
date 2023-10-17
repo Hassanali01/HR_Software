@@ -116,18 +116,18 @@ const Sidebar = () => {
               <li className='nav-item' onClick={() => { settoggle(!toggleLeaves) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
-                  <p className='iconColor'>Leave Management</p>
+                  <p className='iconColor'>Leaves</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
 
                   {
                     toggleLeaves && <>
                       <Link to={'/leaverequest'} className='nav-link '>
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Request Leave</p>
+                        <p className='iconColor'>Apply leave</p>
                       </Link>
                       <Link to={'/manageleaves'} className="nav-link">
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Manage Leaves </p>
+                        <p className='iconColor'>Subordinates' leaves </p>
                       </Link>
                     </>
                   }
