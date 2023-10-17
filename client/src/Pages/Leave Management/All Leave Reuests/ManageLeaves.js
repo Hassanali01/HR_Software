@@ -485,21 +485,21 @@ const ManageLeaves = () => {
           <Row>
             <Col>
               <Form>
-                <Form.Label>From Time</Form.Label>
+                <Form.Label> Time from</Form.Label>
                 <Form.Control disabled value={modaldata.fromTime}></Form.Control>
               </Form>
             </Col>
             <Col>
               <Form>
-                <Form.Label>To Time</Form.Label>
+                <Form.Label> Time to</Form.Label>
                 <Form.Control disabled value={modaldata.toTime}></Form.Control>
               </Form>
             </Col>
             <Col>
               <Form>
-                <Form.Label>Leave Duration</Form.Label>
+                <Form.Label>Leave duration</Form.Label>
                 
-                <Form.Control disabled value={modaldata.Short_leave ? 'Short leave' : 'Full leave'}></Form.Control>
+                <Form.Control disabled value={modaldata.Short_leave =="True" ? 'Short leave' : 'Full leave'}></Form.Control>
               </Form>
             </Col>
           </Row>

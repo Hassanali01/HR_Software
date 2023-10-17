@@ -478,19 +478,21 @@ const LeaveRequest = () => {
                                     <th style={{ fontSize: "13px" }}>Leave Type</th>
                                     <th style={{ fontSize: "13px" }}>From</th>
                                     <th style={{ fontSize: "13px" }}>To</th>
-                                    <th style={{ fontSize: "13px" }}>Reason</th>
+                                    <th style={{ fontSize: "13px" }}>Duration</th>
                                     <th style={{ fontSize: "13px" }}>Status</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {
-                                    Info.slice(Info.length - 6, Info.length).map((d, i) => {
+                                    (Info.slice(Info.length - 6, Info.length).reverse()).map((d, i) => {
+
+
                                       return (
                                         <tr>
                                           <td style={{ fontSize: "13px" }}>{d.leaveType}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.from).toDateString()}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.to).toDateString()}</td>
-                                          <td style={{ fontSize: "13px" }}>{d.reason}</td>
+                                          <td style={{ fontSize: "13px" }}>{d.Short_leave == "True"? "Short leave" :"Full leave" }</td>
                                           <td>
                                             <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
                                           </td>
