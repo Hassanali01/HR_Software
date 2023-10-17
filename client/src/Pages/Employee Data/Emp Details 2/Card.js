@@ -27,21 +27,11 @@ const Cards = ({ data }) => {
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
   const [shift, setShift] = useState([]);
-
   const [payrollsetup, setPayrollsetup] = useState([]);
   const [workshift, setWorkShift] = useState([]);
-
-  const Closechildmodal = () => setShowChildModel(false);
-  const Closechildmodal1 = () => setShowChildModel1(false);
-  const handleCloseModal = () => setShow(false);
   const [childModel, setShowChildModel] = useState(false);
   const [childModel1, setShowChildModel1] = useState(false);
-
-
   const [showAddressModal, setShowAddressModal] = useState(false);
-
-
-
   const [showPayrollSetupModal, setShowPayrollSetupModal] = useState(false);
   const [showWorkshiftSetupModal, setShowWorkshiftSetupModal] = useState(false);
   const [testUpdate, setTestUpdate] = useState(false);
@@ -52,21 +42,19 @@ const Cards = ({ data }) => {
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
   const [company, setCompany] = useState();
-
-
   const [addPayrollSetup, setAddPayrollSetup] = useState({
     payrollSetup: "",
     dateFrom: "",
     dateTo: ""
   })
-
-
   const [addWorkShift, setAddWorkShift] = useState({
     workShift: "",
     dateFrom: "",
     dateTo: ""
   })
-
+  const Closechildmodal = () => setShowChildModel(false);
+  const Closechildmodal1 = () => setShowChildModel1(false);
+  const handleCloseModal = () => setShow(false);
 
   const url3 = "shifts/allShifts"
   const getUrl = "leaverequest/all/";
@@ -306,7 +294,6 @@ const Cards = ({ data }) => {
           company: emp.company
         })
         .then((user) => {
-
           data.firstname = user.data.updateData.firstname;
           data.lastname = user.data.updateData.lastname;
           data.dob = user.data.updateData.dob;
@@ -358,13 +345,11 @@ const Cards = ({ data }) => {
     }
   };
 
-
   useEffect(() => {
     departmentemployees();
     axios.get(process.env.React_APP_ORIGIN_URL + `employees/${data._id}`)
       .then(response => {
         setEmpID(response.data);
-        console.log(response.data, "hihi")
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -385,6 +370,7 @@ const Cards = ({ data }) => {
     duration: "",
     jobdescription: "",
   });
+
   const [details, setdetails] = useState({
     degreetitle: "",
     institute: "",
@@ -394,10 +380,10 @@ const Cards = ({ data }) => {
   });
 
   const [addressInput, setAddressInput] = useState({
-   address:"",
-   city: "",
-   province: "",
-   country:""
+    address: "",
+    city: "",
+    province: "",
+    country: ""
   });
 
   const removeitem = (i) => {
@@ -448,8 +434,6 @@ const Cards = ({ data }) => {
     });
   };
 
-
-  
   const handleChangeAddressInput = async (e) => {
     let name, value;
     name = e.target.name;
@@ -459,9 +443,6 @@ const Cards = ({ data }) => {
       [name]: value,
     });
   };
-
-
-
 
   const addeducation = () => {
     var temp = education;
@@ -886,29 +867,32 @@ const Cards = ({ data }) => {
                                 })}
                               </Form.Select>
                             </Form.Group> */}
-                          <Button
-                            className="btn buttoncolor"
-                            onClick={() => {
-                              setShowPayrollSetupModal(true);
-                              console.log("payroll setup")
-                            }}
-                            style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                          >
-                            Change payroll setups
-                          </Button>
-
+                          {user.isAdmin &&
+                            <Button
+                              className="btn buttoncolor"
+                              onClick={() => {
+                                setShowPayrollSetupModal(true);
+                                console.log("payroll setup")
+                              }}
+                              style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                            >
+                              Change payroll setups
+                            </Button>
+                          }
                         </Col>
 
                         <Col lg={4}>
-                          <Button
-                            className="btn buttoncolor"
-                            onClick={() => {
-                              setShowWorkshiftSetupModal(true);
-                            }}
-                            style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                          >
-                            Change work shifts
-                          </Button>
+                          {user.isAdmin &&
+                            <Button
+                              className="btn buttoncolor"
+                              onClick={() => {
+                                setShowWorkshiftSetupModal(true);
+                              }}
+                              style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                            >
+                              Change work shifts
+                            </Button>
+                          }
                         </Col>
 
                         <Modal
@@ -985,14 +969,14 @@ const Cards = ({ data }) => {
                                   Add Setup
                                 </Button>
 
-                         
+
 
                               </div>
                               <div>{emp.payroll_setup && emp.payroll_setup.map((ps, index) => <>
-                                <div>payroll setup: {payrollsetup.filter((pf)=>pf._id == ps.payrollSetup)[0].title }</div>
+                                <div>payroll setup: {payrollsetup.filter((pf) => pf._id == ps.payrollSetup)[0].title}</div>
                                 <div>Date from:{ps.dateFrom}</div>
                                 <div>Date to:{ps.dateTo}</div>
-                                <button onClick={()=>{emp.payroll_setup.splice(index,1)}}>Delete</button>
+                                <button onClick={() => { emp.payroll_setup.splice(index, 1) }}>Delete</button>
                               </>)}</div>
                             </Container>
                           </Modal.Body>
@@ -1079,11 +1063,11 @@ const Cards = ({ data }) => {
                               </div>
 
 
-                              <div>{emp.work_shift && emp.work_shift.map((ws,index) => <>
-                                <div>workshifts:{workshift.filter((wf)=>wf._id == ws.workShift)[0].shift_name }</div>
+                              <div>{emp.work_shift && emp.work_shift.map((ws, index) => <>
+                                <div>workshifts:{workshift.filter((wf) => wf._id == ws.workShift)[0].shift_name}</div>
                                 <div>Date from:{ws.dateFrom}</div>
                                 <div>Date to:{ws.dateTo}</div>
-                                <button onClick={()=>{emp.work_shift.splice(index,1)}}>Delete</button>
+                                <button onClick={() => { emp.work_shift.splice(index, 1) }}>Delete</button>
                               </>)}</div>
                             </Container>
                           </Modal.Body>
@@ -1238,16 +1222,16 @@ const Cards = ({ data }) => {
                         </thead>
                         <tbody>
                           {emp.address && emp.address.map((d, i) => {
-                              return (
-                                <tr>
-                                  <th>{i + 1}</th>
-                                  <td>{d.address}</td>
-                                  <td>{d.city}</td>
-                                  <td>{d.province}</td>
-                                  <td>{d.country}</td>
-                                </tr>
-                              );
-                            })}
+                            return (
+                              <tr>
+                                <th>{i + 1}</th>
+                                <td>{d.address}</td>
+                                <td>{d.city}</td>
+                                <td>{d.province}</td>
+                                <td>{d.country}</td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </Table>
                     </Col>

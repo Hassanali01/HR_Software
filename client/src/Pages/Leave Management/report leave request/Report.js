@@ -13,7 +13,7 @@ const Report = ({ Info }) => {
           </div>
           <div className="d-flex flex-column justify-content-end align-items-end">
             <div>
-              <h3>Leave Application Form</h3>
+              <h3>Leave Application Report</h3>
             </div>
             <div>
               <h3>HR-03/1</h3>
@@ -102,39 +102,11 @@ const Report = ({ Info }) => {
           </>);
         })}
 
-        <table className="table-striped table-bordered  hover mt-3 container w-100 text-left">
-          <thead>
-            <tr>
-              <th scope="col" className="py-2 px-2 ">Emp Id</th>
-              <th scope="col" className="py-2 px-2">Emp Name</th>
-              <th scope="col" className="py-2 px-2">Leave Type</th>
-              <th scope="col" className="py-2 px-2">from</th>
-              <th scope="col" className="py-2 px-2">to</th>
-              <th scope="col" className="py-2 px-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Info.slice(Info.length - 1, Info.length).map((d, i) => {
-              return (
-                <>
-                  <tr key={i}>
-                    <td className="text-left py-2 px-2">{i + 1}</td>
-                    <td className="text-left py-2 px-2">{d.name}</td>
-                    <td className="text-left py-2 px-2">{d.leaveType}</td>
-                    <td className="text-left py-2 px-2">{new Date(d.from).toDateString()}</td>
-                    <td className="text-left">{new Date(d.to).toDateString()}</td>
-                    <td className="text-left"><span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span></td>
-                  </tr>
-                </>
-              );
-            })}
-          </tbody>
-        </table>
         <div className="mt-5 my-1"><h5 style={{ fontSize: "19px", fontWeight: "semi-bold" }}>Leave History(last 4 leaves)</h5></div>
         <table className="table-striped table-bordered  hover mt-3 container w-100 text-left">
           <thead>
             <tr>
-              <th scope="col" className="py-2 px-2">Emp Id</th>
+              <th scope="col" className="py-2 px-2">Sr #</th>
               <th scope="col" className="py-2 px-2">Emp Name</th>
               <th scope="col" className="py-2 px-2">Leave Type</th>
               <th scope="col" className="py-2 px-2">from</th>

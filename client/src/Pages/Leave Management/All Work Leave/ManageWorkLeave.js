@@ -16,19 +16,24 @@ import {
 } from "react-notifications";
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
-import { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import PrintIcon from "@mui/icons-material/Print";
 import HeaderContext from '../../../Context/HeaderContext'
 
 
 function ManageWorkLeave() {
 
+    const [handlemodal, sethandlemodal] = useState(false);
+    const [modaldata, setmodaldata] = useState({});
+    const [leavesData, setLeavesData] = useState([]);
+    const [status, setstatus] = useState();
+    const [supervisorApproval, setSupervisorApproval] = useState();
+    const [update, setUpdate] = useState(true);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
     const a = useContext(HeaderContext)
     useEffect(() => {
         a.update("Human Resource / Work Leave Management")
     })
-    const [handlemodal, sethandlemodal] = useState(false);
+
 
     function getMimetype(extension) {
         var mimetype;
@@ -234,22 +239,12 @@ function ManageWorkLeave() {
         return mimetype;
     }
 
-    const [modaldata, setmodaldata] = useState({});
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const [leavesData, setLeavesData] = useState([]);
-    const [status, setstatus] = useState();
-    const [supervisorApproval, setSupervisorApproval] = useState();
-    const [update, setUpdate] = useState(true);
-    const [leaveid, setLeaveid] = useState("")
-
     const handleShow = (id) => {
         setmodaldata(id.row);
         setstatus(id.row.status);
         setShow(true);
         setSupervisorApproval(id.row.supervisorApproval);
     };
-
 
     const { user } = useContext(Context);
     const month = "September"
@@ -259,7 +254,6 @@ function ManageWorkLeave() {
         const data = getLeaves.data;
         console.log("data", data.Leaves)
         setLeavesData(data.Leaves);
-
     };
 
     const newArray = [];
@@ -277,7 +271,6 @@ function ManageWorkLeave() {
             workabsence: d.workabsence,
             employeename: d.employee[0] && d.employee[0].firstname,
             task: d.task,
-            // department: d.employee && d.employee.departments.map((d) => d.departmentname),
             from: new Date(d.from).toDateString(),
             to: new Date(d.to).toDateString(),
             reason: d.reason,
@@ -287,7 +280,6 @@ function ManageWorkLeave() {
             supervisorApproval: d.supervisorApproval,
             attachment: d.attachment,
             applicationdate: d.applicationdate,
-            // leaves: d.employee && d.employee.Leaves.map((d) => d),
         });
 
     });
@@ -315,11 +307,11 @@ function ManageWorkLeave() {
 
     const rows = newArray;
     const columns = [
-        { field: "workabsence", headerName: "workabsence", width: 150 },
+        { field: "workabsence", headerName: "Work Absence", width: 150 },
         { field: "employeename", headerName: "Employee Name", width: 150 },
-        { field: "task", headerName: "task", width: 150 },
-        { field: "from", headerName: "from", width: 150 },
-        { field: "to", headerName: "to", width: 150 },
+        { field: "task", headerName: "Task", width: 150 },
+        { field: "from", headerName: "From", width: 150 },
+        { field: "to", headerName: "To", width: 150 },
         {
             field: "supervisorApproval",
             headerName: "Supervisor Approval",
@@ -346,12 +338,8 @@ function ManageWorkLeave() {
     ];
 
 
-
     return (
-
         <div>
-            {console.log("leavesdata", leavesData)}
-
             <div
                 className="content-wrapper my-1"
                 style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}
@@ -461,7 +449,6 @@ function ManageWorkLeave() {
                     </Row>
                     <Row>
                         <Form>
-
                             <Form.Label>Attachment</Form.Label>
                             <Row>
                                 <Col sm={9}>
@@ -470,7 +457,6 @@ function ManageWorkLeave() {
                                         value={modaldata.attachment && modaldata.attachment.name}
                                     ></Form.Control>
                                 </Col>
-
                                 <Col sm={3}>
                                     <Button
                                         style={{ width: "100%", backgroundColor: "rgb(137, 179, 83)" }}
@@ -494,9 +480,7 @@ function ManageWorkLeave() {
                             </Row>
                         </Form>
                     </Row>
-
                     <Row> &nbsp; &nbsp;</Row>
-
                     {!user.isAdmin && (
                         <>
                             <h5 className="my-3">Supervisor Approval</h5>
@@ -552,7 +536,6 @@ function ManageWorkLeave() {
                                             style={{ width: "35%" }}
                                         >
                                             <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Update Status</Button>
-                            
                                         </div>
                                     </Form>
                                 </Col>

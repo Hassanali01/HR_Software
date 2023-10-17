@@ -33,8 +33,6 @@ const MonthlyAttendance = () => {
   const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
   const [fields, setFields] = useState(generateFormulaFields())
 
-
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -175,9 +173,6 @@ const MonthlyAttendance = () => {
       );
 
 
-
-
-      
       // adding CPL inside the user attendance
       tempAttendance.forEach(
         (tempAtt) => {
@@ -197,16 +192,11 @@ const MonthlyAttendance = () => {
       })
 
 
-
       //Adding shift slabs in payroll
       const singleuser = tempAttendance.map((j) => {
         if (j.employee.work_shift && j.status == 1) {
-
-          // const currentShift = j.employee.work_shift
-
           j.employee.work_shift.forEach((ps) => {
             if (new Date(j.date) >= new Date(ps.dateFrom) && new Date(j.date) <= new Date(ps.dateTo)) {
-
               // Deduction for employees on late arrival
               const date = j.in
               const splitdate = date.split(":")
@@ -248,40 +238,21 @@ const MonthlyAttendance = () => {
         }
       })
 
-
-
-
-
-
-
-
-      
       // Add early leaver LWP and LWOP in payroll
       tempAttendance.forEach(
         (tempAtt) => {
 
-          console.log("tempAtt", tempAtt)
-
           let appliedLeaves = approvedLeave.totaldays.filter((td) => td.employee && td.employee.emp_id == tempAtt.Employee_ID && td.Short_leave == "True")
           appliedLeaves.forEach((al) => {
-            console.log("al", al)
             if (al.leaveNature == "L.W.P" && tempAtt.date == al.date) {
-              // tempAttendance[`${tempAtt}`].filter((te) => te.date == al.date)[0].status += " LWP"
               tempAtt.status += " LWP"
             }
-            else if (al.leaveNature == "L.W.O.P" && tempAtt.date == al.date){
-              // tempAttendance[`${tempAtt}`].filter((te) => te.date == al.date)[0].status += " LWOP"
+            else if (al.leaveNature == "L.W.O.P" && tempAtt.date == al.date) {
               tempAtt.status += " LWOP"
-
             }
           })
         }
       );
-
-
-
-
-
 
 
       // adding GH inside the user attendance
@@ -342,26 +313,23 @@ const MonthlyAttendance = () => {
       })
 
 
+      // adding Monday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Monday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.mondayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
 
 
-           // adding Monday DO inside the user attendance
-           tempAttendance.forEach((att) => {
-            const locale = "en-US"
-            var date = new Date(att.date);
-            var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            att.day = day
-            if (day == "Monday"
-              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.mondayDayoff
-            ) {
-              att.in = "Day off";
-              att.out = "Day off";
-              att.status = "D.O"
-            }
-          })
-
-
-
-               // adding Tuesday DO inside the user attendance
+      // adding Tuesday DO inside the user attendance
       tempAttendance.forEach((att) => {
         const locale = "en-US"
         var date = new Date(att.date);
@@ -376,45 +344,38 @@ const MonthlyAttendance = () => {
         }
       })
 
+      // adding Wednesday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Wednesday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.wednesdayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
+
+      // adding Thursday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Thursday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.thursdayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
 
 
-      
-               // adding Wednesday DO inside the user attendance
-               tempAttendance.forEach((att) => {
-                const locale = "en-US"
-                var date = new Date(att.date);
-                var day = date.toLocaleDateString(locale, { weekday: 'long' });
-                att.day = day
-                if (day == "Wednesday"
-                  && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.wednesdayDayoff
-                ) {
-                  att.in = "Day off";
-                  att.out = "Day off";
-                  att.status = "D.O"
-                }
-              })
-
-
-           // adding Thursday DO inside the user attendance
-           tempAttendance.forEach((att) => {
-            const locale = "en-US"
-            var date = new Date(att.date);
-            var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            att.day = day
-            if (day == "Thursday"
-              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.thursdayDayoff
-            ) {
-              att.in = "Day off";
-              att.out = "Day off";
-              att.status = "D.O"
-            }
-          })
-
-
-
-
-
-               // adding Friday DO inside the user attendance
+      // adding Friday DO inside the user attendance
       tempAttendance.forEach((att) => {
         const locale = "en-US"
         var date = new Date(att.date);
@@ -430,25 +391,20 @@ const MonthlyAttendance = () => {
       })
 
 
-
-
-           // adding Saturday DO inside the user attendance
-           tempAttendance.forEach((att) => {
-            const locale = "en-US"
-            var date = new Date(att.date);
-            var day = date.toLocaleDateString(locale, { weekday: 'long' });
-            att.day = day
-            if (day == "Saturday"
-              && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.saturdayDayoff
-            ) {
-              att.in = "Day off";
-              att.out = "Day off";
-              att.status = "D.O"
-            }
-          })
-
-
-
+      // adding Saturday DO inside the user attendance
+      tempAttendance.forEach((att) => {
+        const locale = "en-US"
+        var date = new Date(att.date);
+        var day = date.toLocaleDateString(locale, { weekday: 'long' });
+        att.day = day
+        if (day == "Saturday"
+          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.saturdayDayoff
+        ) {
+          att.in = "Day off";
+          att.out = "Day off";
+          att.status = "D.O"
+        }
+      })
 
 
       // adding LWOP inside the user attendance
@@ -462,16 +418,6 @@ const MonthlyAttendance = () => {
       );
 
 
-
-  
-
-
-
-
-
-
-
-
       //Employee joining date modification in payroll
       tempAttendance.forEach((te) => {
         const dateToCompare = new Date(te.date)
@@ -481,6 +427,7 @@ const MonthlyAttendance = () => {
           te.out = "";
         }
       })
+
 
       //Employee resigned date modification in payroll
       tempAttendance.forEach((te) => {
@@ -545,8 +492,7 @@ const MonthlyAttendance = () => {
       );
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
     } catch (error) {
-
-      console.log("error",error)
+      console.log("error", error)
       NotificationManager.error("Please select the month of Attendance")
     }
   }
@@ -626,7 +572,6 @@ const MonthlyAttendance = () => {
                                 <td colSpan={5}></td>
                                 <td colSpan={1} style={{}}><span style={{ fontWeight: "bold" }}>Net pay days:</span> {usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays}</td>
                               </tr>
-
                             </table>
                             <div style={{ marginTop: 40 }}>
                               <div style={{ marginLeft: "75%", fontSize: 15, marginRight: 0 }}>
