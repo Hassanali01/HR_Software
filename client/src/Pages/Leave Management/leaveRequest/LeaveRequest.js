@@ -174,13 +174,13 @@ const LeaveRequest = () => {
     <>
       <div
         className="content-wrapper my-1"
-        style={{ backgroundColor: "#f7f7f7"}}
+        style={{ backgroundColor: "#f7f7f7" }}
       >
-        <section className="content" style={{marginTop: "30px"}}>
+        <section className="content" style={{ marginTop: "30px" }}>
           <div className="container">
             <div className="card">
-              <div className="card-header buttoncolor "> 
-                <h3 className="card-title" style={{ color: "white"}}>
+              <div className="card-header buttoncolor ">
+                <h3 className="card-title" style={{ color: "white" }}>
                   Add Leave Request
                 </h3>
               </div>
@@ -303,9 +303,8 @@ const LeaveRequest = () => {
                                         {
                                           array.map((d, i) => {
                                             return (
-                                              <>
-                                                <option key={i} value={d._id}>{d.firstname}</option>
-                                              </>)
+                                              <option key={i} value={d._id}>{d.firstname}</option>
+                                            )
                                           })
                                         }
                                       </Form.Select>
@@ -344,9 +343,10 @@ const LeaveRequest = () => {
 
                                   </Row>
                                   <Row>
+
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
                                       <Form.Label>Leave Nature</Form.Label>
-                                      <Form.Select  
+                                      <Form.Select
                                         value={leaveNature}
                                         onChange={(e) => { setLeaveNature(e.target.value) }}
                                       >
@@ -369,6 +369,7 @@ const LeaveRequest = () => {
                                         <option value="False">Full Leave</option>
                                       </Form.Select>
                                     </Col>
+
                                   </Row>
                                 </Form.Group>
 
@@ -380,7 +381,7 @@ const LeaveRequest = () => {
                                         type="file"
                                         id="files"
                                         name="files"
-                                        onChange={(f) => {                                  
+                                        onChange={(f) => {
                                           var ext = f.target.value.match(
                                             /\.([^\.]+)$/
                                           )[1];
@@ -437,7 +438,7 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                     <Col>
-                                      <Button variant="primary" type="submit" className="submitButton" style={{backgroundColor: "rgb(137, 179, 83)"}}>
+                                      <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                                         Submit
                                       </Button>
                                     </Col>
@@ -537,7 +538,7 @@ const LeaveRequest = () => {
                   onClick={() => {
                     handlePrint();
                   }}
-                  style={{backgroundColor: "rgb(137, 179, 83)"}}
+                  style={{ backgroundColor: "rgb(137, 179, 83)" }}
                 >
                   Generate Report
                 </Button>

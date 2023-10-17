@@ -98,8 +98,7 @@ router.get('/:month', async (req, res) => {
     let no = 0
     if (demo == "January") {
         no = 1;
-    }
-    else if (demo == "February") {
+    } else if (demo == "February") {
         no = 2;
     } else if (demo == "March") {
         no = 3;
@@ -173,7 +172,6 @@ router.get('/:month', async (req, res) => {
                     function createObjectsFromDates(datesArray) {
                         const objectsArray = [];
                         for (let j = 0; j < datesArray.length; j++) {
-
                             const employee = i.employee[0]
                             const workabsence = i.workabsence
                             const date = datesArray[j]
@@ -189,7 +187,6 @@ router.get('/:month', async (req, res) => {
                             const username = i.employee[0] && i.employee[0].username
                             const leaveNature = i.leaveNature
                             const Short_leave = i.Short_leave
-                            
                             const newObject = createObject(employee, workabsence, description, Workstatus, _id, applicationdate, status, username, location, Project, task, date,Short_leave);
                             totaldays.push(newObject)
                             objectsArray.push(newObject);
@@ -207,7 +204,6 @@ router.get('/:month', async (req, res) => {
             }
         })
 
-        console.log("totaldays", totaldays)
 
         res.status(200).json({
             Leaves,
