@@ -87,7 +87,6 @@ const LeaveRequest = () => {
           designation: empinfo.designation,
         });
       });
-
       setDetails(departments);
     } catch (error) {
       console.log(error);
@@ -138,7 +137,6 @@ const LeaveRequest = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
       NotificationManager.error("Failed to Add");
@@ -156,8 +154,8 @@ const LeaveRequest = () => {
   };
 
   //total no of days between dates
-  var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  var firstDate = new Date(from); // 29th of Feb at noon your timezone
+  var oneDay = 24 * 60 * 60 * 1000; 
+  var firstDate = new Date(from); 
   var secondDate = new Date(to);
   var diffDays = Math.round(
     Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
@@ -181,16 +179,27 @@ const LeaveRequest = () => {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                  Add Leave Request
+                 Leave Request
                 </h3>
               </div>
               <div className="card-body">
                 <Container>
                   <div>
-                    <h4>Leave Form</h4>
+                    {details.map((d) => {
+                      return (
+                        <>
+                          <div style={{ display: "flex", gap: "130px" }}>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {d.empid} </p>
+                            <p><h5 style={{ display: "contents" , fontSize: "16px" }}>Name :</h5>  {d.name}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{d.designation}</p>
+                            <p><h5 style={{ display: "contents" , fontSize: "16px"}}>Department :</h5> {d.department}</p>
+                          </div>
+                        </>
+                      )
+                    })}
                     <hr />
                     <Row>
-                      <Col xs="7">
+                      <Col xs="6">
                         <Card>
                           <Card.Body>
                             <Container>
@@ -201,12 +210,23 @@ const LeaveRequest = () => {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Leave Type</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}>Application Date</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        onChange={(e) => {
+                                          setapplicationdate(e.target.value);
+                                        }}
+                                        style={{height: "33px", marginTop: "0px"}}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label style={{ fontWeight: "400" }}>Leave Type</Form.Label>
                                       <Form.Select
                                         required
                                         onChange={(e) => {
                                           setLeaveType(e.target.value);
                                         }}
+                                        style={{padding: "3px 3px"}}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {leaves.map((d) => {
@@ -222,15 +242,91 @@ const LeaveRequest = () => {
                                         })}
                                       </Form.Select>
                                     </Col>
+                                  </Row>
+                                </Form.Group>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
                                     <Col>
-                                      <Form.Label>Status</Form.Label>
-                                      <div className="status">
+                                      <Form.Label style={{ fontWeight: "400" }}>From</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        required
+                                        onChange={(e) => {
+                                          setFirstdate(e.target.value);
+                                        }}
+                                        style={{height: "33px", marginTop: "0px"}}
+                                      />
+                                    </Col>
+                                    <Col>
+                                      <Form.Label style={{ fontWeight: "400" }}>To</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        reuired
+                                        onChange={(e) => {
+                                          setSecond(e.target.value);
+                                        }}
+                                        style={{height: "33px", marginTop: "0px"}}
+                                      />
+                                    </Col>
+                                  </Row>
+                                </Form.Group>
+
+                                <Row>
+                                  <Col>
+                                    <Form.Label style={{ fontWeight: "400" }}>Time From</Form.Label>
+                                    <Form.Control
+                                      type="time"
+                                      value={fromTime}
+                                      onChange={(e) => {
+                                        setFromTime(e.target.value)
+                                      }}
+                                      style={{height:"33px"}}
+                                    />
+                                  </Col>
+                                  <Col>
+                                    <Form.Label style={{ fontWeight: "400" }}>Time To</Form.Label>
+                                    <Form.Control
+                                      type="time"
+                                      value={toTime}
+                                      onChange={(e) => {
+                                        setToTime(e.target.value)
+                                      }}
+                                      style={{height:"33px"}}
+                                    />
+                                  </Col>
+                                </Row>
+
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Row>
+                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
+                                      <Form.Label style={{ fontWeight: "400" }}> Leave duration</Form.Label>
+                                      <Form.Select
+                                        value={Short_leave}
+                                        onChange={(e) => { setShort_leave(e.target.value) }}
+                                        style={{padding: "3px 3px"}}
+                                      >
+                                        <option disabled selected hidden value="">Please Select</option>
+                                        <option value="True">Short Leave</option>
+                                        <option value="False">Full Leave</option>
+                                      </Form.Select>
+                                    </Col>
+                                    <Col>
+                                      <Form.Label style={{ fontWeight: "400" }}>Reason</Form.Label>
+                                      <div className="reason">
                                         <Form.Control
                                           type="text"
-                                          required
-                                          value={"open"}
-                                          disabled
-                                        ></Form.Control>
+                                          onChange={(e) => {
+                                            setReason(e.target.value);
+                                          }}
+                                          style={{height: "33px"}}
+                                        />
                                       </div>
                                     </Col>
                                   </Row>
@@ -241,63 +337,11 @@ const LeaveRequest = () => {
                                   controlId="formBasicPassword"
                                 >
                                   <Row>
-                                    <Col>
-                                      <Form.Label>From</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        required
-                                        onChange={(e) => {
-                                          setFirstdate(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>To</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        reuired
-                                        onChange={(e) => {
-                                          setSecond(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
-                                    <Col>
-                                      <Form.Label>Total Days</Form.Label>
-                                      <Form.Control
-                                        type="number"
-                                        value={diffDays}
-                                        disabled
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Reason</Form.Label>
-                                      <div className="reason">
-                                        <Form.Control
-                                          type="text"
-                                          onChange={(e) => {
-                                            setReason(e.target.value);
-                                          }}
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
-                                  <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Backup Resourse</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}>Backup Resourse</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setbackupresourse(e.target.value) }}
+                                        style={{padding: "3px 3px"}}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
                                         {
@@ -309,46 +353,12 @@ const LeaveRequest = () => {
                                         }
                                       </Form.Select>
                                     </Col>
-                                    <Col>
-                                      <Form.Label>Application Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        onChange={(e) => {
-                                          setapplicationdate(e.target.value);
-                                        }}
-                                      />
-                                    </Col>
-                                  </Row>
-                                  <Row>
-                                    <Col>
-                                      <Form.Label>Time From</Form.Label>
-                                      <Form.Control
-                                        type="time"
-                                        value={fromTime}
-                                        onChange={(e) => {
-                                          setFromTime(e.target.value)
-                                        }}
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label>Time To</Form.Label>
-                                      <Form.Control
-                                        type="time"
-                                        value={toTime}
-                                        onChange={(e) => {
-                                          setToTime(e.target.value)
-                                        }}
-                                      />
-                                    </Col>
-
-                                  </Row>
-                                  <Row>
-
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Leave Nature</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}>Leave Nature</Form.Label>
                                       <Form.Select
                                         value={leaveNature}
                                         onChange={(e) => { setLeaveNature(e.target.value) }}
+                                        style={{padding: "3px 3px"}}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="L.W.P">L.W.P</option>
@@ -357,25 +367,23 @@ const LeaveRequest = () => {
                                         <option value="W.F.H">W.F.H</option>
                                       </Form.Select>
                                     </Col>
-
-                                    <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label>Short leave</Form.Label>
-                                      <Form.Select
-                                        value={Short_leave}
-                                        onChange={(e) => { setShort_leave(e.target.value) }}
-                                      >
-                                        <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">Short Leave</option>
-                                        <option value="False">Full Leave</option>
-                                      </Form.Select>
-                                    </Col>
-
                                   </Row>
+
+                                  {/* <Row>
+                                  <Col>
+                                      <Form.Label>Total Days</Form.Label>
+                                      <Form.Control
+                                        type="number"
+                                        value={diffDays}
+                                        disabled
+                                      />
+                                    </Col>
+                                  </Row> */}
                                 </Form.Group>
 
                                 <Form.Group>
                                   <Row>
-                                    <Form.Label>Attachment</Form.Label>
+                                    <Form.Label style={{ fontWeight: "400" }}>Attachment</Form.Label>
                                     <Col sm={10}>
                                       <input
                                         type="file"
@@ -438,9 +446,19 @@ const LeaveRequest = () => {
                                       />
                                     </Col>
                                     <Col>
-                                      <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
-                                        Submit
-                                      </Button>
+                                      <div style={{float: "right"}}>
+                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                                          Submit
+                                        </Button>
+                                        <Button
+                                          onClick={() => {
+                                            handlePrint();
+                                          }}
+                                          style={{ backgroundColor: "rgb(137, 179, 83)" , marginLeft: "10px"}}
+                                        >
+                                          Generate Report
+                                        </Button>
+                                      </div>
                                     </Col>
                                   </Row>
                                 </Form.Group>
@@ -450,77 +468,40 @@ const LeaveRequest = () => {
                         </Card>
                       </Col>
                       <Col>
-                        <Card>
-                          <Card.Header className="buttoncolor ">
-                            <Card.Title style={{ width: "100%" }}>
-                              <h4 className="text-center">
-                                Employee Information
-                              </h4>
-                            </Card.Title>
-                          </Card.Header>
-
-                          <Card.Body>
-                            <Container>
-                              {details.map((d) => {
-                                return (
-                                  <>
-                                    <div style={{ display: 'flex', width: '100%' }}>
-                                      <div style={{ width: "50%" }}>
-                                        <h5 style={{ fontWeight: 'bold' }}>
-                                          Employee ID
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: "50%" }}>
-                                        <p>{d.empid}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          {" "}
-                                          Name
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.name}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          {" "}
-                                          Email
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.email}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          Designation
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.designation}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold", fontSize: 'auto' }}>
-                                          Department
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.department}</p>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </Container>
-                          </Card.Body>
+                        <Card>     
+                          <h6 style={{marginBottom: "15px", paddingLeft: "10px"}}>Leave History</h6>                  
+                          <Container>
+                            {
+                              Info.length > 0 ? <Table striped bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th style={{ fontSize: "13px" }}>Leave Type</th>
+                                    <th style={{ fontSize: "13px" }}>From</th>
+                                    <th style={{ fontSize: "13px" }}>To</th>
+                                    <th style={{ fontSize: "13px" }}>Reason</th>
+                                    <th style={{ fontSize: "13px" }}>Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {
+                                    Info.slice(Info.length - 6, Info.length).map((d, i) => {
+                                      return (
+                                        <tr>
+                                          <td style={{ fontSize: "13px" }}>{d.leaveType}</td>
+                                          <td style={{ fontSize: "13px" }}>{new Date(d.from).toDateString()}</td>
+                                          <td style={{ fontSize: "13px" }}>{new Date(d.to).toDateString()}</td>
+                                          <td style={{ fontSize: "13px" }}>{d.reason}</td>
+                                          <td>
+                                            <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  }
+                                </tbody>
+                              </Table> : <div><h4 className="text-center">No leaves Data available</h4></div>
+                            }
+                          </Container>
                         </Card>
                       </Col>
                     </Row>
@@ -529,60 +510,6 @@ const LeaveRequest = () => {
               </div>
             </div>
           </div>
-        </section>
-        <section className="py-5">
-          <div className="py-4">
-            {
-              Info.length > 0 ? <Container>
-                <Button
-                  onClick={() => {
-                    handlePrint();
-                  }}
-                  style={{ backgroundColor: "rgb(137, 179, 83)" }}
-                >
-                  Generate Report
-                </Button>
-              </Container> : ""
-            }
-          </div>
-          <Container>
-            {
-              Info.length > 0 ? <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Srno</th>
-                    <th>Name</th>
-                    <th>Department</th>
-                    <th>Leave Type</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    Info.slice(Info.length - 6, Info.length).map((d, i) => {
-                      return (
-                        <tr>
-                          <td>{i + 1}</td>
-                          <td>{d.name}</td>
-                          <td>{d.department}</td>
-                          <td>{d.leaveType}</td>
-                          <td>{new Date(d.from).toDateString()}</td>
-                          <td>{new Date(d.to).toDateString()}</td>
-                          <td>{d.reason}</td>
-                          <td>
-                            <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  }
-                </tbody>
-              </Table> : <div><h4 className="text-center">No leaves Data available</h4></div>
-            }
-          </Container>
         </section>
         <NotificationContainer />
       </div>

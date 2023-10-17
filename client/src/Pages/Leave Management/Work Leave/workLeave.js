@@ -267,7 +267,7 @@ function WorkLeave() {
                                         }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
-                                        <option value={"Clinet Visit"}>Clinet Visit</option>
+                                        <option value={"Clientt Visit"}>Client Visit</option>
                                         <option value={"Project Site Visit"}>Project Site Visit</option>
                                         <option value={"Branch Office"}>Branch Office</option>
                                         <option value={"Bank Visit"}>Bank Visit</option>
