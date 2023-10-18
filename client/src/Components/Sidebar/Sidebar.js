@@ -243,7 +243,7 @@ const Sidebar = () => {
                       <li className='nav-item' onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
-                  <p className='iconColor'>Work leaves</p>
+                  <p className='iconColor'>Work absence</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
 
                   {

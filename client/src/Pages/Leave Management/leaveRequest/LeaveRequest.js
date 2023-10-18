@@ -357,7 +357,7 @@ const LeaveRequest = () => {
                                 >
                                   <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label style={{ fontWeight: "400" }}>Backup Resourse</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}>Backup Resource</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setbackupresourse(e.target.value) }}
                                         style={{ padding: "3px 3px" }}
