@@ -45,7 +45,6 @@ const LeaveRequest = () => {
   })
 
   const employee = user.id;
-  const getEmp = `employees/${user.id}`;
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -54,42 +53,36 @@ const LeaveRequest = () => {
 
   const userInformation = async () => {
     try {
-      const res = await axios.get(process.env.React_APP_ORIGIN_URL + getEmp);
+
+      console.log("user info", user)
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/lastfive/${user.id}`);
+      
       const empinfo = res.data;
       const InfoData = [];
-      await empinfo.Leaves.map((d) => {
+      await empinfo.map((d) => {
         InfoData.push({
           from: d.from,
           Short_leave: d.Short_leave,
           to: d.to,
           status: d.status,
           leaveType: d.leaveType,
-          name: empinfo.firstname,
-          _id: empinfo.emp_id,
-          department: empinfo.departments.map((d) => d.departmentname),
+          // name: empinfo.firstname,
+          // _id: empinfo.emp_id,
+          // department: empinfo.departments.map((d) => d.departmentname),
           reason: d.reason,
           applicationdate: d.applicationdate,
-          empid: empinfo.emp_id,
-          designation: empinfo.designation,
-          leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
+          // empid: empinfo.emp_id,
+          // designation: empinfo.designation,
+          // leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
           backupresourse: d.backupresourse
         });
       });
       setinfo(InfoData);
 
-      const departments = [];
-      await empinfo.departments.map((d) => {
-        departments.push({
-          department: d.departmentname,
-          name: empinfo.firstname,
-          email: empinfo.email,
-          empid: empinfo.emp_id,
-          designation: empinfo.designation,
-        });
-      });
-      setDetails(departments);
+    
+      setDetails(res.data[0] && res.data[0].employee);
     } catch (error) {
-      console.log(error);
+      console.log("error in ",error);
     }
   };
 
@@ -185,18 +178,14 @@ const LeaveRequest = () => {
               <div className="card-body">
                 <Container>
                   <div>
-                    {details.map((d) => {
-                      return (
-                        <>
+               {console.log("details", details)}
                           <div style={{ display: "flex", gap: "130px" }}>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {d.empid} </p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {d.name}</p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{d.designation}</p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {d.department}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details.emp_id} </p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details.firstname}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details.designation}</p>
+                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {details.departments && details.departments[0].departmentname }</p>
                           </div>
-                        </>
-                      )
-                    })}
+                      
                     <hr />
                     <Row>
                       <Col xs="6">
@@ -505,7 +494,7 @@ const LeaveRequest = () => {
                                 </thead>
                                 <tbody>
                                   {
-                                    (Info.slice(Info.length - 6, Info.length).reverse()).map((d, i) => {
+                                    Info.map((d, i) => {
 
 
                                       return (

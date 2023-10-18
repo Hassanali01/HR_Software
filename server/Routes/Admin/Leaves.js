@@ -225,10 +225,30 @@ router.get('/all/:id', async (req, res, next) => {
 
 
 
+
+// Last five leaves of employee
+
+router.get('/lastfive/:id', async (req, res, next) => {
+  try {
+    const response = await LeaveRequest.find({employee:req.params.id}).sort({applicationdate:-1}).limit(5).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
+    console.log("response", response)
+    // const emp = await Emp.findById(response.employee._id).populate('departments', 'departmentname')
+    // const dep = emp.department
+    response && res.status(200).json( response )
+  } catch (error) {
+    next(error)
+  }
+})
+
+
+
+
+
 //only employee can see their leave request
 router.get('/:id', async (req, res, next) => {
   try {
     const response = await LeaveRequest.findById(req.params.id).populate({ path: 'employee backupresourse', populate: [{ path: 'departments', select: ['departmentname'] }, { path: 'Leaves' }] });
+  
     const emp = await Emp.findById(response.employee._id).populate('departments', 'departmentname')
     const dep = emp.department
     response && res.status(200).json({ message: "Success", response, dep })
@@ -236,6 +256,14 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+
+
+
+
+
+
+
 
 
 //update status of leaves
