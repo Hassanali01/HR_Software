@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Container } from "react-bootstrap";
+import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
@@ -23,7 +23,9 @@ const DashboardNonAdmin = () => {
     const [leavCount, setleavCount] = useState()
     const [Info, setinfo] = useState([])
     const [details, setDetails] = useState([])
-
+    let SNo = 1;
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
     const getEmp = `employees/${user.id}`
 
     const userInformation = async () => {
@@ -41,6 +43,10 @@ const DashboardNonAdmin = () => {
                     _id: empinfo.emp_id,
                     department: empinfo.departments.map((d) => d.departmentname),
                     reason: d.reason,
+                    leaveNature: d.leaveNature,
+                    Short_leave: d.Short_leave,
+                    fromTime: d.fromTime,
+                    toTime: d.toTime
                 });
             });
 
@@ -101,13 +107,13 @@ const DashboardNonAdmin = () => {
                 const leav = leaves.data.counted;
                 let totalLeave = 0
                 leaves.data.allRequest.map((j) => {
-                  var currentDate = new Date();
-                  var currentMonth = currentDate.getMonth();
-                  const leaveDate = new Date(j.from);
-                  var leaveMonth = leaveDate.getMonth();
-                  if (currentMonth == leaveMonth) {
-                    totalLeave++
-                  }
+                    var currentDate = new Date();
+                    var currentMonth = currentDate.getMonth();
+                    const leaveDate = new Date(j.from);
+                    var leaveMonth = leaveDate.getMonth();
+                    if (currentMonth == leaveMonth) {
+                        totalLeave++
+                    }
                 })
                 setleavCount(totalLeave)
             } catch (error) {
@@ -130,10 +136,10 @@ const DashboardNonAdmin = () => {
                     "year": currentYear
                 }
             })
-            console.log("attendence.userattendance.length",attendence.data.userattendance)
+            console.log("attendence.userattendance.length", attendence.data.userattendance)
             let Pcount = 0
-           let  Status_P = attendence.data.userattendance.map((i)=>{
-                if(i.status == "P"){
+            let Status_P = attendence.data.userattendance.map((i) => {
+                if (i.status == "P") {
                     console.log("yes")
                     Pcount++
                 }
@@ -154,7 +160,7 @@ const DashboardNonAdmin = () => {
             <div className="content-wrapper" style={{ backgroundColor: "#f7f7f7", marginTop: "20px" }}>
                 <section>
                     <Container fluid>
-                        <Row style={{padding: "0px 16px"}}>
+                        <Row style={{ padding: "0px 16px" }}>
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
@@ -360,33 +366,34 @@ const DashboardNonAdmin = () => {
                         </Row>
                     </Container>
                 </section>
-                <section className="px-3 py-3">
+                <Card style={{ margin: "30px", padding: "10px 3px" }}>
                     <Container>
-                        <h4>Leaves History</h4>
-                        <Table striped bordered hover>
-                            <thead>
+                        <div style={{ display: "flex", gap: "82%", padding: "20px 0px" }}>
+                            <h4 style={{ display: "inline" }}>Leaves </h4>
+                            <Button style={{ backgroundColor: "rgb(137, 179, 83)" }} >New request</Button>
+                        </div>
+                        <Table style={{ backgroundColor: "white" }}>
+                            <thead style={{ backgroundColor: "#c5c5c5", fontSize: "15px" }}>
                                 <tr>
-                                    {/* <th>Emp ID</th> */}
-                                    {/* <th>Name</th> */}
-                                    {/* <th>Department</th> */}
-                                    <th>Leave Type</th>
-                                    <th>From</th>
-                                    <th>To</th>
+                                    <th>SNo</th>
+                                    <th style={{ width: "140px", textAlign: "left" }}>Leave Type</th>
+                                    <th style={{ width: "210px", textAlign: "left" }}>From</th>
+                                    <th style={{ width: "210px", textAlign: "left" }}>To</th>
+                                    <th style={{ width: "130px", textAlign: "left" }}>Duration</th>
                                     <th>Reason</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 {Info.map((d) => {
                                     return (
-                                        <tr>
-                                            {/* <td>{d._id}</td> */}
-                                            {/* <td>{d.name}</td> */}
-                                            {/* <td>{d.department}</td> */}
-                                            <td>{d.leaveType}</td>
-                                            <td>{new Date(d.from).toDateString()}</td>
-                                            <td>{new Date(d.to).toDateString()}</td>
-                                            <td style={{textAlign: "left"}}>{d.reason ? d.reason : "N/A"}</td>
+                                        <tr style={{ backgroundClip: "white", fontSize: "14px" }}>
+                                            <td>{SNo++}</td>
+                                            <td style={{ width: "140px", textAlign: "left" }}>{d.leaveType}</td>
+                                            <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.from))} - {d.fromTime}</td>
+                                            <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.to))} - {d.toTime}</td>
+                                            <td style={{ width: "130px", textAlign: "left" }}>{d.Short_leave == "True" ? 'Short leave' : 'Full leave'}</td>
+                                            <td>{d.reason ? d.reason : "N/A"}</td>
                                             <td><p className={`${d.status === 'Reject' ? "tableCell1" : ""}  ${d.status === 'Pending Aproval' ? "tableCell2" : ""}  ${d.status === 'Aproved' ? "tableCell " : ""}`} >{d.status}</p></td>
                                         </tr>
                                     );
@@ -394,7 +401,7 @@ const DashboardNonAdmin = () => {
                             </tbody>
                         </Table>
                     </Container>
-                </section>
+                </Card>
             </div>
         </div>
     );

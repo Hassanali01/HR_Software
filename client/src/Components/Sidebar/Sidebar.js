@@ -37,17 +37,6 @@ const Sidebar = () => {
 
           </div>
           <hr></hr>
-          {/* <!-- SidebarSearch Form --> */}
-          {/* <div className="form-inline">
-            <div className="input-group" data-widget="sidebar-search">
-              <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
-              <div className="input-group-append">
-                <button className="btn btn-sidebar">
-                  <i className="fas fa-search fa-fw"></i>
-                </button>
-              </div>
-            </div>
-          </div> */}
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-2" style={{ color: "#fff" }}>
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -218,29 +207,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
               }
-              {/* <li className="nav-item">
-                <Link
-                  to={`/workleave`}
-                  className="nav-link">
-                  <i className="nav-icon fa-solid fa-business-time iconColor"></i>
-                  <p className='iconColor'>
-                    Work leave
-                  </p>
-                </Link>
-              </li>
-              {context.user.isAdmin &&
-                <li className="nav-item">
-                  <Link
-                    to={`/manageworkleave`}
-                    className="nav-link">
-                    <i className="nav-icon fa-solid fa-business-time iconColor"></i>
-                    <p className='iconColor'>
-                      Manage Work Leave
-                    </p>
-                  </Link>
-                </li>
-              } */}
-                      <li className='nav-item' onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
+              <li className='nav-item' onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                   <p className='iconColor'>Work absence</p>
@@ -252,7 +219,7 @@ const Sidebar = () => {
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
                         <p className='iconColor'>Apply</p>
                       </Link>
-                      <Link    to={`/manageworkleave`} className="nav-link">
+                      <Link to={`/manageworkleave`} className="nav-link">
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
                         <p className='iconColor'>Approve</p>
                       </Link>
