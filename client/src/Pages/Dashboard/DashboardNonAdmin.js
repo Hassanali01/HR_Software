@@ -371,7 +371,7 @@ const DashboardNonAdmin = () => {
                         <div style={{ display: "flex", gap: "82%", padding: "20px 0px" }}>
                             <h4 style={{ display: "inline" }}>Leaves </h4>
                             <Link to={"/leaverequest"}>
-                            <Button style={{ backgroundColor: "rgb(137, 179, 83)", fontSize:15 }} >New request</Button>
+                                <Button style={{ backgroundColor: "rgb(137, 179, 83)", fontSize: 15 }} >New request</Button>
                             </Link>
                         </div>
                         <Table style={{ backgroundColor: "white" }}>
@@ -382,7 +382,7 @@ const DashboardNonAdmin = () => {
                                     <th style={{ width: "210px", textAlign: "left" }}>From</th>
                                     <th style={{ width: "210px", textAlign: "left" }}>To</th>
                                     <th style={{ width: "130px", textAlign: "left" }}>Duration</th>
-                                    <th  style={{ textAlign: "left" }}>Reason</th>
+                                    <th style={{ textAlign: "left" }}>Reason</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -392,8 +392,12 @@ const DashboardNonAdmin = () => {
                                         <tr style={{ backgroundClip: "white", fontSize: "14px" }}>
                                             <td>{SNo++}</td>
                                             <td style={{ width: "140px", textAlign: "left" }}>{d.leaveType}</td>
-                                            <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.from))} - {d.fromTime}</td>
-                                            <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.to))} - {d.toTime}</td>
+                                            <td style={{ width: "210px", textAlign: "left" }}>
+                                                {dateFormatter.format(new Date(d.from))}{d.fromTime ? ` - ${d.fromTime}` : ''}
+                                            </td>
+                                            <td style={{ width: "210px", textAlign: "left" }}>
+                                                {dateFormatter.format(new Date(d.to))}{d.toTime ? ` - ${d.toTime}` : ''}
+                                            </td>
                                             <td style={{ width: "130px", textAlign: "left" }}>{d.Short_leave == "True" ? 'Short leave' : 'Full leave'}</td>
                                             <td style={{ textAlign: "left" }}>{d.reason ? d.reason : "N/A"}</td>
                                             <td><p className={`${d.status === 'Reject' ? "tableCell1" : ""}  ${d.status === 'Pending Aproval' ? "tableCell2" : ""}  ${d.status === 'Aproved' ? "tableCell " : ""}`} >{d.status}</p></td>
