@@ -24,9 +24,9 @@ import HeaderContext from '../../../Context/HeaderContext'
 
 const ManageLeaves = () => {
 
-  const options = { day: "numeric", month: "long", year: "numeric" };
+  const options = { day: "numeric", month: "short", year: "numeric" };
   const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
-  
+
   const a = useContext(HeaderContext)
   useEffect(() => {
     a.update("Human Resource / Leave Management")
@@ -291,10 +291,10 @@ const ManageLeaves = () => {
       department: d.employee && d.employee.departments.map((d) => d.departmentname),
       from: dateFormatter.format(new Date(d.from)),
       to: dateFormatter.format(new Date(d.to)),
-      date:new Date(d.applicationdate).toDateString(),
+      date: new Date(d.applicationdate).toDateString(),
       fromTime: d.fromTime,
       toTime: d.toTime,
-      Short_leave:d.Short_leave ? 'Short Leave' : 'Full Leave',
+      Short_leave: d.Short_leave ? 'Short Leave' : 'Full Leave',
       leaveNature: d.leaveNature,
       reason: d.reason,
       totaldays: diffDays,
@@ -334,22 +334,22 @@ const ManageLeaves = () => {
     { field: "employeename", headerName: "Employee Name", width: 150 },
     { field: "department", headerName: "Department", width: 150 },
     { field: "leavetype", headerName: "Leave-type", width: 110 },
-    // { field: "from", headerName: "from", width: 150 },
-    { 
-      field: "from", 
-      headerName: "From ", 
-      width: 200, 
+    {
+      field: "from",
+      headerName: "From ",
+      width: 200,
       renderCell: (params) => {
-        return `${params.row.from} - ${params.row.fromTime || ""}`;
+        const fromTime = params.row.fromTime ? ` - ${params.row.fromTime}` : '';
+        return `${params.row.from}${fromTime}`;
       },
     },
-    // { field: "to", headerName: "to", width: 150 },
-    { 
-      field: "to", 
-      headerName: "To ", 
-      width: 200, 
+    {
+      field: "to",
+      headerName: "To ",
+      width: 200,
       renderCell: (params) => {
-        return `${params.row.to} - ${params.row.toTime || ""}`;
+        const toTime = params.row.toTime ? ` - ${params.row.toTime}` : '';
+        return `${params.row.to}${toTime}`;
       },
     },
     { field: "Short_leave", headerName: "Duration", width: 100 },
@@ -458,7 +458,7 @@ const ManageLeaves = () => {
             </Col>
           </Row>
           <Row>
-          <Col>
+            <Col>
               <Form>
                 <Form.Label>Date</Form.Label>
                 <Form.Control disabled value={modaldata.date}></Form.Control>
@@ -519,13 +519,13 @@ const ManageLeaves = () => {
             <Col>
               <Form>
                 <Form.Label>Leave duration</Form.Label>
-                
-                <Form.Control disabled value={modaldata.Short_leave =="True" ? 'Short leave' : 'Full leave'}></Form.Control>
+
+                <Form.Control disabled value={modaldata.Short_leave == "True" ? 'Short leave' : 'Full leave'}></Form.Control>
               </Form>
             </Col>
           </Row>
           <Row>
-          <Col>
+            <Col>
               <Form>
                 <Form.Label>Reason</Form.Label>
                 <Form.Control disabled value={modaldata.reason}></Form.Control>
