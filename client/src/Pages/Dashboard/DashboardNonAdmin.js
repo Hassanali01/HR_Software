@@ -11,6 +11,7 @@ import CountUp from 'react-countup';
 import axios from "axios";
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
+import "./DashboardnonAdmin.css"
 
 const DashboardNonAdmin = () => {
     const { user } = useContext(Context);
@@ -164,151 +165,83 @@ const DashboardNonAdmin = () => {
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h5
-                                                    style={{
-                                                        color: "rgb(160, 160, 160)",
-                                                        fontSize: "1.3vw",
-                                                    }}
-                                                >
-                                                    Applied Leaves
-                                                </h5>
-                                            </div>
-                                        </div>
                                         <Card.Body className="px-0">
-                                            <div className="d-flex align-items-start align-items-center">
-                                                <p style={{ fontSize: "2.3vw", fontWeight: "300" }}>
-                                                    <CountUp start={0} end={appliedleaveCount} duration={1.0}>{appliedleaveCount}</CountUp>
-                                                </p>
-                                            </div>
-                                        </Card.Body>
-                                        <Card.Text>
-                                            <div className="d-flex justify-content-between align-items-center">
+                                            <div className="d-flex justify-content-between align-items-center ">
+                                                <div
+                                                 className="d-flex align-items-start align-items-center counterCard" 
+                                               >
+                                                    <p >
+                                                        <CountUp start={0} end={appliedleaveCount} duration={1.0}>{appliedleaveCount}</CountUp>
+                                                    </p>
+                                                </div>
                                                 <div>
-                                                    {/* <Link
-                                                        to={"/departments"}
+                                                    <h5
                                                         style={{
-                                                            color: "black",
-                                                            borderBottom: "1px solid rgb(160, 160, 160)",
+                                                            color: "rgb(160, 160, 160)",
+                                                            fontSize: "1.3vw",
                                                         }}
                                                     >
-                                                        See All Departments
-                                                    </Link> */}
-                                                </div>
-                                                <div>
-                                                    <HomeWorkOutlinedIcon
-                                                        className="iconDashboard"
-                                                        style={{
-                                                            color: "crimson",
-                                                            backgroundColor: "rgba(255, 0, 0, 0.2)",
-                                                            fontSize: '1.8vw'
-                                                        }}
-                                                    />
+                                                        Applied Leaves
+                                                    </h5>
                                                 </div>
                                             </div>
-                                        </Card.Text>
+                                        </Card.Body>
                                     </Card.Title>
                                 </Card>
                             </Col>
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h5
-                                                    style={{
-                                                        color: "rgb(160, 160, 160)",
-                                                        fontSize: "1.3vw",
-                                                    }}
-                                                >
-                                                    Approved  Leaves
-                                                </h5>
-                                            </div>
-                                        </div>
                                         <Card.Body className="px-0">
-                                            <div className="d-flex align-items-start align-items-center">
-                                                <p style={{ fontSize: "2.3vw", fontWeight: "300" }}>
-                                                    <CountUp start={0} end={approvedleaveCount} duration={1.0}>{approvedleaveCount}</CountUp>
-                                                </p>
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <div className="d-flex align-items-start align-items-center counterCard"
+                                           >
+                                                    <p >
+                                                        <CountUp start={0} end={approvedleaveCount} duration={1.0}>{approvedleaveCount}</CountUp>
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5
+                                                            style={{
+                                                                color: "rgb(160, 160, 160)",
+                                                                fontSize: "1.3vw",
+                                                            }}
+                                                        >
+                                                            Approved  Leaves
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </Card.Body>
-                                        <Card.Text>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    {/* <Link
-                                                        to={"/manageleaves"}
-                                                        style={{
-                                                            color: "black",
-                                                            borderBottom: "1px solid rgb(160, 160, 160)",
-                                                        }}
-                                                    >
-                                                        Leave Management
-                                                    </Link> */}
-                                                </div>
-                                                <div>
-                                                    <PersonOutlineIcon
-                                                        className="iconDashboard"
-                                                        style={{
-                                                            backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green",
-                                                            fontSize: '1.8vw'
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Card.Text>
                                     </Card.Title>
                                 </Card>
                             </Col>
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h5
-                                                    style={{
-                                                        color: "rgb(160, 160, 160)",
-                                                        fontSize: "1.3vw",
-                                                    }}
-                                                >
-                                                    Pending Leaves
-                                                </h5>
-                                            </div>
-                                        </div>
                                         <Card.Body className="px-0">
-                                            <div className="d-flex align-items-start align-items-center">
-                                                <p style={{ fontSize: "2.3vw", fontWeight: "300" }}>
-                                                    <CountUp start={0} end={pendingleaveCount} duration={1.0}>{pendingleaveCount}</CountUp>
-                                                </p>
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <div className="d-flex align-items-start align-items-center counterCard"
+                                                  >
+                                                    <p >
+                                                        <CountUp start={0} end={pendingleaveCount} duration={1.0}>{pendingleaveCount}</CountUp>
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5
+                                                            style={{
+                                                                color: "rgb(160, 160, 160)",
+                                                                fontSize: "1.3vw",
+                                                            }}
+                                                        >
+                                                            Pending Leaves
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </Card.Body>
-                                        <Card.Text>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    {/* <Link
-                                                        to={"/employees"}
-                                                        style={{
-                                                            color: "black",
-                                                            borderBottom: "1px solid rgb(160, 160, 160)",
-                                                        }}
-                                                      
-                                                    >
-                                                        See All Employees
-                                                    </Link> */}
-                                                    {/* <spam>See All Employee</spam> */}
-                                                </div>
-                                                <div>
-                                                    <GroupsIcon
-                                                        className="iconDashboard"
-                                                        style={{
-                                                            backgroundColor: "rgba(218, 165, 32, 0.2)",
-                                                            color: "goldenrod",
-                                                            fontSize: '1.8vw'
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Card.Text>
                                     </Card.Title>
                                 </Card>
                             </Col>
@@ -316,50 +249,28 @@ const DashboardNonAdmin = () => {
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h5
-                                                    style={{
-                                                        color: "rgb(160, 160, 160)",
-                                                        fontSize: "1.3vw",
-                                                    }}
-                                                >
-                                                    Attendance
-                                                </h5>
-                                            </div>
-                                        </div>
                                         <Card.Body className="px-0">
-                                            <div className="d-flex align-items-start align-items-center">
-                                                <p style={{ fontSize: "2.3vw", fontWeight: "300" }}>
-                                                    <CountUp start={0} end={userattendenceCount} duration={1.0}>{userattendenceCount}</CountUp>
-                                                </p>
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <div className="d-flex align-items-start align-items-center counterCard"
+                                           >
+                                                    <p>
+                                                        <CountUp start={0} end={userattendenceCount} duration={1.0}>{userattendenceCount}</CountUp>
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5
+                                                            style={{
+                                                                color: "rgb(160, 160, 160)",
+                                                                fontSize: "1.3vw",
+                                                            }}
+                                                        >
+                                                            Attendance
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </Card.Body>
-                                        <Card.Text>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    {/* <Link
-                                                        to={"/users"}
-                                                        style={{
-                                                            color: "black",
-                                                            borderBottom: "1px solid rgb(160, 160, 160)",
-                                                        }}
-                                                    >
-                                                        See All Attendance
-                                                    </Link> */}
-                                                </div>
-                                                <div>
-                                                    <TrendingUpOutlinedIcon
-                                                        className="iconDashboard"
-                                                        style={{
-                                                            backgroundColor: "rgba(128, 0, 128, 0.2)",
-                                                            color: "purple",
-                                                            fontSize: '1.8vw'
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Card.Text>
                                     </Card.Title>
                                 </Card>
                             </Col>
