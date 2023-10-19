@@ -7,12 +7,12 @@ import {
   Row,
   Button,
 } from "react-bootstrap";
-
 import Card from "react-bootstrap/Card";
 
 // creating functional component ans getting props from app.js and destucturing them
 const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
   //creating error state for validation
+
   const [error, setError] = useState(false);
   const [dep, setDep] = useState([]);
   const [empl, setEmpl] = useState([])
