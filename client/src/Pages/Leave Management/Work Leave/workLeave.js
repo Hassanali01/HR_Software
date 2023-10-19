@@ -245,30 +245,38 @@ function WorkLeave() {
                             <Container>
                               <Form onSubmit={addWorkAbsence}>
 
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicEmail"
-                                >
-                                  <Row>
-                                    <Col>
+                                <Row>
+                                  <Col>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formDate"
+                                    >
                                       <Form.Label className="fieldLabel font-weight-normal">Date</Form.Label>
                                       <Form.Control
                                         type="date"
+                                        required
                                         onChange={(e) => {
                                           setapplicationdate(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
                                       />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label  className="fieldLabel font-weight-normal">Work Type</Form.Label>
+                                    </Form.Group>
+                                  </Col>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formWorkType"
+                                    >
+                                      <Form.Label className="fieldLabel font-weight-normal">Work Type</Form.Label>
                                       <Form.Select
-                                        required
+                                        
                                         onChange={(e) => {
                                           setWorkabsence(e.target.value);
                                         }}
+                                        value={workabsence}
                                       >
-                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
+                                        <option disabled selected hidden value={""}>Please Select</option>
                                         <option value={"Clientt Visit"}>Client Visit</option>
                                         <option value={"Project Site Visit"}>Project Site Visit</option>
                                         <option value={"Branch Office"}>Branch Office</option>
@@ -278,10 +286,16 @@ function WorkLeave() {
                                         <option value={"Vendor Visit"}>Vendor Visit</option>
                                         <option value={"Others"}>Others</option>
                                       </Form.Select>
-                                    </Col>
+                                    </Form.Group>
 
-                                    <Col>
-                                      <Form.Label  className="fieldLabel font-weight-normal">Assigned By</Form.Label>
+                                  </Col>
+
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formBasicEmail"
+                                    >
+                                      <Form.Label className="fieldLabel font-weight-normal">Assigned By</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setAssignedBy(e.target.value) }}
                                       >
@@ -296,51 +310,50 @@ function WorkLeave() {
                                           })
                                         }
                                       </Form.Select>
-                                    </Col>
+                                    </Form.Group>
 
-                                  </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
+                                  </Col>
+
+                                </Row>
+                             
                                   <Row>
                                     <Col>
+                                    <Form.Group
+                                  className="mb-3"
+                                  controlId="formTask"
+                                >
                                       <Form.Label className="fieldLabel font-weight-normal">Task</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
+                                          required
                                           onChange={(e) => {
                                             setTask(e.target.value);
                                           }}
                                         />
-                                      </div>
+                                        
+                                      </Form.Group>
+
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">Project</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
                                           onChange={(e) => {
                                             setProject(e.target.value);
                                           }}
                                         />
-                                      </div>
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">Description</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
                                           onChange={(e) => {
                                             setDescription(e.target.value);
                                           }}
                                         />
-                                      </div>
                                     </Col>
 
                                   </Row>
-                                </Form.Group>
 
                                 <Form.Group
                                   className="mb-3"
@@ -355,18 +368,18 @@ function WorkLeave() {
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
                                       />
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">To</Form.Label>
                                       <Form.Control
                                         type="date"
-                                        reuired
+                                        required
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
 
                                       />
                                     </Col>
@@ -374,9 +387,10 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Total Days</Form.Label>
                                       <Form.Control
                                         type="number"
+
                                         value={diffDays}
                                         disabled
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
 
                                       />
                                     </Col>
@@ -391,6 +405,7 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Departure Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        required
                                         value={toTime}
                                         onChange={(e) => {
                                           setToTime(e.target.value)
@@ -401,6 +416,7 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        required
                                         value={fromTime}
                                         onChange={(e) => {
                                           setFromTime(e.target.value)
@@ -414,7 +430,9 @@ function WorkLeave() {
                                       <Form.Select
                                         value={leave_status}
                                         onChange={(e) => { setLeave_status(e.target.value) }}
+                                        required
                                       >
+
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="True">Short Leave</option>
                                         <option value="False">Full day</option>
@@ -435,8 +453,9 @@ function WorkLeave() {
                                         onChange={(e) => { setWorkStatus(e.target.value) }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="Partially Progress">Partially Progress</option>
                                         <option value="No Progress">No Progress</option>
+
+                                        <option value="Partially Progress">Partially Progress</option>
                                         <option value="Completed">Completed</option>
                                       </Form.Select>
                                     </Col>
@@ -529,9 +548,9 @@ function WorkLeave() {
                                 </Form.Group>
 
                                 <br />
-                                <div style={{ display:"flex", justifyContent:"space-between", marginRight: 10 }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginRight: 10 }}>
 
-                                <h5>Expenses during visit</h5>
+                                  <h5>Expenses during visit</h5>
 
 
                                   <a
@@ -539,7 +558,7 @@ function WorkLeave() {
                                     onClick={() => {
                                       setShowChildModel(true);
                                     }}
-                                    style={{ backgroundColor: "rgb(137, 179, 83)", fontSize:"small" }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)", fontSize: "small" }}
                                   >
                                     Add
                                   </a>
@@ -561,7 +580,7 @@ function WorkLeave() {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {expense.length>0 &&
+                                        {expense.length > 0 &&
                                           expense.map((d, i) => {
                                             return (
                                               <tr>
@@ -654,10 +673,10 @@ function WorkLeave() {
                                     </Col>
 
                                     <Col>
-                                      <div style={{display:"flex", justifyContent:"end"}}>
-                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft:"auto" }}>
-                                        Submit
-                                      </Button>
+                                      <div style={{ display: "flex", justifyContent: "end" }}>
+                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft: "auto" }}>
+                                          Submit
+                                        </Button>
                                       </div>
                                     </Col>
                                   </Row>
@@ -774,7 +793,7 @@ function WorkLeave() {
                               <Form.Label>Expense type</Form.Label>
                               <Form.Control
                                 type="text"
-                                required
+
                                 name="type"
                                 placeholder="type"
                                 value={addExpense.type}
@@ -791,7 +810,7 @@ function WorkLeave() {
                               <Form.Label>Amount</Form.Label>
                               <Form.Control
                                 type="text"
-                                required
+
                                 name="amount"
                                 placeholder="amount"
                                 value={addExpense.amount}
