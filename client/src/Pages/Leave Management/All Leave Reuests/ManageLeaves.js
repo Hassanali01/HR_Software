@@ -294,7 +294,7 @@ const ManageLeaves = () => {
       date: new Date(d.applicationdate).toDateString(),
       fromTime: d.fromTime,
       toTime: d.toTime,
-      Short_leave: d.Short_leave ? 'Short Leave' : 'Full Leave',
+      Short_leave: d.Short_leave ? 'Short Leave' : 'Full day',
       leaveNature: d.leaveNature,
       reason: d.reason,
       totaldays: diffDays,
@@ -518,9 +518,9 @@ const ManageLeaves = () => {
             </Col>
             <Col>
               <Form>
-                <Form.Label>Leave duration</Form.Label>
+                <Form.Label>Duration</Form.Label>
 
-                <Form.Control disabled value={modaldata.Short_leave == "True" ? 'Short leave' : 'Full leave'}></Form.Control>
+                <Form.Control disabled value={modaldata.Short_leave == "True" ? 'Short leave' : 'Full day'}></Form.Control>
               </Form>
             </Col>
           </Row>

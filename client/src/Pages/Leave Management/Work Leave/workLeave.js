@@ -411,7 +411,7 @@ function WorkLeave() {
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="True">Short Leave</option>
-                                        <option value="False">Full Leave</option>
+                                        <option value="False">Full day</option>
                                       </Form.Select>
                                     </Col>
 

@@ -313,7 +313,7 @@ const LeaveRequest = () => {
                                 >
                                   <Row>
                                     <Col xs={"4"} lg={6} xl={6} xxl={6}>
-                                      <Form.Label style={{ fontWeight: "400" }}> Leave duration</Form.Label>
+                                      <Form.Label style={{ fontWeight: "400" }}> Duration</Form.Label>
                                       <Form.Select
                                         value={Short_leave}
                                         required
@@ -322,7 +322,7 @@ const LeaveRequest = () => {
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="True">Short leave</option>
-                                        <option value="False">Full leave</option>
+                                        <option value="False">Full day</option>
                                       </Form.Select>
                                     </Col>
                                     <Col>
@@ -502,7 +502,7 @@ const LeaveRequest = () => {
                                           <td style={{ fontSize: "13px" }}>{d.leaveType}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.from).toDateString()}</td>
                                           <td style={{ fontSize: "13px" }}>{new Date(d.to).toDateString()}</td>
-                                          <td style={{ fontSize: "13px" }}>{d.Short_leave == "True" ? "Short leave" : "Full leave"}</td>
+                                          <td style={{ fontSize: "13px" }}>{d.Short_leave == "True" ? "Short leave" : "Full day"}</td>
                                           <td>
                                             <span className={`${d.status === 'Pending Approval' ? "badge badge-warning" : d.status === "Approved" ? "badge badge-success" : d.status === "Reject" ? "badge badge-danger" : ""} border-0`}>{d.status}</span>
                                           </td>
