@@ -24,6 +24,9 @@ import HeaderContext from '../../../Context/HeaderContext'
 
 const ManageLeaves = () => {
 
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
+  
   const a = useContext(HeaderContext)
   useEffect(() => {
     a.update("Human Resource / Leave Management")
@@ -286,12 +289,12 @@ const ManageLeaves = () => {
       leavetype: d.leaveType,
       employeename: d.employee && d.employee.firstname,
       department: d.employee && d.employee.departments.map((d) => d.departmentname),
-      from: new Date(d.from).toDateString(),
-      to: new Date(d.to).toDateString(),
+      from: dateFormatter.format(new Date(d.from)),
+      to: dateFormatter.format(new Date(d.to)),
       date:new Date(d.applicationdate).toDateString(),
       fromTime: d.fromTime,
       toTime: d.toTime,
-      Short_leave: d.Short_leave,
+      Short_leave:d.Short_leave ? 'Short Leave' : 'Full Leave',
       leaveNature: d.leaveNature,
       reason: d.reason,
       totaldays: diffDays,
@@ -326,22 +329,40 @@ const ManageLeaves = () => {
   }, [update]);
 
   const rows = newArray;
+  console.log("row",)
   const columns = [
-    { field: "leavetype", headerName: "Leave-type", width: 150 },
     { field: "employeename", headerName: "Employee Name", width: 150 },
     { field: "department", headerName: "Department", width: 150 },
-    { field: "from", headerName: "from", width: 150 },
-    { field: "to", headerName: "to", width: 150 },
+    { field: "leavetype", headerName: "Leave-type", width: 110 },
+    // { field: "from", headerName: "from", width: 150 },
+    { 
+      field: "from", 
+      headerName: "From ", 
+      width: 200, 
+      renderCell: (params) => {
+        return `${params.row.from} - ${params.row.fromTime || ""}`;
+      },
+    },
+    // { field: "to", headerName: "to", width: 150 },
+    { 
+      field: "to", 
+      headerName: "To ", 
+      width: 200, 
+      renderCell: (params) => {
+        return `${params.row.to} - ${params.row.toTime || ""}`;
+      },
+    },
+    { field: "Short_leave", headerName: "Duration", width: 100 },
     {
       field: "supervisorApproval",
       headerName: "Supervisor Approval",
       width: 150,
     },
-    { field: "status", headerName: "Status", width: 150 },
+    { field: "status", headerName: "Status", width: 100 },
     {
       field: "action",
       headerName: "Action",
-      width: 80,
+      width: 65,
       renderCell: (id) => {
         return (
           <div>
@@ -355,24 +376,25 @@ const ManageLeaves = () => {
         );
       },
     },
-    {
-      field: "print",
-      headerName: "Print",
-      width: 80,
-      renderCell: (id) => {
-        return (
-          <div>
-            <PrintIcon
-              onClick={async () => {
-                const setdata = await setmodaldata(id.row);
-                handlePrint();
-              }}
-            />
-          </div>
-        );
-      },
-    },
+    // {
+    //   field: "print",
+    //   headerName: "Print",
+    //   width: 80,
+    //   renderCell: (id) => {
+    //     return (
+    //       <div>
+    //         <PrintIcon
+    //           onClick={async () => {
+    //             const setdata = await setmodaldata(id.row);
+    //             handlePrint();
+    //           }}
+    //         />
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
+
 
   return (
     <div>
