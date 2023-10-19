@@ -14,6 +14,7 @@ import {
 } from "react-notifications";
 import { useReactToPrint } from "react-to-print";
 import HeaderContext from '../../../Context/HeaderContext'
+import './workLeave.css'
 
 function WorkLeave() {
 
@@ -250,7 +251,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Date</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Date</Form.Label>
                                       <Form.Control
                                         type="date"
                                         onChange={(e) => {
@@ -259,7 +260,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Work Type</Form.Label>
+                                      <Form.Label  className="fieldLabel font-weight-normal">Work Type</Form.Label>
                                       <Form.Select
                                         required
                                         onChange={(e) => {
@@ -279,7 +280,7 @@ function WorkLeave() {
                                     </Col>
 
                                     <Col>
-                                      <Form.Label>Assigned By</Form.Label>
+                                      <Form.Label  className="fieldLabel font-weight-normal">Assigned By</Form.Label>
                                       <Form.Select
                                         onChange={(e) => { setAssignedBy(e.target.value) }}
                                       >
@@ -304,7 +305,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Task</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Task</Form.Label>
                                       <div className="reason">
                                         <Form.Control
                                           type="text"
@@ -315,7 +316,7 @@ function WorkLeave() {
                                       </div>
                                     </Col>
                                     <Col>
-                                      <Form.Label>Project</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Project</Form.Label>
                                       <div className="reason">
                                         <Form.Control
                                           type="text"
@@ -326,7 +327,7 @@ function WorkLeave() {
                                       </div>
                                     </Col>
                                     <Col>
-                                      <Form.Label>Description</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Description</Form.Label>
                                       <div className="reason">
                                         <Form.Control
                                           type="text"
@@ -346,7 +347,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>From</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">From</Form.Label>
                                       <Form.Control
                                         type="date"
                                         required
@@ -356,7 +357,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>To</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">To</Form.Label>
                                       <Form.Control
                                         type="date"
                                         reuired
@@ -366,7 +367,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Total Days</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Total Days</Form.Label>
                                       <Form.Control
                                         type="number"
                                         value={diffDays}
@@ -381,7 +382,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Departure Time</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Departure Time</Form.Label>
                                       <Form.Control
                                         type="time"
                                         value={toTime}
@@ -391,7 +392,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Arrival Time</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
                                         value={fromTime}
@@ -403,7 +404,7 @@ function WorkLeave() {
 
 
                                     <Col>
-                                      <Form.Label> Leave Type</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal"> Leave Type</Form.Label>
                                       <Form.Select
                                         value={leave_status}
                                         onChange={(e) => { setLeave_status(e.target.value) }}
@@ -422,7 +423,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col xs={4} >
-                                      <Form.Label>Work Status</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Work Status</Form.Label>
                                       <Form.Select
                                         value={workStatus}
                                         onChange={(e) => { setWorkStatus(e.target.value) }}
@@ -434,7 +435,7 @@ function WorkLeave() {
                                       </Form.Select>
                                     </Col>
                                     <Col xs={8}>
-                                      <Form.Label>Remarks</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Remarks</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -454,7 +455,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Reason For Visit</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Reason For Visit</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -463,7 +464,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Person To Meet</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Person To Meet</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -473,7 +474,7 @@ function WorkLeave() {
                                     </Col>
 
                                     <Col>
-                                      <Form.Label>Place To Visit</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Place To Visit</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -492,7 +493,7 @@ function WorkLeave() {
                                 >
                                   <Row>
                                     <Col>
-                                      <Form.Label>Meter Start Reading</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Meter Start Reading</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -501,7 +502,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Meter End Reading</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Meter End Reading</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -510,7 +511,7 @@ function WorkLeave() {
                                       />
                                     </Col>
                                     <Col>
-                                      <Form.Label>Overall Remarks</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal">Overall Remarks</Form.Label>
                                       <Form.Control
                                         type="text"
                                         onChange={(e) => {
@@ -583,7 +584,7 @@ function WorkLeave() {
 
                                 <Form.Group>
                                   <Row>
-                                    <Form.Label>Attachment</Form.Label>
+                                    <Form.Label className="fieldLabel font-weight-normal">Attachment</Form.Label>
                                     <Col sm={10}>
                                       <input
                                         type="file"

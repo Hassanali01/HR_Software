@@ -20,7 +20,9 @@ import HeaderContext from '../../../Context/HeaderContext'
 
 
 function ManageWorkLeave() {
-
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
+  
     const [handlemodal, sethandlemodal] = useState(false);
     const [modaldata, setmodaldata] = useState({});
     const [leavesData, setLeavesData] = useState([]);
@@ -271,8 +273,10 @@ function ManageWorkLeave() {
             workabsence: d.workabsence,
             employeename: d.employee[0] && d.employee[0].firstname,
             task: d.task,
-            from: new Date(d.from).toDateString(),
-            to: new Date(d.to).toDateString(),
+            from: dateFormatter.format(new Date(d.from)),
+            to: dateFormatter.format(new Date(d.to)),
+            fromTime: d.fromTime,
+            toTime: d.toTime,
             reason: d.reason,
             totaldays: diffDays,
             status: d.status,
@@ -307,11 +311,29 @@ function ManageWorkLeave() {
 
     const rows = newArray;
     const columns = [
-        { field: "workabsence", headerName: "Work Absence", width: 150 },
-        { field: "employeename", headerName: "Employee Name", width: 150 },
+        { field: "employeename", headerName: "Employee ", width: 150 },
+        { field: "workabsence", headerName: "Work Type", width: 150 },
         { field: "task", headerName: "Task", width: 150 },
-        { field: "from", headerName: "From", width: 150 },
-        { field: "to", headerName: "To", width: 150 },
+        // { field: "from", headerName: "From", width: 150 },
+        {
+            field: "from",
+            headerName: "From ",
+            width: 200,
+            renderCell: (params) => {
+              const fromTime = params.row.fromTime ? ` - ${params.row.fromTime}` : '';
+              return `${params.row.from}${fromTime}`;
+            },
+          },
+        // { field: "to", headerName: "To", width: 150 },
+        {
+            field: "to",
+            headerName: "To ",
+            width: 200,
+            renderCell: (params) => {
+              const toTime = params.row.toTime ? ` - ${params.row.toTime}` : '';
+              return `${params.row.to}${toTime}`;
+            },
+          },
         {
             field: "supervisorApproval",
             headerName: "Supervisor Approval",

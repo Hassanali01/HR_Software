@@ -24,7 +24,7 @@ const DashboardNonAdmin = () => {
     const [Info, setinfo] = useState([])
     const [details, setDetails] = useState([])
     let SNo = 1;
-    const options = { day: "numeric", month: "long", year: "numeric" };
+    const options = { day: "numeric", month: "short", year: "numeric" };
     const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
     const getEmp = `employees/${user.id}`
 
