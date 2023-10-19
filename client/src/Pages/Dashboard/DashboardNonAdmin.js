@@ -375,7 +375,7 @@ const DashboardNonAdmin = () => {
                             </Link>
                         </div>
                         <Table style={{ backgroundColor: "white" }}>
-                            <thead style={{ backgroundColor: "#c5c5c5", fontSize: "15px" }}>
+                            <thead style={{ backgroundColor: "", fontSize: "15px" }}>
                                 <tr>
                                     <th>SNo</th>
                                     <th style={{ width: "140px", textAlign: "left" }}>Leave Type</th>

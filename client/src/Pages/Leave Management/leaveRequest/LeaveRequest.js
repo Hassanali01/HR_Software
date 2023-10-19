@@ -205,7 +205,7 @@ const LeaveRequest = () => {
                                       onChange={(e) => {
                                         setapplicationdate(e.target.value);
                                       }}
-                                      style={{ height: "33px", marginTop: "0px" }}
+                                      style={{ height: "33px", marginTop: "0px" , backgroundColor:"white"}}
                                     />
                                   </Col>
 
@@ -253,11 +253,12 @@ const LeaveRequest = () => {
                                       <Form.Label style={{ fontWeight: "400" }}>From</Form.Label>
                                       <Form.Control
                                         type="date"
+
                                         required
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        style={{ height: "33px", marginTop: "0px" }}
+                                        style={{ height: "33px", marginTop: "0px", backgroundColor:"white" }}
                                       />
                                     </Form.Group>
 
@@ -275,7 +276,7 @@ const LeaveRequest = () => {
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
-                                        style={{ height: "33px", marginTop: "0px" }}
+                                        style={{ height: "33px", marginTop: "0px", backgroundColor:"white" }}
                                       />
                                     </Form.Group>
 

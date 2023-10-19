@@ -257,6 +257,8 @@ function WorkLeave() {
                                         onChange={(e) => {
                                           setapplicationdate(e.target.value);
                                         }}
+                                        style={{backgroundColor:"white"}}
+
                                       />
                                     </Col>
                                     <Col>
@@ -354,6 +356,7 @@ function WorkLeave() {
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
+                                        style={{backgroundColor:"white"}}
                                       />
                                     </Col>
                                     <Col>
@@ -364,6 +367,8 @@ function WorkLeave() {
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
+                                        style={{backgroundColor:"white"}}
+
                                       />
                                     </Col>
                                     <Col>
@@ -372,6 +377,8 @@ function WorkLeave() {
                                         type="number"
                                         value={diffDays}
                                         disabled
+                                        style={{backgroundColor:"white"}}
+
                                       />
                                     </Col>
                                   </Row>
