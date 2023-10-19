@@ -370,7 +370,9 @@ const DashboardNonAdmin = () => {
                     <Container>
                         <div style={{ display: "flex", gap: "82%", padding: "20px 0px" }}>
                             <h4 style={{ display: "inline" }}>Leaves </h4>
-                            <Button style={{ backgroundColor: "rgb(137, 179, 83)" }} >New request</Button>
+                            <Link to={"/leaverequest"}>
+                            <Button style={{ backgroundColor: "rgb(137, 179, 83)", fontSize:15 }} >New request</Button>
+                            </Link>
                         </div>
                         <Table style={{ backgroundColor: "white" }}>
                             <thead style={{ backgroundColor: "#c5c5c5", fontSize: "15px" }}>

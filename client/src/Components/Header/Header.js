@@ -81,14 +81,14 @@ const Header = () => {
             </li>
 
             {/* <!-- Messages Dropdown Menu --> */}
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a className="nav-link" data-toggle="dropdown" href="/">
                 <i className="far fa-comments"></i>
                 <span className="badge badge-danger navbar-badge">3</span>
               </a>
               <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <a href="/" className="dropdown-item">
-                  {/* <!-- Message Start --> */}
+                  <!-- Message Start -->
                   <div className="media">
                     <div className="media-body">
                       <h3 className="dropdown-item-title">
@@ -103,11 +103,11 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
-                  {/* <!-- Message End --> */}
+                  <!-- Message End -->
                 </a>
                 <div className="dropdown-divider"></div>
                 <a href="/" className="dropdown-item">
-                  {/* <!-- Message Start --> */}
+                  <!-- Message Start -->
                   <div className="media">
 
                     <div className="media-body">
@@ -123,11 +123,11 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
-                  {/* <!-- Message End --> */}
+                  <!-- Message End -->
                 </a>
                 <div className="dropdown-divider"></div>
                 <a href="/" className="dropdown-item">
-                  {/* <!-- Message Start --> */}
+                  <!-- Message Start -->
                   <div className="media">
 
                     <div className="media-body">
@@ -143,16 +143,16 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
-                  {/* <!-- Message End --> */}
+                  <!-- Message End -->
                 </a>
                 <div className="dropdown-divider"></div>
                 <a href="/" className="dropdown-item dropdown-footer">
                   See All Messages
                 </a>
               </div>
-            </li>
+            </li> */}
             {/* <!-- Notifications Dropdown Menu --> */}
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a className="nav-link" data-toggle="dropdown" href="/">
                 <i className="far fa-bell"></i>
                 <span className="badge badge-warning navbar-badge">15</span>
@@ -183,7 +183,7 @@ const Header = () => {
                   See All Notifications
                 </a>
               </div>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a
                 className="nav-link"

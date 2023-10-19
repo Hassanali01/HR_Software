@@ -407,7 +407,7 @@ const ManageLeaves = () => {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                  All Leaves Request
+                  Leaves to approve
                 </h3>
               </div>
               <div className="card-body">
