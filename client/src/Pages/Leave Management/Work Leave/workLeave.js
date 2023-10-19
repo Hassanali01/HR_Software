@@ -258,7 +258,6 @@ function WorkLeave() {
                                           setapplicationdate(e.target.value);
                                         }}
                                         style={{backgroundColor:"white"}}
-
                                       />
                                     </Col>
                                     <Col>
@@ -530,17 +529,17 @@ function WorkLeave() {
                                 </Form.Group>
 
                                 <br />
+                                <div style={{ display:"flex", justifyContent:"space-between", marginRight: 10 }}>
 
                                 <h5>Expenses during visit</h5>
 
 
-                                <div style={{ marginLeft: "67vw", marginRight: 10 }}>
                                   <a
                                     className="btn buttoncolor  "
                                     onClick={() => {
                                       setShowChildModel(true);
                                     }}
-                                    style={{ backgroundColor: "rgb(137, 179, 83)" }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)", fontSize:"small" }}
                                   >
                                     Add
                                   </a>
@@ -655,9 +654,11 @@ function WorkLeave() {
                                     </Col>
 
                                     <Col>
-                                      <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                                      <div style={{display:"flex", justifyContent:"end"}}>
+                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft:"auto" }}>
                                         Submit
                                       </Button>
+                                      </div>
                                     </Col>
                                   </Row>
                                 </Form.Group>

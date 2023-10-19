@@ -179,7 +179,7 @@ const LeaveRequest = () => {
                 <Container>
                   <div>
                {console.log("details", details)}
-                          <div style={{ display: "flex", gap: "130px" }}>
+                          <div style={{ margin:"0 10px 0 10px", display: "flex", justifyContent:"space-between" }}>
                             <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details.emp_id} </p>
                             <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details.firstname}</p>
                             <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details.designation}</p>
