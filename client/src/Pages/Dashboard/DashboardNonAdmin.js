@@ -380,7 +380,7 @@ const DashboardNonAdmin = () => {
                                     <th style={{ width: "210px", textAlign: "left" }}>From</th>
                                     <th style={{ width: "210px", textAlign: "left" }}>To</th>
                                     <th style={{ width: "130px", textAlign: "left" }}>Duration</th>
-                                    <th>Reason</th>
+                                    <th  style={{ textAlign: "left" }}>Reason</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -393,7 +393,7 @@ const DashboardNonAdmin = () => {
                                             <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.from))} - {d.fromTime}</td>
                                             <td style={{ width: "210px", textAlign: "left" }}>{dateFormatter.format(new Date(d.to))} - {d.toTime}</td>
                                             <td style={{ width: "130px", textAlign: "left" }}>{d.Short_leave == "True" ? 'Short leave' : 'Full leave'}</td>
-                                            <td>{d.reason ? d.reason : "N/A"}</td>
+                                            <td style={{ textAlign: "left" }}>{d.reason ? d.reason : "N/A"}</td>
                                             <td><p className={`${d.status === 'Reject' ? "tableCell1" : ""}  ${d.status === 'Pending Aproval' ? "tableCell2" : ""}  ${d.status === 'Aproved' ? "tableCell " : ""}`} >{d.status}</p></td>
                                         </tr>
                                     );
