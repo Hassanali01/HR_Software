@@ -239,30 +239,40 @@ function WorkLeave() {
                             <Container>
                               <Form onSubmit={addWorkAbsence}>
 
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicEmail"
-                                >
-                                  <Row>
-                                    <Col>
+                                <Row>
+                                  <Col>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formDate"
+                                    >
                                       <Form.Label className="fieldLabel font-weight-normal">Date</Form.Label>
                                       <Form.Control
                                         type="date"
+                                        required
+                                        className="form-control-sm my-0"
+
                                         onChange={(e) => {
                                           setapplicationdate(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
                                       />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label  className="fieldLabel font-weight-normal">Work Type</Form.Label>
+                                    </Form.Group>
+                                  </Col>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formWorkType"
+                                    >
+                                      <Form.Label className="fieldLabel font-weight-normal">Work Type</Form.Label>
                                       <Form.Select
-                                        required
+                                         className="form-select-sm"
                                         onChange={(e) => {
                                           setWorkabsence(e.target.value);
                                         }}
+                                        value={workabsence}
                                       >
-                                        <option disabled selected hidden defaultValue={""}>Please Select</option>
+                                        <option disabled selected hidden value={""}>Please Select</option>
                                         <option value={"Clientt Visit"}>Client Visit</option>
                                         <option value={"Project Site Visit"}>Project Site Visit</option>
                                         <option value={"Branch Office"}>Branch Office</option>
@@ -272,11 +282,18 @@ function WorkLeave() {
                                         <option value={"Vendor Visit"}>Vendor Visit</option>
                                         <option value={"Others"}>Others</option>
                                       </Form.Select>
-                                    </Col>
+                                    </Form.Group>
 
-                                    <Col>
-                                      <Form.Label  className="fieldLabel font-weight-normal">Assigned By</Form.Label>
+                                  </Col>
+
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="formBasicEmail"
+                                    >
+                                      <Form.Label className="fieldLabel font-weight-normal">Assigned By</Form.Label>
                                       <Form.Select
+                                       className="form-select-sm"
                                         onChange={(e) => { setAssignedBy(e.target.value) }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
@@ -290,51 +307,56 @@ function WorkLeave() {
                                           })
                                         }
                                       </Form.Select>
-                                    </Col>
+                                    </Form.Group>
 
-                                  </Row>
-                                </Form.Group>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicPassword"
-                                >
+                                  </Col>
+
+                                </Row>
+                             
                                   <Row>
                                     <Col>
+                                    <Form.Group
+                                  className="mb-3"
+                                  controlId="formTask"
+                                >
                                       <Form.Label className="fieldLabel font-weight-normal">Task</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
+                                          required
                                           onChange={(e) => {
                                             setTask(e.target.value);
                                           }}
                                         />
-                                      </div>
+                                        
+                                      </Form.Group>
+
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">Project</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
                                           onChange={(e) => {
                                             setProject(e.target.value);
                                           }}
                                         />
-                                      </div>
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">Description</Form.Label>
-                                      <div className="reason">
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
                                           onChange={(e) => {
                                             setDescription(e.target.value);
                                           }}
                                         />
-                                      </div>
                                     </Col>
 
                                   </Row>
-                                </Form.Group>
 
                                 <Form.Group
                                   className="mb-3"
@@ -345,22 +367,26 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">From</Form.Label>
                                       <Form.Control
                                         type="date"
+                                        className="form-control-sm my-o"
+
                                         required
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
                                       />
                                     </Col>
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">To</Form.Label>
                                       <Form.Control
+                                        className="form-control-sm my-0"
+
                                         type="date"
-                                        reuired
+                                        required
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
 
                                       />
                                     </Col>
@@ -368,9 +394,11 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Total Days</Form.Label>
                                       <Form.Control
                                         type="number"
+                                        className="form-control-sm"
+
                                         value={diffDays}
                                         disabled
-                                        style={{backgroundColor:"white"}}
+                                        style={{ backgroundColor: "white" }}
 
                                       />
                                     </Col>
@@ -385,6 +413,9 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Departure Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        className="form-control-sm"
+
+                                        required
                                         value={toTime}
                                         onChange={(e) => {
                                           setToTime(e.target.value)
@@ -395,6 +426,9 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        className="form-control-sm"
+
+                                        required
                                         value={fromTime}
                                         onChange={(e) => {
                                           setFromTime(e.target.value)
@@ -406,9 +440,12 @@ function WorkLeave() {
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal"> Leave Type</Form.Label>
                                       <Form.Select
+                                       className="form-select-sm"
                                         value={leave_status}
                                         onChange={(e) => { setLeave_status(e.target.value) }}
+                                        required
                                       >
+
                                         <option disabled selected hidden value="">Please Select</option>
                                         <option value="True">Short Leave</option>
                                         <option value="False">Full day</option>
@@ -425,18 +462,22 @@ function WorkLeave() {
                                     <Col xs={4} >
                                       <Form.Label className="fieldLabel font-weight-normal">Work Status</Form.Label>
                                       <Form.Select
+                                        className="form-select-sm"
+
                                         value={workStatus}
                                         onChange={(e) => { setWorkStatus(e.target.value) }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="Partially Progress">Partially Progress</option>
                                         <option value="No Progress">No Progress</option>
+
+                                        <option value="Partially Progress">Partially Progress</option>
                                         <option value="Completed">Completed</option>
                                       </Form.Select>
                                     </Col>
                                     <Col xs={8}>
                                       <Form.Label className="fieldLabel font-weight-normal">Remarks</Form.Label>
                                       <Form.Control
+                                      className="form-control-sm"
                                         type="text"
                                         onChange={(e) => {
                                           setRemarks(e.target.value);
@@ -458,6 +499,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Reason For Visit</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setReasonToVisit(e.target.value);
                                         }}
@@ -467,6 +510,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Person To Meet</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setPersonToMeet(e.target.value);
                                         }}
@@ -477,6 +522,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Place To Visit</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setPlaceToVisit(e.target.value);
                                         }}
@@ -496,6 +543,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Meter Start Reading</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setMeterStartReading(e.target.value);
                                         }}
@@ -505,6 +554,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Meter End Reading</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setMeterEndReading(e.target.value);
                                         }}
@@ -514,6 +565,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Overall Remarks</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setOverallRemarks(e.target.value);
                                         }}
@@ -523,9 +576,9 @@ function WorkLeave() {
                                 </Form.Group>
 
                                 <br />
-                                <div style={{ display:"flex", justifyContent:"space-between", marginRight: 10 }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginRight: 10 }}>
 
-                                <h5>Expenses during visit</h5>
+                                  <h5>Expenses during visit</h5>
 
 
                                   <a
@@ -533,7 +586,7 @@ function WorkLeave() {
                                     onClick={() => {
                                       setShowChildModel(true);
                                     }}
-                                    style={{ backgroundColor: "rgb(137, 179, 83)", fontSize:"small" }}
+                                    style={{ backgroundColor: "rgb(137, 179, 83)", fontSize: "small" }}
                                   >
                                     Add
                                   </a>
@@ -555,7 +608,7 @@ function WorkLeave() {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {expense.length>0 &&
+                                        {expense.length > 0 &&
                                           expense.map((d, i) => {
                                             return (
                                               <tr>
@@ -648,10 +701,10 @@ function WorkLeave() {
                                     </Col>
 
                                     <Col>
-                                      <div style={{display:"flex", justifyContent:"end"}}>
-                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft:"auto" }}>
-                                        Submit
-                                      </Button>
+                                      <div style={{ display: "flex", justifyContent: "end" }}>
+                                        <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft: "auto" }}>
+                                          Submit
+                                        </Button>
                                       </div>
                                     </Col>
                                   </Row>
@@ -695,7 +748,9 @@ function WorkLeave() {
                               <Form.Label>Expense type</Form.Label>
                               <Form.Control
                                 type="text"
-                                required
+                                className="form-control-sm"
+
+
                                 name="type"
                                 placeholder="type"
                                 value={addExpense.type}
@@ -712,7 +767,9 @@ function WorkLeave() {
                               <Form.Label>Amount</Form.Label>
                               <Form.Control
                                 type="text"
-                                required
+                                className="form-control-sm"
+
+
                                 name="amount"
                                 placeholder="amount"
                                 value={addExpense.amount}
@@ -731,6 +788,7 @@ function WorkLeave() {
                               <Form.Label>Description</Form.Label>
                               <Form.Control
                                 type="text"
+                                className="form-control-sm"
 
                                 name="description"
                                 value={addExpense.description}
