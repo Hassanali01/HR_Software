@@ -143,6 +143,9 @@ function WorkLeave() {
 
   const addWorkAbsence = async (event) => {
     event.preventDefault();
+
+    console.log("expense to append",expense)
+
     const formData = new FormData();
     formData.append("workabsence", workabsence);
     formData.append("from", from);
@@ -165,6 +168,7 @@ function WorkLeave() {
     formData.append("meterStartReading", meterStartReading);
     formData.append("meterEndReading", meterEndReading);
     formData.append("overallRemarks", overallRemarks);
+    formData.append("expense", expense);
     console.log("formData", formData)
     try {
       const addreq = await axios({
@@ -803,7 +807,13 @@ function WorkLeave() {
                           <Button
                             onClick={() => {
                               expense.push(addExpense)
+
+                              setExpense(expense)
+
                               Closechildmodal();
+
+                              console.log("expense ", expense)
+
                               setAddExpense({})
                             }}
                             style={{ backgroundColor: "rgb(137, 179, 83)" }}

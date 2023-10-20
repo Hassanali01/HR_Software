@@ -3,6 +3,8 @@ const WorkLeave = require("../../Models/WorkLeave")
 const router = express.Router();
 const employees = require('../../Models/employees')
 const mongodb = require('mongodb')
+const Employees = require('../../Models/employees');
+
 const mongoClient = mongodb.MongoClient
 
 
@@ -67,7 +69,7 @@ router.post('/', async (req, res, next) => {
             meterStartReading: req.body.meterStartReading,
             meterEndReading: req.body.meterEndReading,
             overallRemarks: req.body.overallRemarks,
-            expense: req.body.expense
+            expense: JSON.parse(req.body.expense)
             
         })
         const leaverequest = await reqLeave.save()
@@ -216,6 +218,18 @@ router.get('/:month', async (req, res) => {
     }
 });
 
+
+router.get('/all/:id', async (req, res, next) => {
+    try {
+      const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
+      let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
+      const allRequest = await WorkLeave.find({ employee: subordinateEmployeesIDs }).populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
+      const counted = await WorkLeave.count();
+      allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
+    } catch (error) {
+      next(error);
+    }
+  })
 
 
 //update status of workleaves

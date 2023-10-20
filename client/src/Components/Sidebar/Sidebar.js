@@ -104,11 +104,11 @@ const Sidebar = () => {
 
               <li className='nav-item'>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
-                <div  onClick={() => { settoggle(!toggleLeaves) }}>
+                  <div onClick={() => { settoggle(!toggleLeaves) }}>
 
-                  <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
-                  <p className='iconColor' >Leaves</p>
-                  <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+                    <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
+                    <p className='iconColor' >Leaves</p>
+                    <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
                   </div>
                   {
                     toggleLeaves && <>
@@ -118,7 +118,7 @@ const Sidebar = () => {
                       </Link>
                       <Link to={'/manageleaves'} className="nav-link">
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Approve leaves </p>
+                        <p className='iconColor'>Assign to me </p>
                       </Link>
                     </>
                   }
@@ -147,12 +147,12 @@ const Sidebar = () => {
               {context.user.isAdmin &&
                 <li className='nav-item' >
                   <a className='nav-link' style={{ cursor: 'pointer' }}>
-                    <div  className='d-flex' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
+                    <div className='d-flex' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
 
                       <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
                       <p className='iconColor'> Attendance Management</p>
                       <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
-                      </div>
+                    </div>
                     {
                       toggleAttendance &&
                       <>
@@ -212,13 +212,13 @@ const Sidebar = () => {
               }
               <li className='nav-item' >
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
-                <div onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
+                  <div onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
 
-                  <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
+                    <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
 
 
-                  <p className='iconColor'>Work absence</p>
-                  <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+                    <p className='iconColor'>Work absence</p>
+                    <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
                   </div>
                   {
                     toggleWorkLeave && <>
@@ -226,10 +226,12 @@ const Sidebar = () => {
                         <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
                         <p className='iconColor'>Apply</p>
                       </Link>
-                      <Link to={`/manageworkleave`} className="nav-link">
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Approve</p>
-                      </Link>
+                  
+                        <Link to={`/manageworkleave`} className="nav-link">
+                          <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
+                          <p className='iconColor'>Assign to me</p>
+                        </Link>
+                      
                     </>
                   }
                 </a>

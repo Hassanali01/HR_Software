@@ -22,7 +22,7 @@ import HeaderContext from '../../../Context/HeaderContext'
 function ManageWorkLeave() {
     const options = { day: "numeric", month: "short", year: "numeric" };
     const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
-  
+
     const [handlemodal, sethandlemodal] = useState(false);
     const [modaldata, setmodaldata] = useState({});
     const [leavesData, setLeavesData] = useState([]);
@@ -252,10 +252,10 @@ function ManageWorkLeave() {
     const month = "September"
     const getLeavesrequests = async () => {
         var getLeaves = [];
-        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/${month}`);
-        const data = getLeaves.data;
-        console.log("data", data.Leaves)
-        setLeavesData(data.Leaves);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`);
+        console.log("getLeaves", getLeaves)
+        const data = getLeaves.data.allRequest;
+        setLeavesData(data);
     };
 
     const newArray = [];
@@ -271,7 +271,7 @@ function ManageWorkLeave() {
             id: d._id,
             Emp_id: d.employee && d.employee.emp_id,
             workabsence: d.workabsence,
-            employeename: d.employee[0] && d.employee[0].firstname,
+            employeename: d.employee && d.employee.firstname,
             task: d.task,
             from: dateFormatter.format(new Date(d.from)),
             to: dateFormatter.format(new Date(d.to)),
@@ -285,7 +285,6 @@ function ManageWorkLeave() {
             attachment: d.attachment,
             applicationdate: d.applicationdate,
         });
-
     });
 
     const updateUserStatus = async (e) => {
@@ -320,20 +319,20 @@ function ManageWorkLeave() {
             headerName: "From ",
             width: 200,
             renderCell: (params) => {
-              const fromTime = params.row.fromTime ? ` - ${params.row.fromTime}` : '';
-              return `${params.row.from}${fromTime}`;
+                const fromTime = params.row.fromTime ? ` - ${params.row.fromTime}` : '';
+                return `${params.row.from}${fromTime}`;
             },
-          },
+        },
         // { field: "to", headerName: "To", width: 150 },
         {
             field: "to",
             headerName: "To ",
             width: 200,
             renderCell: (params) => {
-              const toTime = params.row.toTime ? ` - ${params.row.toTime}` : '';
-              return `${params.row.to}${toTime}`;
+                const toTime = params.row.toTime ? ` - ${params.row.toTime}` : '';
+                return `${params.row.to}${toTime}`;
             },
-          },
+        },
         {
             field: "supervisorApproval",
             headerName: "Supervisor Approval",
@@ -371,7 +370,7 @@ function ManageWorkLeave() {
                         <div className="card">
                             <div className="card-header buttoncolor ">
                                 <h3 className="card-title" style={{ color: "white" }}>
-                                Leaves to approve
+                                    Leaves to approve
                                 </h3>
                             </div>
                             <div className="card-body">
