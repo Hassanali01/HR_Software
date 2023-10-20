@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
-import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
-import GroupsIcon from '@mui/icons-material/Groups';
 import { Table } from "react-bootstrap";
 import HeaderContext from "../../Context/HeaderContext";
 import CountUp from 'react-countup';
@@ -52,7 +48,6 @@ const DashboardNonAdmin = () => {
             });
 
             setinfo(InfoData)
-            console.log(InfoData)
             let approve = 0;
             let pending = 0;
             InfoData.map((i) => {
@@ -137,7 +132,7 @@ const DashboardNonAdmin = () => {
                     "year": currentYear
                 }
             })
-            console.log("attendence.userattendance.length", attendence.data.userattendance)
+
             let Pcount = 0
             let Status_P = attendence.data.userattendance.map((i) => {
                 if (i.status == "P") {
@@ -168,13 +163,12 @@ const DashboardNonAdmin = () => {
                                         <Card.Body className="px-0">
                                             <div className="d-flex justify-content-between align-items-center ">
                                                 <div
-                                                 className="d-flex align-items-start align-items-center counterCard" 
-                                               >
+                                                    className="d-flex align-items-start align-items-center counterCard">
                                                     <p >
                                                         <CountUp start={0} end={appliedleaveCount} duration={1.0}>{appliedleaveCount}</CountUp>
                                                     </p>
                                                 </div>
-                                                <div>
+                                                <div style={{ marginRight: "30px" }}>
                                                     <h5
                                                         style={{
                                                             color: "rgb(160, 160, 160)",
@@ -194,14 +188,13 @@ const DashboardNonAdmin = () => {
                                     <Card.Title className="px-3 py-3">
                                         <Card.Body className="px-0">
                                             <div className="d-flex justify-content-between align-items-center">
-                                                <div className="d-flex align-items-start align-items-center counterCard"
-                                           >
+                                                <div className="d-flex align-items-start align-items-center counterCard">
                                                     <p >
                                                         <CountUp start={0} end={approvedleaveCount} duration={1.0}>{approvedleaveCount}</CountUp>
                                                     </p>
                                                 </div>
                                                 <div className="d-flex justify-content-between align-items-center">
-                                                    <div>
+                                                    <div style={{ marginRight: "30px" }}>
                                                         <h5
                                                             style={{
                                                                 color: "rgb(160, 160, 160)",
@@ -222,14 +215,13 @@ const DashboardNonAdmin = () => {
                                     <Card.Title className="px-3 py-3">
                                         <Card.Body className="px-0">
                                             <div className="d-flex justify-content-between align-items-center">
-                                                <div className="d-flex align-items-start align-items-center counterCard"
-                                                  >
-                                                    <p >
+                                                <div className="d-flex align-items-start align-items-center counterCard">
+                                                    <p>
                                                         <CountUp start={0} end={pendingleaveCount} duration={1.0}>{pendingleaveCount}</CountUp>
                                                     </p>
                                                 </div>
                                                 <div className="d-flex justify-content-between align-items-center">
-                                                    <div>
+                                                    <div style={{ marginRight: "30px" }}>
                                                         <h5
                                                             style={{
                                                                 color: "rgb(160, 160, 160)",
@@ -245,20 +237,18 @@ const DashboardNonAdmin = () => {
                                     </Card.Title>
                                 </Card>
                             </Col>
-
                             <Col>
                                 <Card>
                                     <Card.Title className="px-3 py-3">
                                         <Card.Body className="px-0">
                                             <div className="d-flex justify-content-between align-items-center">
-                                                <div className="d-flex align-items-start align-items-center counterCard"
-                                           >
+                                                <div className="d-flex align-items-start align-items-center counterCard">
                                                     <p>
                                                         <CountUp start={0} end={userattendenceCount} duration={1.0}>{userattendenceCount}</CountUp>
                                                     </p>
                                                 </div>
                                                 <div className="d-flex justify-content-between align-items-center">
-                                                    <div>
+                                                    <div style={{ marginRight: "30px" }}>
                                                         <h5
                                                             style={{
                                                                 color: "rgb(160, 160, 160)",

@@ -4,6 +4,7 @@ import { Card, Container, Form, Button, Table, Modal } from "react-bootstrap";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useReactToPrint } from "react-to-print";
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import "../../Leaves/leaves.css";
@@ -12,7 +13,6 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
-import { useReactToPrint } from "react-to-print";
 import HeaderContext from '../../../Context/HeaderContext'
 import './workLeave.css'
 
@@ -38,7 +38,6 @@ function WorkLeave() {
   const [project, setProject] = useState("");
   const [superviser, setSuperviser] = useState("");
   const [superviserid, setSuperviserid] = useState("");
-
   const [placeToVisit, setPlaceToVisit] = useState("");
   const [reasonToVisit, setReasonToVisit] = useState("");
   const [personToMeet, setPersonToMeet] = useState("");
@@ -48,14 +47,10 @@ function WorkLeave() {
   const [overallRemarks, setOverallRemarks] = useState("");
   const [childModel, setShowChildModel] = useState(false);
   const [testUpdate, setTestUpdate] = useState(false);
-
   const [expense, setExpense] = useState([]);
-
   const [addExpense, setAddExpense] = useState({})
 
   const Closechildmodal = () => setShowChildModel(false);
-
-
   const handleeducationdetails = async (e) => {
     let name, value;
     name = e.target.name;
@@ -65,7 +60,6 @@ function WorkLeave() {
       [name]: value,
     });
   };
-
 
   const removeitem = (i) => {
     const temp = expense;
@@ -668,80 +662,7 @@ function WorkLeave() {
                           </Card.Body>
                         </Card>
                       </Col>
-                      {/* <Col> */}
-                      {/* <Card>
-                          <Card.Header className="buttoncolor ">
-                            <Card.Title style={{ width: "100%" }}>
-                              <h4 className="text-center">
-                                Employee Information
-                              </h4>
-                            </Card.Title>
-                          </Card.Header>
-
-                          <Card.Body>
-                            <Container>
-                              {details.map((d) => {
-                                return (
-                                  <>
-                                    <div style={{ display: 'flex', width: '100%' }}>
-                                      <div style={{ width: "50%" }}>
-                                        <h5 style={{ fontWeight: 'bold' }}>
-                                          Employee ID
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: "50%" }}>
-                                        <p>{d.empid}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          {" "}
-                                          Name
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.name}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          {" "}
-                                          Email
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.email}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold" }}>
-                                          Designation
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.designation}</p>
-                                      </div>
-                                    </div>
-                                    <div style={{ display: "flex", width: "100%", marginTop: '1%' }}>
-                                      <div style={{ width: '50%' }}>
-                                        <h5 style={{ fontWeight: "bold", fontSize: 'auto' }}>
-                                          Department
-                                        </h5>
-                                      </div>
-                                      <div style={{ width: '50%' }}>
-                                        <p>{d.department}</p>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </Container>
-                          </Card.Body>
-                        </Card>  */}
-                      {/* </Col> */}
+                
                     </Row>
                   </div>
 
