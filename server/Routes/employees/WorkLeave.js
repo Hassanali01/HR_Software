@@ -42,8 +42,21 @@ function insertFile(file, res) {
 
 
 router.post('/', async (req, res, next) => {
-    console.log("add workleave ", req.body)
+    // console.log("add workleave ", [JSON.parse(JSON.parse(JSON.stringify(req.body.expense)))])
     try {
+
+
+        // console.log("req.body.ex",req.body.expense)
+        // let arr = Array.from(req.body.expense)
+        // console.log("array", arr)
+
+
+
+
+
+        // arr.push(JSON.parse(JSON.parse(JSON.stringify(req.body.expense))))
+
+
         const reqLeave = new WorkLeave({
             workabsence: req.body.workabsence,
             from: req.body.from,
@@ -67,7 +80,8 @@ router.post('/', async (req, res, next) => {
             meterStartReading: req.body.meterStartReading,
             meterEndReading: req.body.meterEndReading,
             overallRemarks: req.body.overallRemarks,
-            expense: req.body.expense
+            // expense: arr.map((a)=>JSON.parse(a))
+            expense: JSON.parse(req.body.expense)
             
         })
         const leaverequest = await reqLeave.save()

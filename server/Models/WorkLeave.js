@@ -105,8 +105,8 @@ const WorkLeaveSchema = mongoose.Schema({
 
     expense: {
         type: [{
-          type: String,        
-          amount: Number ,
+          expenseType: String,        
+          amount: String ,
           description: String
         }],
       },

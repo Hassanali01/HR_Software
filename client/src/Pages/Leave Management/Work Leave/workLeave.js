@@ -165,6 +165,10 @@ function WorkLeave() {
     formData.append("meterStartReading", meterStartReading);
     formData.append("meterEndReading", meterEndReading);
     formData.append("overallRemarks", overallRemarks);
+    // for (var i = 0; i < expense.length; i++) {
+    //   formData.append('expense', JSON.stringify(expense[i]));
+    // }
+    formData.append("expense", JSON.stringify(expense));
     console.log("formData", formData)
     try {
       const addreq = await axios({
@@ -468,9 +472,9 @@ function WorkLeave() {
                                         onChange={(e) => { setWorkStatus(e.target.value) }}
                                       >
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="No Progress">No Progress</option>
+                                        <option value="No Progress">No progress</option>
 
-                                        <option value="Partially Progress">Partially Progress</option>
+                                        <option value="Partially Progress">Partial progress</option>
                                         <option value="Completed">Completed</option>
                                       </Form.Select>
                                     </Col>
@@ -613,7 +617,7 @@ function WorkLeave() {
                                             return (
                                               <tr>
                                                 <th>{i + 1}</th>
-                                                <td>{d.type}</td>
+                                                <td>{d.expenseType}</td>
                                                 <td>{d.amount}</td>
                                                 <td>
                                                   {d.description}
@@ -751,9 +755,9 @@ function WorkLeave() {
                                 className="form-control-sm"
 
 
-                                name="type"
+                                name="expenseType"
                                 placeholder="type"
-                                value={addExpense.type}
+                                value={addExpense.expenseType}
                                 onChange={handleeducationdetails}
                               />
                             </Form.Group>
@@ -803,6 +807,7 @@ function WorkLeave() {
                           <Button
                             onClick={() => {
                               expense.push(addExpense)
+                              setExpense(expense)
                               Closechildmodal();
                               setAddExpense({})
                             }}
