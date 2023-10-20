@@ -256,6 +256,8 @@ function WorkLeave() {
                                       <Form.Control
                                         type="date"
                                         required
+                                        className="form-control-sm my-0"
+
                                         onChange={(e) => {
                                           setapplicationdate(e.target.value);
                                         }}
@@ -270,7 +272,7 @@ function WorkLeave() {
                                     >
                                       <Form.Label className="fieldLabel font-weight-normal">Work Type</Form.Label>
                                       <Form.Select
-                                        
+                                         className="form-select-sm"
                                         onChange={(e) => {
                                           setWorkabsence(e.target.value);
                                         }}
@@ -297,6 +299,7 @@ function WorkLeave() {
                                     >
                                       <Form.Label className="fieldLabel font-weight-normal">Assigned By</Form.Label>
                                       <Form.Select
+                                       className="form-select-sm"
                                         onChange={(e) => { setAssignedBy(e.target.value) }}
                                       >
                                         <option disabled selected hidden defaultValue={""}>Please Select</option>
@@ -325,6 +328,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Task</Form.Label>
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
                                           required
                                           onChange={(e) => {
                                             setTask(e.target.value);
@@ -338,6 +343,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Project</Form.Label>
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
                                           onChange={(e) => {
                                             setProject(e.target.value);
                                           }}
@@ -347,6 +354,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Description</Form.Label>
                                         <Form.Control
                                           type="text"
+                                          className="form-control-sm"
+
                                           onChange={(e) => {
                                             setDescription(e.target.value);
                                           }}
@@ -364,6 +373,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">From</Form.Label>
                                       <Form.Control
                                         type="date"
+                                        className="form-control-sm my-o"
+
                                         required
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
@@ -374,6 +385,8 @@ function WorkLeave() {
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">To</Form.Label>
                                       <Form.Control
+                                        className="form-control-sm my-0"
+
                                         type="date"
                                         required
                                         onChange={(e) => {
@@ -387,6 +400,7 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Total Days</Form.Label>
                                       <Form.Control
                                         type="number"
+                                        className="form-control-sm"
 
                                         value={diffDays}
                                         disabled
@@ -405,6 +419,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Departure Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        className="form-control-sm"
+
                                         required
                                         value={toTime}
                                         onChange={(e) => {
@@ -416,6 +432,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
+                                        className="form-control-sm"
+
                                         required
                                         value={fromTime}
                                         onChange={(e) => {
@@ -428,6 +446,7 @@ function WorkLeave() {
                                     <Col>
                                       <Form.Label className="fieldLabel font-weight-normal"> Leave Type</Form.Label>
                                       <Form.Select
+                                       className="form-select-sm"
                                         value={leave_status}
                                         onChange={(e) => { setLeave_status(e.target.value) }}
                                         required
@@ -449,6 +468,8 @@ function WorkLeave() {
                                     <Col xs={4} >
                                       <Form.Label className="fieldLabel font-weight-normal">Work Status</Form.Label>
                                       <Form.Select
+                                        className="form-select-sm"
+
                                         value={workStatus}
                                         onChange={(e) => { setWorkStatus(e.target.value) }}
                                       >
@@ -462,6 +483,7 @@ function WorkLeave() {
                                     <Col xs={8}>
                                       <Form.Label className="fieldLabel font-weight-normal">Remarks</Form.Label>
                                       <Form.Control
+                                      className="form-control-sm"
                                         type="text"
                                         onChange={(e) => {
                                           setRemarks(e.target.value);
@@ -483,6 +505,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Reason For Visit</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setReasonToVisit(e.target.value);
                                         }}
@@ -492,6 +516,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Person To Meet</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setPersonToMeet(e.target.value);
                                         }}
@@ -502,6 +528,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Place To Visit</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setPlaceToVisit(e.target.value);
                                         }}
@@ -521,6 +549,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Meter Start Reading</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setMeterStartReading(e.target.value);
                                         }}
@@ -530,6 +560,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Meter End Reading</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setMeterEndReading(e.target.value);
                                         }}
@@ -539,6 +571,8 @@ function WorkLeave() {
                                       <Form.Label className="fieldLabel font-weight-normal">Overall Remarks</Form.Label>
                                       <Form.Control
                                         type="text"
+                                        className="form-control-sm"
+
                                         onChange={(e) => {
                                           setOverallRemarks(e.target.value);
                                         }}
@@ -793,6 +827,8 @@ function WorkLeave() {
                               <Form.Label>Expense type</Form.Label>
                               <Form.Control
                                 type="text"
+                                className="form-control-sm"
+
 
                                 name="type"
                                 placeholder="type"
@@ -810,6 +846,8 @@ function WorkLeave() {
                               <Form.Label>Amount</Form.Label>
                               <Form.Control
                                 type="text"
+                                className="form-control-sm"
+
 
                                 name="amount"
                                 placeholder="amount"
@@ -829,6 +867,7 @@ function WorkLeave() {
                               <Form.Label>Description</Form.Label>
                               <Form.Control
                                 type="text"
+                                className="form-control-sm"
 
                                 name="description"
                                 value={addExpense.description}

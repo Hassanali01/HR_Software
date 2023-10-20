@@ -104,11 +104,12 @@ const Sidebar = () => {
 
               <li className='nav-item'>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
+                <div  onClick={() => { settoggle(!toggleLeaves) }}>
+
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
-                  <span  onClick={() => { settoggle(!toggleLeaves) }}>
                   <p className='iconColor' >Leaves</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
-                  </span>
+                  </div>
                   {
                     toggleLeaves && <>
                       <Link to={'/leaverequest'} className='nav-link '>
@@ -146,13 +147,12 @@ const Sidebar = () => {
               {context.user.isAdmin &&
                 <li className='nav-item' >
                   <a className='nav-link' style={{ cursor: 'pointer' }}>
-                    <div className='d-flex'>
+                    <div  className='d-flex' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
+
                       <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
-                      <span  className='d-flex' onClick={() => { settoggleAttendance(!toggleAttendance) }}>
                       <p className='iconColor'> Attendance Management</p>
                       <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
-                      </span>
-                    </div>
+                      </div>
                     {
                       toggleAttendance &&
                       <>
@@ -212,13 +212,14 @@ const Sidebar = () => {
               }
               <li className='nav-item' >
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
+                <div onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
+
                   <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
 
-<span onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
 
                   <p className='iconColor'>Work absence</p>
                   <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
-                  </span>
+                  </div>
                   {
                     toggleWorkLeave && <>
                       <Link to={`/workleave`} className='nav-link '>
