@@ -122,7 +122,7 @@ const DashboardNonAdmin = () => {
 
     const totalNumberofAttendence = async () => {
         const currentDate = new Date();
-        const currentMonth = currentDate.getMonth();
+        const currentMonth = currentDate.getMonth()+1;
         const currentYear = currentDate.getFullYear();
         try {
             const attendence = await axios.get(process.env.React_APP_ORIGIN_URL + "attendance/employee", {
@@ -315,3 +315,4 @@ const DashboardNonAdmin = () => {
 };
 
 export default DashboardNonAdmin;
+  
