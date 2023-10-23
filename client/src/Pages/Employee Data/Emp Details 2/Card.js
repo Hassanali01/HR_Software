@@ -1,5 +1,6 @@
 import React from "react";
 import { useContext } from "react";
+import Select from 'react-select';
 import { Context } from "../../../Context/Context";
 import pp from "../All Employees/avatar.png";
 import { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ const moment = require("moment");
 
 
 const Cards = ({ data }) => {
+  
   const [empID, setEmpID] = useState();
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
@@ -132,7 +134,7 @@ const Cards = ({ data }) => {
       employementhistory: data.employementhistory,
       currentSalary: data.currentSalary,
       employementstatus: data.employeementstatus,
-      supervisors: data.supervisors ,
+      supervisors: data.supervisors,
       payroll_setup: data.payroll_setup,
       //bank information
       bankname: data.bankname,
@@ -187,6 +189,7 @@ const Cards = ({ data }) => {
     name = e.target.name;
     value = e.target.value;
     setEmp({ ...emp, [name]: value });
+
   };
 
   const handleShow = () => {
@@ -510,10 +513,9 @@ const Cards = ({ data }) => {
     }
   };
 
-
   return (
     <>
-        <NotificationContainer />
+      <NotificationContainer />
       {user.isAdmin &&
         <div className="d-flex">
           <div style={{ marginLeft: "59vw", marginRight: 10 }}>
@@ -556,7 +558,7 @@ const Cards = ({ data }) => {
                   </Accordion.Header>
 
                   <Accordion.Body>
-    
+
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <Col sm={4}>
                         <div className="d-flex justify-content-center">
@@ -998,7 +1000,7 @@ const Cards = ({ data }) => {
 
                               </div>
                               <div>{emp.payroll_setup && emp.payroll_setup.map((ps, index) => <>
-                                <div>payroll setup: {payrollsetup.filter((pf) => pf._id == ps.payrollSetup)[0].title}</div>
+                                <div>payroll setup: {payrollsetup.filter((pf) => pf._id == ps.payrollSetup)[0] && ps.payrollSetup[0].title}</div>
                                 <div>Date from:{ps.dateFrom}</div>
                                 <div>Date to:{ps.dateTo}</div>
                                 <button onClick={() => { emp.payroll_setup.splice(index, 1) }}>Delete</button>
@@ -1089,7 +1091,7 @@ const Cards = ({ data }) => {
 
 
                               <div>{emp.work_shift && emp.work_shift.map((ws, index) => <>
-                                <div>workshifts:{workshift.filter((wf) => wf._id == ws.workShift)[0].shift_name}</div>
+                                <div>workshifts:{workshift.filter((wf) => wf._id == ws.workShift)[0] && ws.workShift[0].shift_name}</div>
                                 <div>Date from:{ws.dateFrom}</div>
                                 <div>Date to:{ws.dateTo}</div>
                                 <button onClick={() => { emp.work_shift.splice(index, 1) }}>Delete</button>
@@ -1641,21 +1643,21 @@ const Cards = ({ data }) => {
                           className="formmargin"
                         >
                           <Form.Label>Supervisors</Form.Label>
+                        
                           <Form.Select
                             name="supervisors"
                             value={emp.supervisors && emp.supervisors[0] && emp.supervisors[0]._id}
-                            onChange={   (e)=>{ setEmp({ ...emp, supervisors: [e.target.value] });
-                          }}
+                            onChange={(e) => {
+                              setEmp({ ...emp, supervisors: [e.target.value] });
+                            }}
                             disabled={disableFields}
                           >
                             <option disabled selected hidden defaultValue={""}>{emp.supervisors && emp.supervisors.firstname}</option>
                             {empl && empl.map((d, i) => {
                               return (
-                                
-                                  <option key={d._id} value={d._id}>
-                                    {d.firstname}
-                                  </option>
-                                
+                                <option key={d._id} value={d._id}>
+                                  {d.firstname}
+                                </option>
                               );
                             })}
                           </Form.Select>
