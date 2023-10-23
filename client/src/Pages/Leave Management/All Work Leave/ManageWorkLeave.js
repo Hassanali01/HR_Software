@@ -252,7 +252,15 @@ function ManageWorkLeave() {
     const month = "September"
     const getLeavesrequests = async () => {
         var getLeaves = [];
-        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`);
+        {
+            if (!user.isAdmin) {
+      
+                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`); 
+            } else{
+                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/allWorkLeave`);
+            }
+        }
+        // getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`);
         console.log("getLeaves", getLeaves)
         const data = getLeaves.data.allRequest;
         setLeavesData(data);

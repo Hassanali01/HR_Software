@@ -445,7 +445,7 @@ function WorkLeave() {
 
 
                                     <Col>
-                                      <Form.Label className="fieldLabel font-weight-normal"> Leave Type</Form.Label>
+                                      <Form.Label className="fieldLabel font-weight-normal"> Duration</Form.Label>
                                       <Form.Select
                                        className="form-select-sm"
                                         value={leave_status}
@@ -454,7 +454,7 @@ function WorkLeave() {
                                       >
 
                                         <option disabled selected hidden value="">Please Select</option>
-                                        <option value="True">Short Leave</option>
+                                        <option value="True">Short day</option>
                                         <option value="False">Full day</option>
                                       </Form.Select>
                                     </Col>

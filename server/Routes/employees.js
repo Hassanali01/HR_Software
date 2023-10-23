@@ -99,7 +99,7 @@ router.get("/:id", async (req, res, next) => {
 ///updating Employee DATA
 router.put("/:id", async (req, res, next) => {
   console.log("update API in hit")
-  const { departments, supervisors, ...reqBody } = req.body;
+  const { departments,  ...reqBody } = req.body;
   // console.log(req.body)
   try {
     const updateData = await Employees.findByIdAndUpdate(
@@ -111,7 +111,8 @@ router.put("/:id", async (req, res, next) => {
       //   $push: { company: req.body.company }
       },
       { new: true, useFindAndModify: false }
-    ).populate('supervisors');
+    )
+    // .populate('supervisors');
     // console.log(updateData)
     updateData && res.status(200).json({ message: "updated", updateData });
   } catch (error) {
