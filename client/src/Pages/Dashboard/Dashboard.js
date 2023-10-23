@@ -320,12 +320,12 @@ const Dashboard = () => {
                 </Card>
               </Col>
               <Col>
-                <Card style={{ height: '380px' }}>
-                  <Card.Header className="bg-white" ><h4>Employees In Departments</h4></Card.Header>
+                <Card style={{ height: '380px'}}>
+                  <Card.Header className="bg-white" >
+                    <h4>Employees in departments</h4>
+                    </Card.Header>
                   <div className="d-flex align-items-center justify-content-center " style={{ height: '100%' }}>
-                    <div>
                       <DepartmentEmployees />
-                    </div>
                   </div>
                 </Card>
               </Col>

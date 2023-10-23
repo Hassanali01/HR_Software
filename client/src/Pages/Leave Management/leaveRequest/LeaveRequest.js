@@ -119,10 +119,10 @@ const LeaveRequest = () => {
     formData.append("employee", employee);
     formData.append("file", attachedFile);
     formData.append("applicationdate", applicationdate);
-    formData.append("backupresourse", backupresourse)
-    formData.append("fromTime", fromTime)
-    formData.append("toTime", toTime)
-    formData.append("leaveNature", leaveNature)
+    formData.append("backupresourse", backupresourse);
+    formData.append("fromTime", fromTime);
+    formData.append("toTime", toTime);
+    formData.append("leaveNature", leaveNature);
     try {
       const addreq = await axios({
         method: "post",
@@ -130,8 +130,11 @@ const LeaveRequest = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
+
+      console.log("error", error)
       NotificationManager.error("Error in submitting");
     }
   };
@@ -237,12 +240,9 @@ const LeaveRequest = () => {
                                         })}
                                       </Form.Select>
                                     </Form.Group>
-
                                   </Col>
-
                                 </Row>
                                 {/* </Form.Group> */}
-
 
                                 <Row>
                                   <Col>
@@ -253,7 +253,6 @@ const LeaveRequest = () => {
                                       <Form.Label style={{ fontWeight: "400" }}>From</Form.Label>
                                       <Form.Control
                                         type="date"
-
                                         required
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
@@ -268,7 +267,6 @@ const LeaveRequest = () => {
                                       className="mb-3"
                                       controlId="formToDate"
                                     >
-
                                       <Form.Label style={{ fontWeight: "400" }}>To</Form.Label>
                                       <Form.Control
                                         type="date"
@@ -279,10 +277,8 @@ const LeaveRequest = () => {
                                         style={{ height: "33px", marginTop: "0px", backgroundColor:"white" }}
                                       />
                                     </Form.Group>
-
                                   </Col>
                                 </Row>
-
                                 <Row>
                                   <Col>
                                     <Form.Label style={{ fontWeight: "400" }}>Time From</Form.Label>
@@ -340,7 +336,6 @@ const LeaveRequest = () => {
                                     </Col>
                                   </Row>
                                 </Form.Group>
-
                                 <Form.Group
                                   className="mb-3"
                                   controlId="formBasicPassword"
@@ -468,7 +463,6 @@ const LeaveRequest = () => {
                                         <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                                           Submit
                                         </Button>
-
                                       </div>
                                     </Col>
                                   </Row>
@@ -496,8 +490,6 @@ const LeaveRequest = () => {
                                 <tbody>
                                   {
                                     Info.map((d, i) => {
-
-
                                       return (
                                         <tr>
                                           <td style={{ fontSize: "13px" }}>{d.leaveType}</td>

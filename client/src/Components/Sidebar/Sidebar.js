@@ -112,13 +112,13 @@ const Sidebar = () => {
                   </div>
                   {
                     toggleLeaves && <>
-                      <Link to={'/leaverequest'} className='nav-link '>
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Apply leave</p>
+                      <Link to={'/leaverequest'} className='nav-link m-2 p-0  ms-4'>
+                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                       <p className='iconColor' style={{opacity:0.9}}>Apply leave</p>
                       </Link>
-                      <Link to={'/manageleaves'} className="nav-link">
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Assign to me </p>
+                      <Link to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
+                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                        <p className='iconColor' style={{opacity:0.9}}>Leaves to approve </p>
                       </Link>
                     </>
                   }
@@ -156,17 +156,17 @@ const Sidebar = () => {
                     {
                       toggleAttendance &&
                       <>
-                        <Link to="/datamanagement" className="nav-link">
-                          <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
-                          <p className='iconColor'>
-                            Reports
+                        <Link to="/datamanagement" className="nav-link m-2 p-0 ms-4">
+                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
+                          <p className='iconColor'  style={{opacity:0.9}}>
+                          Reports
                           </p>
                         </Link>
                         {context.user.isAdmin &&
-                          <Link to="/monthlyattendance" className="nav-link">
-                            <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i>
+                          <Link to="/monthlyattendance" className="nav-link  m-2 p-0 ms-4">
+                            {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
 
-                            <p className='iconColor'>
+                            <p className='iconColor' style={{opacity:0.9}}>
                               Attendance History
                             </p>
                           </Link>
@@ -222,14 +222,14 @@ const Sidebar = () => {
                   </div>
                   {
                     toggleWorkLeave && <>
-                      <Link to={`/workleave`} className='nav-link '>
-                        <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                        <p className='iconColor'>Apply</p>
+                      <Link to={`/workleave`} className='nav-link m-2 p-0 ms-4'>
+                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                        <p className='iconColor ' style={{opacity:0.9}}>Apply</p>
                       </Link>
                   
-                        <Link to={`/manageworkleave`} className="nav-link">
-                          <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i>
-                          <p className='iconColor'>Assign to me</p>
+                        <Link to={`/manageworkleave`} className="nav-link m-2 p-0 ms-4">
+                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                          <p className='iconColor ' style={{opacity:0.9}}>Approve</p>
                         </Link>
                       
                     </>
