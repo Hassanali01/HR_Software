@@ -323,10 +323,29 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
               ]
             }
           }
+        }, {
+          '$lookup': {
+            'from': 'employees', 
+            'localField': 'employee', 
+            'foreignField': '_id', 
+            'as': 'employee'
+          }
+        }, {
+          '$unwind': {
+            'path': '$employee', 
+            'preserveNullAndEmptyArrays': false
+          }
+        }, {
+          '$lookup': {
+            'from': 'departments', 
+            'localField': 'employee.departments', 
+            'foreignField': '_id', 
+            'as': 'employee.departments'
+          }
         }
       ]
      )
-    //.populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
+    // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
     
     const counted = await LeaveRequest.count();
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })

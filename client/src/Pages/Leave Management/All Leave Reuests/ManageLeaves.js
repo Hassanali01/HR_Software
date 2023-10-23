@@ -14,6 +14,8 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import Calendar from 'react-calendar';
+
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import { useRef } from "react";
@@ -38,6 +40,38 @@ const ManageLeaves = () => {
   });
 
   const [handlemodal, sethandlemodal] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
+  const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
+  const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
+
+  const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
+
+
+  const [calendarDate, setCalendarDate] = useState("")
+
+
+  function onChangeCalendar(e) {
+
+    console.log("calendar", e)
+
+
+
+    setCalendarDate(e)
+
+    setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
+    setMonth(e.toLocaleString('en-US', { month: "long" }))
+    setYear(e.toLocaleString('en-US', { year: "numeric" }))
+    setMonthNumeric( e.toLocaleString('en-US', { month: "numeric" }))
+
+    console.log("month- year",monthNumeric, year)
+
+    setUpdate(!update)
+
+    handleCloseCalendar()
+  }
+
 
   function getMimetype(extension) {
     var mimetype;
@@ -245,6 +279,8 @@ const ManageLeaves = () => {
 
   const [modaldata, setmodaldata] = useState({});
   const [show, setShow] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
   const handleClose = () => setShow(false);
   const [leavesData, setLeavesData] = useState([]);
   const [status, setstatus] = useState();
@@ -258,16 +294,18 @@ const ManageLeaves = () => {
     setSupervisorApproval(id.row.supervisorApproval);
   };
 
+  const handleCloseCalendar = () => setShowCalendar(false);
+  const handleShowCalendar = () => setShowCalendar(true);
+
 
   const { user } = useContext(Context);
-  const getUrl = "leaverequest/all/";
   const getLeavesrequests = async () => {
     var getLeaves = [];
     {
       if (!user.isAdmin) {
-        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `${getUrl}${user.id}`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/all/${user.id}/${monthNumeric}/${year}`);
       } else {
-        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR`);
+        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR/${monthNumeric}/${year}`);
       }
     }
     const data = getLeaves.data;
@@ -288,7 +326,7 @@ const ManageLeaves = () => {
       Emp_id: d.employee && d.employee.emp_id,
       leavetype: d.leaveType,
       employeename: d.employee && d.employee.firstname,
-      department: d.employee && d.employee.departments.map((d) => d.departmentname),
+      department: d.employee && d.employee.departments && d.employee.departments.map((d) => d.departmentname),
       from: dateFormatter.format(new Date(d.from)),
       to: dateFormatter.format(new Date(d.to)),
       date: new Date(d.applicationdate).toDateString(),
@@ -303,7 +341,7 @@ const ManageLeaves = () => {
       supervisorApproval: d.supervisorApproval,
       attachment: d.attachment,
       applicationdate: d.applicationdate,
-      leaves: d.employee && d.employee.Leaves.map((d) => d),
+      leaves: d.employee && d.employee.Leaves && d.employee.Leaves.map((d) => d),
     });
   });
 
@@ -409,9 +447,27 @@ const ManageLeaves = () => {
                 <h3 className="card-title" style={{ color: "white" }}>
                   Leaves to approve
                 </h3>
+
               </div>
               <div className="card-body">
-                <div style={{ width: "100%", height: "700px" }}>
+                
+              <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                  Select the month
+                </Button>
+                <input className="" value={`${month} - ${year}`}
+                // disabled="true"
+                ></input>
+                <Modal show={showCalendar} onHide={handleCloseCalendar}>
+                  <div className='d-flex justify-content-center'>
+                    <Calendar
+                      onChange={onChangeCalendar}
+                      value={calendarDate}
+                      maxDetail='year'
+                    />
+                  </div>
+                </Modal>
+                <div className="mt-3" style={{ width: "100%", height: "700px" }}>
+
                   <DataGrid columns={columns} rows={rows} />
                 </div>
               </div>
