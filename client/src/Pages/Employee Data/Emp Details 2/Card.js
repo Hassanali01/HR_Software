@@ -26,6 +26,7 @@ const Cards = ({ data }) => {
   const [supervisors, setsupervisors] = useState(data.supervisors);
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
+  const [empl, setEmpl] = useState([])
   const [shift, setShift] = useState([]);
   const [payrollsetup, setPayrollsetup] = useState([]);
   const [workshift, setWorkShift] = useState([]);
@@ -98,6 +99,7 @@ const Cards = ({ data }) => {
     date_of_resignation: data.date_of_resignation,
     work_shift: data.work_shift,
     company: data.company,
+    supervisors: data.supervisors
   });
 
 
@@ -130,6 +132,7 @@ const Cards = ({ data }) => {
       employementhistory: data.employementhistory,
       currentSalary: data.currentSalary,
       employementstatus: data.employeementstatus,
+      supervisors: data.supervisors ,
       payroll_setup: data.payroll_setup,
       //bank information
       bankname: data.bankname,
@@ -175,6 +178,7 @@ const Cards = ({ data }) => {
       }
     }
     getLeavesrequests();
+    fetchData();
   }, []);
 
 
@@ -279,6 +283,7 @@ const Cards = ({ data }) => {
           employementhistory: emp.employementhistory,
           currentSalary: emp.currentSalary,
           employementstatus: emp.employementstatus,
+          supervisors: emp.supervisors,
           //bank information
           bankname: emp.bankname,
           paymentmode: emp.paymentmode,
@@ -369,6 +374,7 @@ const Cards = ({ data }) => {
     resignationdate: "",
     duration: "",
     jobdescription: "",
+    supervisors: "",
   });
 
   const [details, setdetails] = useState({
@@ -404,6 +410,7 @@ const Cards = ({ data }) => {
     var empl = employement;
     empl.push({
       company: empdetails.company,
+      supervisors: empdetails.supervisors,
       position: empdetails.position,
       joiningdate: empdetails.joiningdate,
       resignationdate: empdetails.resignationdate,
@@ -493,9 +500,20 @@ const Cards = ({ data }) => {
     });
   };
 
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "employees");
+      const data = res.data.employees;
+      setEmpl(data);
+    } catch (error) {
+
+    }
+  };
+
 
   return (
     <>
+        <NotificationContainer />
       {user.isAdmin &&
         <div className="d-flex">
           <div style={{ marginLeft: "59vw", marginRight: 10 }}>
@@ -538,6 +556,7 @@ const Cards = ({ data }) => {
                   </Accordion.Header>
 
                   <Accordion.Body>
+    
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <Col sm={4}>
                         <div className="d-flex justify-content-center">
@@ -846,7 +865,7 @@ const Cards = ({ data }) => {
                             </Form.Select>
                           </Form.Group>
                         </Col>
-<Col></Col>
+                        <Col></Col>
                         <Col lg={4}>
                           {/* <Form.Group
                               as={Col}
@@ -1592,7 +1611,7 @@ const Cards = ({ data }) => {
                   <Accordion.Body>
 
                     <Row>
-                      <Col lg={4} xl={4}>
+                      <Col >
                         <Form.Group
                           as={Col}
                           controlId="formGridFirstName"
@@ -1612,6 +1631,33 @@ const Cards = ({ data }) => {
                             <option>Intern</option>
                             <option>Probation</option>
                             <option>Permanent</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group
+                          as={Col}
+                          controlId="formGriddepartments"
+                          className="formmargin"
+                        >
+                          <Form.Label>Supervisors</Form.Label>
+                          <Form.Select
+                            name="supervisors"
+                            value={emp.supervisors && emp.supervisors[0] && emp.supervisors[0]._id}
+                            onChange={   (e)=>{ setEmp({ ...emp, supervisors: [e.target.value] });
+                          }}
+                            disabled={disableFields}
+                          >
+                            <option disabled selected hidden defaultValue={""}>{emp.supervisors && emp.supervisors.firstname}</option>
+                            {empl && empl.map((d, i) => {
+                              return (
+                                
+                                  <option key={d._id} value={d._id}>
+                                    {d.firstname}
+                                  </option>
+                                
+                              );
+                            })}
                           </Form.Select>
                         </Form.Group>
                       </Col>
