@@ -37,7 +37,10 @@ const Dashboard = () => {
       } catch (error) {
       }
       try {
-        const leaves = await axios.get(process.env.React_APP_ORIGIN_URL + 'leaverequest/allForHR')
+
+
+
+        const leaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR/${new Date().toLocaleString('en-US', { month: "numeric" })}/${new Date().toLocaleString('en-US', { year: "numeric" })}`)
         const leav = leaves.data.counted;
         let totalLeave = 0
         leaves.data.allRequest.map((j) => {

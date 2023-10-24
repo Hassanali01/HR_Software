@@ -256,8 +256,8 @@ router.get('/allForHR/:month/:year', async (req, res, next) => {
     
       }
     }).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
-    // const counted = await LeaveRequest.count();
-    allRequest && res.status(200).json({ message: "all Leave requests", allRequest })
+    const counted = await LeaveRequest.count();
+    allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
     next(error);
   }
