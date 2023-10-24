@@ -122,7 +122,7 @@ const Sidebar = () => {
                       </Link>
                       <Link to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Leaves to approve </p>
+                        <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Assign to me </p>
                       </Link>
                     </>
                   }
@@ -235,7 +235,7 @@ const Sidebar = () => {
                   
                         <Link to={`/manageworkleave`} className="nav-link m-2 p-0 ms-4">
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                          <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Approve</p>
+                          <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Assign to me</p>
                         </Link>
                       
                     </>

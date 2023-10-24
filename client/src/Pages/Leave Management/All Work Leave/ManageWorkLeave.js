@@ -399,12 +399,14 @@ function ManageWorkLeave() {
             headerName: "Detail",
             width: 80,
             renderCell: (id) => {
+
                 return (
-                    <div>
+                    <div >
                         <Link
+                 
                             to='/WorkLeaveDetails'
-                            state={modaldata}
-                        >{console.log("modeldata", modaldata)}
+                            state={id.row}
+                        >
                             <DnsIcon style={{ color: "black" }} />
                         </Link>
                     </div>

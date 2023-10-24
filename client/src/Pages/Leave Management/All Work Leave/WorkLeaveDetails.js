@@ -55,8 +55,8 @@ function WorkLeaveDetails() {
     const location = useLocation();
     const customData = location.state && location.state;
 
-    console.log("location",location)
-    console.log("custom",customData)
+    console.log("location", location)
+    console.log("custom", customData)
     return (
         <>
             <div
@@ -84,9 +84,7 @@ function WorkLeaveDetails() {
                                                                     type="date"
                                                                     required
                                                                     className="form-control-sm my-0"
-                                                                    onChange={(e) => {
-                                                                        setapplicationdate(e.target.value);
-                                                                    }}
+                                                                    value={customData.applicationdate}
                                                                     style={{ backgroundColor: "white" }}
                                                                 />
                                                             </Form.Group>
@@ -97,11 +95,15 @@ function WorkLeaveDetails() {
                                                                 controlId="formWorkType"
                                                             >
                                                                 <Form.Label className="fieldLabel font-weight-normal">Work Type</Form.Label>
-                                                                <Form.Select
-                                                                    className="form-select-sm"
-                                                                    // onChange={(e) => {
-                                                                    //   setWorkabsence(e.target.value);
-                                                                    // }}
+                                                                <Form.Control
+                                                                    type="date"
+                                                                    required
+                                                                    className="form-control-sm my-0"
+                                                                    value={customData.workabsence}
+                                                                    style={{ backgroundColor: "white" }}
+                                                                />
+                                                                {/* <Form.Select
+                                                                    className="form-select-sm"                                                               
                                                                     value={workabsence}
                                                                 >
                                                                     <option disabled selected hidden value={""}>Please Select</option>
@@ -113,7 +115,7 @@ function WorkLeaveDetails() {
                                                                     <option value={"Market Visit"}>Market Visit</option>
                                                                     <option value={"Vendor Visit"}>Vendor Visit</option>
                                                                     <option value={"Others"}>Others</option>
-                                                                </Form.Select>
+                                                                </Form.Select> */}
                                                             </Form.Group>
                                                         </Col>
 
@@ -154,9 +156,10 @@ function WorkLeaveDetails() {
                                                                     type="text"
                                                                     className="form-control-sm"
                                                                     required
-                                                                    onChange={(e) => {
-                                                                        setTask(e.target.value);
-                                                                    }}
+                                                                    value={customData.task}
+                                                                // onChange={(e) => {
+                                                                //     setTask(e.target.value);
+                                                                // }}
                                                                 />
                                                             </Form.Group>
                                                         </Col>
@@ -165,10 +168,10 @@ function WorkLeaveDetails() {
                                                             <Form.Control
                                                                 type="text"
                                                                 className="form-control-sm"
-
-                                                                onChange={(e) => {
-                                                                    setProject(e.target.value);
-                                                                }}
+                                                                value={customData.Project}
+                                                            // onChange={(e) => {
+                                                            //     setProject(e.target.value);
+                                                            // }}
                                                             />
                                                         </Col>
                                                         <Col>
@@ -176,10 +179,10 @@ function WorkLeaveDetails() {
                                                             <Form.Control
                                                                 type="text"
                                                                 className="form-control-sm"
-
-                                                                onChange={(e) => {
-                                                                    setDescription(e.target.value);
-                                                                }}
+                                                                value={customData.description}
+                                                            // onChange={(e) => {
+                                                            //     setDescription(e.target.value);
+                                                            // }}
                                                             />
                                                         </Col>
                                                     </Row>
@@ -193,10 +196,10 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="date"
                                                                     className="form-control-sm my-o"
-                                                                    required
-                                                                    onChange={(e) => {
-                                                                        setFirstdate(e.target.value);
-                                                                    }}
+                                                                    value={customData.from}
+                                                                    // onChange={(e) => {
+                                                                    //     setFirstdate(e.target.value);
+                                                                    // }}
                                                                     style={{ backgroundColor: "white" }}
                                                                 />
                                                             </Col>
@@ -205,10 +208,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     className="form-control-sm my-0"
                                                                     type="date"
-                                                                    required
-                                                                    onChange={(e) => {
-                                                                        setSecond(e.target.value);
-                                                                    }}
+                                                                    value={customData.to}
                                                                     style={{ backgroundColor: "white" }}
                                                                 />
                                                             </Col>
@@ -236,7 +236,7 @@ function WorkLeaveDetails() {
                                                                     type="time"
                                                                     className="form-control-sm"
                                                                     required
-                                                                    value={toTime}
+                                                                    value={customData.toTime}
                                                                 // onChange={(e) => {
                                                                 //   setToTime(e.target.value)
                                                                 // }}
@@ -248,7 +248,7 @@ function WorkLeaveDetails() {
                                                                     type="time"
                                                                     className="form-control-sm"
                                                                     // required
-                                                                    value={fromTime}
+                                                                    value={customData.fromTime}
                                                                 // onChange={(e) => {
                                                                 //   setFromTime(e.target.value)
                                                                 // }}
@@ -258,11 +258,11 @@ function WorkLeaveDetails() {
                                                                 <Form.Label className="fieldLabel font-weight-normal"> Duration</Form.Label>
                                                                 <Form.Select
                                                                     className="form-select-sm"
-                                                                    value={leave_status}
+                                                                    value={customData.Short_leave}
                                                                 // onChange={(e) => { setLeave_status(e.target.value) }}
                                                                 // required
                                                                 >
-                                                                    <option disabled selected hidden value="">Please Select</option>
+                                                                    <option disabled selected hidden value="">{customData.Short_leave}</option>
                                                                     <option value="True">Short day</option>
                                                                     <option value="False">Full day</option>
                                                                 </Form.Select>
@@ -292,6 +292,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     className="form-control-sm"
                                                                     type="text"
+                                                                    value={customData.remarks}
                                                                 // onChange={(e) => {
                                                                 //   setRemarks(e.target.value);
                                                                 // }}
@@ -312,6 +313,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
+                                                                    value={customData.reasonToVisit}
                                                                 // onChange={(e) => {
                                                                 //   setReasonToVisit(e.target.value);
                                                                 // }}
@@ -322,6 +324,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
+                                                                    value={customData.personToMeet}
                                                                 // onChange={(e) => {
                                                                 //   setPersonToMeet(e.target.value);
                                                                 // }}
@@ -333,6 +336,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
+                                                                    value={customData.placeToVisit}
                                                                 // onChange={(e) => {
                                                                 //   setPlaceToVisit(e.target.value);
                                                                 // }}
@@ -353,7 +357,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
+                                                                    value={customData.meterStartReading}
                                                                 // onChange={(e) => {
                                                                 //   setMeterStartReading(e.target.value);
                                                                 // }}
@@ -364,7 +368,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
+                                                                    value={customData.meterEndReading}
                                                                 // onChange={(e) => {
                                                                 //   setMeterEndReading(e.target.value);
                                                                 // }}
@@ -375,7 +379,7 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
+                                                                    value={customData.overallRemarks}
                                                                 // onChange={(e) => {
                                                                 //   setOverallRemarks(e.target.value);
                                                                 // }}

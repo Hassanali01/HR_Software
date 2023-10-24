@@ -506,6 +506,10 @@ const MonthlyPayroll = () => {
                     ([key, value]) => {
                       // Applying each payroll setup formula for the specified days
                       value[0].employee.payroll_setup.forEach((ps) => {
+
+                        console.log("employee in payr", ps)
+
+
                         const addField = () => {
                           setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }])
                         }
