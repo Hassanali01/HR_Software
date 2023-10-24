@@ -32,7 +32,7 @@ import AddSlabs from "./Pages/Shifts/AddSlabs";
 import HeaderState from "./Context/HeaderState";
 import WorkLeave from "./Pages/Leave Management/Work Leave/workLeave";
 import ManageWorkLeave from "./Pages/Leave Management/All Work Leave/ManageWorkLeave";
-
+import WorkLeaveDetails from "./Pages/Leave Management/All Work Leave/WorkLeaveDetails";
 
 function App(props) {
   const context = useContext(Context);
@@ -69,6 +69,7 @@ function App(props) {
                 <Route path="/addslabs" element={<AddSlabs />}></Route>
                 <Route path="/workleave" element={<WorkLeave />}></Route>
                 <Route path="/manageworkleave" element={<ManageWorkLeave />}></Route>
+                <Route path= "/WorkLeaveDetails" element={<WorkLeaveDetails />}></Route>
               </Routes>
             </>
           ) : (

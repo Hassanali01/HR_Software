@@ -10,6 +10,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DnsIcon from '@mui/icons-material/Dns';
 import {
     NotificationContainer,
     NotificationManager,
@@ -18,6 +19,7 @@ import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import HeaderContext from '../../../Context/HeaderContext'
 import Calendar from 'react-calendar';
+import { Link } from "react-router-dom";
 
 
 function ManageWorkLeave() {
@@ -56,26 +58,19 @@ function ManageWorkLeave() {
 
     function onChangeCalendar(e) {
         console.log("calendar", e)
-
         setCalendarDate(e)
         setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
         setMonth(e.toLocaleString('en-US', { month: "long" }))
         setYear(e.toLocaleString('en-US', { year: "numeric" }))
         setMonthNumeric(e.toLocaleString('en-US', { month: "numeric" }))
-
         console.log("month- year", monthNumeric, year)
-
         setUpdate(!update)
-
         handleCloseCalendar()
     }
 
 
-
-
     function getMimetype(extension) {
         var mimetype;
-
         switch (extension) {
             case ".jpeg":
             case ".jpg":
@@ -399,8 +394,24 @@ function ManageWorkLeave() {
                 );
             },
         },
+        {
+            field: "Detail",
+            headerName: "Detail",
+            width: 80,
+            renderCell: (id) => {
+                return (
+                    <div>
+                        <Link
+                            to='/WorkLeaveDetails'
+                            state={modaldata}
+                        >{console.log("modeldata", modaldata)}
+                            <DnsIcon style={{ color: "black" }} />
+                        </Link>
+                    </div>
+                );
+            },
+        }
     ];
-
 
     return (
         <div>
