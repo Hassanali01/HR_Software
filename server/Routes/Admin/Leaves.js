@@ -357,6 +357,93 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
 
 
 
+router.get('/employee/:id/:month/:year', async (req, res, next) => {
+  try {
+  
+    const allRequest = await LeaveRequest.aggregate(
+      //  employee: subordinateEmployeesIDs,
+      [
+        {
+          '$match': {
+            '$expr': {
+              '$or': [
+                {
+                  '$eq': [
+                    {
+                      '$year': '$from'
+                    }, parseInt(req.params.year)
+                  ]
+                }, {
+                  '$eq': [
+                    {
+                      'year': '$to'
+                    }, parseInt( req.params.year)
+                  ]
+                }
+              ]
+            }
+          }
+        }, {
+          '$match': {
+            '$expr': {
+              '$or': [
+                {
+                  '$eq': [
+                    {
+                      '$month': '$from'
+                    }, parseInt(req.params.month)
+                  ]
+                }, {
+                  '$eq': [
+                    {
+                      '$month': '$to'
+                    },parseInt(req.params.month)
+                  ]
+                }
+              ]
+            }
+          }
+        }, {
+          '$match': {
+            '$expr': {
+              '$eq': [
+                '$employee', 
+                  // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
+                  new ObjectId(req.params.id)
+              ]
+            }
+          }
+        }, {
+          '$lookup': {
+            'from': 'employees', 
+            'localField': 'employee', 
+            'foreignField': '_id', 
+            'as': 'employee'
+          }
+        }, {
+          '$unwind': {
+            'path': '$employee', 
+            'preserveNullAndEmptyArrays': false
+          }
+        }, {
+          '$lookup': {
+            'from': 'departments', 
+            'localField': 'employee.departments', 
+            'foreignField': '_id', 
+            'as': 'employee.departments'
+          }
+        }
+      ]
+     )
+    // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
+    
+    const counted = await LeaveRequest.count();
+    allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
+  } catch (error) {
+    next(error);
+  }
+})
+
 
 // Last five leaves of employee
 

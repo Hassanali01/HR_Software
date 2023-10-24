@@ -36,6 +36,9 @@ const LeaveRequest = () => {
   const [toTime, setToTime] = useState("")
   const [details, setDetails] = useState([]);
   const [Short_leave, setShort_leave] = useState([]);
+  const [employee, setEmployee] = useState(user.id)
+  const [allEmployees, setAllEmployees] = useState([])
+
 
   const url = "leaves";
   const posturl = "leaverequest/addrequest";
@@ -44,7 +47,7 @@ const LeaveRequest = () => {
     a.update("Human Resource / Apply leave ")
   })
 
-  const employee = user.id;
+
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -55,8 +58,8 @@ const LeaveRequest = () => {
     try {
 
       console.log("user info", user)
-      const res = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/lastfive/${user.id}`);
-      
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/lastfive/${employee}`);
+
       const empinfo = res.data;
       const InfoData = [];
       await empinfo.map((d) => {
@@ -79,10 +82,16 @@ const LeaveRequest = () => {
       });
       setinfo(InfoData);
 
-    
-      setDetails(res.data[0] && res.data[0].employee);
+
+
+      const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
+
+
+      console.log("employee", Employee)
+
+      setDetails(Employee.data);
     } catch (error) {
-      console.log("error in ",error);
+      console.log("error in ", error);
     }
   };
 
@@ -161,9 +170,23 @@ const LeaveRequest = () => {
     fetchData();
     userInformation();
     allemployees();
-  }, []);
+
+
+
+    (async () => {
+
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "employees")
+
+      
+      const data = res.data.employees;
+      setAllEmployees(data);
+    })();
+
+  }, [employee]);
 
   const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
+  console.log("current user", user)
+
   return (
     <>
       <div
@@ -175,20 +198,48 @@ const LeaveRequest = () => {
             <div className="card">
               <div className="card-header buttoncolor ">
                 <h3 className="card-title" style={{ color: "white" }}>
-                   Apply leave 
+                  Apply leave
                 </h3>
               </div>
               <div className="card-body">
                 <Container>
                   <div>
-               {console.log("details", details)}
-                          <div style={{ margin:"0 10px 0 10px", display: "flex", justifyContent:"space-between" }}>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details.emp_id} </p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details.firstname}</p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details.designation}</p>
-                            <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {details.departments && details.departments[0].departmentname }</p>
-                          </div>
-                      
+<div>
+                    {user.isAdmin &&
+                      <Form.Group
+                        controlId="formEmployees"
+                        className="   mb-3"
+                      >
+                        <Form.Label>Apply leave for:</Form.Label>
+
+                        <Form.Select
+                          name="employees"
+                          value={employee}
+                          onChange={(e) => {
+                            setEmployee(e.target.value);
+                          }}
+                        >
+                          <option disabled selected hidden value={""}>Other employee leave</option>
+
+                          {allEmployees && allEmployees.map((d, i) => {
+                            return (
+                              <option key={d._id} value={d._id}>
+                                {d.firstname}
+                              </option>
+                            );
+                          })}
+                        </Form.Select>
+                      </Form.Group>
+
+                    }
+</div>
+                    <div style={{ margin: "0 10px 0 10px", display: "flex", justifyContent: "space-between" }}>
+                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details && details.emp_id} </p>
+                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details && details.firstname}</p>
+                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details && details.designation}</p>
+                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {details && details.departments && details.departments[0] && details.departments[0].departmentname}</p>
+                    </div>
+
                     <hr />
                     <Row>
                       <Col xs="6">
@@ -208,7 +259,7 @@ const LeaveRequest = () => {
                                       onChange={(e) => {
                                         setapplicationdate(e.target.value);
                                       }}
-                                      style={{ height: "33px", marginTop: "0px" , backgroundColor:"white"}}
+                                      style={{ height: "33px", marginTop: "0px", backgroundColor: "white" }}
                                     />
                                   </Col>
 
@@ -257,7 +308,7 @@ const LeaveRequest = () => {
                                         onChange={(e) => {
                                           setFirstdate(e.target.value);
                                         }}
-                                        style={{ height: "33px", marginTop: "0px", backgroundColor:"white" }}
+                                        style={{ height: "33px", marginTop: "0px", backgroundColor: "white" }}
                                       />
                                     </Form.Group>
 
@@ -274,7 +325,7 @@ const LeaveRequest = () => {
                                         onChange={(e) => {
                                           setSecond(e.target.value);
                                         }}
-                                        style={{ height: "33px", marginTop: "0px", backgroundColor:"white" }}
+                                        style={{ height: "33px", marginTop: "0px", backgroundColor: "white" }}
                                       />
                                     </Form.Group>
                                   </Col>

@@ -108,17 +108,21 @@ const Sidebar = () => {
 
                     <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                     <p className='iconColor' >Leaves</p>
-                    <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+                    { toggleLeaves ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
                   </div>
                   {
                     toggleLeaves && <>
                       <Link to={'/leaverequest'} className='nav-link m-2 p-0  ms-4'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                       <p className='iconColor' style={{opacity:0.9}}>Apply leave</p>
+                       <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Apply leave</p>
+                      </Link>
+                      <Link to={'/leaveshistory'} className='nav-link m-2 p-0  ms-4'>
+                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                       <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Leaves history</p>
                       </Link>
                       <Link to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{opacity:0.9}}>Leaves to approve </p>
+                        <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Leaves to approve </p>
                       </Link>
                     </>
                   }
@@ -151,14 +155,14 @@ const Sidebar = () => {
 
                       <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
                       <p className='iconColor'> Attendance Management</p>
-                      <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>
+                      { toggleAttendance ? <i className='nav-icon fa-solid fa-chevron-up iconColor my-3' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>}
                     </div>
                     {
                       toggleAttendance &&
                       <>
                         <Link to="/datamanagement" className="nav-link m-2 p-0 ms-4">
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
-                          <p className='iconColor'  style={{opacity:0.9}}>
+                          <p className='iconColor'  style={{opacity:0.9, fontSize:13}}>
                           Reports
                           </p>
                         </Link>
@@ -166,8 +170,8 @@ const Sidebar = () => {
                           <Link to="/monthlyattendance" className="nav-link  m-2 p-0 ms-4">
                             {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
 
-                            <p className='iconColor' style={{opacity:0.9}}>
-                              Attendance History
+                            <p className='iconColor' style={{opacity:0.9, fontSize:13}}>
+                              Attendance history
                             </p>
                           </Link>
                         }
@@ -218,18 +222,20 @@ const Sidebar = () => {
 
 
                     <p className='iconColor'>Work absence</p>
-                    <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>
+                  { toggleWorkLeave ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
+
+
                   </div>
                   {
                     toggleWorkLeave && <>
                       <Link to={`/workleave`} className='nav-link m-2 p-0 ms-4'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor ' style={{opacity:0.9}}>Apply</p>
+                        <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Apply</p>
                       </Link>
                   
                         <Link to={`/manageworkleave`} className="nav-link m-2 p-0 ms-4">
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                          <p className='iconColor ' style={{opacity:0.9}}>Approve</p>
+                          <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Approve</p>
                         </Link>
                       
                     </>

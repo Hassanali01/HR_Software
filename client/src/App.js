@@ -32,6 +32,7 @@ import AddSlabs from "./Pages/Shifts/AddSlabs";
 import HeaderState from "./Context/HeaderState";
 import WorkLeave from "./Pages/Leave Management/Work Leave/workLeave";
 import ManageWorkLeave from "./Pages/Leave Management/All Work Leave/ManageWorkLeave";
+import LeavesHistory from "./Pages/Leave Management/All Leave Reuests/LeavesHistory";
 
 
 function App(props) {
@@ -60,6 +61,8 @@ function App(props) {
                 <Route path='/departments' element={<Departments />} />
                 <Route path='/companies' element={<Companies />} />
                 <Route path="/leaverequest" element={<LeaveRequest />} />
+                <Route path="/leaveshistory" element={<LeavesHistory />} />
+
                 <Route path="/manageleaves" element={<ManageLeaves />}></Route>
                 <Route path="/monthlypayroll"  element={user.isAdmin && <MonthlyPayroll />} />
                 <Route path="/monthlyattendance" element={user.isAdmin && <MonthlyAttendance />}></Route>
