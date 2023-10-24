@@ -17,6 +17,7 @@ import {
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import HeaderContext from '../../../Context/HeaderContext'
+import Calendar from 'react-calendar';
 
 
 function ManageWorkLeave() {
@@ -35,6 +36,41 @@ function ManageWorkLeave() {
     useEffect(() => {
         a.update("Human Resource / Work Leave Management")
     })
+
+
+
+    // States and functions related to calendar for selecting month and year
+
+    const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
+    const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
+    const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
+    const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
+    const [calendarDate, setCalendarDate] = useState("")
+    const [showCalendar, setShowCalendar] = useState(false);
+
+
+
+    const handleCloseCalendar = () => setShowCalendar(false);
+    const handleShowCalendar = () => setShowCalendar(true);
+
+
+    function onChangeCalendar(e) {
+        console.log("calendar", e)
+
+        setCalendarDate(e)
+        setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
+        setMonth(e.toLocaleString('en-US', { month: "long" }))
+        setYear(e.toLocaleString('en-US', { year: "numeric" }))
+        setMonthNumeric(e.toLocaleString('en-US', { month: "numeric" }))
+
+        console.log("month- year", monthNumeric, year)
+
+        setUpdate(!update)
+
+        handleCloseCalendar()
+    }
+
+
 
 
     function getMimetype(extension) {
@@ -249,15 +285,14 @@ function ManageWorkLeave() {
     };
 
     const { user } = useContext(Context);
-    const month = "September"
     const getLeavesrequests = async () => {
         var getLeaves = [];
         {
             if (!user.isAdmin) {
-      
-                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`); 
-            } else{
-                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/allWorkLeave`);
+
+                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}/${monthNumeric}/${year}`);
+            } else {
+                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/allWorkLeave/${monthNumeric}/${year}`);
             }
         }
         // getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`);
@@ -382,7 +417,23 @@ function ManageWorkLeave() {
                                 </h3>
                             </div>
                             <div className="card-body">
-                                <div style={{ width: "100%", height: "700px" }}>
+
+                                <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                                    Select the month
+                                </Button>
+                                <input className="" value={`${month} - ${year}`}
+                                // disabled="true"
+                                ></input>
+                                <Modal show={showCalendar} onHide={handleCloseCalendar}>
+                                    <div className='d-flex justify-content-center'>
+                                        <Calendar
+                                            onChange={onChangeCalendar}
+                                            value={calendarDate}
+                                            maxDetail='year'
+                                        />
+                                    </div>
+                                </Modal>
+                                <div className='mt-3' style={{ width: "100%", height: "700px" }}>
                                     <DataGrid columns={columns} rows={rows} />
                                 </div>
                             </div>

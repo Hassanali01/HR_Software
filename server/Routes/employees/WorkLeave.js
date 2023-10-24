@@ -8,17 +8,81 @@ const Employees = require('../../Models/employees');
 const mongoClient = mongodb.MongoClient
 
 
+// // all leaves request 
+// router.get('/allWorkLeave', async (req, res, next) => {
+//     try {
+//         const allRequest = await WorkLeave.find().populate('employee');
+//         allRequest && res.status(200).json({
+//             message: "all Leave requests", allRequest
+//         });
+//     } catch (error) {
+//         next(error);
+//     }
+// })
+
+
+
 // all leaves request 
-router.get('/allWorkLeave', async (req, res, next) => {
+router.get('/allWorkLeave/:month/:year', async (req, res, next) => {
     try {
-        const allRequest = await WorkLeave.find().populate('employee');
-        allRequest && res.status(200).json({
-            message: "all Leave requests", allRequest
-        });
+  
+  
+      console.log("allfor hr", req.params)
+  
+      const allRequest = await WorkLeave.find({
+        $expr: {
+  
+          $or: [
+           { $and: [
+              {
+                "$eq": [
+                  {
+                    "$month": "$from"
+                  },
+                  parseInt(req.params.month)
+                ]
+              },
+              {
+                "$eq": [
+                  {
+                    "$year": "$from"
+                  },
+                  parseInt(req.params.year)
+                ]
+              }
+            ]},
+  
+              {  $and: [
+            {
+              "$eq": [
+                {
+                  "$month": "$to"
+                },
+                parseInt(req.params.month)
+              ]
+            },
+            {
+              "$eq": [
+                {
+                  "$year": "$to"
+                },
+                parseInt(req.params.year)
+              ]
+            }
+          ]
+  
+        }
+          ]
+  
+      
+        }
+      }).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
+      // const counted = await LeaveRequest.count();
+      allRequest && res.status(200).json({ message: "all Leave requests", allRequest })
     } catch (error) {
-        next(error);
+      next(error);
     }
-})
+  })
 
 
 
@@ -233,13 +297,107 @@ router.get('/:month', async (req, res) => {
 });
 
 
-router.get('/all/:id', async (req, res, next) => {
+// router.get('/all/:id', async (req, res, next) => {
+//     try {
+//       const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
+//       let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
+//       const allRequest = await WorkLeave.find({ employee: subordinateEmployeesIDs }).populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
+//       const counted = await WorkLeave.count();
+//       allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
+//     } catch (error) {
+//       next(error);
+//     }
+//   })
+
+
+
+// Get all leaves for subordinate employees
+
+
+router.get('/all/:id/:month/:year', async (req, res, next) => {
     try {
       const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
       let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
-      const allRequest = await WorkLeave.find({ employee: subordinateEmployeesIDs }).populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
-      const counted = await WorkLeave.count();
-      allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
+      console.log("subordinate employees ids", subordinateEmployeesIDs, req.params)
+      const allRequest = await WorkLeave.aggregate(
+        //  employee: subordinateEmployeesIDs,
+        [
+          {
+            '$match': {
+              '$expr': {
+                '$or': [
+                  {
+                    '$eq': [
+                      {
+                        '$year': '$from'
+                      }, parseInt(req.params.year)
+                    ]
+                  }, {
+                    '$eq': [
+                      {
+                        'year': '$to'
+                      }, parseInt( req.params.year)
+                    ]
+                  }
+                ]
+              }
+            }
+          }, {
+            '$match': {
+              '$expr': {
+                '$or': [
+                  {
+                    '$eq': [
+                      {
+                        '$month': '$from'
+                      }, parseInt(req.params.month)
+                    ]
+                  }, {
+                    '$eq': [
+                      {
+                        '$month': '$to'
+                      },parseInt(req.params.month)
+                    ]
+                  }
+                ]
+              }
+            }
+          }, {
+            '$match': {
+              '$expr': {
+                '$in': [
+                  '$employee', 
+                    // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
+                    subordinateEmployeesIDs
+                ]
+              }
+            }
+          }, {
+            '$lookup': {
+              'from': 'employees', 
+              'localField': 'employee', 
+              'foreignField': '_id', 
+              'as': 'employee'
+            }
+          }, {
+            '$unwind': {
+              'path': '$employee', 
+              'preserveNullAndEmptyArrays': false
+            }
+          }, {
+            '$lookup': {
+              'from': 'departments', 
+              'localField': 'employee.departments', 
+              'foreignField': '_id', 
+              'as': 'employee.departments'
+            }
+          }
+        ]
+       )
+      // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
+      
+    //   const counted = await LeaveRequest.count();
+      allRequest && res.status(200).json({ message: "all Leave requests", allRequest })
     } catch (error) {
       next(error);
     }
