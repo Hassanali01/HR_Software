@@ -21,7 +21,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 // import Table from "./TableView/Table";
 import HeaderContext from '../../Context/HeaderContext'
 
-function Desigination() {
+function Designation() {
 
     const [getdata, setData] = useState([]);
     const [show, setShow] = useState(false);
@@ -31,7 +31,7 @@ function Desigination() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const desigination = async () => {
+    const Designation = async () => {
         try {
             const des = await axios.get(process.env.React_APP_ORIGIN_URL + "designation");
             const res = des.data
@@ -63,7 +63,7 @@ function Desigination() {
     };
 
     useEffect(() => {
-        desigination();
+        Designation();
     }, []);
 
     const a = useContext(HeaderContext)
@@ -194,4 +194,4 @@ function Desigination() {
     )
 }
 
-export default Desigination
+export default Designation
