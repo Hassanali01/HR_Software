@@ -17,7 +17,7 @@ import "./index.css";
 import DataManagement from "./Pages/Attendence Report/DataManagement";
 import Login from "./Auth/Login/Login";
 import Departments from "./Pages/Departments/Departments";
-import Dasigination from "./Pages/Desigination/Desigination"
+import Dasignation from "./Pages/Desigination/Desigination"
 import LeaveRequest from "./Pages/Leave Management/leaveRequest/LeaveRequest";
 import ManageLeaves from "./Pages/Leave Management/All Leave Reuests/ManageLeaves";
 import './index.css'
@@ -34,7 +34,7 @@ import HeaderState from "./Context/HeaderState";
 import WorkLeave from "./Pages/Leave Management/Work Leave/workLeave";
 import ManageWorkLeave from "./Pages/Leave Management/All Work Leave/ManageWorkLeave";
 import LeavesHistory from "./Pages/Leave Management/All Leave Reuests/LeavesHistory";
-
+import LeaveAllocation from "./Pages/Leave Management/Leave Allocation/LeaveAllocation";
 import WorkLeaveDetails from "./Pages/Leave Management/All Work Leave/WorkLeaveDetails";
 
 function App(props) {
@@ -61,11 +61,11 @@ function App(props) {
                 <Route path="/datamanagement" element={<DataManagement />} />
                 <Route path='/leaves' element={<Leaves />} />
                 <Route path='/departments' element={<Departments />} />
-                <Route path='/dasigination' element={<Dasigination />} />
+                <Route path='/dasignation' element={<Dasignation />} />
                 <Route path='/companies' element={<Companies />} />
                 <Route path="/leaverequest" element={<LeaveRequest />} />
                 <Route path="/leaveshistory" element={<LeavesHistory />} />
-
+                <Route path="/leaveallocation" element={<LeaveAllocation />} />
                 <Route path="/manageleaves" element={<ManageLeaves />}></Route>
                 <Route path="/monthlypayroll"  element={user.isAdmin && <MonthlyPayroll />} />
                 <Route path="/monthlyattendance" element={user.isAdmin && <MonthlyAttendance />}></Route>
