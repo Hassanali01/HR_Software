@@ -9,9 +9,22 @@ const leavesSchema = mongoose.Schema({
         type:String,
         required:false
     },
-    allocation:{
-        type:Number,
-        required:true
+    allocations: {
+        type: [{
+            company: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'companies'
+            },
+            department: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'departments'
+            },
+            designation: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'designations'
+            },
+            allocation: Number
+        }],
     },
 
 })

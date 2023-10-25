@@ -7,8 +7,24 @@ const leavesSchema = mongoose.Schema({
     },
     description:{
         type:String,
-        required:true
-    }
+        // required:true
+    },
+    allocations: {
+        type: [{
+          company: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'companies'
+        },        
+          department: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'departments'
+        },   
+          designation: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'designations'
+        },
+        }],
+      },
 })
 
 const Leaves = mongoose.model('Leaves',leavesSchema);

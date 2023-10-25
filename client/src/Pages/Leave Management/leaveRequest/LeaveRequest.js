@@ -446,7 +446,7 @@ const LeaveRequest = () => {
                                         id="files"
                                         name="files"
                                         onChange={(f) => {
-                                          var ext = f.target.value.match(
+                                          var ext = f.target.value && f.target.value.match(
                                             /\.([^\.]+)$/
                                           )[1];
                                           switch (ext) {

@@ -68,7 +68,9 @@ const leaveRequestSchema = mongoose.Schema({
     },
     leaveNature:{
         type: String
-    }
+    },
+  
+
 })
 
 const LeaveRequest = mongoose.model('LeaveRequest', leaveRequestSchema);
