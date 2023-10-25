@@ -4,34 +4,17 @@ const router = express.Router();
 const employees = require('../../Models/employees')
 const mongodb = require('mongodb')
 const Employees = require('../../Models/employees');
-
 const mongoClient = mongodb.MongoClient
 
-
-// // all leaves request 
-// router.get('/allWorkLeave', async (req, res, next) => {
-//     try {
-//         const allRequest = await WorkLeave.find().populate('employee');
-//         allRequest && res.status(200).json({
-//             message: "all Leave requests", allRequest
-//         });
-//     } catch (error) {
-//         next(error);
-//     }
-// })
 
 
 
 // all leaves request 
 router.get('/allWorkLeave/:month/:year', async (req, res, next) => {
     try {
-  
-  
       console.log("allfor hr", req.params)
-  
       const allRequest = await WorkLeave.find({
         $expr: {
-  
           $or: [
            { $and: [
               {
@@ -51,7 +34,6 @@ router.get('/allWorkLeave/:month/:year', async (req, res, next) => {
                 ]
               }
             ]},
-  
               {  $and: [
             {
               "$eq": [
@@ -70,14 +52,10 @@ router.get('/allWorkLeave/:month/:year', async (req, res, next) => {
               ]
             }
           ]
-  
         }
           ]
-  
-      
         }
-      }).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
-      // const counted = await LeaveRequest.count();
+      }).populate({ path: 'employee assignedBy', populate: [{ path: 'departments', select: ['departmentname'] }] });
       allRequest && res.status(200).json({ message: "all Leave requests", allRequest })
     } catch (error) {
       next(error);
@@ -108,30 +86,16 @@ function insertFile(file, res) {
 
 
 router.post('/', async (req, res, next) => {
-    // console.log("add workleave ", [JSON.parse(JSON.parse(JSON.stringify(req.body.expense)))])
     try {
-
-
-        // console.log("req.body.ex",req.body.expense)
-        // let arr = Array.from(req.body.expense)
-        // console.log("array", arr)
-
-
-
-
-
-        // arr.push(JSON.parse(JSON.parse(JSON.stringify(req.body.expense))))
-
-
         const reqLeave = new WorkLeave({
             workabsence: req.body.workabsence,
             from: req.body.from,
             to: req.body.to,
             description: req.body.description,
             task: req.body.task,
-            Project: req.body.Project,
+            project: req.body.project,
             location: req.body.location,
-            Workstatus: req.body.Workstatus,
+            workStatus: req.body.workStatus,
             status: req.body.status,
             employee: req.body.employee,
             applicationdate: req.body.applicationdate,
@@ -146,9 +110,7 @@ router.post('/', async (req, res, next) => {
             meterStartReading: req.body.meterStartReading,
             meterEndReading: req.body.meterEndReading,
             overallRemarks: req.body.overallRemarks,
-            // expense: arr.map((a)=>JSON.parse(a))
-            expense: JSON.parse(req.body.expense)
-            
+            expense: JSON.parse(req.body.expense)  
         })
         const leaverequest = await reqLeave.save()
         leaverequest && res.status(200).json({ message: "Leave Request", leaverequest });
@@ -163,11 +125,9 @@ router.post('/', async (req, res, next) => {
                 { new: true, useFindAndModify: false })
         } catch (error) {
             console.log("error", error)
-            // next(error)
         }
     } catch (error) {
         console.log("error ", error)
-        // next(error)
     }
 })
 
@@ -283,44 +243,25 @@ router.get('/:month', async (req, res) => {
                 return allDates
             }
         })
-
-
         res.status(200).json({
             Leaves,
             totaldays,
         });
     } catch (error) {
-
         console.log("error", error)
         res.json({ error: error });
     }
 });
 
 
-// router.get('/all/:id', async (req, res, next) => {
-//     try {
-//       const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
-//       let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
-//       const allRequest = await WorkLeave.find({ employee: subordinateEmployeesIDs }).populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
-//       const counted = await WorkLeave.count();
-//       allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
-//     } catch (error) {
-//       next(error);
-//     }
-//   })
-
 
 
 // Get all leaves for subordinate employees
-
-
 router.get('/all/:id/:month/:year', async (req, res, next) => {
     try {
       const subordinateEmployees = await Employees.find({ supervisors: { $in: req.params.id } })
       let subordinateEmployeesIDs = subordinateEmployees.map(a => a._id);
-      console.log("subordinate employees ids", subordinateEmployeesIDs, req.params)
       const allRequest = await WorkLeave.aggregate(
-        //  employee: subordinateEmployeesIDs,
         [
           {
             '$match': {
@@ -367,7 +308,6 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
               '$expr': {
                 '$in': [
                   '$employee', 
-                    // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
                     subordinateEmployeesIDs
                 ]
               }
@@ -391,12 +331,21 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
               'foreignField': '_id', 
               'as': 'employee.departments'
             }
+          }, {
+            '$lookup': {
+              'from': 'employees', 
+              'localField': 'assignedBy', 
+              'foreignField': '_id', 
+              'as': 'assignedBy'
+            }
+          }, {
+            '$unwind': {
+              'path': '$assignedBy', 
+              'preserveNullAndEmptyArrays': false
+            }
           }
         ]
        )
-      // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
-      
-    //   const counted = await LeaveRequest.count();
       allRequest && res.status(200).json({ message: "all Leave requests", allRequest })
     } catch (error) {
       next(error);

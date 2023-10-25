@@ -17,6 +17,7 @@ import "./index.css";
 import DataManagement from "./Pages/Attendence Report/DataManagement";
 import Login from "./Auth/Login/Login";
 import Departments from "./Pages/Departments/Departments";
+import Dasigination from "./Pages/Desigination/Desigination"
 import LeaveRequest from "./Pages/Leave Management/leaveRequest/LeaveRequest";
 import ManageLeaves from "./Pages/Leave Management/All Leave Reuests/ManageLeaves";
 import './index.css'
@@ -60,6 +61,7 @@ function App(props) {
                 <Route path="/datamanagement" element={<DataManagement />} />
                 <Route path='/leaves' element={<Leaves />} />
                 <Route path='/departments' element={<Departments />} />
+                <Route path='/dasigination' element={<Dasigination />} />
                 <Route path='/companies' element={<Companies />} />
                 <Route path="/leaverequest" element={<LeaveRequest />} />
                 <Route path="/leaveshistory" element={<LeavesHistory />} />

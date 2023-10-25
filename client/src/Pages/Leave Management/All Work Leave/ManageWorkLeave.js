@@ -39,10 +39,7 @@ function ManageWorkLeave() {
         a.update("Human Resource / Work Leave Management")
     })
 
-
-
     // States and functions related to calendar for selecting month and year
-
     const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
     const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
     const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
@@ -50,11 +47,8 @@ function ManageWorkLeave() {
     const [calendarDate, setCalendarDate] = useState("")
     const [showCalendar, setShowCalendar] = useState(false);
 
-
-
     const handleCloseCalendar = () => setShowCalendar(false);
     const handleShowCalendar = () => setShowCalendar(true);
-
 
     function onChangeCalendar(e) {
         console.log("calendar", e)
@@ -67,7 +61,6 @@ function ManageWorkLeave() {
         setUpdate(!update)
         handleCloseCalendar()
     }
-
 
     function getMimetype(extension) {
         var mimetype;
@@ -284,7 +277,6 @@ function ManageWorkLeave() {
         var getLeaves = [];
         {
             if (!user.isAdmin) {
-
                 getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}/${monthNumeric}/${year}`);
             } else {
                 getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/allWorkLeave/${monthNumeric}/${year}`);
@@ -321,7 +313,19 @@ function ManageWorkLeave() {
             designation: d.employee && d.employee.designation,
             supervisorApproval: d.supervisorApproval,
             attachment: d.attachment,
-            applicationdate: d.applicationdate,
+            applicationdate: dateFormatter.format(new Date(d.applicationdate)),
+            Short_leave: d.Short_leave,
+            description: d.description,
+            overallRemarks:d.overallRemarks,
+            meterEndReading: d.meterEndReading,
+            meterStartReading: d.meterStartReading,
+            remarks: d.remarks,
+            personToMeet: d.personToMeet,
+            reasonToVisit: d.reasonToVisit,
+            placeToVisit: d.placeToVisit,
+            assignedBy: d.assignedBy && d.assignedBy.firstname,
+            project: d.project,
+            workStatus: d.workStatus
         });
     });
 

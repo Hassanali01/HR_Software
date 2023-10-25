@@ -40,13 +40,13 @@ const WorkLeaveSchema = mongoose.Schema({
         type:String,
         require:true
     },
-    Project:{
+    project:{
         type:String,
     },
     location:{
         type:  String,
     },
-    Workstatus: {
+    workStatus: {
         type: String,
         enum: ["Partially Progress", "No Progress", "Completed"],
         // default:"Pending Approval" 
