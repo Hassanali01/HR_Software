@@ -172,7 +172,7 @@ const EmployeesSchema = new mongoose.Schema(
     },
     designation: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Desigination",
+      ref: "Designation",
     },
     departments: {
       type: [mongoose.Schema.Types.ObjectId],

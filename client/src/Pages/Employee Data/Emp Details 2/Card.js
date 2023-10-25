@@ -45,7 +45,7 @@ const Cards = ({ data }) => {
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
   const [company, setCompany] = useState();
-  const [desigination, setDesigination] = useState([]);
+  // const [designation, setDesignation] = useState([]);
   const [addPayrollSetup, setAddPayrollSetup] = useState({
     payrollSetup: "",
     dateFrom: "",
@@ -183,10 +183,10 @@ const Cards = ({ data }) => {
     }
     getLeavesrequests();
     fetchData();
-    DesiginationData();
+    DesignationData();
   }, []);
 
-  const DesiginationData = async () => {
+  const DesignationData = async () => {
     try {
         const des = await axios.get(process.env.React_APP_ORIGIN_URL + "designation");
         const res = des.data

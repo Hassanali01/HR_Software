@@ -13,5 +13,5 @@ const designationSchema  = mongoose.Schema({
    }]
 })
 
-const Designation = mongoose.model('Desigination',designationSchema)
+const Designation = mongoose.model('Designation',designationSchema)
 module.exports = Designation

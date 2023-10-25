@@ -13,7 +13,7 @@ const ecxel = require("./convertecxel")
 const env = require('dotenv')
 const cors = require("cors")
 const departmentRoute = require('./Routes/Admin/departments')
-const desiginationRoute = require('./Routes/Admin/desigination')
+const designationRoute = require('./Routes/Admin/designation')
 const positionRoute = require('./Routes/positions')
 const importecxel = require("./Routes/import")
 const cookieParser = require('cookie-parser')
@@ -77,7 +77,7 @@ app.use("/",importecxel);
 app.use("/",ecxel);
 app.use('/',userAttendance)
 app.use('/departments',departmentRoute);
-app.use('/designation',desiginationRoute);
+app.use('/designation',designationRoute);
 app.use('/',positionRoute)
 app.use('/leaves',leaveRoute)
 app.use('/leaverequest',LeaveRequest)
