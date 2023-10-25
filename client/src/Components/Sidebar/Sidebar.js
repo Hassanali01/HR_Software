@@ -120,15 +120,15 @@ const Sidebar = () => {
                   </div>
                   {
                     toggleLeaves && <>
-                      <NavLink to={'/leaverequest'} className='nav-link m-2 p-0  ms-4'>
+                      <NavLink to={'/leaverequest'} className='nav-link m-2 p-1  ps-3'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Apply leave</p>
                       </NavLink>
-                      <NavLink to={'/leaveshistory'} className='nav-link m-2 p-0  ms-4'>
+                      <NavLink to={'/leaveshistory'} className='nav-link m-2 p-1  ps-3'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leaves history</p>
                       </NavLink>
-                      <NavLink to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
+                      <NavLink to={'/manageleaves'} className="nav-link m-2 p-1 ps-3">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
                       </NavLink>
@@ -168,14 +168,14 @@ const Sidebar = () => {
                     {
                       toggleAttendance &&
                       <>
-                        <NavLink to="/datamanagement" className="nav-link m-2 p-0 ms-4">
+                        <NavLink to="/datamanagement" className="nav-link m-2 p-1 ps-3">
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
                           <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>
                             Reports
                           </p>
                         </NavLink>
                         {context.user.isAdmin &&
-                          <NavLink to="/monthlyattendance" className="nav-link  m-2 p-0 ms-4">
+                          <NavLink to="/monthlyattendance" className="nav-link  m-2 p-1 ps-3">
                             {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
 
                             <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>

@@ -27,14 +27,16 @@ router.put('/addleaves/:id', async (req, res, next) => {
                 description: req.body.description,
                 allocations: req.body.allocations
             },
-            function (err, docs) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Updated User : ", docs);
-                }
-            })
+            {new:true}
+            // function (err, docs) {
+            //     if (err) {
+            //         console.log(err)
+            //     }
+            //     else {
+            //         console.log("Updated User : ", docs);
+            //     }
+            // }
+            )
 
             res.status(200).send(leaves)
 
