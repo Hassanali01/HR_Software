@@ -46,7 +46,7 @@ function App(props) {
         <BrowserRouter>
           {context.user ? (
             <>
-              <Sidebar />
+              <Sidebar  />
               <Header />
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" />}></Route>

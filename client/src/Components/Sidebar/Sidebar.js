@@ -18,14 +18,14 @@ const Sidebar = () => {
     <>
       {/* <!-- Main Sidebar Container --> */}
       {/* <aside className="main-sidebar sidebar-dark-primary elevation-4  " style={{position:"fixed"}}> */}
-      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed", backgroundColor: "rgb(3, 110, 104)", color: "#fff" }}>
+      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed",   top: 0, bottom:0,backgroundColor: "rgb(3, 110, 104)", color: "#fff" }}>
         {/* <!-- Brand Logo --> */}
         <Link to="/dashboard" className="brand-link">
           <img src={logo} alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0 }} />
           <span className="brand-text font-weight-bold text-white">HR Software</span>
         </Link>
         {/* <!-- Sidebar --> */}
-        <div className="sidebar">
+        <div className="sidebar" >
           {/* <!-- Sidebar user (optional) --> */}
           <div className="user-panel mt-3 d-flex">
             <div className="image">
@@ -132,7 +132,7 @@ const Sidebar = () => {
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
                       </NavLink>
-                      <NavLink to={'/leaveallocation'} className="nav-link m-2 p-0 ms-4">
+                      <NavLink to={'/leaveallocation'} className="nav-link m-2 p-1 ps-3">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
                       </NavLink>
