@@ -171,8 +171,8 @@ const EmployeesSchema = new mongoose.Schema(
       default: "",
     },
     designation: {
-      type: String,
-      default: "admin",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Desigination",
     },
     departments: {
       type: [mongoose.Schema.Types.ObjectId],

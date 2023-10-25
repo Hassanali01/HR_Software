@@ -21,3 +21,11 @@ ul li {
 }
 
 
+.nav-item li:hover {
+  background-color: blue;
+}
+
+.nav-item li:hover p,
+.nav-item li:hover p {
+  color: #FFFF;
+}

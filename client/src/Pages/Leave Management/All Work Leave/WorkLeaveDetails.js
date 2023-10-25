@@ -1,62 +1,24 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
-import { Card, Container, Form, Button, Table, Modal } from "react-bootstrap";
-import axios from "axios";
-import Row from "react-bootstrap/Row";
+import { Card, Container, Form, Row, } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
-import { useReactToPrint } from "react-to-print";
 import { useContext } from "react";
-import { Context } from "../../../Context/Context";
 import "../../Leaves/leaves.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import {
-    NotificationContainer,
-    NotificationManager,
-} from "react-notifications";
 import HeaderContext from '../../../Context/HeaderContext'
 import { useLocation } from 'react-router-dom';
+
 function WorkLeaveDetails() {
 
-    const [from, setFirstdate] = useState(new Date());
-    const [description, setDescription] = useState("");
-    const [to, setSecond] = useState(new Date());
-    const [attachedFile, setAttachedFile] = useState();
-    const [workabsence, setWorkabsence] = useState("");
-    const [applicationdate, setapplicationdate] = useState("")
-    const { user } = useContext(Context);
-    const [Info, setinfo] = useState([]);
-    const [assignedBy, setAssignedBy] = useState("")
-    const [leave_status, setLeave_status] = useState("")
-    const [leaves, setLeaves] = useState([]);
-    const [depemp, setdepemp] = useState([])
-    const [fromTime, setFromTime] = useState("")
-    const [toTime, setToTime] = useState("")
-    const [details, setDetails] = useState([]);
-    const [workStatus, setWorkStatus] = useState([]);
-    const [task, setTask] = useState("");
-    const [project, setProject] = useState("");
-    const [superviser, setSuperviser] = useState("");
-    const [superviserid, setSuperviserid] = useState("");
-    const [placeToVisit, setPlaceToVisit] = useState("");
-    const [reasonToVisit, setReasonToVisit] = useState("");
-    const [personToMeet, setPersonToMeet] = useState("");
-    const [remarks, setRemarks] = useState("");
-    const [meterStartReading, setMeterStartReading] = useState("");
-    const [meterEndReading, setMeterEndReading] = useState("");
-    const [overallRemarks, setOverallRemarks] = useState("");
-    const [childModel, setShowChildModel] = useState(false);
-    const [testUpdate, setTestUpdate] = useState(false);
-    const [expense, setExpense] = useState([]);
-    const [addExpense, setAddExpense] = useState({})
+    const [disableFields, setDisableFields] = useState(true);
     const a = useContext(HeaderContext)
     useEffect(() => {
         a.update("Human Resource / Work Leave Detail")
     })
     const location = useLocation();
     const customData = location.state && location.state;
+console.log(location.state,"hihi")
 
-    console.log("location",location)
-    console.log("custom",customData)
     return (
         <>
             <div
@@ -66,7 +28,6 @@ function WorkLeaveDetails() {
                 <div className="card-body">
                     <Container>
                         <div>
-
                             <Row>
                                 <Col >
                                     <Card>
@@ -81,13 +42,11 @@ function WorkLeaveDetails() {
                                                             >
                                                                 <Form.Label className="fieldLabel font-weight-normal">Date</Form.Label>
                                                                 <Form.Control
-                                                                    type="date"
-                                                                    required
+                                                                    type="text"
                                                                     className="form-control-sm my-0"
-                                                                    onChange={(e) => {
-                                                                        setapplicationdate(e.target.value);
-                                                                    }}
+                                                                    value={customData.applicationdate}
                                                                     style={{ backgroundColor: "white" }}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Form.Group>
                                                         </Col>
@@ -97,52 +56,31 @@ function WorkLeaveDetails() {
                                                                 controlId="formWorkType"
                                                             >
                                                                 <Form.Label className="fieldLabel font-weight-normal">Work Type</Form.Label>
-                                                                <Form.Select
-                                                                    className="form-select-sm"
-                                                                    // onChange={(e) => {
-                                                                    //   setWorkabsence(e.target.value);
-                                                                    // }}
-                                                                    value={workabsence}
-                                                                >
-                                                                    <option disabled selected hidden value={""}>Please Select</option>
-                                                                    <option value={"Clientt Visit"}>Client Visit</option>
-                                                                    <option value={"Project Site Visit"}>Project Site Visit</option>
-                                                                    <option value={"Branch Office"}>Branch Office</option>
-                                                                    <option value={"Bank Visit"}>Bank Visit</option>
-                                                                    <option value={"Govt. Organization Visit"}>Govt. Organization Visit</option>
-                                                                    <option value={"Market Visit"}>Market Visit</option>
-                                                                    <option value={"Vendor Visit"}>Vendor Visit</option>
-                                                                    <option value={"Others"}>Others</option>
-                                                                </Form.Select>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    className="form-control-sm my-0"
+                                                                    value={customData.workabsence}
+                                                                    style={{ backgroundColor: "white" }}
+                                                                    disabled={disableFields}
+                                                                />
                                                             </Form.Group>
                                                         </Col>
-
                                                         <Col>
                                                             <Form.Group
                                                                 className="mb-3"
                                                                 controlId="formBasicEmail"
                                                             >
                                                                 <Form.Label className="fieldLabel font-weight-normal">Assigned By</Form.Label>
-                                                                <Form.Select
-                                                                    className="form-select-sm"
-                                                                // onChange={(e) => { setAssignedBy(e.target.value) }}
-                                                                >
-                                                                    <option disabled selected hidden defaultValue={""}>Please Select</option>
-                                                                    <option value={setSuperviserid}>{superviser}</option>
-                                                                    {/* {
-                                          array.map((d, i) => {
-                                            return (
-                                              <>
-                                                <option key={i} value={d._id}>{d.firstname}</option>
-                                              </>)
-                                          })
-                                        } */}
-                                                                </Form.Select>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    className="form-control-sm my-0"
+                                                                    value={customData.assignedBy}
+                                                                    style={{ backgroundColor: "white" }}
+                                                                    disabled={disableFields}
+                                                                />
                                                             </Form.Group>
                                                         </Col>
-
                                                     </Row>
-
                                                     <Row>
                                                         <Col>
                                                             <Form.Group
@@ -153,10 +91,8 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-                                                                    required
-                                                                    onChange={(e) => {
-                                                                        setTask(e.target.value);
-                                                                    }}
+                                                                    value={customData.task}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Form.Group>
                                                         </Col>
@@ -165,10 +101,8 @@ function WorkLeaveDetails() {
                                                             <Form.Control
                                                                 type="text"
                                                                 className="form-control-sm"
-
-                                                                onChange={(e) => {
-                                                                    setProject(e.target.value);
-                                                                }}
+                                                                value={customData.project}
+                                                                disabled={disableFields}
                                                             />
                                                         </Col>
                                                         <Col>
@@ -176,10 +110,8 @@ function WorkLeaveDetails() {
                                                             <Form.Control
                                                                 type="text"
                                                                 className="form-control-sm"
-
-                                                                onChange={(e) => {
-                                                                    setDescription(e.target.value);
-                                                                }}
+                                                                value={customData.description}
+                                                                disabled={disableFields}
                                                             />
                                                         </Col>
                                                     </Row>
@@ -191,25 +123,21 @@ function WorkLeaveDetails() {
                                                             <Col>
                                                                 <Form.Label className="fieldLabel font-weight-normal">From</Form.Label>
                                                                 <Form.Control
-                                                                    type="date"
+                                                                    type="text"
                                                                     className="form-control-sm my-o"
-                                                                    required
-                                                                    onChange={(e) => {
-                                                                        setFirstdate(e.target.value);
-                                                                    }}
+                                                                    value={customData.from}
                                                                     style={{ backgroundColor: "white" }}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
                                                                 <Form.Label className="fieldLabel font-weight-normal">To</Form.Label>
                                                                 <Form.Control
                                                                     className="form-control-sm my-0"
-                                                                    type="date"
-                                                                    required
-                                                                    onChange={(e) => {
-                                                                        setSecond(e.target.value);
-                                                                    }}
+                                                                    type="text"
+                                                                    value={customData.to}
                                                                     style={{ backgroundColor: "white" }}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
@@ -217,10 +145,10 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="number"
                                                                     className="form-control-sm"
-                                                                    // value={diffDays}
-                                                                    disabled
+                                                                    value={customData.totaldays}
+                                                                    disabled={disableFields}
                                                                     style={{ backgroundColor: "white" }}
-
+                                                          
                                                                 />
                                                             </Col>
                                                         </Row>
@@ -235,11 +163,8 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="time"
                                                                     className="form-control-sm"
-                                                                    required
-                                                                    value={toTime}
-                                                                // onChange={(e) => {
-                                                                //   setToTime(e.target.value)
-                                                                // }}
+                                                                    value={customData.toTime}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
@@ -247,25 +172,19 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="time"
                                                                     className="form-control-sm"
-                                                                    // required
-                                                                    value={fromTime}
-                                                                // onChange={(e) => {
-                                                                //   setFromTime(e.target.value)
-                                                                // }}
+                                                                    value={customData.fromTime}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
                                                                 <Form.Label className="fieldLabel font-weight-normal"> Duration</Form.Label>
-                                                                <Form.Select
-                                                                    className="form-select-sm"
-                                                                    value={leave_status}
-                                                                // onChange={(e) => { setLeave_status(e.target.value) }}
-                                                                // required
-                                                                >
-                                                                    <option disabled selected hidden value="">Please Select</option>
-                                                                    <option value="True">Short day</option>
-                                                                    <option value="False">Full day</option>
-                                                                </Form.Select>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    className="form-control-sm"
+                                                                    value={customData.Short_leave ? "Short Day" : "Full Day"}
+                                                                    disabled={disableFields}
+                                                                    style={{ backgroundColor: "white" }}
+                                                                />
                                                             </Col>
                                                         </Row>
                                                     </Form.Group>
@@ -276,30 +195,25 @@ function WorkLeaveDetails() {
                                                         <Row>
                                                             <Col xs={4} >
                                                                 <Form.Label className="fieldLabel font-weight-normal">Work Status</Form.Label>
-                                                                <Form.Select
-                                                                    className="form-select-sm"
-                                                                    value={workStatus}
-                                                                // onChange={(e) => { setWorkStatus(e.target.value) }}
-                                                                >
-                                                                    <option disabled selected hidden value="">Please Select</option>
-                                                                    <option value="No Progress">No progress</option>
-                                                                    <option value="Partially Progress">Partial progress</option>
-                                                                    <option value="Completed">Completed</option>
-                                                                </Form.Select>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    className="form-control-sm"
+                                                                    value={customData.workStatus}
+                                                                    disabled={disableFields}
+                                                                    style={{ backgroundColor: "white" }}
+                                                                />
                                                             </Col>
                                                             <Col xs={8}>
                                                                 <Form.Label className="fieldLabel font-weight-normal">Remarks</Form.Label>
                                                                 <Form.Control
                                                                     className="form-control-sm"
                                                                     type="text"
-                                                                // onChange={(e) => {
-                                                                //   setRemarks(e.target.value);
-                                                                // }}
+                                                                    value={customData.remarks}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                         </Row>
                                                     </Form.Group>
-
                                                     <br />
                                                     <h5>Visit Details :</h5>
                                                     <Form.Group
@@ -312,9 +226,8 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-                                                                // onChange={(e) => {
-                                                                //   setReasonToVisit(e.target.value);
-                                                                // }}
+                                                                    value={customData.reasonToVisit}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
@@ -322,26 +235,22 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-                                                                // onChange={(e) => {
-                                                                //   setPersonToMeet(e.target.value);
-                                                                // }}
+                                                                    value={customData.personToMeet}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
-
                                                             <Col>
                                                                 <Form.Label className="fieldLabel font-weight-normal">Place To Visit</Form.Label>
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-                                                                // onChange={(e) => {
-                                                                //   setPlaceToVisit(e.target.value);
-                                                                // }}
+                                                                    value={customData.placeToVisit}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                         </Row>
                                                     </Form.Group>
                                                     <br />
-
                                                     <h5>Distance Covered :</h5>
                                                     <Form.Group
                                                         className="mb-3"
@@ -353,10 +262,8 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
-                                                                // onChange={(e) => {
-                                                                //   setMeterStartReading(e.target.value);
-                                                                // }}
+                                                                    value={customData.meterStartReading}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
@@ -364,10 +271,8 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
-                                                                // onChange={(e) => {
-                                                                //   setMeterEndReading(e.target.value);
-                                                                // }}
+                                                                    value={customData.meterEndReading}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                             <Col>
@@ -375,19 +280,16 @@ function WorkLeaveDetails() {
                                                                 <Form.Control
                                                                     type="text"
                                                                     className="form-control-sm"
-
-                                                                // onChange={(e) => {
-                                                                //   setOverallRemarks(e.target.value);
-                                                                // }}
+                                                                    value={customData.overallRemarks}
+                                                                    disabled={disableFields}
                                                                 />
                                                             </Col>
                                                         </Row>
                                                     </Form.Group>
-
                                                     <br />
                                                     <Row style={{ marginTop: "1%" }}>
                                                         <Col lg={12}>
-                                                            <Table striped bordered hover>
+                                                            {/* <Table striped bordered hover>
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
@@ -423,87 +325,17 @@ function WorkLeaveDetails() {
                                                                             );
                                                                         })}
                                                                 </tbody>
-                                                            </Table>
+                                                            </Table> */}
                                                         </Col>
                                                     </Row>
-
-                                                    <Form.Group>
-                                                        <Row>
-                                                            <Form.Label className="fieldLabel font-weight-normal">Attachment</Form.Label>
-                                                            <Col sm={10}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="files"
-                                                                    name="files"
-                                                                    onChange={(f) => {
-                                                                        var ext = f.target.value.match(
-                                                                            /\.([^\.]+)$/
-                                                                        )[1];
-                                                                        switch (ext) {
-                                                                            case "jpeg":
-                                                                            case "jpg":
-                                                                            case "jpgv":
-                                                                            case "png":
-                                                                            case "svg":
-                                                                            case "xls":
-                                                                            case "xlam":
-                                                                            case "xlsm":
-                                                                            case "pptx":
-                                                                            case "xlsx":
-                                                                            case "docx":
-                                                                            case "dotx":
-                                                                            case "ppt":
-                                                                            case "doc":
-                                                                            case "pdf":
-                                                                            case "txt":
-                                                                            case "7z":
-                                                                            case "ace":
-                                                                            case "acc":
-                                                                            case "avi":
-                                                                            case "csv":
-                                                                            case "texinfo":
-                                                                            case "html":
-                                                                            case "m3u":
-                                                                            case "m4v":
-                                                                            case "mpeg":
-                                                                            case "mp4a":
-                                                                            case "mp4":
-                                                                            case "mp4":
-                                                                            case "weba":
-                                                                            case "webm":
-                                                                            case "psd":
-                                                                            case "pic":
-                                                                            case "au":
-                                                                            case "tar":
-                                                                            case "wav":
-                                                                            case "webp":
-                                                                            case "xml":
-                                                                            case "zip":
-                                                                                //   setAttachedFile(f.target.files[0]);
-                                                                                break;
-                                                                            default:
-                                                                                alert(
-                                                                                    "Please select the valid file extension!"
-                                                                                );
-                                                                                f.target.value = "";
-                                                                        }
-                                                                        //   setAttachedFile(f.target.files[0]);
-                                                                    }}
-                                                                />
-                                                            </Col>
-
-                                                        </Row>
-                                                    </Form.Group>
-
+                                              
                                                 </Form>
                                             </Container>
                                         </Card.Body>
                                     </Card>
                                 </Col>
-
                             </Row>
                         </div>
-
                     </Container>
                 </div>
             </div>

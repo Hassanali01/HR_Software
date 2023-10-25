@@ -24,7 +24,7 @@ const Cards = ({ data }) => {
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
-  const [designation, setdesignation] = useState(data.designation);
+  const [designation, setDesignation] = useState(data.designation);
   const [supervisors, setsupervisors] = useState(data.supervisors);
   const [work_shift, setWork_shift] = useState([]);
   const [disableFields, setDisableFields] = useState(true);
@@ -45,6 +45,7 @@ const Cards = ({ data }) => {
   const [education, seteducation] = useState([]);
   const [employement, setemployement] = useState([]);
   const [company, setCompany] = useState();
+  const [desigination, setDesigination] = useState([]);
   const [addPayrollSetup, setAddPayrollSetup] = useState({
     payrollSetup: "",
     dateFrom: "",
@@ -173,6 +174,7 @@ const Cards = ({ data }) => {
       setCompany(resp.data)
     }, [1, 1]);
 
+
     let localstoragevalue = JSON.parse(localStorage.getItem("user"));
     for (let i in localstoragevalue) {
       if (i == "id") {
@@ -181,8 +183,19 @@ const Cards = ({ data }) => {
     }
     getLeavesrequests();
     fetchData();
+    DesiginationData();
   }, []);
 
+  const DesiginationData = async () => {
+    try {
+        const des = await axios.get(process.env.React_APP_ORIGIN_URL + "designation");
+        const res = des.data
+        console.log("res",res.designation)
+        setDesignation(res.designation);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
   const handleinput = (e) => {
     let name, value;
@@ -713,7 +726,7 @@ const Cards = ({ data }) => {
                             className="formmargin"
                           >
                             <Form.Label>Designation</Form.Label>
-                            <Form.Control
+                            {/* <Form.Control
                               type="text"
                               required
                               name="designation"
@@ -721,7 +734,25 @@ const Cards = ({ data }) => {
                               value={emp.designation}
                               onChange={handleinput}
                               disabled={disableFields}
-                            />
+                            /> */}
+                             <Form.Select
+                              name="designation"
+                              value={emp.designation && emp.designation.title}
+                              onChange={handleinput}
+                              disabled={disableFields}
+                            >
+                              <option disabled selected hidden defaultValue={""}>{emp.designation && emp.designation.title}</option>
+                              {designation && designation.map((d) => {
+                                return (
+                                  <option
+                                    key={d._id}
+                                    value={d._id}
+                                  >
+                                    {d.title}
+                                  </option>
+                                );
+                              })}
+                            </Form.Select>
                           </Form.Group>
                         </Col>
 

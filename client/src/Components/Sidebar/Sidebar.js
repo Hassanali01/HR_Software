@@ -51,100 +51,108 @@ const Sidebar = () => {
                 </NavLink >
               </li>
               <li className="nav-item">
-                <Link
+                <NavLink
                   to={`/employees/${context.myID}`}
                   className="nav-link">
                   <i className="nav-icon  fa-solid fa-user iconColor"></i>
                   <p className='iconColor'>
                     Profile
                   </p>
-                </Link>
+                </NavLink>
               </li>
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/employees" className="nav-link" >
+                  <NavLink to="/employees" className="nav-link" >
                     <i className="nav-icon fa-sharp fa-solid fa-users iconColor"></i>
                     <p className='iconColor'>
                       Employees
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               }
 
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/departments" className="nav-link">
+                  <NavLink to="/departments" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
                     <p className='iconColor'>
                       Departments
                     </p>
-                  </Link>
+                  </NavLink>
+                </li>
+              }
+               {context.user.isAdmin &&
+                <li className="nav-item">
+                  <NavLink to="/dasigination" className="nav-link">
+                    <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
+                    <p className='iconColor'>
+                      Desigination
+                    </p>
+                  </NavLink>
                 </li>
               }
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/companies" className="nav-link">
+                  <NavLink to="/companies" className="nav-link">
                     <i className="nav-icon fa-solid fa-building iconColor"></i>
                     <p className='iconColor'>
                       Companies
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               }
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/leaves" className="nav-link">
+                  <NavLink to="/leaves" className="nav-link">
                     <i className="nav-icon fa-solid fa-user-xmark iconColor"></i>
                     <p className='iconColor'>
                       Leave Types
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               }
-
               <li className='nav-item'>
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
                   <div onClick={() => { settoggle(!toggleLeaves) }}>
-
                     <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                     <p className='iconColor' >Leaves</p>
-                    { toggleLeaves ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
+                    {toggleLeaves ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
                   </div>
                   {
                     toggleLeaves && <>
-                      <Link to={'/leaverequest'} className='nav-link m-2 p-0  ms-4'>
+                      <NavLink to={'/leaverequest'} className='nav-link m-2 p-0  ms-4'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                       <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Apply leave</p>
-                      </Link>
-                      <Link to={'/leaveshistory'} className='nav-link m-2 p-0  ms-4'>
+                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Apply leave</p>
+                      </NavLink>
+                      <NavLink to={'/leaveshistory'} className='nav-link m-2 p-0  ms-4'>
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                       <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Leaves history</p>
-                      </Link>
-                      <Link to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
+                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leaves history</p>
+                      </NavLink>
+                      <NavLink to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{opacity:0.9, fontSize:13}}>Leaves to approve </p>
-                      </Link>
+                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
+                      </NavLink>
                     </>
                   }
                 </a>
               </li>
               {context.user.isAdmin && <li className="nav-item">
-                <Link to="/holidays" className="nav-link">
+                <NavLink to="/holidays" className="nav-link">
                   <i className="nav-icon fa-solid fa-calendar-days iconColor"></i>
                   <p className='iconColor'>
                     Holidays
                   </p>
-                </Link>
+                </NavLink>
 
               </li>
               }
               {context.user.isAdmin && <li className="nav-item">
-                <Link to="/attendance" className="nav-link">
+                <NavLink to="/attendance" className="nav-link">
                   <i className="nav-icon fas fa-tachometer-alt iconColor" ></i>
                   <p className='iconColor'>
                     Attendance
                   </p>
-                </Link>
+                </NavLink>
               </li>
               }
 
@@ -155,25 +163,25 @@ const Sidebar = () => {
 
                       <i className=" nav-icon fa-solid fa-list-check iconColor my-1"></i>
                       <p className='iconColor'> Attendance Management</p>
-                      { toggleAttendance ? <i className='nav-icon fa-solid fa-chevron-up iconColor my-3' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>}
+                      {toggleAttendance ? <i className='nav-icon fa-solid fa-chevron-up iconColor my-3' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor my-3' style={{ fontSize: "13px" }}></i>}
                     </div>
                     {
                       toggleAttendance &&
                       <>
-                        <Link to="/datamanagement" className="nav-link m-2 p-0 ms-4">
+                        <NavLink to="/datamanagement" className="nav-link m-2 p-0 ms-4">
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
-                          <p className='iconColor'  style={{opacity:0.9, fontSize:13}}>
-                          Reports
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>
+                            Reports
                           </p>
-                        </Link>
+                        </NavLink>
                         {context.user.isAdmin &&
-                          <Link to="/monthlyattendance" className="nav-link  m-2 p-0 ms-4">
+                          <NavLink to="/monthlyattendance" className="nav-link  m-2 p-0 ms-4">
                             {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
 
-                            <p className='iconColor' style={{opacity:0.9, fontSize:13}}>
+                            <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>
                               Attendance history
                             </p>
-                          </Link>
+                          </NavLink>
                         }
 
                       </>
@@ -183,61 +191,58 @@ const Sidebar = () => {
               }
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/monthlypayroll" className="nav-link">
+                  <NavLink to="/monthlypayroll" className="nav-link">
                     <i className="nav-icon fa-solid fa-hand-holding-dollar iconColor"></i>
                     <p className='iconColor'>
                       Monthly Attendance
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>}
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link to="/payrollsetup" className="nav-link">
+                  <NavLink to="/payrollsetup" className="nav-link">
                     <i className="nav-icon fa-solid fa-file-invoice-dollar iconColor"></i>
                     <p className='iconColor'>
                       Payroll Setup
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               }
 
               {/* add shift for employee */}
               {context.user.isAdmin &&
                 <li className="nav-item">
-                  <Link
+                  <NavLink
                     to={`/shifts`}
                     className="nav-link">
                     <i className="nav-icon fa-solid fa-business-time iconColor"></i>
                     <p className='iconColor'>
                       Job Shifts
                     </p>
-                  </Link>
+                  </NavLink>
                 </li>
               }
               <li className='nav-item' >
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
-                  <div onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
-
+                  <div  onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
                     <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
-
-
                     <p className='iconColor'>Work absence</p>
-                  { toggleWorkLeave ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
-
-
+                    {toggleWorkLeave ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
                   </div>
                   {
                     toggleWorkLeave && <>
-                      <Link to={`/workleave`} className='nav-link m-2 p-0 ms-4'>
-                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Apply</p>
-                      </Link>
-                  
-                        <Link to={`/manageworkleave`} className="nav-link m-2 p-0 ms-4">
+                      <li>
+                        <NavLink to={`/workleave`} className='nav-link mt-2  ms-4'>
                           {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                          <p className='iconColor ' style={{opacity:0.9, fontSize:13}}>Approve</p>
-                        </Link>
-                      
+                          <p className='iconColor ' style={{ opacity: 0.9, fontSize: 13 }}>Apply</p>
+                        </NavLink>
+                      </li>
+                      <li >
+                        <NavLink to={`/manageworkleave`} className="nav-link mt-2  ms-4">
+                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                          <p className='iconColor ' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me</p>
+                        </NavLink>
+                      </li>
                     </>
                   }
                 </a>

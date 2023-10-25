@@ -11,9 +11,11 @@ router.get("/", async (req, res, next) => {
   try {
     const employees = await Employees.find().populate([
       { path: 'departments', select: "departmentname" },
+      { path: 'designation', select: "title" },
       { path: 'work_shift', select : 'shift_name', model: 'addShifts' },
       { path: 'payroll_setup', select : 'title', model: 'payroll-setup' }
     ]);
+    console.log("employees",employees)
     const counted = await Employees.count();
     res.status(200).json(
       {
@@ -81,6 +83,11 @@ router.get("/:id", async (req, res, next) => {
       {
         path: 'company',
         model: 'Company',
+        select: 'title'
+      },
+      {
+        path: 'designation',
+        // model: 'designation',
         select: 'title'
       }
     ]);
