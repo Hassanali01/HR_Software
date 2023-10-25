@@ -20,7 +20,7 @@ const EmpCard = ({ data, setUpdate }) => {
   const [firstname, setfirstname] = useState(data.firstname);
   const [lastname, setlastname] = useState(data.lastname);
   const [email, setemail] = useState(data.setemail);
-  const [designation, setdesignation] = useState(data.designation);
+  const [designation, setdesignation] = useState(data.designation && data.designation.title);
   const [show, setShow] = useState(false);
 
   const handleCloseModal = () => setShow(false);
@@ -149,7 +149,7 @@ const EmpCard = ({ data, setUpdate }) => {
             <div>
               <h4 style={{textAlign: "center"}}>{data.firstname}</h4>
             </div>
-            {/* <div className="small text-muted">{data.designation.title}</div> */}
+            {/* <div className="small text-muted">{data.designation}</div> */}
             <div>
               <Link to={`/employees/${data._id}`}>
                 <button

@@ -83,10 +83,10 @@ const Sidebar = () => {
               }
                {context.user.isAdmin &&
                 <li className="nav-item">
-                  <NavLink to="/dasigination" className="nav-link">
+                  <NavLink to="/dasignation" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
                     <p className='iconColor'>
-                      Desigination
+                      Designation
                     </p>
                   </NavLink>
                 </li>
@@ -131,6 +131,10 @@ const Sidebar = () => {
                       <NavLink to={'/manageleaves'} className="nav-link m-2 p-0 ms-4">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
+                      </NavLink>
+                      <NavLink to={'/leaveallocation'} className="nav-link m-2 p-0 ms-4">
+                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
+                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
                       </NavLink>
                     </>
                   }
