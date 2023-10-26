@@ -5,9 +5,7 @@ import { Card, Container, Form, Button, Table, Modal } from "react-bootstrap";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useReactToPrint } from "react-to-print";
 import { useContext } from "react";
-import { Context } from "../../../Context/Context";
 import "../../Leaves/leaves.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import {
@@ -19,139 +17,92 @@ import HeaderContext from '../../../Context/HeaderContext'
 function LeaveAllocation() {
     const [leaves, setLeaves] = useState([]);
     const [leaveType, setLeaveType] = useState("");
-
-
-    const { user } = useContext(Context);
-    const [Info, setinfo] = useState([]);
-    const [assignedBy, setAssignedBy] = useState("")
-    const [depemp, setdepemp] = useState([])
-    const [meterStartReading, setMeterStartReading] = useState("");
-    const [meterEndReading, setMeterEndReading] = useState("");
-    const [overallRemarks, setOverallRemarks] = useState("");
+    const [allocatedOnce, setAllocatedOnce] = useState(false);
+    const [company, setCompany] = useState([]);
+    const [department, setDepartment] = useState([]);
+    const [designation, setDesignation] = useState([]);
     const [childModel, setShowChildModel] = useState(false);
     const [testUpdate, setTestUpdate] = useState(false);
-    const [expense, setExpense] = useState([]);
-    const [addExpense, setAddExpense] = useState({})
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+    const [allocationDetail, setAllocationDetail] = useState([]);
+    const [addAllocation, setAddAllocation] = useState({
+        company: {},
+        departments: {},
+        designation: {},
+        allocation: 0, 
+    });
     const Closechildmodal = () => setShowChildModel(false);
-    const handleeducationdetails = async (e) => {
-        let name, value;
-        name = e.target.name;
-        value = e.target.value;
-        await setAddExpense({
-            ...addExpense,
-            [name]: value,
-        });
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+    const handleAllocationdetails = (e) => {
+        const { name, value } = e.target;
+        const [id, title] = value.split('|');
+
+        setAddAllocation((prevState) => ({
+            ...prevState,
+            [name]: {
+                id,
+                title,
+            },
+        }));
+
     };
 
     const removeitem = (i) => {
-        const temp = expense;
+        const temp = allocationDetail;
         temp.splice(i, 1);
-        setExpense(temp);
+        setAllocationDetail(temp);
         setTestUpdate(!testUpdate);
     };
 
-    const url = "leaves";
     const a = useContext(HeaderContext)
     useEffect(() => {
-        a.update("Human Resource / Work Leave Request")
+        a.update("Human Resource / Leave Allocation")
     })
 
-    const employee = user.id;
-    const getEmp = `employees/${user.id}`;
-    const componentRef = useRef();
 
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });
+    const handleCheckboxChange = (event) => {
+        setAllocatedOnce(event.target.checked);
+    };
 
-    // const userInformation = async () => {
-    //     try {
-    //         const res = await axios.get(process.env.React_APP_ORIGIN_URL + getEmp);
-    //         const empinfo = res.data;
-    //         const InfoData = [];
-    //         await empinfo.Leaves.map((d) => {
-    //             InfoData.push({
-    //                 from: d.from,
-    //                 workStatus: d.workStatus,
-    //                 to: d.to,
-    //                 status: d.status,
-    //                 workabsence: d.workabsence,
-    //                 name: empinfo.firstname,
-    //                 _id: empinfo.emp_id,
-    //                 department: empinfo.departments.map((d) => d.departmentname),
-    //                 description: d.description,
-    //                 applicationdate: d.applicationdate,
-    //                 empid: empinfo.emp_id,
-    //                 designation: empinfo.designation,
-    //                 leavesId: empinfo.Leaves.slice(empinfo.Leaves.length - 1),
-    //                 assignedBy: d.assignedBy,
-    //                 task: d.task,
-    //                 project: d.project,
-    //                 leave_status: d.leave_status,
-    //             });
-    //         });
-    //         setinfo(InfoData);
-
-    //         // const departments = [];
-    //         // await empinfo.departments.map((d) => {
-    //         //     departments.push({
-    //         //         department: d.departmentname,
-    //         //         name: empinfo.firstname,
-    //         //         email: empinfo.email,
-    //         //         empid: empinfo.emp_id,
-    //         //         designation: empinfo.designation,
-    //         //         supervisors: empinfo.supervisors[0].username
-    //         //     });
-    //         // });
-
-    //         setDetails(departments);
-    //         setSuperviser(empinfo.supervisors[0].username)
-    //         setSuperviserid(empinfo.supervisors[0]._id)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-    const depurl = user.departments.map((d) => d._id);
-    const depemployees = `departments/${depurl}`
-    const allemployees = async () => {
-        try {
-            const res = await axios.get(process.env.React_APP_ORIGIN_URL + depemployees);
-            const data = res.data.department.employees;
-            setdepemp(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const addWorkAbsence = async (event) => {
-        event.preventDefault();
-
-        console.log("expense to append", expense)
-
-        const formData = new FormData();
-        formData.append("meterStartReading", meterStartReading);
-        formData.append("meterEndReading", meterEndReading);
-        formData.append("overallRemarks", overallRemarks);
- 
-        formData.append("expense", JSON.stringify(expense));
-        console.log("formData", formData)
-        try {
-            const addreq = await axios({
-                method: "post",
-                url: process.env.React_APP_ORIGIN_URL + `workLeave`,
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
+    const addAllocationDetails = async (event) => {
+        const allocations = []
+        if (allocationDetail[0] && allocationDetail[0].company && allocationDetail[0].departments && allocationDetail[0].designation && allocationDetail[0].allocation) {
+            allocations.push({
+                company: allocationDetail[0].company.id,
+                department: allocationDetail[0].departments.id,
+                designation: allocationDetail[0].designation.id,
+                allocation: allocationDetail[0].allocation.id,
+                allocatedOnce:allocatedOnce
             });
-            console.log("formdata", formData)
+        }
+        if (allocationDetail[1] && allocationDetail[1].company && allocationDetail[1].departments && allocationDetail[1].designation && allocationDetail[1].allocation) {
+            allocations.push({
+                company: allocationDetail[1].company.id,
+                department: allocationDetail[1].departments.id,
+                designation: allocationDetail[1].designation.id,
+                allocation: allocationDetail[1].allocation.id,
+                allocatedOnce:allocatedOnce
+            });
+        }
+        if (allocationDetail[2] && allocationDetail[2].company && allocationDetail[2].departments && allocationDetail[2].designation && allocationDetail[2].allocation) {
+            allocations.push({
+                company: allocationDetail[2].company.id,
+                department: allocationDetail[2].departments.id,
+                designation: allocationDetail[2].designation.id,
+                allocation: allocationDetail[2].allocation.id,
+                allocatedOnce:allocatedOnce
+            });
+        }
+        event.preventDefault();
+        try {
+            const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
+                allocations
+            })
             addreq && NotificationManager.success("Successfully Added");
         } catch (error) {
             NotificationManager.error("Failed to Add");
         }
     };
-
-
-
 
 
     const fetchData = async () => {
@@ -163,13 +114,40 @@ function LeaveAllocation() {
             console.log(error);
         }
     };
-
+    const companies = async () => {
+        try {
+            const companies = await axios.get(process.env.React_APP_ORIGIN_URL + "allCompany");
+            const res = companies.data;
+            setCompany(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const departments = async () => {
+        try {
+            const dep = await axios.get(process.env.React_APP_ORIGIN_URL + "departments");
+            const res = dep.data;
+            setDepartment(res.departments);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const Designation = async () => {
+        try {
+            const des = await axios.get(process.env.React_APP_ORIGIN_URL + "designation");
+            const res = des.data
+            setDesignation(res.designation);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
         fetchData();
-        // userInformation();
-        allemployees();
+        Designation();
+        departments();
+        companies();
     }, []);
-    const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
+
     return (
         <>
             <div
@@ -187,14 +165,12 @@ function LeaveAllocation() {
                             <div className="card-body">
                                 <Container>
                                     <div>
-
                                         <Row>
                                             <Col >
                                                 <Card>
                                                     <Card.Body>
                                                         <Container>
-                                                            <Form onSubmit={addWorkAbsence}>
-
+                                                            <Form onSubmit={addAllocationDetails}>
                                                                 <Row>
                                                                     <Col>
                                                                         <Form.Group
@@ -204,7 +180,8 @@ function LeaveAllocation() {
                                                                             <Form.Label className="fieldLabel font-weight-normal">Leave type</Form.Label>
                                                                             <Form.Select
                                                                                 required
-                                                                                value={leaveType}
+                                                                                name="leaveType"
+                                                                                value={leaveType.id}
                                                                                 onChange={(e) => {
                                                                                     setLeaveType(e.target.value);
                                                                                 }}
@@ -215,7 +192,7 @@ function LeaveAllocation() {
                                                                                     return (
                                                                                         <option
                                                                                             key={d._id}
-                                                                                            value={d.leaveType}
+                                                                                            value={d._id}
                                                                                             name={d.leaveType}
                                                                                         >
                                                                                             {d.leaveType}
@@ -227,61 +204,15 @@ function LeaveAllocation() {
                                                                     </Col>
                                                                     <Col>
                                                                         <Form.Label className="fieldLabel font-weight-normal">Allocated once</Form.Label><br></br>
-                                                                        <Checkbox {...label} />
+                                                                        <Checkbox name="allocatedOnce"
+                                                                            checked={allocatedOnce}
+                                                                            onChange={handleCheckboxChange} {...label} />
                                                                     </Col>
-
                                                                 </Row>
-
                                                                 <br />
-
-                                                                <h5>Distance Covered :</h5>
-                                                                <Form.Group
-                                                                    className="mb-3"
-                                                                    controlId="formBasicPassword"
-                                                                >
-                                                                    <Row>
-                                                                        <Col>
-                                                                            <Form.Label className="fieldLabel font-weight-normal">Meter Start Reading</Form.Label>
-                                                                            <Form.Control
-                                                                                type="text"
-                                                                                className="form-control-sm"
-
-                                                                                onChange={(e) => {
-                                                                                    setMeterStartReading(e.target.value);
-                                                                                }}
-                                                                            />
-                                                                        </Col>
-                                                                        <Col>
-                                                                            <Form.Label className="fieldLabel font-weight-normal">Meter End Reading</Form.Label>
-                                                                            <Form.Control
-                                                                                type="text"
-                                                                                className="form-control-sm"
-
-                                                                                onChange={(e) => {
-                                                                                    setMeterEndReading(e.target.value);
-                                                                                }}
-                                                                            />
-                                                                        </Col>
-                                                                        <Col>
-                                                                            <Form.Label className="fieldLabel font-weight-normal">Overall Remarks</Form.Label>
-                                                                            <Form.Control
-                                                                                type="text"
-                                                                                className="form-control-sm"
-
-                                                                                onChange={(e) => {
-                                                                                    setOverallRemarks(e.target.value);
-                                                                                }}
-                                                                            />
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Form.Group>
-
                                                                 <br />
                                                                 <div style={{ display: "flex", justifyContent: "space-between", marginRight: 10 }}>
-
-                                                                    <h5>Expenses during visit</h5>
-
-
+                                                                    <h5> Leave Allocation</h5>
                                                                     <a
                                                                         className="btn buttoncolor  "
                                                                         onClick={() => {
@@ -292,34 +223,31 @@ function LeaveAllocation() {
                                                                         Add
                                                                     </a>
                                                                 </div>
-
                                                                 <Row style={{ marginTop: "1%" }}>
                                                                     <Col lg={12}>
                                                                         <Table striped bordered hover>
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>#</th>
-                                                                                    <th style={{ textAlign: "center" }}>
-                                                                                        Expense type
-                                                                                    </th>
-                                                                                    <th style={{ textAlign: "center" }}>amount</th>
-                                                                                    <th style={{ textAlign: "center" }}>description</th>
-
+                                                                                    <th style={{ textAlign: "center" }}>Company</th>
+                                                                                    <th style={{ textAlign: "center" }}>Departments</th>
+                                                                                    <th style={{ textAlign: "center" }}>Designation</th>
+                                                                                    <th style={{ textAlign: "center" }}>Allocation</th>
                                                                                     <th style={{ textAlign: "center" }}>Remove</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {expense.length > 0 &&
-                                                                                    expense.map((d, i) => {
+                                                                                {allocationDetail.length > 0 &&
+                                                                                    allocationDetail.map((d, i) => {
                                                                                         return (
                                                                                             <tr>
                                                                                                 <th>{i + 1}</th>
-                                                                                                <td>{d.expenseType}</td>
-                                                                                                <td>{d.amount}</td>
+                                                                                                <td>{d.company.title}</td>
+                                                                                                <td>{d.departments.title}</td>
                                                                                                 <td>
-                                                                                                    {d.description}
+                                                                                                    {d.designation.title}
                                                                                                 </td>
-
+                                                                                                <td>{d.allocation.id}</td>
                                                                                                 <td>
                                                                                                     <i
                                                                                                         class="fa fa-trash-can"
@@ -335,20 +263,23 @@ function LeaveAllocation() {
                                                                         </Table>
                                                                     </Col>
                                                                 </Row>
-
-
-
+                                                                <Row>
+                                                                    <Col>
+                                                                        <div style={{ display: "flex", justifyContent: "end" }}>
+                                                                            <Button variant="primary" type="submit" className="submitButton" style={{ backgroundColor: "rgb(137, 179, 83)", marginLeft: "auto" }}>
+                                                                                Submit
+                                                                            </Button>
+                                                                        </div>
+                                                                    </Col>
+                                                                </Row>
                                                             </Form>
                                                         </Container>
                                                     </Card.Body>
                                                 </Card>
                                             </Col>
-
                                         </Row>
                                     </div>
-
-
-                                    {/* ///educational details modal  */}
+                                    {/* ///allocation leaves modal  */}
                                     <Modal
                                         aria-labelledby="contained-modal-title-vcenter"
                                         centered
@@ -361,7 +292,7 @@ function LeaveAllocation() {
                                                 id="contained-modal-title-vcenter "
                                                 style={{ textAlign: "center" }}
                                             >
-                                                <h5>Add expense item</h5>
+                                                <h5>Add Leave Allocation</h5>
                                             </Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
@@ -373,17 +304,25 @@ function LeaveAllocation() {
                                                             controlId="formGridLastName"
                                                             className="formmargin"
                                                         >
-                                                            <Form.Label>Expense type</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                className="form-control-sm"
-
-
-                                                                name="expenseType"
-                                                                placeholder="type"
-                                                                value={addExpense.expenseType}
-                                                                onChange={handleeducationdetails}
-                                                            />
+                                                            <Form.Label>Company</Form.Label>
+                                                            <Form.Select
+                                                                name="company"
+                                                                Value={addAllocation.company}
+                                                                onChange={handleAllocationdetails}
+                                                            >
+                                                                <option disabled selected hidden defaultValue={""}>Please Company...</option>
+                                                                {company && company.map((d) => {
+                                                                    const combinedValue = `${d._id}|${d.title}`;
+                                                                    return (
+                                                                        <option
+                                                                            key={d._id}
+                                                                            value={combinedValue}
+                                                                        >
+                                                                            {d.title}
+                                                                        </option>
+                                                                    );
+                                                                })}
+                                                            </Form.Select>
                                                         </Form.Group>
                                                     </Col>
                                                     <Col>
@@ -392,17 +331,27 @@ function LeaveAllocation() {
                                                             controlId="formGridLastName"
                                                             className="formmargin"
                                                         >
-                                                            <Form.Label>Amount</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                className="form-control-sm"
-
-
-                                                                name="amount"
-                                                                placeholder="amount"
-                                                                value={addExpense.amount}
-                                                                onChange={handleeducationdetails}
-                                                            />
+                                                            <Form.Label>Department</Form.Label>
+                                                            <Form.Select name="departments"
+                                                                Value={addAllocation.departments}
+                                                                onChange={handleAllocationdetails}
+                                                            >
+                                                                <option disabled selected defaultValue={""}>
+                                                                    Select department..
+                                                                </option>
+                                                                {department && department.map((d, i) => {
+                                                                    const combinedValue = `${d._id}|${d.departmentname}`;
+                                                                    return (
+                                                                        <>
+                                                                            <option key={d._id}
+                                                                                value={combinedValue}
+                                                                            >
+                                                                                {d.departmentname}
+                                                                            </option>
+                                                                        </>
+                                                                    );
+                                                                })}
+                                                            </Form.Select>
                                                         </Form.Group>
                                                     </Col>
                                                 </Row>
@@ -413,30 +362,47 @@ function LeaveAllocation() {
                                                             controlId="formGridLastName"
                                                             className="formmargin"
                                                         >
-                                                            <Form.Label>Description</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                className="form-control-sm"
-
-                                                                name="description"
-                                                                value={addExpense.description}
-                                                                onChange={handleeducationdetails}
-                                                            />
+                                                            <Form.Label>Designation</Form.Label>
+                                                            <Form.Select
+                                                                name="designation"
+                                                                value={addAllocation.designation && addAllocation.designation.title}
+                                                                onChange={handleAllocationdetails}
+                                                            >
+                                                                <option disabled selected defaultValue={""}>
+                                                                    Select designation..
+                                                                </option>
+                                                                {designation && designation.map((d) => {
+                                                                    const combinedValue = `${d._id}|${d.title}`;
+                                                                    return (
+                                                                        <option
+                                                                            key={d._id}
+                                                                            value={combinedValue}
+                                                                        >
+                                                                            {d.title}
+                                                                        </option>
+                                                                    );
+                                                                })}
+                                                            </Form.Select>
                                                         </Form.Group>
                                                     </Col>
-
+                                                    <Col>
+                                                        <Form.Label>Leave Allocation</Form.Label>
+                                                        <Form.Control
+                                                            type="number"
+                                                            name="allocation"
+                                                            required
+                                                            onChange={handleAllocationdetails}
+                                                        ></Form.Control>
+                                                    </Col>
                                                 </Row>
-
                                                 <div className="d-flex justify-content-center my-3">
                                                     <Button
                                                         onClick={() => {
-                                                            expense.push(addExpense)
-                                                            setExpense(expense)
+                                                            allocationDetail.push(addAllocation)
+                                                            setAllocationDetail(allocationDetail)
                                                             Closechildmodal();
-
-                                                            console.log("expense ", expense)
-
-                                                            setAddExpense({})
+                                                            console.log("detail", allocationDetail)
+                                                            setAddAllocation({})
                                                         }}
                                                         style={{ backgroundColor: "rgb(137, 179, 83)" }}
                                                     >

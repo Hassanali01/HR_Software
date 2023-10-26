@@ -39,7 +39,6 @@ const Companies = () => {
       const companies = await axios.get(process.env.React_APP_ORIGIN_URL + url);
       const res = companies.data;
       setData(res);
-
     } catch (error) {
       console.log(error);
     }
