@@ -1,31 +1,33 @@
 const mongoose = require("mongoose");
 
 const leavesSchema = mongoose.Schema({
-    leaveType:{
-        type:String,
-        required:true
+    leaveType: {
+        type: String,
+        required: true
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
         // required:true
     },
     allocations: {
         type: [{
-          company: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'companies'
-        },        
-          department: {
+            company: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'companies'
+            },
+            department: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'departments'
-        },   
-          designation: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'designations'
-        },
+            },
+            designation: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'designations'
+            },
+            
+            allocatedOnce: Boolean
         }],
-      },
+    },
 })
 
-const Leaves = mongoose.model('Leaves',leavesSchema);
+const Leaves = mongoose.model('Leaves', leavesSchema);
 module.exports = Leaves

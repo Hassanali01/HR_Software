@@ -31,3 +31,5 @@ const leavesSchema = mongoose.Schema({
 
 const LeavesTypes = mongoose.model('Leaves',leavesSchema);
 module.exports = LeavesTypes
+
+
