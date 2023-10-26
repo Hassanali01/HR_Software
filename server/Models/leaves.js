@@ -7,7 +7,6 @@ const leavesSchema = mongoose.Schema({
     },
     description:{
         type:String,
-        // required:true
     },
     allocations: {
         type: [{
@@ -23,6 +22,8 @@ const leavesSchema = mongoose.Schema({
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'designations'
         },
+        allocatedOnce: Boolean
+
         }],
       },
 })

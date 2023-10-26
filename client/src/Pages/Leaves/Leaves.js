@@ -15,7 +15,6 @@ const Leaves = () => {
   const [show, setShow] = useState(false);
   const [leaveType, setleaveType] = useState("");
   const [description, setDescription] = useState("");
-  const [allocation, setAllocation] =useState("");
   const [datamodal, setmodaldata] = useState({});
   const [leaves, setLeaves] = useState([]);
 
@@ -47,7 +46,6 @@ const Leaves = () => {
       const save = await axios.post(process.env.React_APP_ORIGIN_URL + url2, {
         leaveType: leaveType,
         description: description,
-        allocation: allocation
       });
       NotificationManager.success("Successfully Added");
       window.location.replace("/leaves");
@@ -129,16 +127,6 @@ const Leaves = () => {
               required
               onChange={(e) => {
                 setleaveType(e.target.value);
-              }}
-            ></Form.Control>
-            <br />
-            <Form.Label>Leave Allocation</Form.Label>
-            <Form.Control
-              type="number"
-              name="allocation"
-              required
-              onChange={(e) => {
-                setAllocation(e.target.value);
               }}
             ></Form.Control>
             <br></br>

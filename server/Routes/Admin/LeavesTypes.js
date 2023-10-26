@@ -37,11 +37,7 @@ router.put('/addleaves/:id', async (req, res, next) => {
             //     }
             // }
             )
-
             res.status(200).send(leaves)
-
-
-
     } catch (error) {
         console.log("error", error)
     }

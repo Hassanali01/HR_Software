@@ -23,7 +23,9 @@ const leavesSchema = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'designations'
             },
-            allocation: Number
+            allocation: Number,
+            allocatedOnce: Boolean
+
         }],
     },
 
