@@ -50,28 +50,37 @@ router.put('/addleaves/:id', async (req, res, next) => {
 
 // Get the yearly leave type balance
 
-router.get('/addleaves/balance/:id', async (req, res, next) => {
+router.get('/addleaves/balance/', async (req, res, next) => {
     try {
-console.log("req", req.params.id)
+console.log("req", req.query)
         const leaveTypeBalance = await Leaves.aggregate(
-
-        [
+          [
             {
               '$match': {
-                '_id':new ObjectId(req.params.id)
+                '_id': new ObjectId(req.query.id)
               }
-            }
-            
-            , {
+            }, {
               '$project': {
-                'new': {
+                'balance': {
                   '$arrayElemAt': [
                     {
                       '$filter': {
                         'input': '$allocations', 
                         'cond': {
-                          '$eq': [
-                            '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                          '$and': [
+                            {
+                              '$eq': [
+                                '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                              ]
+                            }, {
+                              '$eq': [
+                                '$$filtered.department', new ObjectId('6318819bb6d3aba26a75852a')
+                              ]
+                            }, {
+                              '$eq': [
+                                '$$filtered.designation', new ObjectId('6538fbf8d700cb75bfccc2bc')
+                              ]
+                            }
                           ]
                         }, 
                         'as': 'filtered'
@@ -83,7 +92,7 @@ console.log("req", req.params.id)
               }
             }, {
               '$project': {
-                'new': {
+                'balance': {
                   '$cond': {
                     'if': '$fetch', 
                     'then': '$fetch', 
@@ -93,8 +102,16 @@ console.log("req", req.params.id)
                           '$filter': {
                             'input': '$allocations', 
                             'cond': {
-                              '$eq': [
-                                '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                              '$and': [
+                                {
+                                  '$eq': [
+                                    '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                                  ]
+                                }, {
+                                  '$eq': [
+                                    '$$filtered.department', new ObjectId('6318819bb6d3aba26a75852a')
+                                  ]
+                                }
                               ]
                             }, 
                             'as': 'filtered'
@@ -107,9 +124,11 @@ console.log("req", req.params.id)
                 'allocations': 1
               }
             }
-          ])
+          ]
+          
+          
+          )
 
-          console.log(leaveTypeBalance)
          res.status(200).send(leaveTypeBalance)
     } catch (error) {
         console.log("error", error)
