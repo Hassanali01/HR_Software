@@ -1,6 +1,7 @@
 const Leaves = require("../../Models/leavesTypes");
 const express = require("express")
 const router = express.Router();
+var ObjectId = require('mongodb').ObjectId;
 
 
 router.post('/addleaves', async (req, res, next) => {
@@ -38,6 +39,78 @@ router.put('/addleaves/:id', async (req, res, next) => {
             // }
             )
             res.status(200).send(leaves)
+    } catch (error) {
+        console.log("error", error)
+    }
+})
+
+
+
+
+
+// Get the yearly leave type balance
+
+router.get('/addleaves/balance/:id', async (req, res, next) => {
+    try {
+console.log("req", req.params.id)
+        const leaveTypeBalance = await Leaves.aggregate(
+
+        [
+            {
+              '$match': {
+                '_id':new ObjectId(req.params.id)
+              }
+            }
+            
+            , {
+              '$project': {
+                'new': {
+                  '$arrayElemAt': [
+                    {
+                      '$filter': {
+                        'input': '$allocations', 
+                        'cond': {
+                          '$eq': [
+                            '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                          ]
+                        }, 
+                        'as': 'filtered'
+                      }
+                    }, 0
+                  ]
+                }, 
+                'allocations': 1
+              }
+            }, {
+              '$project': {
+                'new': {
+                  '$cond': {
+                    'if': '$fetch', 
+                    'then': '$fetch', 
+                    'else': {
+                      '$arrayElemAt': [
+                        {
+                          '$filter': {
+                            'input': '$allocations', 
+                            'cond': {
+                              '$eq': [
+                                '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                              ]
+                            }, 
+                            'as': 'filtered'
+                          }
+                        }, 0
+                      ]
+                    }
+                  }
+                }, 
+                'allocations': 1
+              }
+            }
+          ])
+
+          console.log(leaveTypeBalance)
+         res.status(200).send(leaveTypeBalance)
     } catch (error) {
         console.log("error", error)
     }
