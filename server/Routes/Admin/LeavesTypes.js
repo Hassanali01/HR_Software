@@ -70,15 +70,15 @@ console.log("req", req.query)
                           '$and': [
                             {
                               '$eq': [
-                                '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                                '$$filtered.company', new ObjectId(req.query.company)
                               ]
                             }, {
                               '$eq': [
-                                '$$filtered.department', new ObjectId('6318819bb6d3aba26a75852a')
+                                '$$filtered.department', new ObjectId(req.query.department)
                               ]
                             }, {
                               '$eq': [
-                                '$$filtered.designation', new ObjectId('6538fbf8d700cb75bfccc2bc')
+                                '$$filtered.designation', new ObjectId(req.query.designation)
                               ]
                             }
                           ]
@@ -105,14 +105,48 @@ console.log("req", req.query)
                               '$and': [
                                 {
                                   '$eq': [
-                                    '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                                    '$$filtered.company', new ObjectId(req.query.company)
                                   ]
                                 }, {
                                   '$eq': [
-                                    '$$filtered.department', new ObjectId('6318819bb6d3aba26a75852a')
+                                    '$$filtered.department', new ObjectId(req.query.department)
                                   ]
                                 }
                               ]
+                            }, 
+                            'as': 'filtered'
+                          }
+                        }, 0
+                      ]
+                    }
+                  }
+                }, 
+                'allocations': 1
+              }
+            },
+            {
+              '$project': {
+                'balance': {
+                  '$cond': {
+                    'if': '$fetch', 
+                    'then': '$fetch', 
+                    'else': {
+                      '$arrayElemAt': [
+                        {
+                          '$filter': {
+                            'input': '$allocations', 
+                            'cond': {
+                              // '$and': [
+                              //   {
+                                  '$eq': [
+                                    '$$filtered.company', new ObjectId(req.query.company)
+                                  ]
+                                // }, {
+                                //   '$eq': [
+                                //     '$$filtered.department', new ObjectId(req.query.department)
+                                //   ]
+                                // }
+                              // ]
                             }, 
                             'as': 'filtered'
                           }
