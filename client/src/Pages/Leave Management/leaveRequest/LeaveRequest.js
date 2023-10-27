@@ -60,6 +60,7 @@ const LeaveRequest = () => {
       console.log("user info", user)
       const res = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/lastfive/${employee}`);
 
+      
       const empinfo = res.data;
       const InfoData = [];
       await empinfo.map((d) => {

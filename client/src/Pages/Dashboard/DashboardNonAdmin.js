@@ -23,14 +23,15 @@ const DashboardNonAdmin = () => {
     let SNo = 1;
     const options = { day: "numeric", month: "short", year: "numeric" };
     const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
-    const getEmp = `employees/${user.id}`
+    const getEmp = `leaverequest/lastfive/${user.id}`
 
     const userInformation = async () => {
         try {
             const res = await axios.get(process.env.React_APP_ORIGIN_URL + getEmp);
             const empinfo = res.data;
+            console.log("empinfo.Leaves", empinfo)
             const InfoData = [];
-            await empinfo.Leaves.map((d) => {
+            await empinfo.map((d) => {
                 InfoData.push({
                     from: d.from,
                     to: d.to,
@@ -38,7 +39,7 @@ const DashboardNonAdmin = () => {
                     leaveType: d.leaveType,
                     name: empinfo.firstname,
                     _id: empinfo.emp_id,
-                    department: empinfo.departments.map((d) => d.departmentname),
+                    department: empinfo.departments && empinfo.departments.map((d) => d.departmentname),
                     reason: d.reason,
                     leaveNature: d.leaveNature,
                     Short_leave: d.Short_leave,
@@ -46,7 +47,7 @@ const DashboardNonAdmin = () => {
                     toTime: d.toTime
                 });
             });
-
+            console.log("infodata", InfoData)
             setinfo(InfoData)
             let approve = 0;
             let pending = 0;
@@ -122,7 +123,7 @@ const DashboardNonAdmin = () => {
 
     const totalNumberofAttendence = async () => {
         const currentDate = new Date();
-        const currentMonth = currentDate.getMonth()+1;
+        const currentMonth = currentDate.getMonth() + 1;
         const currentYear = currentDate.getFullYear();
         try {
             const attendence = await axios.get(process.env.React_APP_ORIGIN_URL + "attendance/employee", {
@@ -315,4 +316,3 @@ const DashboardNonAdmin = () => {
 };
 
 export default DashboardNonAdmin;
-  

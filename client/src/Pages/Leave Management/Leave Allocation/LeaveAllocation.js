@@ -93,6 +93,15 @@ function LeaveAllocation() {
                 allocatedOnce:allocatedOnce
             });
         }
+        if (allocationDetail[3] && allocationDetail[3].company && allocationDetail[3].departments && allocationDetail[3].designation && allocationDetail[3].allocation) {
+            allocations.push({
+                company: allocationDetail[3].company.id,
+                department: allocationDetail[3].departments.id,
+                designation: allocationDetail[3].designation.id,
+                allocation: allocationDetail[3].allocation.id,
+                allocatedOnce:allocatedOnce
+            });
+        }
         event.preventDefault();
         try {
             const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
@@ -244,9 +253,7 @@ function LeaveAllocation() {
                                                                                                 <th>{i + 1}</th>
                                                                                                 <td>{d.company.title}</td>
                                                                                                 <td>{d.departments.title}</td>
-                                                                                                <td>
-                                                                                                    {d.designation.title}
-                                                                                                </td>
+                                                                                                <td>{d.designation.title}</td>
                                                                                                 <td>{d.allocation.id}</td>
                                                                                                 <td>
                                                                                                     <i

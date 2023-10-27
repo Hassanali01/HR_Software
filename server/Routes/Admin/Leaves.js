@@ -204,10 +204,7 @@ router.post('/addrequest', async (req, res, next) => {
 // all leaves request 
 router.get('/allForHR/:month/:year', async (req, res, next) => {
   try {
-
-
     console.log("allfor hr", req.params)
-
     const allRequest = await LeaveRequest.find({
       $expr: {
 
@@ -359,7 +356,6 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
 
 router.get('/employee/:id/:month/:year', async (req, res, next) => {
   try {
-  
     const allRequest = await LeaveRequest.aggregate(
       //  employee: subordinateEmployeesIDs,
       [

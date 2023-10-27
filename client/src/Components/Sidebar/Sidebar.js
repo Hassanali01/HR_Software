@@ -132,10 +132,11 @@ const Sidebar = () => {
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
                       </NavLink> </li>
+                      {context.user.isAdmin &&
                       <li> <NavLink to={'/leaveallocation'} className="nav-link mt-2 p-1 ps-3">
                         {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                         <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
-                      </NavLink> </li>
+                      </NavLink> </li>}
                     </>
                   }
                 </a>
