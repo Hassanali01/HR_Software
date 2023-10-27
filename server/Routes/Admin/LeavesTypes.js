@@ -53,7 +53,10 @@ router.put('/addleaves/:id', async (req, res, next) => {
 router.get('/addleaves/balance/', async (req, res, next) => {
     try {
 console.log("req", req.query)
-        const leaveTypeBalance = await Leaves.aggregate(
+
+console.log("check", req.query.company ? new ObjectId(req.query.company) : null)
+
+const leaveTypeBalance = await Leaves.aggregate(
           [
             {
               '$match': {
@@ -70,15 +73,15 @@ console.log("req", req.query)
                           '$and': [
                             {
                               '$eq': [
-                                '$$filtered.company', new ObjectId(req.query.company)
+                                '$$filtered.company', req.query.company ? new ObjectId(req.query.company) : null
                               ]
                             }, {
                               '$eq': [
-                                '$$filtered.department', new ObjectId(req.query.department)
+                                '$$filtered.department',req.query.department ? new ObjectId(req.query.department) : null
                               ]
                             }, {
                               '$eq': [
-                                '$$filtered.designation', new ObjectId(req.query.designation)
+                                '$$filtered.designation',req.query.designation ? new ObjectId(req.query.designation) : null
                               ]
                             }
                           ]
@@ -90,12 +93,14 @@ console.log("req", req.query)
                 }, 
                 'allocations': 1
               }
-            }, {
+            }, 
+            
+            {
               '$project': {
                 'balance': {
                   '$cond': {
-                    'if': '$fetch', 
-                    'then': '$fetch', 
+                    'if': '$balance', 
+                    'then': '$balance', 
                     'else': {
                       '$arrayElemAt': [
                         {
@@ -105,11 +110,16 @@ console.log("req", req.query)
                               '$and': [
                                 {
                                   '$eq': [
-                                    '$$filtered.company', new ObjectId(req.query.company)
+                                    '$$filtered.company',req.query.company ? new ObjectId(req.query.company) : null
                                   ]
                                 }, {
                                   '$eq': [
-                                    '$$filtered.department', new ObjectId(req.query.department)
+                                    '$$filtered.department',req.query.department ? new ObjectId(req.query.department) : null
+                                  ]
+                                },
+                                {
+                                  '$lt': [
+                                    '$$filtered.designation',  null
                                   ]
                                 }
                               ]
@@ -128,25 +138,30 @@ console.log("req", req.query)
               '$project': {
                 'balance': {
                   '$cond': {
-                    'if': '$fetch', 
-                    'then': '$fetch', 
+                    'if': '$balance', 
+                    'then': '$balance', 
                     'else': {
                       '$arrayElemAt': [
                         {
                           '$filter': {
                             'input': '$allocations', 
                             'cond': {
-                              // '$and': [
-                              //   {
+                              '$and': [
+                                {
                                   '$eq': [
-                                    '$$filtered.company', new ObjectId(req.query.company)
+                                    '$$filtered.company',req.query.company ? new ObjectId(req.query.company) : null
                                   ]
-                                // }, {
-                                //   '$eq': [
-                                //     '$$filtered.department', new ObjectId(req.query.department)
-                                //   ]
-                                // }
-                              // ]
+                                },  {
+                                  '$lt': [
+                                    '$$filtered.department', null
+                                  ]
+                                },
+                                {
+                                  '$lt': [
+                                    '$$filtered.designation', null
+                                  ]
+                                }
+                              ]
                             }, 
                             'as': 'filtered'
                           }

@@ -13,15 +13,20 @@ const leavesSchema = mongoose.Schema({
         type: [{
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'companies'
+                ref: 'companies',
+                required: false
             },
             department: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'departments'
+                ref: 'departments',
+                required: false
+
             },
             designation: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'designations'
+                ref: 'designations',
+                required: false
+
             },
             allocation: Number,
             allocatedOnce: Boolean

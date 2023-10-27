@@ -65,45 +65,25 @@ function LeaveAllocation() {
     };
 
     const addAllocationDetails = async (event) => {
-        const allocations = []
-        if (allocationDetail[0] && allocationDetail[0].company && allocationDetail[0].departments && allocationDetail[0].designation && allocationDetail[0].allocation) {
-            allocations.push({
-                company: allocationDetail[0].company.id,
-                department: allocationDetail[0].departments.id,
-                designation: allocationDetail[0].designation.id,
-                allocation: allocationDetail[0].allocation.id,
-                allocatedOnce:allocatedOnce
-            });
-        }
-        if (allocationDetail[1] && allocationDetail[1].company && allocationDetail[1].departments && allocationDetail[1].designation && allocationDetail[1].allocation) {
-            allocations.push({
-                company: allocationDetail[1].company.id,
-                department: allocationDetail[1].departments.id,
-                designation: allocationDetail[1].designation.id,
-                allocation: allocationDetail[1].allocation.id,
-                allocatedOnce:allocatedOnce
-            });
-        }
-        if (allocationDetail[2] && allocationDetail[2].company && allocationDetail[2].departments && allocationDetail[2].designation && allocationDetail[2].allocation) {
-            allocations.push({
-                company: allocationDetail[2].company.id,
-                department: allocationDetail[2].departments.id,
-                designation: allocationDetail[2].designation.id,
-                allocation: allocationDetail[2].allocation.id,
-                allocatedOnce:allocatedOnce
-            });
-        }
-        if (allocationDetail[3] && allocationDetail[3].company && allocationDetail[3].departments && allocationDetail[3].designation && allocationDetail[3].allocation) {
-            allocations.push({
-                company: allocationDetail[3].company.id,
-                department: allocationDetail[3].departments.id,
-                designation: allocationDetail[3].designation.id,
-                allocation: allocationDetail[3].allocation.id,
-                allocatedOnce:allocatedOnce
-            });
-        }
-        event.preventDefault();
-        try {
+
+        event.preventDefault()
+
+        console.log("allocation details", allocationDetail)
+
+
+
+        let allocations = []
+
+        allocations = allocationDetail.map((ad)=> {
+            
+            console.log("ad", ad)
+            return({company:ad.company && ad.company.id, department: ad.departments && ad.departments.id, designation: ad.designation && ad.designation.id, allocation: ad.allocation.id})})
+
+        console.log("allocations", allocations)
+    
+    
+     try { 
+            console.log("all",)
             const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
                 allocations
             })
@@ -251,9 +231,9 @@ function LeaveAllocation() {
                                                                                         return (
                                                                                             <tr>
                                                                                                 <th>{i + 1}</th>
-                                                                                                <td>{d.company.title}</td>
-                                                                                                <td>{d.departments.title}</td>
-                                                                                                <td>{d.designation.title}</td>
+                                                                                                <td>{d.company && d.company.title}</td>
+                                                                                                <td>{d.departments && d.departments.title}</td>
+                                                                                                <td>{d.designation && d.designation.title}</td>
                                                                                                 <td>{d.allocation.id}</td>
                                                                                                 <td>
                                                                                                     <i
