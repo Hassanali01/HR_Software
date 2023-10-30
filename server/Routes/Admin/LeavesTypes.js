@@ -50,28 +50,40 @@ router.put('/addleaves/:id', async (req, res, next) => {
 
 // Get the yearly leave type balance
 
-router.get('/addleaves/balance/:id', async (req, res, next) => {
+router.get('/addleaves/balance/', async (req, res, next) => {
     try {
-console.log("req", req.params.id)
-        const leaveTypeBalance = await Leaves.aggregate(
+console.log("req", req.query)
 
-        [
+console.log("check", req.query.company ? new ObjectId(req.query.company) : null)
+
+const leaveTypeBalance = await Leaves.aggregate(
+          [
             {
               '$match': {
-                '_id':new ObjectId(req.params.id)
+                '_id': new ObjectId(req.query.id)
               }
-            }
-            
-            , {
+            }, {
               '$project': {
-                'new': {
+                'balance': {
                   '$arrayElemAt': [
                     {
                       '$filter': {
                         'input': '$allocations', 
                         'cond': {
-                          '$eq': [
-                            '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                          '$and': [
+                            {
+                              '$eq': [
+                                '$$filtered.company', req.query.company ? new ObjectId(req.query.company) : null
+                              ]
+                            }, {
+                              '$eq': [
+                                '$$filtered.department',req.query.department ? new ObjectId(req.query.department) : null
+                              ]
+                            }, {
+                              '$eq': [
+                                '$$filtered.designation',req.query.designation ? new ObjectId(req.query.designation) : null
+                              ]
+                            }
                           ]
                         }, 
                         'as': 'filtered'
@@ -81,20 +93,74 @@ console.log("req", req.params.id)
                 }, 
                 'allocations': 1
               }
-            }, {
+            }, 
+            
+            {
               '$project': {
-                'new': {
+                'balance': {
                   '$cond': {
-                    'if': '$fetch', 
-                    'then': '$fetch', 
+                    'if': '$balance', 
+                    'then': '$balance', 
                     'else': {
                       '$arrayElemAt': [
                         {
                           '$filter': {
                             'input': '$allocations', 
                             'cond': {
-                              '$eq': [
-                                '$$filtered.company', new ObjectId('64e2fdc6694a255532ce5a18')
+                              '$and': [
+                                {
+                                  '$eq': [
+                                    '$$filtered.company',req.query.company ? new ObjectId(req.query.company) : null
+                                  ]
+                                }, {
+                                  '$eq': [
+                                    '$$filtered.department',req.query.department ? new ObjectId(req.query.department) : null
+                                  ]
+                                },
+                                {
+                                  '$lt': [
+                                    '$$filtered.designation',  null
+                                  ]
+                                }
+                              ]
+                            }, 
+                            'as': 'filtered'
+                          }
+                        }, 0
+                      ]
+                    }
+                  }
+                }, 
+                'allocations': 1
+              }
+            },
+            {
+              '$project': {
+                'balance': {
+                  '$cond': {
+                    'if': '$balance', 
+                    'then': '$balance', 
+                    'else': {
+                      '$arrayElemAt': [
+                        {
+                          '$filter': {
+                            'input': '$allocations', 
+                            'cond': {
+                              '$and': [
+                                {
+                                  '$eq': [
+                                    '$$filtered.company',req.query.company ? new ObjectId(req.query.company) : null
+                                  ]
+                                },  {
+                                  '$lt': [
+                                    '$$filtered.department', null
+                                  ]
+                                },
+                                {
+                                  '$lt': [
+                                    '$$filtered.designation', null
+                                  ]
+                                }
                               ]
                             }, 
                             'as': 'filtered'
@@ -107,9 +173,11 @@ console.log("req", req.params.id)
                 'allocations': 1
               }
             }
-          ])
+          ]
+          
+          
+          )
 
-          console.log(leaveTypeBalance)
          res.status(200).send(leaveTypeBalance)
     } catch (error) {
         console.log("error", error)
