@@ -21,7 +21,6 @@ import { Context } from "../../../Context/Context";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import LeaveApplication from "./LeaveApplication";
-import PrintIcon from "@mui/icons-material/Print";
 import HeaderContext from '../../../Context/HeaderContext'
 
 const ManageLeaves = () => {
@@ -29,46 +28,41 @@ const ManageLeaves = () => {
   const options = { day: "numeric", month: "short", year: "numeric" };
   const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
 
+  const [handlemodal, sethandlemodal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
+  const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
+  const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
+  const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
+  const [calendarDate, setCalendarDate] = useState("")
+  const [modaldata, setmodaldata] = useState({});
+  const [show, setShow] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const handleClose = () => setShow(false);
+  const [leavesData, setLeavesData] = useState([]);
+  const [status, setstatus] = useState();
+  const [supervisorApproval, setSupervisorApproval] = useState();
+  const [update, setUpdate] = useState(true);
+
   const a = useContext(HeaderContext)
   useEffect(() => {
     a.update("Human Resource / Leave Management")
   })
-  const componentRef = useRef();
 
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  const [handlemodal, sethandlemodal] = useState(false);
-  const [date, setDate] = useState(new Date());
-
-  const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
-  const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
-  const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
-
-  const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
-
-
-  const [calendarDate, setCalendarDate] = useState("")
 
 
   function onChangeCalendar(e) {
-
-    console.log("calendar", e)
-
-
-
     setCalendarDate(e)
-
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setMonth(e.toLocaleString('en-US', { month: "long" }))
     setYear(e.toLocaleString('en-US', { year: "numeric" }))
-    setMonthNumeric( e.toLocaleString('en-US', { month: "numeric" }))
-
-    console.log("month- year",monthNumeric, year)
-
+    setMonthNumeric(e.toLocaleString('en-US', { month: "numeric" }))
     setUpdate(!update)
-
     handleCloseCalendar()
   }
 
@@ -277,16 +271,6 @@ const ManageLeaves = () => {
     return mimetype;
   }
 
-  const [modaldata, setmodaldata] = useState({});
-  const [show, setShow] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const [leavesData, setLeavesData] = useState([]);
-  const [status, setstatus] = useState();
-  const [supervisorApproval, setSupervisorApproval] = useState();
-  const [update, setUpdate] = useState(true);
-
   const handleShow = (id) => {
     setmodaldata(id.row);
     setstatus(id.row.status);
@@ -296,7 +280,6 @@ const ManageLeaves = () => {
 
   const handleCloseCalendar = () => setShowCalendar(false);
   const handleShowCalendar = () => setShowCalendar(true);
-
 
   const { user } = useContext(Context);
   const getLeavesrequests = async () => {
@@ -414,23 +397,6 @@ const ManageLeaves = () => {
         );
       },
     },
-    // {
-    //   field: "print",
-    //   headerName: "Print",
-    //   width: 80,
-    //   renderCell: (id) => {
-    //     return (
-    //       <div>
-    //         <PrintIcon
-    //           onClick={async () => {
-    //             const setdata = await setmodaldata(id.row);
-    //             handlePrint();
-    //           }}
-    //         />
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
 
@@ -447,15 +413,12 @@ const ManageLeaves = () => {
                 <h3 className="card-title" style={{ color: "white" }}>
                   Leaves to approve
                 </h3>
-
               </div>
               <div className="card-body">
-                
-              <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                   Select the month
                 </Button>
                 <input className="" value={`${month} - ${year}`}
-                // disabled="true"
                 ></input>
                 <Modal show={showCalendar} onHide={handleCloseCalendar}>
                   <div className='d-flex justify-content-center'>
@@ -467,7 +430,6 @@ const ManageLeaves = () => {
                   </div>
                 </Modal>
                 <div className="mt-3" style={{ width: "100%", height: "700px" }}>
-
                   <DataGrid columns={columns} rows={rows} />
                 </div>
               </div>
@@ -575,7 +537,6 @@ const ManageLeaves = () => {
             <Col>
               <Form>
                 <Form.Label>Duration</Form.Label>
-
                 <Form.Control disabled value={modaldata.Short_leave == "True" ? 'Short leave' : 'Full day'}></Form.Control>
               </Form>
             </Col>
@@ -590,7 +551,6 @@ const ManageLeaves = () => {
           </Row>
           <Row>
             <Form>
-
               <Form.Label>Attachment</Form.Label>
               <Row>
                 <Col sm={9}>
@@ -599,7 +559,6 @@ const ManageLeaves = () => {
                     value={modaldata.attachment && modaldata.attachment.name}
                   ></Form.Control>
                 </Col>
-
                 <Col sm={3}>
                   <Button
                     style={{ width: "100%", backgroundColor: "rgb(137, 179, 83)" }}
@@ -623,9 +582,7 @@ const ManageLeaves = () => {
               </Row>
             </Form>
           </Row>
-
           <Row> &nbsp; &nbsp;</Row>
-
           {!user.isAdmin && (
             <>
               <h5 className="my-3">Supervisor Approval</h5>

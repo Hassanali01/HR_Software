@@ -26,7 +26,7 @@ function LeaveAllocation() {
     const [allocationDetail, setAllocationDetail] = useState([]);
     const [addAllocation, setAddAllocation] = useState({
         company: {},
-        departments: {},
+        department: {},
         designation: {},
         allocation: 0, 
     });
@@ -66,37 +66,37 @@ function LeaveAllocation() {
 
     const addAllocationDetails = async (event) => {
         const allocations = []
-        if (allocationDetail[0] && allocationDetail[0].company && allocationDetail[0].departments && allocationDetail[0].designation && allocationDetail[0].allocation) {
+        if (allocationDetail[0] && allocationDetail[0].company && allocationDetail[0].department && allocationDetail[0].designation && allocationDetail[0].allocation) {
             allocations.push({
                 company: allocationDetail[0].company.id,
-                department: allocationDetail[0].departments.id,
+                department: allocationDetail[0].department.id,
                 designation: allocationDetail[0].designation.id,
                 allocation: allocationDetail[0].allocation.id,
                 allocatedOnce:allocatedOnce
             });
         }
-        if (allocationDetail[1] && allocationDetail[1].company && allocationDetail[1].departments && allocationDetail[1].designation && allocationDetail[1].allocation) {
+        if (allocationDetail[1] && allocationDetail[1].company && allocationDetail[1].department && allocationDetail[1].designation && allocationDetail[1].allocation) {
             allocations.push({
                 company: allocationDetail[1].company.id,
-                department: allocationDetail[1].departments.id,
+                department: allocationDetail[1].department.id,
                 designation: allocationDetail[1].designation.id,
                 allocation: allocationDetail[1].allocation.id,
                 allocatedOnce:allocatedOnce
             });
         }
-        if (allocationDetail[2] && allocationDetail[2].company && allocationDetail[2].departments && allocationDetail[2].designation && allocationDetail[2].allocation) {
+        if (allocationDetail[2] && allocationDetail[2].company && allocationDetail[2].department && allocationDetail[2].designation && allocationDetail[2].allocation) {
             allocations.push({
                 company: allocationDetail[2].company.id,
-                department: allocationDetail[2].departments.id,
+                department: allocationDetail[2].department.id,
                 designation: allocationDetail[2].designation.id,
                 allocation: allocationDetail[2].allocation.id,
                 allocatedOnce:allocatedOnce
             });
         }
-        if (allocationDetail[3] && allocationDetail[3].company && allocationDetail[3].departments && allocationDetail[3].designation && allocationDetail[3].allocation) {
+        if (allocationDetail[3] && allocationDetail[3].company && allocationDetail[3].department && allocationDetail[3].designation && allocationDetail[3].allocation) {
             allocations.push({
                 company: allocationDetail[3].company.id,
-                department: allocationDetail[3].departments.id,
+                department: allocationDetail[3].department.id,
                 designation: allocationDetail[3].designation.id,
                 allocation: allocationDetail[3].allocation.id,
                 allocatedOnce:allocatedOnce
@@ -239,7 +239,7 @@ function LeaveAllocation() {
                                                                                 <tr>
                                                                                     <th>#</th>
                                                                                     <th style={{ textAlign: "center" }}>Company</th>
-                                                                                    <th style={{ textAlign: "center" }}>Departments</th>
+                                                                                    <th style={{ textAlign: "center" }}>Department</th>
                                                                                     <th style={{ textAlign: "center" }}>Designation</th>
                                                                                     <th style={{ textAlign: "center" }}>Allocation</th>
                                                                                     <th style={{ textAlign: "center" }}>Remove</th>
@@ -340,7 +340,7 @@ function LeaveAllocation() {
                                                         >
                                                             <Form.Label>Department</Form.Label>
                                                             <Form.Select name="departments"
-                                                                Value={addAllocation.departments}
+                                                                Value={addAllocation.department}
                                                                 onChange={handleAllocationdetails}
                                                             >
                                                                 <option disabled selected defaultValue={""}>

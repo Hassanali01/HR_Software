@@ -47,20 +47,14 @@ const LeaveRequest = () => {
     a.update("Human Resource / Apply leave ")
   })
 
-
   const componentRef = useRef();
-
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   const userInformation = async () => {
     try {
-
-      console.log("user info", user)
       const res = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/lastfive/${employee}`);
-
-      
       const empinfo = res.data;
       const InfoData = [];
       await empinfo.map((d) => {
@@ -83,13 +77,7 @@ const LeaveRequest = () => {
       });
       setinfo(InfoData);
 
-
-
       const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
-
-
-      console.log("employee", Employee)
-
       setDetails(Employee.data);
     } catch (error) {
       console.log("error in ", error);
@@ -140,10 +128,8 @@ const LeaveRequest = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       addreq && NotificationManager.success("Successfully Added");
     } catch (error) {
-
       console.log("error", error)
       NotificationManager.error("Error in submitting");
     }
@@ -172,13 +158,8 @@ const LeaveRequest = () => {
     userInformation();
     allemployees();
 
-
-
     (async () => {
-
       const res = await axios.get(process.env.React_APP_ORIGIN_URL + "employees")
-
-      
       const data = res.data.employees;
       setAllEmployees(data);
     })();
@@ -186,8 +167,6 @@ const LeaveRequest = () => {
   }, [employee]);
 
   const array = depemp.filter((d) => d.firstname !== "Hafiz Raheel" & d.firstname !== `${user.firstname}`);
-  console.log("current user", user)
-
   return (
     <>
       <div
@@ -205,42 +184,38 @@ const LeaveRequest = () => {
               <div className="card-body">
                 <Container>
                   <div>
-<div>
-                    {user.isAdmin &&
-                      <Form.Group
-                        controlId="formEmployees"
-                        className="   mb-3"
-                      >
-                        <Form.Label>Apply leave for:</Form.Label>
-
-                        <Form.Select
-                          name="employees"
-                          value={employee}
-                          onChange={(e) => {
-                            setEmployee(e.target.value);
-                          }}
+                    <div>
+                      {user.isAdmin &&
+                        <Form.Group
+                          controlId="formEmployees"
+                          className="   mb-3"
                         >
-                          <option disabled selected hidden value={""}>Other employee leave</option>
-
-                          {allEmployees && allEmployees.map((d, i) => {
-                            return (
-                              <option key={d._id} value={d._id}>
-                                {d.firstname}
-                              </option>
-                            );
-                          })}
-                        </Form.Select>
-                      </Form.Group>
-
-                    }
-</div>
+                          <Form.Label>Apply leave for:</Form.Label>
+                          <Form.Select
+                            name="employees"
+                            value={employee}
+                            onChange={(e) => {
+                              setEmployee(e.target.value);
+                            }}
+                          >
+                            <option disabled selected hidden value={""}>Other employee leave</option>
+                            {allEmployees && allEmployees.map((d, i) => {
+                              return (
+                                <option key={d._id} value={d._id}>
+                                  {d.firstname}
+                                </option>
+                              );
+                            })}
+                          </Form.Select>
+                        </Form.Group>
+                      }
+                    </div>
                     <div style={{ margin: "0 10px 0 10px", display: "flex", justifyContent: "space-between" }}>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details && details.emp_id} </p>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details && details.firstname}</p>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details && details.designation}</p>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {details && details.departments && details.departments[0] && details.departments[0].departmentname}</p>
                     </div>
-
                     <hr />
                     <Row>
                       <Col xs="6">
@@ -248,10 +223,6 @@ const LeaveRequest = () => {
                           <Card.Body>
                             <Container>
                               <Form onSubmit={addleaveRequest}>
-                                {/* <Form.Group
-                                  className="mb-3"
-                                  controlId="formBasicEmail"
-                                > */}
                                 <Row>
                                   <Col>
                                     <Form.Label style={{ fontWeight: "400" }}>Date</Form.Label>
@@ -294,7 +265,6 @@ const LeaveRequest = () => {
                                     </Form.Group>
                                   </Col>
                                 </Row>
-                                {/* </Form.Group> */}
 
                                 <Row>
                                   <Col>
@@ -312,7 +282,6 @@ const LeaveRequest = () => {
                                         style={{ height: "33px", marginTop: "0px", backgroundColor: "white" }}
                                       />
                                     </Form.Group>
-
                                   </Col>
                                   <Col>
                                     <Form.Group
@@ -425,7 +394,6 @@ const LeaveRequest = () => {
                                       </Form.Select>
                                     </Col>
                                   </Row>
-
                                   {/* <Row>
                                   <Col>
                                       <Form.Label>Total Days</Form.Label>
@@ -525,6 +493,18 @@ const LeaveRequest = () => {
                         </Card>
                       </Col>
                       <Col>
+                        <Col>
+                          <Card style={{paddingTop: "10px"}}>
+                            <h5 style={{textAlign: "center"}}>Leave Balance</h5>
+                            {
+                              leaves.map((d) => {
+                                return (<>
+                                  <h6 style={{marginLeft:"15px"}}>{d.leaveType}</h6>
+                                </>)
+                              })
+                            }
+                          </Card>
+                        </Col>
                         <Card>
                           <h6 style={{ marginBottom: "15px", paddingLeft: "10px" }}>Leave History</h6>
                           <Container>
