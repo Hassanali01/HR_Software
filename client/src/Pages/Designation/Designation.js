@@ -14,20 +14,13 @@ import {
     NotificationContainer,
     NotificationManager,
 } from "react-notifications";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import ViewModuleIcon from "@mui/icons-material/ViewModule";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-// import Table from "./TableView/Table";
 import HeaderContext from '../../Context/HeaderContext'
 
 function Designation() {
 
     const [getdata, setData] = useState([]);
     const [show, setShow] = useState(false);
-    const [view, setView] = useState('module');
     const [title, settitle] = useState("");
-    const [description, setDescription] = useState("");
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -35,28 +28,22 @@ function Designation() {
         try {
             const des = await axios.get(process.env.React_APP_ORIGIN_URL + "designation");
             const res = des.data
-            console.log("res",res.designation)
+            console.log("res", res.designation)
             setData(res.designation);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleChange = (event, nextView) => {
-        setView(!view);
-        setView(nextView);
-        setView(!view);
-    };
 
     const postData = async (e) => {
         e.preventDefault();
         try {
             const save = await axios.post(process.env.React_APP_ORIGIN_URL + "designation/adddesignation", {
                 title: title,
-                // description: description,
             });
             save && NotificationManager.success("Successfully Added");
-            //   window.location.replace("/departments");
+            window.location.replace("/dasignation");
         } catch (error) {
             NotificationManager.error("Failed to add designation");
         }
@@ -82,23 +69,6 @@ function Designation() {
                                 </h3>
 
                                 <div className="icon-button">
-                                    {/* <div>
-                                        <ToggleButtonGroup
-                                            style={{ height: "38px" }}
-                                            orientation="horizontal"
-                                            value={view}
-                                            exclusive
-
-                                            onChange={handleChange}
-                                        >
-                                            <ToggleButton value="module" aria-label="module" selected={!view}>
-                                                <ViewModuleIcon />
-                                            </ToggleButton>
-                                            <ToggleButton value="list" aria-label="list" selected={view}>
-                                                <ViewListIcon />
-                                            </ToggleButton>
-                                        </ToggleButtonGroup>
-                                    </div> */}
                                     <div
                                         style={{ display: "flex", alignItems: "center" }}
                                         onClick={handleShow}
@@ -121,38 +91,34 @@ function Designation() {
                             <div className="card-body">
                                 <div className="table-responsive">
                                     <div style={{ height: 700, width: "100%" }}>
-                                        {/* {view ? ( */}
-                                            {/* // <Table data={getdata}></Table> */}
-                                        {/* // ) : ( */}
-                                            <Container>
-                                                <Row>
-                                                    {getdata.map((d, i) => {
-                                                        let demo = d.description
-                                                        let arr = []
-                                                        console.log(demo)
-                                                        for (let a in demo) {
-                                                            arr.push(demo[a])
-                                                        }
-                                                        let value = arr.slice(0, 20).join('')
-                                                        return (
-                                                            <>
-                                                                <Col xs="12" xl="3" lg="4" md="6" sm="6">
-                                                                    <Card>
-                                                                        <Card.Title className="id" >
-                                                                            {d.title}
-                                                                        </Card.Title>
-                                                                        <Card.Body>
-                                                                            <Card.Text>{value}</Card.Text>
+                                        <Container>
+                                            <Row>
+                                                {getdata.map((d, i) => {
+                                                    let demo = d.description
+                                                    let arr = []
+                                                    console.log(demo)
+                                                    for (let a in demo) {
+                                                        arr.push(demo[a])
+                                                    }
+                                                    let value = arr.slice(0, 20).join('')
+                                                    return (
+                                                        <>
+                                                            <Col xs="12" xl="3" lg="4" md="6" sm="6">
+                                                                <Card>
+                                                                    <Card.Title className="id" >
+                                                                        {d.title}
+                                                                    </Card.Title>
+                                                                    <Card.Body>
+                                                                        <Card.Text>{value}</Card.Text>
 
-                                                                        </Card.Body>
-                                                                    </Card>
-                                                                </Col>
-                                                            </>
-                                                        );
-                                                    })}
-                                                </Row>
-                                            </Container>
-                                        {/* )} */}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </>
+                                                    );
+                                                })}
+                                            </Row>
+                                        </Container>
                                     </div>
                                 </div>
                             </div>
@@ -176,14 +142,6 @@ function Designation() {
                             }}
                         ></Form.Control>
                         <br />
-                        {/* <Form.Label>Description</Form.Label>
-                        <textarea
-                            class="form-control"
-                            required
-                            onChange={(e) => {
-                                setDescription(e.target.value);
-                            }}
-                        ></textarea> */}
                         <div className="mt-2 d-flex align-items-center justify-content-center">
                             <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Submit</Button>
                         </div>

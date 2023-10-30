@@ -26,7 +26,7 @@ function LeaveAllocation() {
     const [allocationDetail, setAllocationDetail] = useState([]);
     const [addAllocation, setAddAllocation] = useState({
         company: {},
-        departments: {},
+        department: {},
         designation: {},
         allocation: 0, 
     });
@@ -219,7 +219,7 @@ function LeaveAllocation() {
                                                                                 <tr>
                                                                                     <th>#</th>
                                                                                     <th style={{ textAlign: "center" }}>Company</th>
-                                                                                    <th style={{ textAlign: "center" }}>Departments</th>
+                                                                                    <th style={{ textAlign: "center" }}>Department</th>
                                                                                     <th style={{ textAlign: "center" }}>Designation</th>
                                                                                     <th style={{ textAlign: "center" }}>Allocation</th>
                                                                                     <th style={{ textAlign: "center" }}>Remove</th>
@@ -320,7 +320,7 @@ function LeaveAllocation() {
                                                         >
                                                             <Form.Label>Department</Form.Label>
                                                             <Form.Select name="departments"
-                                                                Value={addAllocation.departments}
+                                                                Value={addAllocation.department}
                                                                 onChange={handleAllocationdetails}
                                                             >
                                                                 <option disabled selected defaultValue={""}>

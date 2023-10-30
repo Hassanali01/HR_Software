@@ -74,26 +74,24 @@ const Departments = () => {
   useEffect(() => {
     a.update("Human Resource / Departments")
   })
-  
+
   return (
     <>
       <div className="content-wrapper ">
         <section className="content">
           <div className="container">
             <div className="card">
-              <div className="card-header  buttoncolor" style={{paddingRight: "40px"}}>
-                <h3 className="card-title" style={{ fontWeight: "700"}}>
+              <div className="card-header  buttoncolor" style={{ paddingRight: "40px" }}>
+                <h3 className="card-title" style={{ fontWeight: "700" }}>
                   Departments
                 </h3>
-                
-                 <div className="icon-button">
+                <div className="icon-button">
                   <div>
                     <ToggleButtonGroup
-                        style={{height: "38px"}}
+                      style={{ height: "38px" }}
                       orientation="horizontal"
                       value={view}
                       exclusive
-                     
                       onChange={handleChange}
                     >
                       <ToggleButton value="module" aria-label="module" selected={!view}>
@@ -105,7 +103,7 @@ const Departments = () => {
                     </ToggleButtonGroup>
                   </div>
                   <div
-                    style={{ display: "flex", alignItems: "center"}}
+                    style={{ display: "flex", alignItems: "center" }}
                     onClick={handleShow}
                   >
                     <a
@@ -134,7 +132,6 @@ const Departments = () => {
                           {getdata.map((d, i) => {
                             let demo = d.description
                             let arr = []
-                            console.log(demo)
                             for (let a in demo) {
                               arr.push(demo[a])
                             }
@@ -148,7 +145,6 @@ const Departments = () => {
                                     </Card.Title>
                                     <Card.Body>
                                       <Card.Text>{value}</Card.Text>
-
                                     </Card.Body>
                                   </Card>
                                 </Col>
@@ -190,7 +186,7 @@ const Departments = () => {
               }}
             ></textarea>
             <div className="mt-2 d-flex align-items-center justify-content-center">
-              <Button type="submit" style={{backgroundColor: "rgb(137, 179, 83)"}}>Submit</Button>
+              <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Submit</Button>
             </div>
           </Form>
         </Modal.Body>

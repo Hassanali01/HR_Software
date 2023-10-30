@@ -18,7 +18,7 @@ const Sidebar = () => {
     <>
       {/* <!-- Main Sidebar Container --> */}
       {/* <aside className="main-sidebar sidebar-dark-primary elevation-4  " style={{position:"fixed"}}> */}
-      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed",   top: 0, bottom:0,backgroundColor: "rgb(3, 110, 104)", color: "#fff" }}>
+      <aside className="main-sidebar  elevation-4  " style={{ position: "fixed", top: 0, bottom: 0, backgroundColor: "rgb(3, 110, 104)", color: "#fff" }}>
         {/* <!-- Brand Logo --> */}
         <Link to="/dashboard" className="brand-link">
           <img src={logo} alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0 }} />
@@ -81,7 +81,7 @@ const Sidebar = () => {
                   </NavLink>
                 </li>
               }
-               {context.user.isAdmin &&
+              {context.user.isAdmin &&
                 <li className="nav-item">
                   <NavLink to="/dasignation" className="nav-link">
                     <i className="nav-icon fa-sharp fa-solid fa-users-rectangle iconColor"></i>
@@ -119,24 +119,29 @@ const Sidebar = () => {
                     {toggleLeaves ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
                   </div>
                   {
-                    toggleLeaves && <> <li>
-                      <NavLink to={'/leaverequest'} className='nav-link mt-2 p-1  ps-3'>
-                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Apply leave</p>
-                      </NavLink> </li>
-                     <li>  <NavLink to={'/leaveshistory'} className='nav-link mt-2 p-1  ps-3'>
-                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leaves history</p>
-                      </NavLink> </li>
-                      <li> <NavLink to={'/manageleaves'} className="nav-link mt-2 p-1 ps-3">
-                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
-                      </NavLink> </li>
+                    toggleLeaves && <>
+                      <li>
+                        <NavLink to={'/leaverequest'} className='nav-link mt-2 p-1  ps-3'>
+
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Apply leave</p>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={'/leaveshistory'} className='nav-link mt-2 p-1  ps-3'>
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leaves history</p>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={'/manageleaves'} className="nav-link mt-2 p-1 ps-3">
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me </p>
+                        </NavLink>
+                      </li>
                       {context.user.isAdmin &&
-                      <li> <NavLink to={'/leaveallocation'} className="nav-link mt-2 p-1 ps-3">
-                        {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
-                        <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
-                      </NavLink> </li>}
+                        <li>
+                          <NavLink to={'/leaveallocation'} className="nav-link mt-2 p-1 ps-3">
+                            <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
+                          </NavLink>
+                        </li>}
                     </>
                   }
                 </a>
@@ -148,7 +153,6 @@ const Sidebar = () => {
                     Holidays
                   </p>
                 </NavLink>
-
               </li>
               }
               {context.user.isAdmin && <li className="nav-item">
@@ -174,21 +178,18 @@ const Sidebar = () => {
                       toggleAttendance &&
                       <> <li>
                         <NavLink to="/datamanagement" className="nav-link mt-2 p-1 ps-3">
-                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
                           <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>
                             Reports
                           </p>
                         </NavLink> </li>
                         {context.user.isAdmin && <li>
                           <NavLink to="/monthlyattendance" className="nav-link  mt-2 p-1 ps-3">
-                            {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "12px" }}></i> */}
-
                             <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>
                               Attendance history
                             </p>
-                          </NavLink> </li>
+                          </NavLink>
+                        </li>
                         }
-
                       </>
                     }
                   </a>
@@ -229,7 +230,7 @@ const Sidebar = () => {
               }
               <li className='nav-item' >
                 <a className='nav-link' style={{ cursor: 'pointer' }}>
-                  <div  onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
+                  <div onClick={() => { settoggleWorkLeave(!toggleWorkLeave) }}>
                     <i className=" nav-icon fa-solid fa-list-check iconColor"></i>
                     <p className='iconColor'>Work absence</p>
                     {toggleWorkLeave ? <i className='nav-icon fa-solid fa-chevron-up iconColor' style={{ fontSize: "13px" }}></i> : <i className='nav-icon fa-solid fa-chevron-down iconColor' style={{ fontSize: "13px" }}></i>}
@@ -238,13 +239,11 @@ const Sidebar = () => {
                     toggleWorkLeave && <>
                       <li>
                         <NavLink to={`/workleave`} className='nav-link mt-2  p-1 ps-3'>
-                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                           <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Apply</p>
                         </NavLink>
                       </li>
                       <li >
                         <NavLink to={`/manageworkleave`} className="nav-link mt-2  p-1 ps-3">
-                          {/* <i class="fa-solid fa-angle-right iconColor nav-icon" style={{ fontSize: "13px" }}></i> */}
                           <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me</p>
                         </NavLink>
                       </li>

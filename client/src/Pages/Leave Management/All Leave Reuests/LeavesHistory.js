@@ -29,9 +29,30 @@ const LeavesHistory = () => {
   const options = { day: "numeric", month: "short", year: "numeric" };
   const dateFormatter = new Intl.DateTimeFormat("en-GB", options);
 
+  const [handlemodal, sethandlemodal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
+  const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
+  const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
+  const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
+  const [calendarDate, setCalendarDate] = useState("")
+  const [modaldata, setmodaldata] = useState({});
+  const [show, setShow] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const [leavesData, setLeavesData] = useState([]);
+  const [status, setstatus] = useState();
+  const [supervisorApproval, setSupervisorApproval] = useState();
+  const [update, setUpdate] = useState(true);
+  const handleCloseCalendar = () => setShowCalendar(false);
+  const handleShowCalendar = () => setShowCalendar(true);
+
+  const { user } = useContext(Context);
+
   const a = useContext(HeaderContext)
   useEffect(() => {
-    a.update("Human Resource / Leave Management")
+    a.update("Human Resource / Leave History")
   })
   const componentRef = useRef();
 
@@ -39,36 +60,15 @@ const LeavesHistory = () => {
     content: () => componentRef.current,
   });
 
-  const [handlemodal, sethandlemodal] = useState(false);
-  const [date, setDate] = useState(new Date());
-
-  const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
-  const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
-  const [year, setYear] = useState(new Date().toLocaleString('en-US', { year: "numeric" }))
-
-  const [currentCalendar, setCurrentCalendar] = useState(new Date().toLocaleString("en-US").split(",")[0])
-
-
-  const [calendarDate, setCalendarDate] = useState("")
-
 
   function onChangeCalendar(e) {
 
-    console.log("calendar", e)
-
-
-
     setCalendarDate(e)
-
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setMonth(e.toLocaleString('en-US', { month: "long" }))
     setYear(e.toLocaleString('en-US', { year: "numeric" }))
-    setMonthNumeric( e.toLocaleString('en-US', { month: "numeric" }))
-
-    console.log("month- year",monthNumeric, year)
-
+    setMonthNumeric(e.toLocaleString('en-US', { month: "numeric" }))
     setUpdate(!update)
-
     handleCloseCalendar()
   }
 
@@ -277,15 +277,7 @@ const LeavesHistory = () => {
     return mimetype;
   }
 
-  const [modaldata, setmodaldata] = useState({});
-  const [show, setShow] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const [leavesData, setLeavesData] = useState([]);
-  const [status, setstatus] = useState();
-  const [supervisorApproval, setSupervisorApproval] = useState();
-  const [update, setUpdate] = useState(true);
 
   const handleShow = (id) => {
     setmodaldata(id.row);
@@ -294,16 +286,11 @@ const LeavesHistory = () => {
     setSupervisorApproval(id.row.supervisorApproval);
   };
 
-  const handleCloseCalendar = () => setShowCalendar(false);
-  const handleShowCalendar = () => setShowCalendar(true);
 
-
-  const { user } = useContext(Context);
   const getLeavesrequests = async () => {
     var getLeaves = [];
     {
-        getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/employee/${user.id}/${monthNumeric}/${year}`);
-      
+      getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/employee/${user.id}/${monthNumeric}/${year}`);
     }
     const data = getLeaves.data;
     setLeavesData(data.allRequest);
@@ -311,8 +298,8 @@ const LeavesHistory = () => {
   //data for report generate;
   const newArray = [];
   leavesData.map((d) => {
-    var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    var firstDate = new Date(d.from); // 29th of Feb at noon your timezone
+    var oneDay = 24 * 60 * 60 * 1000;
+    var firstDate = new Date(d.from);
     var secondDate = new Date(d.to);
     var diffDays = Math.round(
       Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
@@ -411,23 +398,6 @@ const LeavesHistory = () => {
         );
       },
     },
-    // {
-    //   field: "print",
-    //   headerName: "Print",
-    //   width: 80,
-    //   renderCell: (id) => {
-    //     return (
-    //       <div>
-    //         <PrintIcon
-    //           onClick={async () => {
-    //             const setdata = await setmodaldata(id.row);
-    //             handlePrint();
-    //           }}
-    //         />
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
 
@@ -444,15 +414,12 @@ const LeavesHistory = () => {
                 <h3 className="card-title" style={{ color: "white" }}>
                   Leaves History
                 </h3>
-
               </div>
               <div className="card-body">
-                
-              <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
+                <Button className="mr-3" variant="primary" onClick={handleShowCalendar} style={{ backgroundColor: "rgb(137, 179, 83)" }}>
                   Select the month
                 </Button>
                 <input className="" value={`${month} - ${year}`}
-                // disabled="true"
                 ></input>
                 <Modal show={showCalendar} onHide={handleCloseCalendar}>
                   <div className='d-flex justify-content-center'>
@@ -464,7 +431,6 @@ const LeavesHistory = () => {
                   </div>
                 </Modal>
                 <div className="mt-3" style={{ width: "100%", height: "700px" }}>
-
                   <DataGrid columns={columns} rows={rows} />
                 </div>
               </div>
@@ -587,7 +553,6 @@ const LeavesHistory = () => {
           </Row>
           <Row>
             <Form>
-
               <Form.Label>Attachment</Form.Label>
               <Row>
                 <Col sm={9}>
@@ -596,7 +561,6 @@ const LeavesHistory = () => {
                     value={modaldata.attachment && modaldata.attachment.name}
                   ></Form.Control>
                 </Col>
-
                 <Col sm={3}>
                   <Button
                     style={{ width: "100%", backgroundColor: "rgb(137, 179, 83)" }}
@@ -620,66 +584,54 @@ const LeavesHistory = () => {
               </Row>
             </Form>
           </Row>
-
           <Row> &nbsp; &nbsp;</Row>
+          <>
+            <h5 className="my-3">Supervisor Approval</h5>
+            <Row>
+              <Col>
+                <Form onSubmit={updateUserStatus}>
+                  <Form.Select
+                    value={supervisorApproval}
+                    onChange={(e) => {
+                      setSupervisorApproval(e.target.value);
+                    }}
+                    disabled
+                  >
+                    <option disabled selected>
+                      select...
+                    </option>
+                    <option>Pending Approval</option>
+                    <option>Reject</option>
+                    <option>Approved</option>
+                  </Form.Select>
+                </Form>
+              </Col>
+            </Row>{" "}
+          </>
 
-          {/* {!user.isAdmin && ( */}
-            <>
-              <h5 className="my-3">Supervisor Approval</h5>
-              {/* <hr></hr> */}
-              <Row>
-                <Col>
-                  <Form onSubmit={updateUserStatus}>
-                    {/* <Form.Label>Status</Form.Label> */}
-                    <Form.Select
-                      value={supervisorApproval}
-                      onChange={(e) => {
-                        setSupervisorApproval(e.target.value);
-                      }}
-                      disabled
-
-                    >
-                      <option disabled selected>
-                        select...
-                      </option>
-                      <option>Pending Approval</option>
-                      <option>Reject</option>
-                      <option>Approved</option>
-                    </Form.Select>
-                 
-                  </Form>
-                </Col>
-              </Row>{" "}
-            </>
-          {/* )} */}
-          {/* {user.isAdmin && ( */}
-            <>
-              <h5 className="my-3">HR Approval</h5>
-              {/* <hr></hr> */}
-              <Row>
-                <Col>
-                  <Form onSubmit={updateUserStatus}>
-                    {/* <Form.Label>Status</Form.Label> */}
-                    <Form.Select
-                      value={status}
-                      onChange={(e) => {
-                        setstatus(e.target.value);
-                      }}
-                      disabled
-                    >
-                      <option disabled selected>
-                        select...
-                      </option>
-                      <option>Pending Approval</option>
-                      <option>Reject</option>
-                      <option>Approved</option>
-                    </Form.Select>
-        
-                  </Form>
-                </Col>
-              </Row>
-            </>
-          {/* )} */}
+          <>
+            <h5 className="my-3">HR Approval</h5>
+            <Row>
+              <Col>
+                <Form onSubmit={updateUserStatus}>
+                  <Form.Select
+                    value={status}
+                    onChange={(e) => {
+                      setstatus(e.target.value);
+                    }}
+                    disabled
+                  >
+                    <option disabled selected>
+                      select...
+                    </option>
+                    <option>Pending Approval</option>
+                    <option>Reject</option>
+                    <option>Approved</option>
+                  </Form.Select>
+                </Form>
+              </Col>
+            </Row>
+          </>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

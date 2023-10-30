@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [depCount, setDepCount] = useState()
   const [depEmp, setDepEmp] = useState()
   const [leavCount, setleavCount] = useState()
+
   const counted = async () => {
     try {
       const department = await axios.get(process.env.React_APP_ORIGIN_URL + "departments")
@@ -37,9 +38,6 @@ const Dashboard = () => {
       } catch (error) {
       }
       try {
-
-
-
         const leaves = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/allForHR/${new Date().toLocaleString('en-US', { month: "numeric" })}/${new Date().toLocaleString('en-US', { year: "numeric" })}`)
         const leav = leaves.data.counted;
         let totalLeave = 0
@@ -90,14 +88,6 @@ const Dashboard = () => {
                           Departments
                         </h5>
                       </div>
-                      {/* <div>
-                        <p>
-                          <ExpandLessIcon style={{ color: "green" }} />
-                          <span style={{ fontSize: "1vw", color: "green" }}>
-                            +5%
-                          </span>
-                        </p>
-                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -148,14 +138,6 @@ const Dashboard = () => {
                           Employees
                         </h5>
                       </div>
-                      {/* <div>
-                        <p>
-                          <ExpandLessIcon style={{ color: "green" }} />
-                          <span style={{ fontSize: "1vw", color: "green" }}>
-                            +45%
-                          </span>
-                        </p>
-                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -207,14 +189,6 @@ const Dashboard = () => {
                           Leaves
                         </h5>
                       </div>
-                      {/* <div>
-                        <p>
-                          <ExpandLessIcon style={{ color: "green" }} />
-                          <span style={{ fontSize: "1vw", color: "green" }}>
-                            +25%
-                          </span>
-                        </p>
-                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
@@ -264,14 +238,6 @@ const Dashboard = () => {
                           Attendance
                         </h5>
                       </div>
-                      {/* <div>
-                        <p>
-                          <ExpandLessIcon style={{ color: "green" }} />
-                          <span style={{ fontSize: "1vw", color: "green" }}>
-                            +15%
-                          </span>
-                        </p>
-                      </div> */}
                     </div>
                     <Card.Body className="px-0">
                       <div className="d-flex align-items-start align-items-center">
