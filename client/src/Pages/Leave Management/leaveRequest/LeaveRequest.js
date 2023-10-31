@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import { useContext } from "react";
 import { Context } from "../../../Context/Context";
 import "../../Leaves/leaves.css";
+
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import {
   NotificationContainer,
@@ -16,6 +17,7 @@ import { useReactToPrint } from "react-to-print";
 import Report from "../report leave request/Report";
 import './LeaveRequest.css'
 import HeaderContext from '../../../Context/HeaderContext'
+var qs = require('qs');
 
 
 const LeaveRequest = () => {
@@ -37,9 +39,10 @@ const LeaveRequest = () => {
   const [Short_leave, setShort_leave] = useState([]);
   const [employee, setEmployee] = useState(user.id)
   const [allEmployees, setAllEmployees] = useState([])
+  const [leavesBalance, setLeavesBalance] = useState([])
 
 
-  const url = "leaves";
+
   const posturl = "leaverequest/addrequest";
   const a = useContext(HeaderContext)
   useEffect(() => {
@@ -77,6 +80,13 @@ const LeaveRequest = () => {
       setinfo(InfoData);
       const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
       setDetails(Employee.data);
+
+
+
+
+
+
+
     } catch (error) {
       console.log("error in ", error);
     }
@@ -86,9 +96,32 @@ const LeaveRequest = () => {
   const depemployees = `departments/${depurl}`
   const fetchData = async () => {
     try {
-      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
-      const dd = res.data.getLeave;
-      setLeaves(dd);
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + "leaves");
+      const leavesTypes = res.data.getLeave;
+      setLeaves(leavesTypes);
+
+
+
+      console.log("leaves types", leavesTypes)
+
+
+
+      const leavesBalance = await axios.get(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/balance/`,{
+        params: {
+          id: leavesTypes.map((lt)=>lt._id),
+          company: '64e46888ee31ef7a43926461',
+          department: '6318817ab6d3aba26a758522',
+          designation: '6538fbf8d700cb75bfccc2bc',
+        },
+        paramsSerializer: params => {
+          return qs.stringify(params)
+        }
+      });
+
+      console.log("leavesBalance", leavesBalance)
+
+
+
     } catch (error) {
       console.log(error);
     }
@@ -493,7 +526,7 @@ const LeaveRequest = () => {
                       <Col>
                         <Col>
                           <Card style={{paddingTop: "10px"}}>
-                            <h5 style={{textAlign: "center"}}>Leave Balance</h5>
+                            <h5 style={{textAlign: "center"}}>Leave balance</h5>
                             {
                               leaves.map((d) => {
                                 return (<>
@@ -534,7 +567,7 @@ const LeaveRequest = () => {
                                     })
                                   }
                                 </tbody>
-                              </Table> : <div><h4 className="text-center">No leaves Data available</h4></div>
+                              </Table> : <div><h4 className="text-center">No leaves data available</h4></div>
                             }
                           </Container>
                         </Card>

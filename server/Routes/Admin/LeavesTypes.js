@@ -52,15 +52,15 @@ router.put('/addleaves/:id', async (req, res, next) => {
 
 router.get('/addleaves/balance/', async (req, res, next) => {
     try {
-console.log("req", req.query)
 
-console.log("check", req.query.company ? new ObjectId(req.query.company) : null)
+
+      console.log("leaves balance query", req.query)
 
 const leaveTypeBalance = await Leaves.aggregate(
           [
             {
               '$match': {
-                '_id':  { $in: [ new ObjectId(req.query.id), new ObjectId('64d763f7fdc7352362fa49fe')]}
+                '_id':  { $in: req.query.id.map((i)=> (new ObjectId(i)))}
               }
             }
             
