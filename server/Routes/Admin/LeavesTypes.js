@@ -60,9 +60,11 @@ const leaveTypeBalance = await Leaves.aggregate(
           [
             {
               '$match': {
-                '_id': new ObjectId(req.query.id)
+                '_id':  { $in: [ new ObjectId(req.query.id), new ObjectId('64d763f7fdc7352362fa49fe')]}
               }
-            }, {
+            }
+            
+            , {
               '$project': {
                 'balance': {
                   '$arrayElemAt': [

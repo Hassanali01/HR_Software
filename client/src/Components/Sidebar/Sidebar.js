@@ -139,7 +139,7 @@ const Sidebar = () => {
                       {context.user.isAdmin &&
                         <li>
                           <NavLink to={'/leaveallocation'} className="nav-link mt-2 p-1 ps-3">
-                            <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave Allocation </p>
+                            <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Leave allocation </p>
                           </NavLink>
                         </li>}
                     </>
