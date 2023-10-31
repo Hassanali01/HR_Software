@@ -533,7 +533,7 @@ const LeaveRequest = () => {
                                   <h6 style={{marginLeft:"15px"}}>{d.leaveType}</h6>
 
                                   {console.log("leaves", d , leavesBalance)}
-                                  <span>{JSON.stringify(leavesBalance.filter((lb)=>lb._id == d._id)[0] && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance)}</span>
+                                  <span>{JSON.stringify(leavesBalance.filter((lb)=>lb._id == d._id)[0] && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance.allocation)}</span>
                                 </>)
                               })
                             }
