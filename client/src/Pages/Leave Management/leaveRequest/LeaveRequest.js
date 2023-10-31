@@ -38,6 +38,7 @@ const LeaveRequest = () => {
   const [details, setDetails] = useState([]);
   const [Short_leave, setShort_leave] = useState([]);
   const [employee, setEmployee] = useState(user.id)
+
   const [allEmployees, setAllEmployees] = useState([])
   const [leavesBalance, setLeavesBalance] = useState([])
 
@@ -78,8 +79,7 @@ const LeaveRequest = () => {
         });
       });
       setinfo(InfoData);
-      const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
-      setDetails(Employee.data);
+
 
 
 
@@ -100,17 +100,18 @@ const LeaveRequest = () => {
       const leavesTypes = res.data.getLeave;
       setLeaves(leavesTypes);
 
+      const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
+
+      console.log("get api employee",Employee)
+      setDetails(Employee.data);
 
 
-      console.log("leaves types", leavesTypes)
 
-
-
-      const leavesBalance = await axios.get(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/balance/`,{
+      const resLeavesBalance = await axios.get(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/balance/`,{
         params: {
           id: leavesTypes.map((lt)=>lt._id),
-          company: '64e46888ee31ef7a43926461',
-          department: '6318817ab6d3aba26a758522',
+          company: Employee.data.company._id,
+          department: Employee.data.departments[0]._id,
           designation: '6538fbf8d700cb75bfccc2bc',
         },
         paramsSerializer: params => {
@@ -118,8 +119,7 @@ const LeaveRequest = () => {
         }
       });
 
-      console.log("leavesBalance", leavesBalance)
-
+      setLeavesBalance(resLeavesBalance.data)
 
 
     } catch (error) {
@@ -531,6 +531,9 @@ const LeaveRequest = () => {
                               leaves.map((d) => {
                                 return (<>
                                   <h6 style={{marginLeft:"15px"}}>{d.leaveType}</h6>
+
+                                  {console.log("leaves", d , leavesBalance)}
+                                  <span>{JSON.stringify(leavesBalance.filter((lb)=>lb._id == d._id)[0] && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance)}</span>
                                 </>)
                               })
                             }
