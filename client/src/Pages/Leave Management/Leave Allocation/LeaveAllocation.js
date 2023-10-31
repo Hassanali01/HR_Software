@@ -36,12 +36,12 @@ function LeaveAllocation() {
 
     const handleAllocationdetails = (e) => {
         const { name, value } = e.target;
-        const [id, title] = value.split('|');
+        const [_id, title] = value.split('|');
 
         setAddAllocation((prevState) => ({
             ...prevState,
             [name]: {
-                id,
+                _id,
                 title,
             },
         }));
@@ -69,17 +69,23 @@ function LeaveAllocation() {
         event.preventDefault()
 
         let allocations = []
+        console.log("allocation details", allocationDetail)
+
         allocations = allocationDetail.map((ad) => {
-            return ({ company: ad.company && ad.company.id, department: ad.department && ad.department.id, designation: ad.designation && ad.designation.id, allocation: ad.allocation && ad.allocation.id })
+            return ({ company: ad.company && ad.company._id, department: ad.department && ad.department._id, designation: ad.designation && ad.designation._id, allocation: ad.allocation })
         })
+
+        console.log("allocations", allocations)
 
         try {
             const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
                 allocations
             })
+            console.log("addreq",addreq)
             addreq && NotificationManager.success("Successfully Added");
             fetchData(leaveType);
         } catch (error) {
+            console.log("addreq",error)
             NotificationManager.error("Failed to Add");
         }
     };
@@ -90,6 +96,7 @@ function LeaveAllocation() {
             const res = await axios.get(process.env.React_APP_ORIGIN_URL + "leaves");
             const dd = res.data.getLeave;
             setLeaves(dd);
+            // setAllocationDetail(dd)
         } catch (error) {
             console.log(error);
         }
@@ -227,14 +234,13 @@ function LeaveAllocation() {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {console.log("allocations", allocationDetail)}
                                                                                 {allocationDetail && allocationDetail.length > 0 &&
                                                                                     allocationDetail.map((d, i) => {
                                                                                         return (
                                                                                             <tr>
                                                                                                 <th>{i + 1}</th>
                                                                                                 <td>{d.company && d.company.title}</td>
-                                                                                                <td>{d.department && d.department.departmentname || d.departments && d.departments.title}</td>
+                                                                                                <td>{d.department && d.department.departmentname || d.department && d.department.title}</td>
                                                                                                 <td>{d.designation && d.designation.title}</td>
                                                                                                 <td>{d.allocation && d.allocation.id || d.allocation}</td>
                                                                                                 <td>
@@ -281,7 +287,7 @@ function LeaveAllocation() {
                                                 id="contained-modal-title-vcenter "
                                                 style={{ textAlign: "center" }}
                                             >
-                                                <h5>Add Leave Allocation</h5>
+                                                <h5>Add Leave Alocation</h5>
                                             </Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
@@ -352,7 +358,7 @@ function LeaveAllocation() {
                                                             className="formmargin"
                                                         >
                                                             <Form.Label>Designation</Form.Label>
-                                                            <Form.Select
+                                                            {/* <Form.Select
                                                                 name="designation"
                                                                 value={addAllocation.designation}
                                                                 onChange={handleAllocationdetails}
@@ -369,6 +375,27 @@ function LeaveAllocation() {
                                                                         >
                                                                             {d.title}
                                                                         </option>
+                                                                    );
+                                                                })}
+                                                            </Form.Select> */}
+                                                             <Form.Select 
+                                                             name="designation"
+                                                                Value={addAllocation.designation}
+                                                                onChange={handleAllocationdetails}
+                                                            >
+                                                                <option disabled selected defaultValue={""}>
+                                                                    Select designation..
+                                                                </option>
+                                                                {designation && designation.map((d, i) => {
+                                                                    const combinedValue = `${d._id}|${d.title}`;
+                                                                    return (
+                                                                        <>
+                                                                            <option key={d._id}
+                                                                                value={combinedValue}
+                                                                            >
+                                                                                {d.title}
+                                                                            </option>
+                                                                        </>
                                                                     );
                                                                 })}
                                                             </Form.Select>
