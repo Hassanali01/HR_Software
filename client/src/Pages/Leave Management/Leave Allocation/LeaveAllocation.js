@@ -32,17 +32,17 @@ function LeaveAllocation() {
     });
     const Closechildmodal = () => setShowChildModel(false);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-    let Counter = 1
+
 
     const handleAllocationdetails = (e) => {
         const { name, value } = e.target;
-        const [_id, title] = value.split('|');
+        const [id, title] = value.split('|');
 
         setAddAllocation((prevState) => ({
             ...prevState,
             [name]: {
-                _id,
-                title,
+                _id: id,
+                title: title,
             },
         }));
     };
@@ -69,23 +69,17 @@ function LeaveAllocation() {
         event.preventDefault()
 
         let allocations = []
-        console.log("allocation details", allocationDetail)
-
         allocations = allocationDetail.map((ad) => {
             return ({ company: ad.company && ad.company._id, department: ad.department && ad.department._id, designation: ad.designation && ad.designation._id, allocation: ad.allocation })
         })
-
-        console.log("allocations", allocations)
 
         try {
             const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
                 allocations
             })
-            console.log("addreq",addreq)
             addreq && NotificationManager.success("Successfully Added");
             fetchData(leaveType);
         } catch (error) {
-            console.log("addreq",error)
             NotificationManager.error("Failed to Add");
         }
     };
@@ -407,7 +401,10 @@ function LeaveAllocation() {
                                                             type="number"
                                                             name="allocation"
                                                             required
-                                                            onChange={handleAllocationdetails}
+                                                            onChange={ (e) =>{    setAddAllocation((prevState) => ({
+                                                                ...prevState,
+                                                                allocation:e.target.value
+                                                            }))}}
                                                         ></Form.Control>
                                                     </Col>
                                                 </Row>
