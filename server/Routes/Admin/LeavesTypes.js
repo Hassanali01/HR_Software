@@ -190,7 +190,7 @@ const leaveTypeBalance = await Leaves.aggregate(
 
 router.get('', async (req, res, next) => {
     try {
-        const getLeave = await Leaves.find();
+        const getLeave = await Leaves.find().populate('allocations.company').populate('allocations.department').populate('allocations.designation').exec();
         getLeave && res.status(200).json({ 
             message: "leaves", getLeave 
         })

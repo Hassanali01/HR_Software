@@ -18,7 +18,6 @@ import './LeaveRequest.css'
 import HeaderContext from '../../../Context/HeaderContext'
 
 
-
 const LeaveRequest = () => {
   const [from, setFirstdate] = useState(new Date());
   const [reason, setReason] = useState("");
@@ -76,7 +75,6 @@ const LeaveRequest = () => {
         });
       });
       setinfo(InfoData);
-
       const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
       setDetails(Employee.data);
     } catch (error) {
