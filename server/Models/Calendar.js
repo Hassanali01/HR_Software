@@ -5,14 +5,11 @@ const calendarSchema = new mongoose.Schema({
       calendarname:{
         type:String,
         require:true
-      },
-     
+      },     
       holidays:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:'Holidays'
-      }
-                     
-
+      }                   
 },{timestamps:true})
 
 calendarSchema.plugin(AutoIncrement, {inc_field: 'sr_no'});
