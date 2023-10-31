@@ -9,30 +9,31 @@ const leavesSchema = mongoose.Schema({
         type:String,
         required:false
     },
-    allocations: {
-        type: [{
+    allocations: 
+         [{
+
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'companies',
+                ref: 'Company',
                 required: false
             },
             department: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'departments',
+                ref: 'Departments',
                 required: false
 
             },
             designation: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'designations',
+                ref: 'Designation',
                 required: false
 
             },
             allocation: Number,
             allocatedOnce: Boolean
 
-        }],
-    },
+ } ],
+    
 
 })
 

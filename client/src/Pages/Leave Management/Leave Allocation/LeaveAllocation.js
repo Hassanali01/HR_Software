@@ -28,10 +28,11 @@ function LeaveAllocation() {
         company: {},
         department: {},
         designation: {},
-        allocation: 0, 
+        allocation: 0,
     });
     const Closechildmodal = () => setShowChildModel(false);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+    let Counter = 1
 
     const handleAllocationdetails = (e) => {
         const { name, value } = e.target;
@@ -44,7 +45,6 @@ function LeaveAllocation() {
                 title,
             },
         }));
-
     };
 
     const removeitem = (i) => {
@@ -55,6 +55,7 @@ function LeaveAllocation() {
     };
 
     const a = useContext(HeaderContext)
+
     useEffect(() => {
         a.update("Human Resource / Leave Allocation")
     })
@@ -65,29 +66,19 @@ function LeaveAllocation() {
     };
 
     const addAllocationDetails = async (event) => {
-
         event.preventDefault()
 
-        console.log("allocation details", allocationDetail)
-
-
-
         let allocations = []
+        allocations = allocationDetail.map((ad) => {
+            return ({ company: ad.company && ad.company.id, department: ad.department && ad.department.id, designation: ad.designation && ad.designation.id, allocation: ad.allocation && ad.allocation.id })
+        })
 
-        allocations = allocationDetail.map((ad)=> {
-            
-            console.log("ad", ad)
-            return({company:ad.company && ad.company.id, department: ad.departments && ad.departments.id, designation: ad.designation && ad.designation.id, allocation: ad.allocation.id})})
-
-        console.log("allocations", allocations)
-    
-    
-     try { 
-            console.log("all",)
+        try {
             const addreq = await axios.put(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/${leaveType}`, {
                 allocations
             })
             addreq && NotificationManager.success("Successfully Added");
+            fetchData(leaveType);
         } catch (error) {
             NotificationManager.error("Failed to Add");
         }
@@ -130,6 +121,7 @@ function LeaveAllocation() {
             console.log(error);
         }
     };
+
     useEffect(() => {
         fetchData();
         Designation();
@@ -171,8 +163,17 @@ function LeaveAllocation() {
                                                                                 required
                                                                                 name="leaveType"
                                                                                 value={leaveType.id}
+                                                                                onClick={(e) => {
+                                                                                    setLeaveType(e.target.value);
+                                                                                    setAllocationDetail(leaves.filter((l) => l._id == leaveType)[0] && leaves.filter((l) => l._id == leaveType)[0].allocations)
+                                                                                    setTestUpdate(!testUpdate);
+                                                                                    setTestUpdate(!testUpdate);
+                                                                                }}
                                                                                 onChange={(e) => {
                                                                                     setLeaveType(e.target.value);
+                                                                                    setAllocationDetail(leaves.filter((l) => l._id == leaveType)[0] && leaves.filter((l) => l._id == leaveType)[0].allocations)
+                                                                                    setTestUpdate(!testUpdate);
+                                                                                    setTestUpdate(!testUpdate);
                                                                                 }}
                                                                                 style={{ padding: "3px 3px" }}
                                                                             >
@@ -201,7 +202,7 @@ function LeaveAllocation() {
                                                                 <br />
                                                                 <br />
                                                                 <div style={{ display: "flex", justifyContent: "space-between", marginRight: 10 }}>
-                                                                    <h5> Leave Allocation</h5>
+                                                                    <h5>Leave allocations</h5>
                                                                     <a
                                                                         className="btn buttoncolor  "
                                                                         onClick={() => {
@@ -226,15 +227,16 @@ function LeaveAllocation() {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {allocationDetail.length > 0 &&
+                                                                                {console.log("allocations", allocationDetail)}
+                                                                                {allocationDetail && allocationDetail.length > 0 &&
                                                                                     allocationDetail.map((d, i) => {
                                                                                         return (
                                                                                             <tr>
                                                                                                 <th>{i + 1}</th>
                                                                                                 <td>{d.company && d.company.title}</td>
-                                                                                                <td>{d.departments && d.departments.title}</td>
+                                                                                                <td>{d.department && d.department.departmentname || d.departments && d.departments.title}</td>
                                                                                                 <td>{d.designation && d.designation.title}</td>
-                                                                                                <td>{d.allocation.id}</td>
+                                                                                                <td>{d.allocation && d.allocation.id || d.allocation}</td>
                                                                                                 <td>
                                                                                                     <i
                                                                                                         class="fa fa-trash-can"
@@ -319,7 +321,7 @@ function LeaveAllocation() {
                                                             className="formmargin"
                                                         >
                                                             <Form.Label>Department</Form.Label>
-                                                            <Form.Select name="departments"
+                                                            <Form.Select name="department"
                                                                 Value={addAllocation.department}
                                                                 onChange={handleAllocationdetails}
                                                             >
@@ -352,7 +354,7 @@ function LeaveAllocation() {
                                                             <Form.Label>Designation</Form.Label>
                                                             <Form.Select
                                                                 name="designation"
-                                                                value={addAllocation.designation && addAllocation.designation.title}
+                                                                value={addAllocation.designation}
                                                                 onChange={handleAllocationdetails}
                                                             >
                                                                 <option disabled selected defaultValue={""}>
