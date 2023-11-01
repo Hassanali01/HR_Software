@@ -641,7 +641,7 @@ const MonthlyPayroll = () => {
                     <tr>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{++rowNumber}</td>
                       <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.firstname}</td>
-                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.designation}</td>
+                      <td style={{ border: "1px solid black", textAlign: "left" }}>{value[0] && value[0].employee.designation && value[0].employee.designation.title}</td>
                       {
                         daysOfMonth.map((dm) => {
                           const attendanceEntry = userAttendance[`${key}`].find((tu) => parseInt(dm.date.split("/")[0]) === parseInt(tu.date.split("-")[2].split("T")[0]));

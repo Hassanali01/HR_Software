@@ -42,7 +42,11 @@ router.get('/monthattendance/:month', async (req, res) => {
                     model: 'payroll-setup',
 
                 },
-            
+                {
+                    path: 'designation',
+                    model: 'Designation',
+                    select: 'title',
+                },
                 ],
             },
         ])
