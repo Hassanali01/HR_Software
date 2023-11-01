@@ -315,7 +315,7 @@ const ManageLeaves = () => {
       date: new Date(d.applicationdate).toDateString(),
       fromTime: d.fromTime,
       toTime: d.toTime,
-      Short_leave: d.Short_leave ? 'Short Leave' : 'Full day',
+      Short_leave: d.Short_leave=="True" ? 'Short Day' : 'Full day',
       leaveNature: d.leaveNature,
       reason: d.reason,
       totaldays: diffDays,

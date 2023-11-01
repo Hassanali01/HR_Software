@@ -154,7 +154,7 @@ router.get('/:month', async (req, res) => {
         no = 8;
     } else if (demo == "September") {
         no = 9;
-    } else if (demo == "Octobar") {
+    } else if (demo == "October") {
         no = 10;
     } else if (demo == "November") {
         no = 11;
