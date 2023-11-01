@@ -388,6 +388,22 @@ const MonthlyPayroll = () => {
         })
       })
 
+
+           // Marking absent in case of sandwich dayoff
+          //  Object.entries(tempUserAttendance).forEach(([key, value]) => {
+  
+          //   tempUserAttendance[key].forEach((te) => {
+
+          //     if (te.status == "D.O"){
+          //       if ()
+          //     }
+            
+
+          //   })
+          // })
+
+
+
       //Adding gazted holidays in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         const a = gaztedholidays.data.map((i) => {
