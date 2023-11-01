@@ -27,6 +27,7 @@ const MonthlyPayroll = () => {
   const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
   const [loading, setLoading] = useState(false);
   const [empLeaves, setEmpLeaves] = useState([])
+   const [workLeaves, setWorkLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
   const [empshift, setEmpshift] = useState([])
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
@@ -91,6 +92,11 @@ const MonthlyPayroll = () => {
         }
       })
 
+
+      const workLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/September`)
+      setWorkLeaves(workLeave)
+
+
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
@@ -131,7 +137,13 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
+        
+          console.log("appliedLeaves", appliedLeaves)
+
+         
           appliedLeaves.forEach((al) => {
+            console.log("appliedLeaves", al.date, key)
+
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
           })
         }
@@ -215,7 +227,8 @@ const MonthlyPayroll = () => {
               tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " CPL"
             }
             else {
-              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP"
+              console.log("lwop",key, al.date, tempUserAttendance[`${key}`].filter((te) => te.date == al.date))
+              tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && (tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP")
             }
           })
         }
@@ -231,6 +244,7 @@ const MonthlyPayroll = () => {
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
+          console.log("payroll",te )
           if (day == "Sunday" && te.employee.payroll_setup.length > 0) {
             te.employee.payroll_setup.forEach((ps) => {
               if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.sundayDayoff) {
@@ -423,6 +437,26 @@ const MonthlyPayroll = () => {
         })
       })
 
+        // adding WL inside the user attendance
+      console.log("work leaves", workLeave)
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave != "True")
+          wl.forEach((al) => {
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && (tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "WL")
+          })
+        }
+      );
+
+
+      // Add early leaver WL  in payroll
+      Object.entries(tempUserAttendance).forEach(
+        ([key, value]) => {
+          let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave == "True")
+          wl.forEach((al) => {
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " WL"
+          })
+        })
 
       /*  ******************************** END calculations involving payroll setup  *********************************************  */
 
@@ -541,12 +575,12 @@ const MonthlyPayroll = () => {
                           const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                           const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                           const items = generateItems(
-                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                             0,
-                            userAttendance[`${key}`].length > 0 && (userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length),
-                            parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && (userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length + userAttendance[`${key}`].filter((tu) => tu.status == 'WL').length + userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length),
+                            parseFloat(userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL")).reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0)),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'A').length
                           )
                           const extendedItems =
