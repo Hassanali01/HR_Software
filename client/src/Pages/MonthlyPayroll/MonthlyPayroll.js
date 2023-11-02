@@ -138,11 +138,10 @@ const MonthlyPayroll = () => {
         ([key, value]) => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.O.P")
         
-          console.log("appliedLeaves", appliedLeaves)
 
          
           appliedLeaves.forEach((al) => {
-            console.log("appliedLeaves", al.date, key)
+            // console.log("appliedLeaves", al.date, key, tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0])
 
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWOP"
           })
@@ -227,7 +226,6 @@ const MonthlyPayroll = () => {
               tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " CPL"
             }
             else {
-              console.log("lwop",key, al.date, tempUserAttendance[`${key}`].filter((te) => te.date == al.date))
               tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && (tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " LWOP")
             }
           })
@@ -240,17 +238,33 @@ const MonthlyPayroll = () => {
 
       // adding Day-Off inside the user attendance
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
-        tempUserAttendance[key].forEach((te) => {
+        tempUserAttendance[key].forEach((te, index) => {
+
+
+          // console.log("entry of dayoff", te,tempUserAttendance[key][index-1] && tempUserAttendance[key][index-1].status, tempUserAttendance[key][index+1] && tempUserAttendance[key][index+1].status)
+
           const locale = "en-US"
           var date = new Date(te.date);
           var day = date.toLocaleDateString(locale, { weekday: 'long' });
-          console.log("payroll",te )
           if (day == "Sunday" && te.employee.payroll_setup.length > 0) {
             te.employee.payroll_setup.forEach((ps) => {
               if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.sundayDayoff) {
-                if (te.status == 'A') {
+
+                if ((tempUserAttendance[key][index-1] && tempUserAttendance[key][index-1].status) ==  "A" && ((tempUserAttendance[key][index+1] && tempUserAttendance[key][index+1].status )  == "A")){
+                 
+                 console.log("is equal")
+                  te.status = "A";
+                }
+
+                else if (te.status == 'A') {
                   te.status = "D.O";
-                } else {
+                } else  if (te.status == "LWOP" || te.status == "LWP"){
+
+                  return
+
+                }
+
+                else  {
                   te.status = te.status * 2
                 }
               }
@@ -313,7 +327,9 @@ const MonthlyPayroll = () => {
               if (date >= new Date(ps.dateFrom) && date <= new Date(ps.dateTo) && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.wednesdayDayoff) {
                 if (te.status == 'A') {
                   te.status = "D.O";
-                } else {
+                }
+                
+                 else {
                   te.status = te.status * 2
                 }
               }
@@ -393,9 +409,18 @@ const MonthlyPayroll = () => {
         const [day, month, year] = lastSat.date.split('/');
         const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
         const Finalsat = convertedDate.toISOString();
-        tempUserAttendance[key].forEach((te) => {
+        tempUserAttendance[key].forEach((te,index) => {
+
           te.employee.payroll_setup.forEach((ps) => {
-            if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
+
+            console.log("last saturday",(tempUserAttendance[key][index-1] && tempUserAttendance[key][index-1].status) ,(tempUserAttendance[key][index+1] && tempUserAttendance[key][index+1].status) )
+
+            if (Finalsat == te.date && (tempUserAttendance[key][index-1] && tempUserAttendance[key][index-1].status) ==  "A" && ((tempUserAttendance[key][index+1] && tempUserAttendance[key][index+1].status )  == "A")){
+                 
+               te.status = "A";
+             }
+
+             else if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
               te.status = "D.O";
             }
           })
@@ -438,7 +463,6 @@ const MonthlyPayroll = () => {
       })
 
         // adding WL inside the user attendance
-      console.log("work leaves", workLeave)
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
           let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave != "True")
@@ -454,7 +478,7 @@ const MonthlyPayroll = () => {
         ([key, value]) => {
           let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave == "True")
           wl.forEach((al) => {
-            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " WL"
+            tempUserAttendance[`${key}`].filter((te) => (new Date(te.date)) == (new Date(al.date)))[0] && ( tempUserAttendance[`${key}`].filter((te) => (new Date(te.date)) == (new Date(al.date)))[0].status += " WL")
           })
         })
 
@@ -557,7 +581,6 @@ const MonthlyPayroll = () => {
                       // Applying each payroll setup formula for the specified days
                       value[0].employee.payroll_setup.forEach((ps) => {
 
-                        console.log("employee in payr", ps)
 
 
                         const addField = () => {

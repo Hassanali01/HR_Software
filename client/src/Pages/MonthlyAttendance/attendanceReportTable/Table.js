@@ -35,7 +35,7 @@ const Table = ({ data, setTableData }) => {
     const deleteAttendence = async (employeeId,date) => {
         try {
             const delattendence = await axios.delete(process.env.React_APP_ORIGIN_URL + `userattendance/delattendence/${employeeId}/${date}`);
-            NotificationManager.success("successfully posted");
+            NotificationManager.success("successfully Delete");
         } catch (error) {
             NotificationManager.error("Error Saving DATA");
         }

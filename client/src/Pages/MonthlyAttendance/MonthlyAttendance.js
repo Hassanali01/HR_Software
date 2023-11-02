@@ -162,15 +162,6 @@ const MonthlyAttendance = () => {
         }
       })
 
-      // adding LWP inside the user attendance
-      tempAttendance.forEach(
-        (tempAtt) => {
-          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.P" && al.date == tempAtt.date)
-          if (appliedLeaves.length > 0) {
-            tempAtt.status = "LWP"
-          }
-        }
-      );
 
 
       // adding CPL inside the user attendance
@@ -289,27 +280,39 @@ const MonthlyAttendance = () => {
       const [day, month, year] = lastSat.date.split('/');
       const convertedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
       const Finalsat = convertedDate.toISOString();
-      tempAttendance.forEach((te) => {
-        if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.daysoff && te.employee.payroll_setup.daysoff.lastSaturdayDayoff) {
+      tempAttendance.forEach((te, index) => {
+
+        if (Finalsat ==  te.date  && (tempAttendance[index-1] && tempAttendance[index-1].status) ==  "A" && ((tempAttendance[index+2] && tempAttendance[index+2].status )  == "A")){
+                 
+          te.status = "A";
+        }else if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.length>0 && te.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && te.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.lastSaturdayDayoff) {
           te.status = "D.O";
           te.in = "Day off";
           te.out = "Day off";
         }
       })
 
+
+
       // adding DO inside the user attendance
-      tempAttendance.forEach((att) => {
+      tempAttendance.forEach((att, index) => {
+
+
         const locale = "en-US"
         var date = new Date(att.date);
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
-        if (day == "Sunday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.sundayDayoff
+
+        if (day == "Sunday"  && (tempAttendance[index-1] && tempAttendance[index-1].status) ==  "A" && ((tempAttendance[index+1] && tempAttendance[index+1].status )  == "A")){
+                 
+           att.status = "A";
+         }else  if (day == "Sunday" 
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.sundayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
           att.status = "D.O"
-        }
+        } 
       })
 
 
@@ -320,7 +323,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Monday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.mondayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup.length > 0 && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff &&  att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.mondayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -336,7 +339,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Tuesday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.tuesdayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.tuesdayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -351,7 +354,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Wednesday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.wednesdayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.wednesdayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -366,7 +369,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Thursday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.thursdayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.thursdayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -382,7 +385,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Friday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.fridayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.fridayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -398,7 +401,7 @@ const MonthlyAttendance = () => {
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
         if (day == "Saturday"
-          && att.employee.payroll_setup && att.employee.payroll_setup.daysoff && att.employee.payroll_setup.daysoff.saturdayDayoff
+          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.saturdayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
@@ -406,6 +409,17 @@ const MonthlyAttendance = () => {
         }
       })
 
+
+      
+      // adding LWP inside the user attendance
+      tempAttendance.forEach(
+        (tempAtt) => {
+          let appliedLeaves = approvedLeave.totaldays.filter((al) => al.employee && al.employee.emp_id == tempAtt.Employee_ID && al.Short_leave != "True" && al.leaveNature == "L.W.P" && al.date == tempAtt.date)
+          if (appliedLeaves.length > 0) {
+            tempAtt.status = "LWP"
+          }
+        }
+      );
 
       // adding LWOP inside the user attendance
       tempAttendance.forEach(
@@ -451,11 +465,17 @@ const MonthlyAttendance = () => {
 
       Object.entries(attendanceByEmployee).forEach(
         ([key, value]) => {
+
+
+
           const addField = () => {
-            setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }])
+            setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.npd_formula }])
           }
+
           addField()
-          const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.npd_formula }].reduce((out, field) => {
+
+          const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.filter((p)=>{
+            return((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) })[0].payrollSetup.npd_formula }].reduce((out, field) => {
             if (field.referenceName) {
               out[field.referenceName] = field.npd_formula
             }
@@ -463,8 +483,12 @@ const MonthlyAttendance = () => {
           }, {})
 
           try {
+
+
+
             const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
             const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
+
             const items = generateItems(
               attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (attendanceByEmployee[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
               attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'D.O').length,
