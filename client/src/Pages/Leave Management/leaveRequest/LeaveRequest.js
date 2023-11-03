@@ -99,12 +99,9 @@ const LeaveRequest = () => {
       const res = await axios.get(process.env.React_APP_ORIGIN_URL + "leaves");
       const leavesTypes = res.data.getLeave;
       setLeaves(leavesTypes);
-
       const Employee = await axios.get(process.env.React_APP_ORIGIN_URL + `employees/${employee}`);
-
       console.log("get api employee",Employee)
       setDetails(Employee.data);
-
 
 
       const resLeavesBalance = await axios.get(process.env.React_APP_ORIGIN_URL + `leaves/addleaves/balance/`,{
@@ -118,7 +115,7 @@ const LeaveRequest = () => {
           return qs.stringify(params)
         }
       });
-
+console.log("resLeavesBalance",resLeavesBalance.data)
       setLeavesBalance(resLeavesBalance.data)
 
 
@@ -244,7 +241,7 @@ const LeaveRequest = () => {
                     <div style={{ margin: "0 10px 0 10px", display: "flex", justifyContent: "space-between" }}>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Employee ID :</h5> {details && details.emp_id} </p>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Name :</h5>  {details && details.firstname}</p>
-                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details && details.designation}</p>
+                      <p><h5 style={{ display: "contents", fontSize: "16px" }}>Designation : </h5>{details && details.designation && details.designation.title}</p>
                       <p><h5 style={{ display: "contents", fontSize: "16px" }}>Department :</h5> {details && details.departments && details.departments[0] && details.departments[0].departmentname}</p>
                     </div>
                     <hr />
@@ -531,7 +528,6 @@ const LeaveRequest = () => {
                               leaves.map((d) => {
                                 return (<>
                                   <h6 style={{marginLeft:"15px"}}>{d.leaveType}</h6>
-
                                   {console.log("leaves", d , leavesBalance)}
                                   <span>{JSON.stringify(leavesBalance.filter((lb)=>lb._id == d._id)[0] && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance && leavesBalance.filter((lb)=>lb._id == d._id) [0].balance.allocation)}</span>
                                 </>)

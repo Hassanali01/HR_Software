@@ -579,15 +579,16 @@ const MonthlyPayroll = () => {
                   Object.entries(userAttendance).forEach(
                     ([key, value]) => {
                       // Applying each payroll setup formula for the specified days
-                      value[0].employee.payroll_setup.forEach((ps) => {
+                      // value[0].employee.payroll_setup.forEach((ps) => 
 
 
 
                         const addField = () => {
-                          setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }])
+                          setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula:value[0].employee.payroll_setup && value[0].employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.npd_formula}])
                         }
                         addField()
-                        const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: ps.payrollSetup.npd_formula }].reduce((out, field) => {
+                        const formulasByRefs = [...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.filter((p)=>{
+                          return((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) })[0].payrollSetup.npd_formula }].reduce((out, field) => {
                           if (field.referenceName) {
                             out[field.referenceName] = field.npd_formula
                           }
@@ -619,7 +620,7 @@ const MonthlyPayroll = () => {
                             })
                           usersPayrollCalculations[`${key}`] = { netpaydays: usersPayrollCalculations[`${key}`] && usersPayrollCalculations[`${key}`].netpaydays || 0 + parseFloat(extendedItems[0].netpaydays) }
                         } catch (error) { console.log("error", error) }
-                      })
+                      
                     }
                   );
                 } catch (error) { console.log("error in payroll", error) }
