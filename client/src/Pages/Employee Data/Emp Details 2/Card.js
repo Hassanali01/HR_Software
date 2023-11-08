@@ -944,6 +944,7 @@ const Cards = ({ data }) => {
                             <Button
                               className="btn buttoncolor"
                               onClick={() => {
+
                                 setShowWorkshiftSetupModal(true);
                               }}
                               style={{ backgroundColor: "rgb(137, 179, 83)", float: "right" }}
@@ -1110,6 +1111,9 @@ const Cards = ({ data }) => {
                                 <Button
                                   onClick={() => {
                                     data.work_shift.push(addWorkShift)
+
+                                    console.log("add work shift", addWorkShift, data.work_shift)
+
                                     setShowPayrollSetupModal(false)
                                   }}
                                   style={{ backgroundColor: "rgb(137, 179, 83)" }}
