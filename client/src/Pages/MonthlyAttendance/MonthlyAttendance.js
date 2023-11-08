@@ -294,9 +294,13 @@ const MonthlyAttendance = () => {
 
 
 
+      console.log("temp att", tempAttendance)
+
       // adding DO inside the user attendance
       tempAttendance.forEach((att, index) => {
 
+
+        
 
         const locale = "en-US"
         var date = new Date(att.date);
@@ -306,13 +310,20 @@ const MonthlyAttendance = () => {
         if (day == "Sunday"  && (tempAttendance[index-1] && tempAttendance[index-1].status) ==  "A" && ((tempAttendance[index+1] && tempAttendance[index+1].status )  == "A")){
                  
            att.status = "A";
-         }else  if (day == "Sunday" 
-          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.sundayDayoff
+         }
+         
+         else  if (day == "Sunday" 
+          && att.status == 'A' && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.sundayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
           att.status = "D.O"
         } 
+        else  if (day == "Sunday" 
+        && att.status != 'A' && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.sundayDayoff
+      ) {
+          att.status = att.status * 2
+        }
       })
 
 
@@ -338,12 +349,18 @@ const MonthlyAttendance = () => {
         var date = new Date(att.date);
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
-        if (day == "Tuesday"
+        if (day == "Tuesday" && att.status == 'A'
           && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.tuesdayDayoff
         ) {
           att.in = "Day off";
           att.out = "Day off";
           att.status = "D.O"
+        }
+        else if (day == "Tuesday" && att.status != 'A'
+        && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.tuesdayDayoff
+      ){
+        att.status = att.status * 2
+
         }
       })
 
@@ -368,7 +385,7 @@ const MonthlyAttendance = () => {
         var date = new Date(att.date);
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
-        if (day == "Thursday"
+        if (day == "Thursday" 
           && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p)=>((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)) )[0].payrollSetup.daysoff.thursdayDayoff
         ) {
           att.in = "Day off";
