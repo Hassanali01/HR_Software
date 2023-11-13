@@ -93,7 +93,7 @@ const MonthlyPayroll = () => {
       })
 
 
-      const workLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/September`)
+      const workLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/${payrollMonth}`)
       setWorkLeaves(workLeave)
 
 
@@ -469,8 +469,13 @@ const MonthlyPayroll = () => {
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
           let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave == "True")
+
           wl.forEach((al) => {
-            tempUserAttendance[`${key}`].filter((te) => (new Date(te.date)) == (new Date(al.date)))[0] && ( tempUserAttendance[`${key}`].filter((te) => (new Date(te.date)) == (new Date(al.date)))[0].status += " WL")
+
+            console.log("work leave short", al)
+
+
+            tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && ( tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " WL")
           })
         })
 
@@ -574,7 +579,6 @@ const MonthlyPayroll = () => {
                       // value[0].employee.payroll_setup.forEach((ps) => 
 
 
-                      console.log("key", key, value)
 
 
 
@@ -594,7 +598,7 @@ const MonthlyPayroll = () => {
                           const extendedTokens = formulasByRefs.netpaydays && getExtendedTokens(formulasByRefs, supportedRefs)
                           const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
                           const items = generateItems(
-                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
+                            userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2 ).reduce((total, num) => { return (total + num.status) }, 0) + parseFloat((userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "WL" || tu.status.split(" ")[1] == "LWOP"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)),
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'D.O').length,
                             userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'G.H').length,
                             0,
@@ -677,7 +681,7 @@ const MonthlyPayroll = () => {
                           );
                         })
                       }
-                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
+                      <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && (tu.status.split(" ")[1] == "LWP" || tu.status.split(" ")[1] == "CPL" || tu.status.split(" ")[1] == "LWOP"|| tu.status.split(" ")[1] == "WL"))).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0)}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'LWP').length : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP").reduce((total, num) => { return (total + (1 - parseFloat(num.status.split(" ")[0]))) }, 0) : ""}</td>
                       <td style={{ border: "1px solid black" }}>{userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length ? userAttendance[`${key}`].length > 0 && userAttendance[`${key}`].filter((tu) => tu.status == 'CPL').length : ""}</td>

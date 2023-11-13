@@ -619,6 +619,7 @@ const MonthlyAttendance = () => {
                                 <span style={{ fontWeight: "bold" }}>Verified by:</span> <span style={{ borderBottom: "1px solid black" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                               </div>
                             </div>
+                            
                           </div>
                         )}
                       </div>

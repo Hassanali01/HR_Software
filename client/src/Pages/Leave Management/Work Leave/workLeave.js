@@ -416,21 +416,8 @@ function WorkLeave() {
                                   controlId="formBasicPassword"
                                 >
                                   <Row>
-                                    <Col>
+                                  <Col>
                                       <Form.Label className="fieldLabel font-weight-normal">Departure Time</Form.Label>
-                                      <Form.Control
-                                        type="time"
-                                        className="form-control-sm"
-
-                                        required
-                                        value={toTime}
-                                        onChange={(e) => {
-                                          setToTime(e.target.value)
-                                        }}
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
                                       <Form.Control
                                         type="time"
                                         className="form-control-sm"
@@ -442,6 +429,20 @@ function WorkLeave() {
                                         }}
                                       />
                                     </Col>
+                                    <Col>
+                                      <Form.Label className="fieldLabel font-weight-normal">Arrival Time</Form.Label>
+                                      <Form.Control
+                                        type="time"
+                                        className="form-control-sm"
+
+                                        required
+                                        value={toTime}
+                                        onChange={(e) => {
+                                          setToTime(e.target.value)
+                                        }}
+                                      />
+                                    </Col>
+                         
 
 
                                     <Col>

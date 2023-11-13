@@ -501,7 +501,7 @@ function ManageWorkLeave() {
                     <Row>
                         <Col>
                             <Form>
-                                <Form.Label>workabsence</Form.Label>
+                                <Form.Label>Work Type</Form.Label>
                                 <Form.Control
                                     disabled
                                     value={modaldata.workabsence}

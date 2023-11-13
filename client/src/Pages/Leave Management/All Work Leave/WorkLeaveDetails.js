@@ -17,7 +17,7 @@ function WorkLeaveDetails() {
     })
     const location = useLocation();
     const customData = location.state && location.state;
-console.log(location.state,"hihi")
+    console.log(location.state, "hihi")
 
     return (
         <>
@@ -148,7 +148,7 @@ console.log(location.state,"hihi")
                                                                     value={customData.totaldays}
                                                                     disabled={disableFields}
                                                                     style={{ backgroundColor: "white" }}
-                                                          
+
                                                                 />
                                                             </Col>
                                                         </Row>
@@ -163,7 +163,7 @@ console.log(location.state,"hihi")
                                                                 <Form.Control
                                                                     type="time"
                                                                     className="form-control-sm"
-                                                                    value={customData.toTime}
+                                                                    value={customData.fromTime}
                                                                     disabled={disableFields}
                                                                 />
                                                             </Col>
@@ -172,10 +172,11 @@ console.log(location.state,"hihi")
                                                                 <Form.Control
                                                                     type="time"
                                                                     className="form-control-sm"
-                                                                    value={customData.fromTime}
+                                                                    value={customData.toTime}
                                                                     disabled={disableFields}
                                                                 />
                                                             </Col>
+
                                                             <Col>
                                                                 <Form.Label className="fieldLabel font-weight-normal"> Duration</Form.Label>
                                                                 <Form.Control
@@ -328,7 +329,7 @@ console.log(location.state,"hihi")
                                                             </Table> */}
                                                         </Col>
                                                     </Row>
-                                              
+
                                                 </Form>
                                             </Container>
                                         </Card.Body>
