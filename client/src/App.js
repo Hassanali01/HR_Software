@@ -36,6 +36,7 @@ import ManageWorkLeave from "./Pages/Leave Management/All Work Leave/ManageWorkL
 import LeavesHistory from "./Pages/Leave Management/All Leave Reuests/LeavesHistory";
 import LeaveAllocation from "./Pages/Leave Management/Leave Allocation/LeaveAllocation";
 import WorkLeaveDetails from "./Pages/Leave Management/All Work Leave/WorkLeaveDetails";
+import WorkAbsenceHistory from "./Pages/Leave Management/All Work Leave/WorkAbsenceHistory";
 
 function App(props) {
   const context = useContext(Context);
@@ -76,6 +77,7 @@ function App(props) {
                 <Route path="/workleave" element={<WorkLeave />}></Route>
                 <Route path="/manageworkleave" element={<ManageWorkLeave />}></Route>
                 <Route path= "/WorkLeaveDetails" element={<WorkLeaveDetails />}></Route>
+                <Route path= "/WorkAbsenceHistory" element={<WorkAbsenceHistory />}></Route>
               </Routes>
             </>
           ) : (

@@ -247,6 +247,11 @@ const Sidebar = () => {
                           <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Assign to me</p>
                         </NavLink>
                       </li>
+                      <li >
+                        <NavLink to={`/WorkAbsenceHistory`} className="nav-link mt-2  p-1 ps-3">
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Work Leave History</p>
+                        </NavLink>
+                      </li>
                     </>
                   }
                 </a>
