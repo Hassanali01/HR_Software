@@ -38,6 +38,7 @@ function WorkAbsenceHistory() {
     useEffect(() => {
         a.update("Human Resource / Work Leave History")
     })
+
     // States and functions related to calendar for selecting month and year
     const [month, setMonth] = useState(new Date().toLocaleString('en-US', { month: "long" }))
     const [monthNumeric, setMonthNumeric] = useState(new Date().toLocaleString('en-US', { month: "numeric" }))
@@ -149,7 +150,6 @@ function WorkAbsenceHistory() {
                 // 7-Zip
                 mimetype = "application/x-7z-compressed";
                 break;
-
             case ".ace":
                 // Ace Archive
                 mimetype = "application/x-ace-compressed";
@@ -158,27 +158,22 @@ function WorkAbsenceHistory() {
                 // Active Content Compression
                 mimetype = "application/vnd.americandynamics.acc";
                 break;
-
             case ".avi":
                 // Audio Video Interleave (AVI)
                 mimetype = "video/x-msvideo";
                 break;
-
             case ".csv":
                 // Comma-Seperated Values
                 mimetype = "text/csv";
                 break;
-
             case ".texinfo":
                 // GNU Texinfo Document
                 mimetype = "application/x-texinfo";
                 break;
-
             case ".html":
                 // HyperText Markup Language (HTML)
                 mimetype = "text/html";
                 break;
-
             case ".m3u":
                 // M3U (Multimedia Playlist)
                 mimetype = "audio/x-mpegurl";
@@ -187,12 +182,10 @@ function WorkAbsenceHistory() {
                 // M4v
                 mimetype = "video/x-m4v";
                 break;
-
             case ".mpeg":
                 // MPEG Video
                 mimetype = "video/mpeg";
                 break;
-
             case ".mp4a":
                 // MPEG-4 Audio
                 mimetype = "audio/mp4";
@@ -205,7 +198,6 @@ function WorkAbsenceHistory() {
                 // MPEG4
                 mimetype = "application/mp4";
                 break;
-
             case ".weba":
                 // Open Web Media Project - Audio
                 mimetype = "audio/webm";
@@ -214,53 +206,43 @@ function WorkAbsenceHistory() {
                 // Open Web Media Project - Video
                 mimetype = "video/webm";
                 break;
-
             case ".psd":
                 // Photoshop Document
                 mimetype = "image/vnd.adobe.photoshop";
                 break;
-
             case ".pic":
                 // PICT Image
                 mimetype = "image/x-pict";
                 break;
-
             case ".au":
                 // Sun Audio - Au file format
                 mimetype = "audio/basic";
                 break;
-
             case ".tar":
                 // Tar File (Tape Archive)
                 mimetype = "application/x-tar";
                 break;
-
             case ".wav":
                 // Waveform Audio File Format (WAV)
                 mimetype = "audio/x-wav";
                 break;
-
             case ".webp":
                 // WebP Image
                 mimetype = "image/webp";
                 break;
-
             case ".xml":
                 // XML - Extensible Markup Language
                 mimetype = "application/xml";
                 break;
-
             case ".zip":
                 // Zip Archive
                 mimetype = "application/zip";
                 break;
-
             default:
                 // Binary Data
                 mimetype = "application/octet-stream";
                 break;
         }
-
         return mimetype;
     }
 
@@ -275,14 +257,8 @@ function WorkAbsenceHistory() {
     const getLeavesrequests = async () => {
         var getLeaves = [];
         {
-            // if (!user.isAdmin) {
-                getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/employee/${user.id}/${monthNumeric}/${year}`);
-            // } else {
-                // getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/allWorkLeave/${monthNumeric}/${year}`);
-            // }
+            getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/employee/${user.id}/${monthNumeric}/${year}`);
         }
-        // getLeaves = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/all/${user.id}`);
-        console.log("getLeaves", getLeaves)
         const data = getLeaves.data.allRequest;
         setLeavesData(data);
     };
@@ -295,7 +271,6 @@ function WorkAbsenceHistory() {
         var diffDays = Math.round(
             Math.abs((secondDate.getTime() - firstDate.getTime()) / oneDay) + 1
         );
-        console.log(diffDays)
         newArray.push({
             id: d._id,
             Emp_id: d.employee && d.employee.emp_id,
@@ -600,9 +575,6 @@ function WorkAbsenceHistory() {
                                             <option>Reject</option>
                                             <option>Approved</option>
                                         </Form.Select>
-                                        {/* <div className="my-3">
-                                            <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Update Status</Button>
-                                        </div> */}
                                     </Form>
                                 </Col>
                             </Row>{" "}
@@ -630,12 +602,6 @@ function WorkAbsenceHistory() {
                                             <option>Reject</option>
                                             <option>Approved</option>
                                         </Form.Select>
-                                        {/* <div
-                                            className="my-3 d-flex justify-content-between"
-                                            style={{ width: "35%" }}
-                                        >
-                                            <Button type="submit" style={{ backgroundColor: "rgb(137, 179, 83)" }}>Update Status</Button>
-                                        </div> */}
                                     </Form>
                                 </Col>
                             </Row>

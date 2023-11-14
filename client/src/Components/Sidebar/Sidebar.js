@@ -249,7 +249,7 @@ const Sidebar = () => {
                       </li>
                       <li >
                         <NavLink to={`/WorkAbsenceHistory`} className="nav-link mt-2  p-1 ps-3">
-                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Work Leave History</p>
+                          <p className='iconColor' style={{ opacity: 0.9, fontSize: 13 }}>Work leave history</p>
                         </NavLink>
                       </li>
                     </>

@@ -28,8 +28,8 @@ class Hiring extends Component {
         <div className="row">
           <div className="mixed-chart">
             <Chart
-              options={this.state.options}
-              series={this.state.series}
+              options= {this.state.options}
+              series= {this.state.series}
               type="line"
               width="500"
             />
