@@ -66,10 +66,9 @@ const MonthlyPayroll = () => {
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
-    const newVar = e
     // console.log("getMonth", (new Date(e)).getMonth(),(new Date(e)).getFullYear())
-    setPayrollMonthNumeric((new Date(newVar)).getMonth() + 1)
-    setPayrollYearNumeric((new Date(newVar)).getFullYear())
+    setPayrollMonthNumeric((new Date(e)).getMonth() + 1)
+    setPayrollYearNumeric((new Date(e)).getFullYear())
   }
 
   const getdata = async () => {
@@ -106,7 +105,7 @@ const MonthlyPayroll = () => {
       setWorkLeaves(workLeave)
 
 
-      const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)
+      const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonthNumeric}/${payrollYearNumeric}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
       const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)

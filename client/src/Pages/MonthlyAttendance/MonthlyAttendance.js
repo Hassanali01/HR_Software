@@ -32,6 +32,8 @@ const MonthlyAttendance = () => {
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [usersPayrollCalculations, setUsersPayrollCalculations] = useState({})
   const [fields, setFields] = useState(generateFormulaFields())
+  const [payrollMonthNumeric, setPayrollMonthNumeric] = useState(null)
+  const [payrollYearNumeric, setPayrollYearNumeric] = useState(null)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,6 +42,8 @@ const MonthlyAttendance = () => {
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
+    setPayrollMonthNumeric((new Date(e)).getMonth() + 1)
+    setPayrollYearNumeric((new Date(e)).getFullYear())
   }
 
 
@@ -135,7 +139,10 @@ const MonthlyAttendance = () => {
   async function showMonthAttendance() {
     const tempAttendance = [];
     try {
-      const attendanceTemp = (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`));
+      // const attendanceTemp = (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`));
+      const attendanceTemp = await (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonthNumeric}/${payrollYearNumeric}`))
+
+
       await attendanceTemp.data.map((i) => {
         const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const dateToAdd = `${i.date.split("-")[2].split("T")[0]}-${i.date.split("-")[1]}-${i.date.split("-")[0]}`
@@ -152,7 +159,7 @@ const MonthlyAttendance = () => {
       const gaztedholidays = await (await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)).data
       const shifts = await (await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/allShifts`)).data
       setEmpshift(shifts)
-      const approvedLeave = await (await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonth}`)).data
+      const approvedLeave = await (await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonthNumeric}/${payrollYearNumeric}`)).data
       setEmpLeaves(approvedLeave.totaldays)
 
       tempAttendance.forEach((att) => {

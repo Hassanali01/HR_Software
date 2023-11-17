@@ -24,14 +24,13 @@ async function insertFile(file, res) {
         console.log('Error while inserting:', err)
       }
       client.close()
-
     }
   })
 }
 
 
 //Aproved Api leaves for payroll from Asad
-router.get('/approved-leaves/:month', async (req, res) => {
+router.get('/approved-leaves/:month/:year', async (req, res) => {
   let demo = req.params.month
   let no = 0
   if (demo == "January") {
@@ -60,9 +59,32 @@ router.get('/approved-leaves/:month', async (req, res) => {
   } else if (demo == "December") {
     no = 12;
   }
+
+  console.log("reqparam", req.params.month, req.params.year, no)
+
+
   try {
     const Leaves = await LeaveRequest.aggregate([
       [
+        {
+          '$set': {
+            'year': [
+              {
+                '$year': '$from'
+              }, {
+                '$year': '$to'
+              }
+            ]
+          }
+        }, {
+          '$match': {
+            'year': {
+              '$in': [
+                parseInt(req.params.year)
+              ]
+            }
+          }
+        },
         {
           '$set': {
             'month': [
@@ -77,7 +99,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
           '$match': {
             'month': {
               '$in': [
-                no
+                parseInt(req.params.month)
+                
               ]
             }
           }
@@ -93,10 +116,8 @@ router.get('/approved-leaves/:month', async (req, res) => {
       ]
     ])
     const totaldays = [];
-  await Leaves.map((i) => {
+    await Leaves.map((i) => {
 
-
-    console.log("leaves map", i)
 
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
@@ -122,8 +143,6 @@ router.get('/approved-leaves/:month', async (req, res) => {
               const _id = i._id
               const status = "LWP"
               const Leave_Days = i.Leave_Days
-
-
               const username = i.employee[0] && i.employee[0].username
               const leaveNature = i.leaveNature
               const newObject = createObject(employee, leaveType, reason, Leavestatus, _id, date, status, username, Short_leave, leaveNature);
@@ -142,15 +161,12 @@ router.get('/approved-leaves/:month', async (req, res) => {
         return allDates
       }
     })
-    console.log(totaldays,"leaves")
     res.status(200).json({
       Leaves,
       totaldays,
     });
   } catch (error) {
-
     console.log("error", error)
-
     res.json({ error: error });
   }
 });
@@ -207,53 +223,56 @@ router.get('/allForHR/:month/:year', async (req, res, next) => {
     console.log("allfor hr", req.params)
     const allRequest = await LeaveRequest.find(
       {
-      $expr: {
+        $expr: {
 
-        $or: [
-         { $and: [
+          $or: [
             {
-              "$eq": [
+              $and: [
                 {
-                  "$month": "$from"
+                  "$eq": [
+                    {
+                      "$month": "$from"
+                    },
+                    parseInt(req.params.month)
+                  ]
                 },
-                parseInt(req.params.month)
+                {
+                  "$eq": [
+                    {
+                      "$year": "$from"
+                    },
+                    parseInt(req.params.year)
+                  ]
+                }
               ]
             },
+
             {
-              "$eq": [
+              $and: [
                 {
-                  "$year": "$from"
+                  "$eq": [
+                    {
+                      "$month": "$to"
+                    },
+                    parseInt(req.params.month)
+                  ]
                 },
-                parseInt(req.params.year)
+                {
+                  "$eq": [
+                    {
+                      "$year": "$to"
+                    },
+                    parseInt(req.params.year)
+                  ]
+                }
               ]
+
             }
-          ]},
+          ]
 
-            {  $and: [
-          {
-            "$eq": [
-              {
-                "$month": "$to"
-              },
-              parseInt(req.params.month)
-            ]
-          },
-          {
-            "$eq": [
-              {
-                "$year": "$to"
-              },
-              parseInt(req.params.year)
-            ]
-          }
-        ]
 
-      }
-        ]
-
-    
-      }
-    }).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
+        }
+      }).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
     const counted = await LeaveRequest.count();
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
@@ -286,7 +305,7 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
                   '$eq': [
                     {
                       'year': '$to'
-                    }, parseInt( req.params.year)
+                    }, parseInt(req.params.year)
                   ]
                 }
               ]
@@ -306,7 +325,7 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
                   '$eq': [
                     {
                       '$month': '$to'
-                    },parseInt(req.params.month)
+                    }, parseInt(req.params.month)
                   ]
                 }
               ]
@@ -316,36 +335,36 @@ router.get('/all/:id/:month/:year', async (req, res, next) => {
           '$match': {
             '$expr': {
               '$in': [
-                '$employee', 
-                  // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
-                  subordinateEmployeesIDs
+                '$employee',
+                // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
+                subordinateEmployeesIDs
               ]
             }
           }
         }, {
           '$lookup': {
-            'from': 'employees', 
-            'localField': 'employee', 
-            'foreignField': '_id', 
+            'from': 'employees',
+            'localField': 'employee',
+            'foreignField': '_id',
             'as': 'employee'
           }
         }, {
           '$unwind': {
-            'path': '$employee', 
+            'path': '$employee',
             'preserveNullAndEmptyArrays': false
           }
         }, {
           '$lookup': {
-            'from': 'departments', 
-            'localField': 'employee.departments', 
-            'foreignField': '_id', 
+            'from': 'departments',
+            'localField': 'employee.departments',
+            'foreignField': '_id',
             'as': 'employee.departments'
           }
         }
       ]
-     )
+    )
     // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
-    
+
     const counted = await LeaveRequest.count();
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
@@ -374,7 +393,7 @@ router.get('/employee/:id/:month/:year', async (req, res, next) => {
                   '$eq': [
                     {
                       'year': '$to'
-                    }, parseInt( req.params.year)
+                    }, parseInt(req.params.year)
                   ]
                 }
               ]
@@ -394,7 +413,7 @@ router.get('/employee/:id/:month/:year', async (req, res, next) => {
                   '$eq': [
                     {
                       '$month': '$to'
-                    },parseInt(req.params.month)
+                    }, parseInt(req.params.month)
                   ]
                 }
               ]
@@ -404,36 +423,36 @@ router.get('/employee/:id/:month/:year', async (req, res, next) => {
           '$match': {
             '$expr': {
               '$eq': [
-                '$employee', 
-                  // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
-                  new ObjectId(req.params.id)
+                '$employee',
+                // new ObjectId('64b65b0cbfd1a88528ad9e5b'), new ObjectId('64c8ef57acdf99039aa56833')
+                new ObjectId(req.params.id)
               ]
             }
           }
         }, {
           '$lookup': {
-            'from': 'employees', 
-            'localField': 'employee', 
-            'foreignField': '_id', 
+            'from': 'employees',
+            'localField': 'employee',
+            'foreignField': '_id',
             'as': 'employee'
           }
         }, {
           '$unwind': {
-            'path': '$employee', 
+            'path': '$employee',
             'preserveNullAndEmptyArrays': false
           }
         }, {
           '$lookup': {
-            'from': 'departments', 
-            'localField': 'employee.departments', 
-            'foreignField': '_id', 
+            'from': 'departments',
+            'localField': 'employee.departments',
+            'foreignField': '_id',
             'as': 'employee.departments'
           }
         }
       ]
-     )
+    )
     // .populate({ path: 'employee', populate: { path: 'departments', select: ['departmentname'] } });
-    
+
     const counted = await LeaveRequest.count();
     allRequest && res.status(200).json({ message: "all Leave requests", allRequest, counted })
   } catch (error) {
@@ -446,11 +465,11 @@ router.get('/employee/:id/:month/:year', async (req, res, next) => {
 
 router.get('/lastfive/:id', async (req, res, next) => {
   try {
-    const response = await LeaveRequest.find({employee:req.params.id}).sort({applicationdate:-1}).limit(5).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
+    const response = await LeaveRequest.find({ employee: req.params.id }).sort({ applicationdate: -1 }).limit(5).populate({ path: 'employee', populate: [{ path: 'departments', select: ['departmentname'] }] });
     console.log("response", response)
     // const emp = await Emp.findById(response.employee._id).populate('departments', 'departmentname')
     // const dep = emp.department
-    response && res.status(200).json( response )
+    response && res.status(200).json(response)
   } catch (error) {
     next(error)
   }
@@ -464,7 +483,7 @@ router.get('/lastfive/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const response = await LeaveRequest.findById(req.params.id).populate({ path: 'employee backupresourse', populate: [{ path: 'departments', select: ['departmentname'] }, { path: 'Leaves' }] });
-  
+
     const emp = await Emp.findById(response.employee._id).populate('departments', 'departmentname')
     const dep = emp.department
     response && res.status(200).json({ message: "Success", response, dep })
