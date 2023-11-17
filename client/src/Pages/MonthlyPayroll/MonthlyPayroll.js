@@ -30,6 +30,9 @@ const MonthlyPayroll = () => {
   const [workLeaves, setWorkLeaves] = useState([])
   const [gaztedholiday, setGaztedholiday] = useState([])
   const [empshift, setEmpshift] = useState([])
+  const [payrollMonthNumeric, setPayrollMonthNumeric] = useState(null)
+  const [payrollYearNumeric, setPayrollYearNumeric] = useState(null)
+
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [update, setUpdate] = useState(false)
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -63,6 +66,10 @@ const MonthlyPayroll = () => {
     setCurrentCalendar(e.toLocaleString('en-US').split(",")[0])
     setPayrollMonth(e.toLocaleString('en-US', { month: "long" }))
     handleClose()
+    const newVar = e
+    // console.log("getMonth", (new Date(e)).getMonth(),(new Date(e)).getFullYear())
+    setPayrollMonthNumeric((new Date(newVar)).getMonth() + 1)
+    setPayrollYearNumeric((new Date(newVar)).getFullYear())
   }
 
   const getdata = async () => {
@@ -79,7 +86,9 @@ const MonthlyPayroll = () => {
   async function generateMonthAttendance() {
     try {
       setLoading(true);
-      const attendanceTemp = await (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`)).data;
+      const attendanceTemp = await (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonthNumeric}/${payrollYearNumeric}`)).data;
+      // const attendanceTemp = await (await axios.get(process.env.React_APP_ORIGIN_URL + `monthattendance/${payrollMonth}`)).data;
+
       setLoading(false)
       attendanceTemp.length > 0 && NotificationManager.success("Successfully Generated")
       attendanceTemp.length == 0 && NotificationManager.error("Selected Month has no Data")
@@ -116,17 +125,21 @@ const MonthlyPayroll = () => {
         ([key, value]) => {
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "L.W.P")
           appliedLeaves.forEach((al) => {
+            console.log("attendance", tempUserAttendance[`${key}`])
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "LWP"
           })
         }
       );
 
 
+
       // adding CPL inside the user attendance
       Object.entries(tempUserAttendance).forEach(
         ([key, value]) => {
+
           let appliedLeaves = approvedLeave.data.totaldays.filter((td) => td.username == key && td.Short_leave != "True" && td.leaveNature == "C.P.L")
           appliedLeaves.forEach((al) => {
+
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status = "CPL"
           })
         }
@@ -374,17 +387,16 @@ const MonthlyPayroll = () => {
 
           te.employee.payroll_setup.forEach((ps) => {
 
-            // console.log("last saturday",(tempUserAttendance[key][index-1] && tempUserAttendance[key][index-1].status) ,(tempUserAttendance[key][index+1] && tempUserAttendance[key][index+1].status) )
-
             if (Finalsat == te.date && (tempUserAttendance[key][index - 1] && tempUserAttendance[key][index - 1].status) == "A" && ((tempUserAttendance[key][index + 2] && tempUserAttendance[key][index + 2].status) == "A")) {
-
               te.status = "A";
             }
 
             else if (Finalsat == te.date && new Date(te.date) >= new Date(ps.dateFrom) && new Date(te.date) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.daysoff && ps.payrollSetup.daysoff.lastSaturdayDayoff) {
               te.status = "D.O";
             }
+
           })
+
         })
       })
 
@@ -467,9 +479,6 @@ const MonthlyPayroll = () => {
           let wl = workLeave.data.totaldays.filter((td) => td.employee.username == key && td.Short_leave == "True")
 
           wl.forEach((al) => {
-
-            console.log("work leave short", al)
-
 
             tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0] && (tempUserAttendance[`${key}`].filter((te) => te.date == al.date)[0].status += " WL")
           })
@@ -565,10 +574,7 @@ const MonthlyPayroll = () => {
               </select>
               <Button className="mr-3" onClick={async () => {
 
-
-
                 //Clearing out the previous data 
-
 
                 for (var variableKey in userAttendance) {
                   if (userAttendance.hasOwnProperty(variableKey)) {
@@ -584,11 +590,6 @@ const MonthlyPayroll = () => {
                 }
 
 
-
-
-
-
-
                 setUserAttendance({})
                 setKey(currentKey => currentKey + 1)
                 await generateMonthAttendance()
@@ -598,9 +599,6 @@ const MonthlyPayroll = () => {
                     ([key, value]) => {
                       // Applying each payroll setup formula for the specified days
                       // value[0].employee.payroll_setup.forEach((ps) => 
-
-
-
 
 
                       const addField = () => {

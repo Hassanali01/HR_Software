@@ -205,7 +205,8 @@ router.post('/addrequest', async (req, res, next) => {
 router.get('/allForHR/:month/:year', async (req, res, next) => {
   try {
     console.log("allfor hr", req.params)
-    const allRequest = await LeaveRequest.find({
+    const allRequest = await LeaveRequest.find(
+      {
       $expr: {
 
         $or: [

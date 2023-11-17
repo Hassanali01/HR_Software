@@ -2,12 +2,12 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
 import { Container, Form } from "react-bootstrap";
-import "./login.css";
 import { Context } from "../../Context/Context"
 import { useRef, useContext } from "react";
 import { loginCall } from "./appicall"
 import { useNavigate } from "react-router-dom";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import "./login.css";
 
 
 
@@ -16,6 +16,7 @@ const Login = () => {
   const username = useRef();
   const password = useRef();
   let navigate = useNavigate()
+
   const handleClick = async (e) => {
     e.preventDefault();
     const res = await loginCall({ username: username.current.value, password: password.current.value }, dispatch)
@@ -28,10 +29,9 @@ const Login = () => {
   }
 
 
-
   return (
     <>
-      <Container className="plogin ">
+      <Container className="plugin">
         <Card
           style={{ width: "40%", backgroundColor: "white", padding: "40px" }}
           className="page-header"

@@ -20,10 +20,40 @@ router.get('/alluserattendance', async (req, res) => {
 
 
 
-router.get('/monthattendance/:month', async (req, res) => {
+
+router.get('/monthattendance/:month/:year', async (req, res) => {
 
     try {
-        const abc = await Attendance.find({ month: req.params.month }).populate([
+        const abc = await Attendance.find(
+             
+            
+            {
+                $expr: {
+          
+                    $and: [
+                      {
+                        "$eq": [
+                          {
+                            "$month": "$date"
+                          },
+                          parseInt(req.params.month)
+                        ]
+                      },
+                      {
+                        "$eq": [
+                          {
+                            "$year": "$date"
+                          },
+                          parseInt(req.params.year)
+                        ]
+                      }
+                    ]
+          
+                                
+              
+                }
+              }            
+            ).populate([
             {
                 path: 'employee',
                 model: 'Employees',

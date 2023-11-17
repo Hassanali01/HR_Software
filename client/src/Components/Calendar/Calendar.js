@@ -69,7 +69,7 @@ const Calendar = () => {
                                     </li>
                                 </ul>
                                 <div className='col-auto float-end ms-auto'>
-                                    <div style={{ display: "flex", alignItems: "center" }}><a  href={#}className='btn add-btn ' data-bs-toggle="modal" data-bs-target="#add_calendar" onClick={handleShow}><i className='fa fa-plus' style={{ fontSize: "14px", marginRight: "2px" }} > </i>Add Calendar</a></div>
+                                    <div style={{ display: "flex", alignItems: "center" }}><a  className='btn add-btn ' data-bs-toggle="modal" data-bs-target="#add_calendar" onClick={handleShow}><i className='fa fa-plus' style={{ fontSize: "14px", marginRight: "2px" }} > </i>Add Calendar</a></div>
                                 </div>
                             </div>
                         </div>
