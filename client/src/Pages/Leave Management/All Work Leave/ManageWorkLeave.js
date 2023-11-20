@@ -403,11 +403,9 @@ function ManageWorkLeave() {
             headerName: "Detail",
             width: 80,
             renderCell: (id) => {
-
                 return (
                     <div >
                         <Link
-                 
                             to='/WorkLeaveDetails'
                             state={id.row}
                         >

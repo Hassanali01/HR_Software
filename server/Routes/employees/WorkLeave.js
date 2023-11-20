@@ -136,7 +136,7 @@ router.post('/', async (req, res, next) => {
 
 
 // get api for workleave
-router.get('/:month', async (req, res) => {
+router.get('/:month/:year', async (req, res) => {
     let demo = req.params.month
     let no = 0
     if (demo == "January") {
@@ -166,26 +166,46 @@ router.get('/:month', async (req, res) => {
     }
     try {
         const Leaves = await WorkLeave.aggregate([
-            [
-                {
-                    '$set': {
-                        'month': [
-                            {
-                                '$month': '$from'
-                            }, {
-                                '$month': '$to'
-                            }
-                        ]
+            
+              {
+                '$set': {
+                  'year': [
+                    {
+                      '$year': '$from'
+                    }, {
+                      '$year': '$to'
                     }
-                }, {
-                    '$match': {
-                        'month': {
-                            '$in': [
-                                no
-                            ]
-                        }
+                  ]
+                }
+              }, {
+                '$match': {
+                  'year': {
+                    '$in': [
+                      parseInt(req.params.year)
+                    ]
+                  }
+                }
+              },
+              {
+                '$set': {
+                  'month': [
+                    {
+                      '$month': '$from'
+                    }, {
+                      '$month': '$to'
                     }
-                },
+                  ]
+                }
+              }, {
+                '$match': {
+                  'month': {
+                    '$in': [
+                      parseInt(req.params.month)
+                      
+                    ]
+                  }
+                }
+              },
                 {
                     '$lookup': {
                         'from': 'employees',
@@ -194,7 +214,7 @@ router.get('/:month', async (req, res) => {
                         'as': 'employee'
                     }
                 }
-            ]
+            
         ])
         const totaldays = [];
         await Leaves.map((i) => {

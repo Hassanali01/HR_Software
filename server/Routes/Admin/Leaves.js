@@ -117,8 +117,8 @@ router.get('/approved-leaves/:month/:year', async (req, res) => {
     ])
     const totaldays = [];
     await Leaves.map((i) => {
-
-
+   
+     
       if (i.status == "Approved") {
         function getAllDatesBetween(fromDate, toDate) {
           const datesArray = [];
