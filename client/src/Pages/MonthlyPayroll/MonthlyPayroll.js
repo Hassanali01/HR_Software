@@ -32,7 +32,6 @@ const MonthlyPayroll = () => {
   const [empshift, setEmpshift] = useState([])
   const [payrollMonthNumeric, setPayrollMonthNumeric] = useState(null)
   const [payrollYearNumeric, setPayrollYearNumeric] = useState(null)
-
   const [currentCalendar, setCurrentCalendar] = useState((new Date().toLocaleString("en-US").split(",")[0]))
   const [update, setUpdate] = useState(false)
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -44,9 +43,11 @@ const MonthlyPayroll = () => {
   const handleShow = () => setShow(true);
   const [key, setKey] = useState(0)
 
+  
   const CompanyName = (e) => {
     setCompanyID(e)
   }
+
 
   // For fetching current time to display on report
   useEffect(() => {
@@ -104,11 +105,10 @@ const MonthlyPayroll = () => {
       const workLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `workLeave/${payrollMonthNumeric}/${payrollYearNumeric}`)
       setWorkLeaves(workLeave)
 
-
       const approvedLeave = await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonthNumeric}/${payrollYearNumeric}`)
       setEmpLeaves(approvedLeave.data.totaldays)
 
-      const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)
+      const gaztedholidays = await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll/${payrollYearNumeric}`)
       setGaztedholiday(gaztedholidays.data)
 
       //shift data fetch
@@ -129,7 +129,6 @@ const MonthlyPayroll = () => {
           })
         }
       );
-
 
 
       // adding CPL inside the user attendance
@@ -155,7 +154,7 @@ const MonthlyPayroll = () => {
       );
 
 
-      //Adding 1 in P in payroll
+      //Adding 1 for P in payroll
       Object.entries(tempUserAttendance).forEach(([key, value]) => {
         tempUserAttendance[key].forEach((te) => {
           if (te.status == "P") {
@@ -491,7 +490,7 @@ const MonthlyPayroll = () => {
     } catch (error) {
       console.log("error", error)
       setLoading(false);
-      NotificationManager.error("Please select  the month of Payroll")
+      NotificationManager.error("Please select the month of Payroll")
     }
   }
 

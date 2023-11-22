@@ -72,9 +72,34 @@ router.get("/detail", async (req, res) => {
 })
 
 // getting holidays for payroll
-router.get("/holidaypayroll", async (req, res) => {
+router.get("/holidaypayroll/:year", async (req, res) => {
   try {
-    const detail = await Holiday.find({})
+    const detail = await Holiday.find({
+      $expr: {
+        $or: [
+          
+         
+              {
+                "$eq": [
+                  {
+                    "$year": "$from"
+                  },
+                  parseInt(req.params.year)
+                ]
+              },
+            
+              {
+                "$eq": [
+                  {
+                    "$year": "$to"
+                  },
+                  parseInt(req.params.year)
+                ]
+              }
+                     
+        ]
+    }
+    })
     const dates = [];
     await detail.map((i) => {
       const start = moment1(i.from, 'YYYY-MM-DD');

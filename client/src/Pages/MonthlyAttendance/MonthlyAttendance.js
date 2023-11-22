@@ -156,7 +156,7 @@ const MonthlyAttendance = () => {
         i.department = "null"
       })
       tempAttendance.length == 0 && NotificationManager.error("Current month has no record");
-      const gaztedholidays = await (await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll`)).data
+      const gaztedholidays = await (await axios.get(process.env.React_APP_ORIGIN_URL + `holiday/holidaypayroll/${payrollYearNumeric}`)).data
       const shifts = await (await axios.get(process.env.React_APP_ORIGIN_URL + `shifts/allShifts`)).data
       setEmpshift(shifts)
       const approvedLeave = await (await axios.get(process.env.React_APP_ORIGIN_URL + `leaverequest/approved-leaves/${payrollMonthNumeric}/${payrollYearNumeric}`)).data
