@@ -259,7 +259,9 @@ const MonthlyAttendance = () => {
       gaztedholidays.map((i) => {
         tempAttendance.forEach((te) => {
           if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
-            if (te.employee.payroll_setup && te.employee.payroll_setup.applyGazettedHoliday) {
+            console.log("apply GH", te.employee.payroll_setup, i)
+            if (te.employee.payroll_setup && te.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.applyGazettedHoliday) {
+              console.log("inside gh", te)
               if (te.status == 'A') {
                 te.in = "G.H";
                 te.out = "G.H";
@@ -303,7 +305,6 @@ const MonthlyAttendance = () => {
 
 
 
-      console.log("temp att", tempAttendance)
 
       // adding DO inside the user attendance
       tempAttendance.forEach((att, index) => {

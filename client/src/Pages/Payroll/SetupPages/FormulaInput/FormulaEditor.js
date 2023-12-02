@@ -88,14 +88,13 @@ export function App({ setSetupTitle, setSetupFormula }) {
                     style={{ height: "50px" }}
                   >
                     <FormulaInput
-                      modelValue={field.npd_formula}
-                      tokens={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].tokens}
-                      validationErrors={extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].validationErrors}
-                      onChange={(formula) => {
+                      modelValue = {field.npd_formula}
+                      tokens = {extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].tokens}
+                      validationErrors = {extendedTokensByRefs[field.referenceName] && extendedTokensByRefs[field.referenceName].validationErrors}
+                      onChange = {(formula) => {
                         setSetupFormula(formula)
                         setField({ ...field, npd_formula: formula })
-                      }
-                      }
+                      }}
                     />
                   </td>
                 </tr>

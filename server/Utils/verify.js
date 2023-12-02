@@ -7,8 +7,7 @@ const verifyToken  =  (req,res,next) =>{
     const token = req.cookies.access_Token;
 
     if(!token){
-        console.log("not token")
-    
+        console.log("not token") 
         return next(createError(404,"You are not Authenticated"))
     }
     //third parameter is returning us user information or error
@@ -21,12 +20,10 @@ const verifyToken  =  (req,res,next) =>{
         req.user = user;
         next();
  
-
     });  
 }
 
 //verify user 
-
 const verifyUser = (req,res,next) => {
 
     verifyToken(req,res,next, ()=>{
@@ -37,14 +34,10 @@ const verifyUser = (req,res,next) => {
         }
     })
 
-
 }
 
-
 //verify admin
-
 const verifyAdmin = (req,res,next) =>{
-    console.log("0")
     verifyToken(req,res,next, () => {
         if(req.user.isAdmin){
             console.log("11")
@@ -53,11 +46,9 @@ const verifyAdmin = (req,res,next) =>{
         else{
             console.log("12")
             res.status(400)
-            next(createError(403,"You are not an Admin "));
-            
+            next(createError(403,"You are not an Admin "));       
         }
     })
-
 }
 
 module.exports ={
