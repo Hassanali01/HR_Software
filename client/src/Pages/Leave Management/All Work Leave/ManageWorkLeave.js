@@ -465,12 +465,11 @@ function ManageWorkLeave() {
                 size="lg"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Details</Modal.Title>
+                    <Modal.Title>Applicant's Information</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h5>Applicant's Information</h5>
-                    <hr></hr>
-                    <Row>
+                   
+                    {/* <Row>
                         <Col>
                             <Form>
                                 <Form.Label>Employee ID</Form.Label>
@@ -574,7 +573,151 @@ function ManageWorkLeave() {
                                 </Col>
                             </Row>
                         </Form>
+                    </Row> */}
+
+
+
+
+{console.log("modal data", modaldata)
+}
+<Row>
+                        <Col>
+                            <Form>
+                                <Form.Label>Date</Form.Label>
+                                <Form.Control disabled value={modaldata.applicationdate}></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Work Type</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.workabsence}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Assigned By</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.assignedBy}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
                     </Row>
+
+
+
+
+
+
+                    <Row>
+                        <Col>
+                            <Form>
+                                <Form.Label>Task</Form.Label>
+                                <Form.Control disabled value={modaldata.task}></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Project</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.project}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.description}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                    </Row>
+
+
+                    <Row>
+                        <Col>
+                            <Form>
+                                <Form.Label>From</Form.Label>
+                                <Form.Control disabled value={modaldata.from}></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>To</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.to}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Total Days</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.totaldays}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                    </Row>
+
+
+
+
+                    <Row>
+                        <Col>
+                            <Form>
+                                <Form.Label>Departure time</Form.Label>
+                                <Form.Control disabled value={modaldata.fromTime}></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Arrival time</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.toTime}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Duration</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.Short_leave ? "Short Day" : "Full Day"}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                    </Row>
+
+
+
+                    <Row>
+                        <Col xs={4}>
+                            <Form>
+                                <Form.Label>Work status</Form.Label>
+                                <Form.Control disabled value={modaldata.workStatus}></Form.Control>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form>
+                                <Form.Label>Remarks</Form.Label>
+                                <Form.Control
+                                    disabled
+                                    value={modaldata.remarks}
+                                ></Form.Control>
+                            </Form>
+                        </Col>
+                    
+                    </Row>
+
                     <Row> &nbsp; &nbsp;</Row>
                     {!user.isAdmin && (
                         <>

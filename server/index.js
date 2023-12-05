@@ -60,7 +60,7 @@ app.use(bodyparser.urlencoded({limit: '50mb', extended: true}));
 
 
 
-//multer image upload
+//multer file upload setup
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
     cb(null, "images");
@@ -70,12 +70,15 @@ const storage = multer.diskStorage({
   },
 })
 const upload = multer({ storage: storage });
+
+
+
+
+//Routes
 app.post("/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
 
-
-//Routes
 app.use('/employees',UsersRoute);
 app.use("/calendar",CalendarRoute);
 app.use("/holiday",holidayRoute);
@@ -104,7 +107,7 @@ app.use('/approved-leaves',LeaveRequest)
 const port = process.env.PORT || 5002;
 
 app.listen(port,()=>{
-  console.log(`app is listening at ${port}`)
+  console.log(`Server Connected to port ${port}`)
 })
 
 // Handling Error
