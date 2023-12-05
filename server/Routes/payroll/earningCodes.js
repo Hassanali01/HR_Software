@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { createError } = require('../../Utils/CreateError')
 const ErCodes = require("../../Models/payroll/earningcodes");
 
 

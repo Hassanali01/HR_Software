@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
-
 
 
 const EmployeesSchema = new mongoose.Schema(
@@ -44,8 +42,9 @@ const EmployeesSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
     //contact information//
-    phone_no:  [{ type: String }] ,
+    phone_no: [{ type: String }],
     secondaryphone: {
       type: Number,
       require: true,
@@ -63,24 +62,24 @@ const EmployeesSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
+
+
     ///address and region//
-
-
-  address: [
-    {
-        address:{
+    address: [
+      {
+        address: {
           type: String,
         },
-        city:{
+        city: {
           type: String
         },
         province: {
           type: String
-        },  
+        },
         country: {
           type: String
         }
-   } ],
+      }],
 
 
     //education details
@@ -160,7 +159,7 @@ const EmployeesSchema = new mongoose.Schema(
 
     work_shift: {
       type: [{
-        workShift: {type: mongoose.Schema.Types.ObjectId, ref:"addshifts"},        
+        workShift: { type: mongoose.Schema.Types.ObjectId, ref: "addshifts" },
         dateFrom: Date,
         dateTo: Date
       }],
@@ -209,6 +208,9 @@ const EmployeesSchema = new mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: "LeaveRequest",
     },
+
+
+
     //BANK INFORMATION
     paymentmode: {
       type: String,
@@ -252,14 +254,11 @@ const EmployeesSchema = new mongoose.Schema(
     // },
     payroll_setup: {
       type: [{
-        payrollSetup: {type: mongoose.Schema.Types.ObjectId, ref:"payroll-setup"},        
+        payrollSetup: { type: mongoose.Schema.Types.ObjectId, ref: "payroll-setup" },
         dateFrom: Date,
         dateTo: Date
       }],
     },
-
-
-
 
   },
   { timestamps: true }

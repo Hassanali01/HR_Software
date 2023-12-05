@@ -29,30 +29,35 @@ const company = require('./Routes/company')
 const shifts = require('./Routes/shifts')
 const leaveformonth = require('./Routes/employees/leaveReq')
 const workLeave = require('./Routes/employees/WorkLeave')
+
 env.config()
+
 app.use(
   cors({
     origin: '*'
-})
+  })
 );
+
+// Connect to DB
+connectDB();
+
+// Allow uploading large data inside request body
+app.use(express.json({limit: '25mb'}));
 
 app.use("/leaverequest/addrequest",fileUpload())
 app.use("/workLeave",fileUpload())
 
 
-app.use(express.json({limit: '25mb'}));
-
 app.use(cookieParser());
 
 
-//DB connection
-connectDB();
 //user image upload directory 
 app.use("/images", express.static(path.join(__dirname, "/images")));
 //xlxs
 //Routes 
 
 app.use(bodyparser.urlencoded({limit: '50mb', extended: true}));
+
 
 
 //multer image upload
@@ -68,6 +73,8 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
+
+
 //Routes
 app.use('/employees',UsersRoute);
 app.use("/calendar",CalendarRoute);
@@ -90,13 +97,18 @@ app.use('/',company)
 app.use('/shifts',shifts)
 app.use('/onemonthleaves', leaveformonth)
 app.use('/workLeave',workLeave)
-
-
 app.use('/approved-leaves',LeaveRequest)
-//Port settings
-const PORT = 5002;
 
-console.log('hello world')
-app.listen(PORT,()=>{
-  console.log(`app is listen at ${PORT}`)
+
+//Port settings
+const port = process.env.PORT || 5002;
+
+app.listen(port,()=>{
+  console.log(`app is listening at ${port}`)
+})
+
+// Handling Error
+process.on("unhandledRejection", err => {
+  console.log(`An error occurred: ${err.message}`)
+  server.close(() => process.exit(1))
 })

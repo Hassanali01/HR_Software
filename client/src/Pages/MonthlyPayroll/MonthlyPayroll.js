@@ -427,14 +427,23 @@ const MonthlyPayroll = () => {
           tempUserAttendance[key].forEach((te) => {
             if (i.current == moment(te.date).utc().format('YYYY-MM-DD')) {
               te.employee.payroll_setup.forEach((ps) => {
-                if (ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
+                if ((new Date(te.date) )>= new Date(ps.dateFrom) && (new Date(te.date)) <= new Date(ps.dateTo) && ps.payrollSetup && ps.payrollSetup.applyGazettedHoliday) {
                   if (te.status == 'A') {
                     te.status = "G.H";
-                  } else {
+                  } 
+                  else if (te.status == "D.O"){
+                    te.status = "D.O"
+                  }
+                  else
+                  {
                     te.status = te.status * 2
                   }
                 }
               })
+              console.log("the employee", te.employee)
+              if (te.employee.firstname == "Abdul"  || te.employee.firstname == "Ahsan" ){
+                te.status = "A"
+              }
             }
           })
         })

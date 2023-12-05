@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Designation = require('../../Models/designation')
-const { createError } = require('../../Utils/CreateError')
 const Employees = require('../../Models/employees');
 const { Error } = require("mongoose");
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Departments = require('../Models/departments')
-const { createError } = require('../Utils/CreateError')
 const Positions = require("../Models/positions");
 const xlsx = require("xlsx");
 const fs = require("file-system");

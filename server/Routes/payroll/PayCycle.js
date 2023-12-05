@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const {createError} = require('../../Utils/CreateError')
 const Period = require('../../Models/payroll/payperiod')
 const Paycycle = require('../../Models/payroll/paycycle.js')
 

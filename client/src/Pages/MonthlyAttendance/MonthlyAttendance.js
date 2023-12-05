@@ -48,7 +48,6 @@ const MonthlyAttendance = () => {
 
 
   function PrintElem(elem) {
-
     var mywindow = window.open('', 'PRINT', 'height=900,width=1200');
     mywindow.document.write('<html><head><title>' + 'title' + '</title>');
     mywindow.document.write('<style>* {-webkit-print-color-adjust: exact !important;}</style>')
@@ -74,7 +73,6 @@ const MonthlyAttendance = () => {
       Duration: elem[5],
     });
   });
-
 
   let InTimes = [];
   // for in
@@ -241,7 +239,6 @@ const MonthlyAttendance = () => {
       // Add early leaver LWP and LWOP in payroll
       tempAttendance.forEach(
         (tempAtt) => {
-
           let appliedLeaves = approvedLeave.totaldays.filter((td) => td.employee && td.employee.emp_id == tempAtt.Employee_ID && td.Short_leave == "True")
           appliedLeaves.forEach((al) => {
             if (al.leaveNature == "L.W.P" && tempAtt.date == al.date) {
@@ -266,6 +263,9 @@ const MonthlyAttendance = () => {
                 te.in = "G.H";
                 te.out = "G.H";
                 te.status = "G.H"
+              }
+              else {
+                te.status = te.status * 2
               }
             }
           }
@@ -294,7 +294,6 @@ const MonthlyAttendance = () => {
       tempAttendance.forEach((te, index) => {
 
         if (Finalsat == te.date && (tempAttendance[index - 1] && tempAttendance[index - 1].status) == "A" && ((tempAttendance[index + 2] && tempAttendance[index + 2].status) == "A")) {
-
           te.status = "A";
         } else if (Finalsat == te.date && te.employee.payroll_setup && te.employee.payroll_setup.length > 0 && te.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff && te.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff.lastSaturdayDayoff) {
           te.status = "D.O";
@@ -308,9 +307,6 @@ const MonthlyAttendance = () => {
 
       // adding DO inside the user attendance
       tempAttendance.forEach((att, index) => {
-
-
-
 
         const locale = "en-US"
         var date = new Date(att.date);
@@ -359,9 +355,7 @@ const MonthlyAttendance = () => {
         var date = new Date(att.date);
         var day = date.toLocaleDateString(locale, { weekday: 'long' });
         att.day = day
-        if (day == "Tuesday" && att.status == 'A'
-          && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff.tuesdayDayoff
-        ) {
+        if (day == "Tuesday" && att.status == 'A' && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff.tuesdayDayoff) {
           att.in = "Day off";
           att.out = "Day off";
           att.status = "D.O"
@@ -370,7 +364,6 @@ const MonthlyAttendance = () => {
           && att.employee.payroll_setup && att.employee.payroll_setup && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff && att.employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.daysoff.tuesdayDayoff
         ) {
           att.status = att.status * 2
-
         }
       })
 
@@ -493,8 +486,6 @@ const MonthlyAttendance = () => {
       Object.entries(attendanceByEmployee).forEach(
         ([key, value]) => {
 
-
-
           const addField = () => {
             setFields([...fields, { id: uuidv4(), referenceName: 'netpaydays', npd_formula: value[0].employee.payroll_setup && value[0].employee.payroll_setup.filter((p) => ((new Date()) >= new Date(p.dateFrom) && (new Date()) <= new Date(p.dateTo)))[0].payrollSetup.npd_formula }])
           }
@@ -514,11 +505,8 @@ const MonthlyAttendance = () => {
 
           try {
 
-
-
             const extendedTokens = getExtendedTokens(formulasByRefs, supportedRefs)
             const extendedTokensOrdered = Object.values(extendedTokens).sort((a, b) => a.order - b.order)
-
             const items = generateItems(
               attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 1 || tu.status == 0.25 || tu.status == 0.5 || tu.status == 0.75 || tu.status == 1.5 || tu.status == 2).reduce((total, num) => { return (total + num.status) }, 0) + (attendanceByEmployee[`${key}`].filter((tu) => typeof tu.status == "string" && tu.status.split(" ")[1] == "LWP")).reduce((total, num) => { return (total + (parseFloat(num.status.split(" ")[0]))) }, 0),
               attendanceByEmployee[`${key}`].length > 0 && attendanceByEmployee[`${key}`].filter((tu) => tu.status == 'D.O').length,
@@ -541,7 +529,9 @@ const MonthlyAttendance = () => {
                 return extendedItem
               })
             usersPayrollCalculations[`${key}`] = { netpaydays: extendedItems[0].netpaydays }
-          } catch (err) { console.log("error", err) }
+          } catch (err) { 
+            console.log("error", err) 
+          }
         }
       );
       tempAttendance.length > 0 && NotificationManager.success("Successfully Updated");
@@ -592,6 +582,7 @@ const MonthlyAttendance = () => {
                             <table style={{
                               fontSize: 12, fontFamily: "arial", border: "1px solid black", borderCollapse: "collapse"
                             }} >
+                 
                               <tr style={{ fontWeight: "bold", fontSize: 18, border: "2px solid black", height: 50, backgroundColor: "silver" }}>
                                 <th colSpan={7}>
                                   Attendance {payrollMonth} 23

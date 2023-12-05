@@ -1,4 +1,3 @@
-const { Binary, Double } = require("mongodb");
 const mongoose = require("mongoose");
 
 const leaveRequestSchema = mongoose.Schema({
@@ -35,14 +34,14 @@ const leaveRequestSchema = mongoose.Schema({
     toTime: {
         type: String
     },
-    Short_leave:{
-        type:String,
-        require:true
+    Short_leave: {
+        type: String,
+        require: true
     },
     status: {
         type: String,
-        enum:["Approved","Pending Approval","Reject"],
-        default:"Pending Approval" 
+        enum: ["Approved", "Pending Approval", "Reject"],
+        default: "Pending Approval"
     },
     supervisorApproval: {
         type: String,
@@ -66,10 +65,9 @@ const leaveRequestSchema = mongoose.Schema({
     attachment: {
         type: mongoose.Schema.Types.Mixed
     },
-    leaveNature:{
+    leaveNature: {
         type: String
     },
-  
 
 })
 

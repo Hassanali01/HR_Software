@@ -7,21 +7,17 @@ const HolidaySchema = new mongooes.Schema({
         required: true
     },
     from: {
-        // type:Date.now(),
         type: Date,
-        // required:true                  
+        required:true                  
     },
     to: {
         type: Date,
-        // required:true
+        required:true
     },
     type: {
         type: String,
     },
-    // calendarId: {
-    //     type: mongooes.Schema.Types.ObjectId,
-    //     ref: 'Calendar'
-    // },
+ 
     status: {
         type: Boolean,
         // required: true
