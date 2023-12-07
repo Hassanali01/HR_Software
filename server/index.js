@@ -51,8 +51,9 @@ app.use("/workLeave",fileUpload())
 app.use(cookieParser());
 
 
-//user image upload directory 
+// Serving the image directory files 
 app.use("/images", express.static(path.join(__dirname, "/images")));
+
 //xlxs
 //Routes 
 

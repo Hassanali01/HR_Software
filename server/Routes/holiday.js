@@ -76,9 +76,7 @@ router.get("/holidaypayroll/:year", async (req, res) => {
   try {
     const detail = await Holiday.find({
       $expr: {
-        $or: [
-          
-         
+        $or: [          
               {
                 "$eq": [
                   {
@@ -95,8 +93,7 @@ router.get("/holidaypayroll/:year", async (req, res) => {
                   },
                   parseInt(req.params.year)
                 ]
-              }
-                     
+              }                     
         ]
     }
     })
@@ -110,7 +107,6 @@ router.get("/holidaypayroll/:year", async (req, res) => {
       function createObject(current, id, title) {
         return { current, id, title };
       }
-
       while (current <= end) {
         const newObject = createObject(current.format('YYYY-MM-DD'), id, title);
         dates.push(newObject);

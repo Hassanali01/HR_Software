@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const Company = require("../Models/Company/Company")
+const Company = require("../Models/Company")
 const createError = require('../Utils/CreateError')
 const { default: mongoose } = require('mongoose')
 

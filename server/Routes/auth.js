@@ -71,7 +71,9 @@ router.post("/register", async (req, res, next) => {
     });
 
     const user = await employee.save();
+
     user && res.status(200).json(user);
+
     try {
       const depId = req.body.departments;
       const updateDep = await Department.findByIdAndUpdate(
@@ -83,6 +85,7 @@ router.post("/register", async (req, res, next) => {
       );
     } catch (error) {
     }
+    
   } catch (err) {
     next(err);
   }

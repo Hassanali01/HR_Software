@@ -62,8 +62,7 @@ const leaveTypeBalance = await Leaves.aggregate(
               '$match': {
                 '_id':  { $in: req.query.id.map((i)=> (new ObjectId(i)))}
               }
-            }
-            
+            }     
             , {
               '$project': {
                 'balance': {
@@ -96,7 +95,6 @@ const leaveTypeBalance = await Leaves.aggregate(
                 'allocations': 1
               }
             }, 
-            
             {
               '$project': {
                 'balance': {

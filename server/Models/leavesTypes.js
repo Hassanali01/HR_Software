@@ -11,7 +11,6 @@ const leavesSchema = mongoose.Schema({
     },
     allocations: 
          [{
-
             company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Company',
@@ -31,11 +30,9 @@ const leavesSchema = mongoose.Schema({
             },
             allocation: Number,
             allocatedOnce: Boolean
-
  } ],
-    
-
 })
+
 
 const LeavesTypes = mongoose.model('Leaves',leavesSchema);
 module.exports = LeavesTypes

@@ -10,7 +10,6 @@ const EcxelSchema = new mongoose.Schema({
     city:{
         type:String
     }
-
 })
 
 const Ecxel = mongoose.model("Ecxel",EcxelSchema);

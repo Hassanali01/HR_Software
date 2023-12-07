@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Period = require('../../Models/payroll/payperiod')
+const Period = require('../../Models/payperiod')
 
 
 router.post('/payperiod',async(req,res,next)=>{

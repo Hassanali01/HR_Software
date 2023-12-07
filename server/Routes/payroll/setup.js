@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Setup = require('../../Models/payroll/setup')
+const Setup = require('../../Models/setup')
 
 
 router.post('/',async(req,res,next)=>{
