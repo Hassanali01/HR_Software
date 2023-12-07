@@ -89,32 +89,34 @@ const StepFour = ({ nextStep, handleFormData, prevStep, values }) => {
       nextStep();
     }
   };
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
+      const data = res.data.employees;
+      setEmpl(data);
+    } catch (error) {
+
+    }
+  };
 
   useEffect(() => {
     axios.get(process.env.React_APP_ORIGIN_URL + url2).then(resp => {
       setDep(resp.data)
-    }, [1, 1]);
+    });
 
     axios.get(process.env.React_APP_ORIGIN_URL + url3).then(resp => {
       setShift(resp.data)
-    }, [1, 1]);
+    });
 
     axios.get(process.env.React_APP_ORIGIN_URL + payrollSittingUrl).then(resp => {
       setPayrollsetup(resp.data)
-    }, [1, 1]);
+    });
 
 
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(process.env.React_APP_ORIGIN_URL + url);
-        const data = res.data.employees;
-        setEmpl(data);
-      } catch (error) {
+    console.log("called useeffect")
 
-      }
-    };
     fetchData()
-  })
+  }, [])
 
   return (
     <>
