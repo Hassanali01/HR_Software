@@ -3,7 +3,6 @@ const app = express()
 const path = require('path')
 const connectDB = require("./Connection/connection")
 const multer = require ("multer")
-const fileUpload = require('express-fileupload')
 const bodyparser = require("body-parser")
 const UsersRoute = require("./Routes/employees")
 const CalendarRoute = require("./Routes/calendar")
@@ -44,12 +43,10 @@ connectDB();
 // Allow uploading large data inside request body
 app.use(express.json({limit: '25mb'}));
 
-app.use("/leaverequest/addrequest",fileUpload())
-app.use("/workLeave",fileUpload())
-
+// app.use("/leaverequest/addrequest",fileUpload())
+// app.use("/workLeave",fileUpload())
 
 app.use(cookieParser());
-
 
 //user image upload directory 
 app.use("/images", express.static(path.join(__dirname, "/images")));
@@ -58,21 +55,17 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use(bodyparser.urlencoded({limit: '50mb', extended: true}));
 
-
-
 //multer file upload setup
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, req.body.name);
+    cb(null, `leave-${req.body.employee}-${(new Date()).getTime()}`);
   },
 })
+
 const upload = multer({ storage: storage });
-
-
-
 
 //Routes
 app.post("/upload", upload.single("file"), (req, res) => {
@@ -83,29 +76,27 @@ app.use('/employees',UsersRoute);
 app.use("/calendar",CalendarRoute);
 app.use("/holiday",holidayRoute);
 app.use('/auth',authRoute);
-app.use("/",importecxel);
-app.use("/",ecxel);
-app.use('/',userAttendance)
 app.use('/departments',departmentRoute);
 app.use('/designation',designationRoute);
-app.use('/',positionRoute)
 app.use('/leaves',leaveRoute)
-app.use('/leaverequest',LeaveRequest)
+app.use('/leaverequest', upload.single("file"), LeaveRequest)
+app.use('/payrollsetup',setup)
+app.use('/shifts',shifts)
+app.use('/onemonthleaves', leaveformonth)
+app.use('/workLeave', upload.single("file") ,workLeave)
+app.use('/approved-leaves',LeaveRequest)
 app.use('/',attendanceRoute)
 app.use('/',ERCcode)
 app.use('/',cycle)
 app.use('/',period)
-app.use('/payrollsetup',setup)
 app.use('/',company)
-app.use('/shifts',shifts)
-app.use('/onemonthleaves', leaveformonth)
-app.use('/workLeave',workLeave)
-app.use('/approved-leaves',LeaveRequest)
-
+app.use("/",importecxel);
+app.use("/",ecxel);
+app.use('/',userAttendance)
+app.use('/',positionRoute)
 
 //Port settings
 const port = process.env.PORT || 5002;
-
 app.listen(port,()=>{
   console.log(`Server Connected to port ${port}`)
 })

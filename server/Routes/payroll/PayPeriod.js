@@ -34,7 +34,7 @@ router.get('/payperiod',async(req,res,next)=>{
 router.get('/payperiod/:id',async(req,res,next)=>{
     try{
           const payperiod = await Period.findById(req.params.id);
-          payperiod  && res.status(200).json({message:"success", payperiod})
+          payperiod  && res.status(200).json({message:"success", payperiod})          
     }catch(error){
         next(error)
     }

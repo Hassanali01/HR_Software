@@ -55,6 +55,9 @@ function insertFile(file, res) {
 
 
 router.post('/addrequests', async (req, res, next) => {
+
+
+
     try {
         const reqLeave = new LeaveRequest({
             leaveType: req.body.leaveType,
