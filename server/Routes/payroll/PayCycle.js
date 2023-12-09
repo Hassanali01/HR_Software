@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Period = require('../../Models/payroll/payperiod')
-const Paycycle = require('../../Models/payroll/paycycle.js')
+const Period = require('../../Models/payperiod.js')
+const Paycycle = require('../../Models/paycycle.js')
 
 
 router.post('/paycycle',async(req,res,next)=>{

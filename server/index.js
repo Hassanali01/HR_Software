@@ -50,6 +50,7 @@ app.use(cookieParser());
 
 //user image upload directory 
 app.use("/images", express.static(path.join(__dirname, "/images")));
+
 //xlxs
 //Routes 
 
